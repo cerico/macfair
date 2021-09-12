@@ -1,0 +1,15 @@
+---
+- name: install databases
+  homebrew:
+    name: [
+      "unixodbc",
+      "psqlodbc",
+      "postgresql",
+      "mysql",
+      "redis",
+      "memcached",
+      "rabbitmq",
+    ]
+    state: present
+  tags:
+    - databases

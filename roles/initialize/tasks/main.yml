@@ -1,0 +1,57 @@
+---
+- name: install homebrew taps
+  homebrew_tap:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "homebrew/services"
+    - "homebrew/cask"
+    - "heroku/brew"
+  tags:
+    - initialize
+
+- name: install core packages
+  homebrew:
+    name: [
+      "wget",
+      "gcc",
+      "openssl",
+      "cmake",
+      "git",
+      "git-lfs",
+      "moreutils",
+      "findutils",
+      "gnupg",
+      "grep",
+      "screen",
+      "pigz",
+      "tree",
+      "heroku",
+    ]
+    state: present
+  tags:
+    - initialize
+
+- name: Generate SSH Key
+  shell: "yes y | ssh-keygen -t rsa -b 4096 -C '{{ inventory_hostname }}' -N '' -f $HOME/.ssh/id_rsa"
+  args:
+    warn: false
+  tags:
+    - initialize
+
+- name: Pull down dotfiles
+  git:
+    force: yes
+    accept_hostkey: yes
+    repo: "https://github.com/genomics-geek/dotfiles.git"
+    dest: "{{ lookup('env','HOME') }}/.dotfiles"
+    version: "master"
+  tags:
+    - initialize
+
+- name: initialize dot files
+  shell: "$HOME/.dotfiles/setup.sh"
+  args:
+    chdir: "{{ lookup('env','HOME') }}/.dotfiles"
+  tags:
+    - initialize

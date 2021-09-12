@@ -1,0 +1,56 @@
+---
+- name: Create directory for installed apps
+  file:
+    path: "{{ lookup('env','HOME') }}/Applications"
+    state: directory
+    mode: 0775
+  tags:
+    - caskapps
+
+- name: install cask apps
+  homebrew_cask:
+    name: "{{ item }}"
+    state: present
+    install_options: "appdir=$HOME/Applications/"
+  with_items:
+    - "slack"
+    - "skype"
+    - "visual-studio-code"
+    - "postman"
+    - "github"
+    - "brave-browser"
+    - "google-drive-file-stream"
+    - "google-chrome"
+    - "spotify"
+    - "dbvisualizer"
+    - "lastpass"
+    - "workplace-chat"
+  tags:
+    - caskapps
+
+- name: install VSCode packages
+  shell: "code --install-extension {{ item }}"
+  with_items:
+    - "ms-python.python"
+    - "ms-vscode-remote.vscode-remote-extensionpack"
+    - "broadinstitute.wdl"
+    - "broadinstitute.wdl-devtools"
+    - "msjsdiag.debugger-for-chrome"
+    - "formulahendry.code-runner"
+    - "vscode-icons-team.vscode-icons"
+    - "eamodio.gitlens"
+    - "dbaeumer.vscode-eslint"
+    - "esbenp.prettier-vscode"
+    - "editorconfig.editorconfig"
+    - "formulahendry.auto-close-tag"
+    - "formulahendry.auto-rename-tag"
+    - "coenraads.bracket-pair-colorizer"
+    - "christian-kohler.npm-intellisense"
+    - "christian-kohler.path-intellisense"
+    - "eg2.vscode-npm-script"
+    # - "pflannery.vscode-versionlens"
+    - "streetsidesoftware.code-spell-checker"
+    - "apollographql.vscode-apollo"
+    - "shan.code-settings-sync"
+  tags:
+    - caskapps

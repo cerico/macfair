@@ -1,0 +1,26 @@
+---
+- name: install zsh shell
+  homebrew:
+    name: [
+      "zsh",
+      "zsh-completions",
+      "zsh-autosuggestions",
+      "zsh-syntax-highlighting",
+    ]
+    state: present
+  tags:
+    - terminal
+
+
+- name: install helpful command line tools
+  homebrew:
+    name: [
+      "direnv",
+      "watch",
+      "nmap",
+      "htop",
+      "tmux",
+    ]
+    state: present
+  tags:
+    - terminal

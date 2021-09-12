@@ -1,0 +1,50 @@
+---
+- name: install helpful packages
+  homebrew:
+    name: [
+      "nginx",
+      "graphviz",
+    ]
+    state: present
+  tags:
+    - webdev
+
+- name: install python packages
+  homebrew:
+    name: [
+      "pipenv",
+      "pyenv",
+      "pyenv-virtualenv",
+      "pyenv-virtualenvwrapper",
+      "autopep8",
+      "flake8",
+    ]
+    state: present
+  tags:
+    - webdev
+
+- name: install Node and yarn
+  homebrew:
+    name: [
+      "node@14",
+      "yarn",
+    ]
+    state: present
+  tags:
+    - webdev
+
+- name: link node14
+  shell: brew link --overwrite node@14
+
+# NOTE: Currently not supported.  Yarn expects yarn add --global, but Ansible is trying
+# to use yarn global install
+# - name: Add JS global packages
+#   yarn:
+#     name: "{{ item }}"
+#     global: yes
+#     state: present
+#   with_items:
+#     - "create-react-app"
+#     - "prettier"
+#   tags:
+#     - webdev
