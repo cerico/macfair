@@ -32,13 +32,6 @@
   tags:
     - initialize
 
-- name: Generate SSH Key
-  shell: "yes y | ssh-keygen -t rsa -b 4096 -C '{{ inventory_hostname }}' -N '' -f $HOME/.ssh/id_rsa"
-  args:
-    warn: false
-  tags:
-    - initialize
-
 - name: Pull down dotfiles
   git:
     force: yes
