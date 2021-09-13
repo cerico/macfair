@@ -53,4 +53,4 @@
   - wallpapers/oaktiled.png
 
 - name: wallpaper
-  shell: sqlite3 ~/Library/Application\ Support/Dock/desktoppicture.db "update data set value = '~/wallpapers/bluetiled.png'" && killall Dock
+  shell: osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/Users/{{ macbook_user }}/wallpapers/oaktiled.png"'
