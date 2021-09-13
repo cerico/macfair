@@ -13,6 +13,8 @@
 - name: install core packages
   homebrew:
     name: [
+      "youtube-dl",
+      "jq",
       "wget",
       "gcc",
       "openssl",
@@ -26,25 +28,16 @@
       "screen",
       "pigz",
       "tree",
+      "shared-mime-info",
       "heroku",
     ]
     state: present
   tags:
     - initialize
 
-- name: Pull down dotfiles
-  git:
-    force: yes
-    accept_hostkey: yes
-    repo: "https://github.com/genomics-geek/dotfiles.git"
-    dest: "{{ lookup('env','HOME') }}/.dotfiles"
-    version: "master"
-  tags:
-    - initialize
+- name: Set a hostname
+  ansible.builtin.hostname:
+    name: kelso
 
-- name: initialize dot files
-  shell: "$HOME/.dotfiles/setup.sh"
-  args:
-    chdir: "{{ lookup('env','HOME') }}/.dotfiles"
-  tags:
-    - initialize
+- name: wallpaper
+  shell: sqlite3 ~/Library/Application\ Support/Dock/desktoppicture.db "update data set value = '~/Documents/b.jpg'" && killall Dock

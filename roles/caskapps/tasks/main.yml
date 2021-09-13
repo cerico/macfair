@@ -13,6 +13,13 @@
     state: present
     install_options: "appdir=$HOME/Applications/"
   with_items:
+    - "vlc"
+    - "firefox"
+    - "alfred"
+    - "iterm2"
+    - "vagrant"
+    - "vagrant-manager"
+    - "tunnelblick"
     - "slack"
     - "skype"
     - "visual-studio-code"

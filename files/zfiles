@@ -1,0 +1,149 @@
+export MARKPATH=$HOME/.marks
+alias sedi='sed -i "" -e'
+alias gr="git remote -v"
+
+sourcez () {
+  source ~/.zshrc
+}
+
+ds () {
+  du -sm * | sort -n
+}
+
+jump () { 
+    cd -P "$MARKPATH/$1" 2>/dev/null || echo "No such mark: $1"
+}
+
+mark () { 
+    mkdir -p "$MARKPATH"; ln -s "$(pwd)" "$MARKPATH/$1"
+}
+
+unmark () { 
+    rm -if "$MARKPATH/$1"
+}
+marks () {
+    ls -l "$MARKPATH" | tail -n +2 | sed 's/  / /g' | cut -d' ' -f9- | awk -F ' -> ' '{printf "%-10s -> %s\n", $1, $2}'
+}
+
+unmarkall () {
+  for i in `marks  | awk -F" " '{print $2}'`
+  do
+  unmark $i
+  done
+}
+
+_completemarks () {
+  reply=($(ls $MARKPATH))
+}
+
+compctl -K _completemarks jump
+compctl -K _completemarks unmark
+
+mcd () {
+  mkdir "$1"
+  cd "$1"
+}
+
+start () {
+  python -m SimpleHTTPServer 8000
+}
+
+alias branches="branchdate | head -18"
+alias current_branch="git rev-parse --abbrev-ref HEAD"
+
+repo () {
+  git branch -m main
+  gh repo create $(pwd | xargs basename) --private -y
+}
+
+gitinit () {
+  git init
+  echo node_modules >> .gitignore
+  git add .
+  git commit -m "init"
+}
+
+awks () {
+  echo awk -F\' \' \'{print \$2}\'
+}
+
+alias vip="vi package.json"
+
+logify () {
+  cpr logging
+  tail -f log/development.log
+  cpr v
+}
+
+railsc () {
+  cpr railsc
+  rails c
+  cpr v
+}
+
+railshist () {
+  echo 'puts Readline::HISTORY.entries.each { |c| puts c }' | spring rails c | grep $1
+}
+
+cpr () { 
+    echo -e "\033]50;SetProfile=$1\a" 
+}
+
+hist () {
+  history | grep -i $1
+}
+
+wallpaper () {
+  osascript -e 'set desktopImage to POSIX file "'/Library/Desktop\ Pictures/$1'"
+  tell application "Finder"
+    set desktop picture to desktopImage
+  end tell'
+}
+
+green () {
+  background="greentiled.png"
+  wallpaper $background
+}
+
+blue () {
+  background="bluetiled.png"
+  wallpaper $background
+}
+
+oak () {
+  background="oaktiled.png"
+  wallpaper $background
+}
+
+geo () {
+  curl -H 'User-Agent: keycdn-tools:https://picfair.com' 'https://tools.keycdn.com/geo.json?host='$1
+}
+city () {
+  curl -H 'User-Agent: keycdn-tools:https://picfair.com' 'https://tools.keycdn.com/geo.json?host='$1 |jq -r '.data.geo.city'
+}
+region () {
+  curl -H 'User-Agent: keycdn-tools:https://picfair.com' 'https://tools.keycdn.com/geo.json?host='$1 |jq -r '.data.geo.region_name'
+}
+isp () {
+  curl -H 'User-Agent: keycdn-tools:https://picfair.com' 'https://tools.keycdn.com/geo.json?host='$1 |jq -r '.data.geo.isp'
+}
+
+sergey () {
+  make -f ~/ansible/sergey/Makefile sergey -C ~/ansible/sergey
+}
+
+railsn () {
+  make -f ~/ansible/railway/Makefile rails -C ~/ansible/railway
+}
+
+# Avoid creating .DS_Store files on network or USB volumes
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+# Don’t automatically rearrange Spaces based on most recent use
+defaults write com.apple.dock mru-spaces -bool false
+
+# Automatically hide and show the Dock
+defaults write com.apple.dock autohide -bool true
+
+# Enable “Do Not Track”
+defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true

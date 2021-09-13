@@ -1,0 +1,1 @@
+0 3 12 * * deploy /home/deploy/cert.sh

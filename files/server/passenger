@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+
+#Colours
+GREEN="\033[01;32m"
+CYAN="\033[01;36m"
+RED="\033[01;31m"
+NC="\033[00m"
+
+echo " ${RED}Passenger managed Rails applicatons${NC}\n"
+passenger-status | grep root -A 2 | grep -v Requests | /home/deploy/passenger-formatter.sh | column -t -s' '

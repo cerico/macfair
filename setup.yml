@@ -1,8 +1,11 @@
 ---
 - name: Setup MacBook for a rich development environment
   hosts: all
-
+  vars:
+    macbook_user: 'picfair'
+    ruby_version: '2.6.6'
   roles:
+    - geerlingguy.homebrew
     - initialize
     - terminal
     - languages
@@ -10,3 +13,5 @@
     - webdev
     - caskapps
     - elastic
+    - zsh
+    - rails
