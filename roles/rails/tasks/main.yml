@@ -48,4 +48,4 @@
   command: "~{{ macbook_user }}/.rbenv/shims/gem install rails"
 
 - name: 'rehash'
-  command: "rbenv rehash"
+  command: "~{{ macbook_user }}/.rbenv/bin/rbenv rehash"

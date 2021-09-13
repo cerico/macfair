@@ -8,3 +8,8 @@
   command: tar xzvf elasticsearch-7.14.1-darwin-x86_64.tar.gz -C ~
   tags:
     - elastic
+
+- name: remove tar
+  command: rm elasticsearch-7.14.1-darwin-x86_64.tar.gz
+  tags:
+    - elastic

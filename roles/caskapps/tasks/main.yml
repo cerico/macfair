@@ -1,7 +1,7 @@
 ---
 - name: Create directory for installed apps
   file:
-    path: "{{ lookup('env','HOME') }}/Applications"
+    path: "-{{ macbook_user }}/Applications"
     state: directory
     mode: 0775
   tags:
@@ -23,41 +23,37 @@
     - "slack"
     - "skype"
     - "visual-studio-code"
-    - "postman"
     - "github"
     - "brave-browser"
-    - "google-drive-file-stream"
     - "google-chrome"
-    - "spotify"
-    - "dbvisualizer"
-    - "lastpass"
-    - "workplace-chat"
   tags:
     - caskapps
 
 - name: install VSCode packages
   shell: "code --install-extension {{ item }}"
   with_items:
-    - "ms-python.python"
-    - "ms-vscode-remote.vscode-remote-extensionpack"
-    - "broadinstitute.wdl"
-    - "broadinstitute.wdl-devtools"
-    - "msjsdiag.debugger-for-chrome"
-    - "formulahendry.code-runner"
-    - "vscode-icons-team.vscode-icons"
-    - "eamodio.gitlens"
+    - "abalejr.forest-focus"
+    - "aregghazaryan.glass-ui"
     - "dbaeumer.vscode-eslint"
-    - "esbenp.prettier-vscode"
-    - "editorconfig.editorconfig"
-    - "formulahendry.auto-close-tag"
-    - "formulahendry.auto-rename-tag"
-    - "coenraads.bracket-pair-colorizer"
-    - "christian-kohler.npm-intellisense"
-    - "christian-kohler.path-intellisense"
-    - "eg2.vscode-npm-script"
-    # - "pflannery.vscode-versionlens"
-    - "streetsidesoftware.code-spell-checker"
-    - "apollographql.vscode-apollo"
-    - "shan.code-settings-sync"
+    - "gerane.Theme-zombiesatemyneighbors"
+    - "johnpapa.vscode-peacock"
+    - "jpoissonnier.vscode-styled-components"
+    - "juhakokkonen.py-light"
+    - "karunamurti.haml"
+    - "kumar-harsh.graphql-for-vscode"
+    - "lintangwisesa.arduino"
+    - "lninl.theme-hbuilderx-soft-green-light"
+    - "luqimin.tiny-light"
+    - "misogi.ruby-rubocop"
+    - "raashida.fixthecode-vs"
+    - "rebornix.ruby"
+    - "selfrefactor.zeppelin-themes"
+    - "sveggiani.vscode-field-lights"
+    - "syler.sass-indented"
+    - "taniarascia.new-moon-vscode"
+    - "teabyii.ayu"
+    - "tristanremy.mirage"
+    - "wingrunr21.vscode-ruby"
+    - "wraith13.unsaved-files-vscode"
   tags:
     - caskapps

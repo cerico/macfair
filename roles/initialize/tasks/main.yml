@@ -6,7 +6,6 @@
   with_items:
     - "homebrew/services"
     - "homebrew/cask"
-    - "heroku/brew"
   tags:
     - initialize
 
@@ -39,5 +38,19 @@
   ansible.builtin.hostname:
     name: kelso
 
+- name: Create wallpapers directory.
+  file:
+    path: "~{{ macbook_user }}/wallpapers"
+    state: directory
+
+- name: Copy wallpapers
+  copy:
+    src: "{{ item }}"
+    dest: ~/wallpapers
+  with_items:
+  - wallpapers/bluetiled.png
+  - wallpapers/greentiled.png
+  - wallpapers/oaktiled.png
+
 - name: wallpaper
-  shell: sqlite3 ~/Library/Application\ Support/Dock/desktoppicture.db "update data set value = '~/Documents/b.jpg'" && killall Dock
+  shell: sqlite3 ~/Library/Application\ Support/Dock/desktoppicture.db "update data set value = '~/wallpapers/bluetiled.png'" && killall Dock
