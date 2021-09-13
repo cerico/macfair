@@ -7,7 +7,7 @@ db:
 	echo "default: &default\n\
   adapter: postgresql\n\
   encoding: unicode\n\
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>\n\
+  pool: 5\n\
 \n\
 development:\n\
   <<: *default\n\
@@ -15,7 +15,7 @@ development:\n\
 \n\
 test:\n\
   <<: *default\n\
-  database: fleetnation_test \n\v" > bv
+  database: fleetnation_test \n" > ~/fleetnation/config/database.yml
 prepare:
 	ES_JAVA_OPTS="-Xms1g -Xmx1g" ~/elasticsearch-7.14.1/bin/elasticsearch &
 	redis-server &
