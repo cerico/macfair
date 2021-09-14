@@ -5,13 +5,13 @@
     macbook_user: 'picfair'
     ruby_version: '2.6.6'
   roles:
-    - geerlingguy.homebrew
-    - initialize
-    - terminal
-    - databases
-    - webdev
-    - caskapps
-    - elastic
-    - zsh
-    - rails
-    - fleetnation
+    - { role: geerlingguy.homebrew, tags: initialize }
+    - { role: initialize, tags: initialize }
+    - { role: terminal, tags: terminal }
+    - { role: databases, tags: databases }
+    - { role: webdev, tags: webdev }
+    - { role: caskapps, tags: caskapps }
+    - { role: elastic, tags: elastic }
+    - { role: zsh, tags: zsh }
+    - { role: rails, tags: rails }
+    - { role: fleetnation, tags: fleetnation }

@@ -21,9 +21,7 @@
     - "vagrant-manager"
     - "tunnelblick"
     - "slack"
-    - "skype"
     - "visual-studio-code"
-    - "github"
     - "brave-browser"
     - "google-chrome"
   tags:
