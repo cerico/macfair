@@ -13,6 +13,7 @@
   homebrew:
     name: [
       "youtube-dl",
+      "gh",
       "jq",
       "wget",
       "gcc",
