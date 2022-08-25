@@ -1,5 +1,7 @@
 ---
 - name: install homebrew taps
+  become: true
+  become_user: "{{ brew_user.stdout }}"
   homebrew_tap:
     name: "{{ item }}"
     state: present
@@ -10,6 +12,8 @@
     - initialize
 
 - name: install core packages
+  become: true
+  become_user: "{{ brew_user.stdout }}"
   homebrew:
     name: [
       "youtube-dl",
@@ -29,7 +33,6 @@
       "pigz",
       "tree",
       "shared-mime-info",
-      "heroku",
     ]
     state: present
   tags:

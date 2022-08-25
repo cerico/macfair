@@ -3,3 +3,8 @@
   become: false
   local_action: command whoami
   register: macbook_user
+
+- name: get the username running the deploy
+  become: false
+  local_action: command stat -f "%Su" /usr/local/bin/brew
+  register: brew_user

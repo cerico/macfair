@@ -18,3 +18,6 @@ zsh:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "zsh" --ask-become-pass
 rails:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "rails"
+update:
+	python3 -m pip install --upgrade pip
+	python3 -m pip install --user ansible
