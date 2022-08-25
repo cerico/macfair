@@ -2,33 +2,33 @@
 - name: Cloning oh-my-zsh
   git:
     repo=https://github.com/robbyrussell/oh-my-zsh
-    dest=~{{ macbook_user }}/.oh-my-zsh
+    dest=~{{ macbook_user.stdout }}/.oh-my-zsh
 
 - name: Copy zshenv
   copy:
     src: zshenv
-    dest: ~{{ macbook_user }}/.zshenv
+    dest: ~{{ macbook_user.stdout }}/.zshenv
     
 - name: Copy zshrc
   copy:
     src: zshrc
-    dest: ~{{ macbook_user }}/.zshrc
+    dest: ~{{ macbook_user.stdout }}/.zshrc
 
 - name: Copy zfiles
   copy:
     src: zfiles
-    dest: ~{{ macbook_user }}/zfiles
+    dest: ~{{ macbook_user.stdout }}/zfiles
 
 - name: Copy zsh theme
   copy:
     src: server/cerico.zsh-theme
-    dest: ~{{ macbook_user }}/.oh-my-zsh/themes/cerico.zsh-theme
+    dest: ~{{ macbook_user.stdout }}/.oh-my-zsh/themes/cerico.zsh-theme
 
 - name: change user shell to zsh 
   become: true
   become_user: root
   user:
-    name: "{{ macbook_user }}"
+    name: "{{ macbook_user.stdout }}"
     shell: /bin/zsh
 
 - name: source zshrc

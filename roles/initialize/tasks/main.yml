@@ -41,7 +41,7 @@
 
 - name: Create wallpapers directory.
   file:
-    path: "~{{ macbook_user }}/wallpapers"
+    path: "~{{ macbook_user.stdout }}/wallpapers"
     state: directory
 
 - name: Copy wallpapers
@@ -54,4 +54,4 @@
   - wallpapers/oaktiled.png
 
 - name: wallpaper
-  shell: osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/Users/{{ macbook_user }}/wallpapers/oaktiled.png"'
+  shell: osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/Users/{{ macbook_user.stdout }}/wallpapers/oaktiled.png"'
