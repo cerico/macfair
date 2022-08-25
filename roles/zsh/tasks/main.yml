@@ -31,5 +31,10 @@
     name: "{{ macbook_user.stdout }}"
     shell: /bin/zsh
 
+- name: Add ansible to path.
+  lineinfile:
+    path: ~/.zshrc
+    line: export PATH="$HOME/Library/Python/3.8/bin/:$PATH"
+
 - name: source zshrc
   shell: source ~/.zshrc

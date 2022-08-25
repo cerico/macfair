@@ -1,21 +1,20 @@
+ANSIBLE=$$(python3 -m site --user-base)/bin/
 setup:
 	python3 -m pip install --user ansible
-	~/Library/Python/3.8/bin/ansible-galaxy install -r requirements.yml
-	~/Library/Python/3.8/bin/ansible-playbook setup.yml -i hosts -l local --ask-become-pass
+	${ANSIBLE}ansible-galaxy install -r requirements.yml
+	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --ask-become-pass
 install:
-	~/Library/Python/3.8/bin/ansible-playbook setup.yml -i hosts -l local --tags "initialize" --ask-become-pass
-	~/Library/Python/3.8/bin/ansible-playbook setup.yml -i hosts -l local --tags "caskapps" --ask-become-pass
+	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "initialize" --ask-become-pass
+	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "caskapps" --ask-become-pass
 terminal:
-	~/Library/Python/3.8/bin/ansible-playbook setup.yml -i hosts -l local --tags "terminal"
+	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "terminal"
 dev:
-	~/Library/Python/3.8/bin/ansible-playbook setup.yml -i hosts -l local --tags "webdev"
+	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "webdev"
 databases:
-	~/Library/Python/3.8/bin/ansible-playbook setup.yml -i hosts -l local --tags "databases"
+	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "databases"
 elastic:
-	~/Library/Python/3.8/bin/ansible-playbook setup.yml -i hosts -l local --tags "elastic"
+	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "elastic"
 zsh:
-	~/Library/Python/3.8/bin/ansible-playbook setup.yml -i hosts -l local --tags "zsh" --ask-become-pass
+	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "zsh" --ask-become-pass
 rails:
-	~/Library/Python/3.8/bin/ansible-playbook setup.yml -i hosts -l local --tags "rails"
-picfair:
-	~/Library/Python/3.8/bin/ansible-playbook setup.yml -i hosts -l local --tags "fleetnation"
+	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "rails"
