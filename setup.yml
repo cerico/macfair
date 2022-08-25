@@ -13,4 +13,3 @@
     - { role: elastic, tags: elastic }
     - { role: zsh, tags: zsh }
     - { role: rails, tags: rails }
-    - { role: fleetnation, tags: fleetnation }
