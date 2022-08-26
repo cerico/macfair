@@ -1,0 +1,9 @@
+{
+	"orange": {
+		"prefix": "orange",
+		"body": [
+			"\"#FF757D\""
+		],
+		"description": "Log output to console"
+	}
+}

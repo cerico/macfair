@@ -1,0 +1,24 @@
+{
+	"cmp": {
+		"prefix": "component",
+		"body": [
+		  "import React from \"react\"",
+      "",
+      "interface IProps {",
+      "  message: string;",
+      "}",
+      "",
+      "const $1: React.FC<IProps> = ({ message }) => {",
+      "",
+      "  return (",
+      "    <div>",
+      "      {message}",
+      "    </div>",
+      "  );",
+      "}",
+      "",
+      "export default $1"
+		],
+		"description": ""
+	  }
+}

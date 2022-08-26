@@ -1,0 +1,9 @@
+{
+	"link": {
+		"prefix": "link",
+		"body": [
+			"<div><Link href=\"/$1\"><a>$1</a></Link></div>"
+		],
+		"description": "Log output to console"
+	}
+}

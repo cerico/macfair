@@ -1,0 +1,19 @@
+{
+	"nxt": {
+		"prefix": "nxt",
+		"body": [
+		  "import type { NextPage } from \"next\"",
+		  "",
+		  "const $1: NextPage = () => {",
+		  "  return (",
+		  "    <>",
+		  "      <div>$1</div>",
+		  "    </>",
+		  "  )",
+		  "}",
+		  "",
+		  "export default $1"
+		],
+		"description": ""
+	  }
+}

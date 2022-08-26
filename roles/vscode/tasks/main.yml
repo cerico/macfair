@@ -1,0 +1,7 @@
+---
+- name: Copy snippets
+  copy:
+    src: "{{ item }}"
+    dest: ~{{ macbook_user.stdout }}/Library/Application Support/Code/User/snippets
+  with_fileglob:
+    - snippets/*

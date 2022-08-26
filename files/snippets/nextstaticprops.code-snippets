@@ -1,0 +1,33 @@
+{
+	"nextstaticprops": {
+		"prefix": "nextstaticprops",
+		"body": [
+			"import type { NextPage, GetStaticProps } from \"next\"",
+      "import Component from '../components/$1'",
+      "",
+      "interface StaticProps {",
+      "  message: string",
+      "}",
+      "",
+      "const $1: NextPage<StaticProps> = ({message}) => {",
+      "  return (",
+      "    <>",
+      "      <Component message={message}></Component>",
+      "    </>",
+      "  )",
+      "}",
+      "",
+      "export const getStaticProps: GetStaticProps = async () => {",
+      "  const message = \"$1\"",
+      "  return {",
+      "    props: {",
+      "      message",
+      "    }",
+      "  }",
+      "}",
+      "",
+      "export default $1"
+		],
+		"description": "next page w static props"
+	}
+}

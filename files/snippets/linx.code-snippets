@@ -1,0 +1,11 @@
+{
+	"linx": {
+		"prefix": "linx",
+		"body": [
+			"<div className=\"linx\">",
+			"  <div><Link href=\"/$1\"><a>$1</a></Link></div>",
+		  "</div>"
+		],
+		"description": "linx"
+	}
+}
