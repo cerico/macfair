@@ -3,6 +3,10 @@ export MARKPATH=$HOME/.marks
 alias sedi='sed -i "" -e'
 alias gr="git remote -v"
 
+
+brewser=`stat -f "%Su" /usr/local/bin/brew`
+alias brew='sudo -Hu '$brewser' brew'
+
 help() {
   if [[ $# -eq 0 ]] ; then
     echo "run with command you're looking for help on"
