@@ -1,11 +1,4 @@
 ---
-- name: Copy snippets
-  copy:
-    src: "{{ item }}"
-    dest: ~{{ macbook_user.stdout }}/Library/Application Support/Code/User/snippets
-  with_fileglob:
-    - snippets/*
-
 - name: install VSCode packages
   shell: "code --install-extension {{ item }}"
   with_items:
@@ -31,3 +24,10 @@
     - "tristanremy.mirage"
     - "wingrunr21.vscode-ruby"
     - "wraith13.unsaved-files-vscode"
+
+- name: Copy snippets
+  copy:
+    src: "{{ item }}"
+    dest: ~{{ macbook_user.stdout }}/Library/Application Support/Code/User/snippets
+  with_fileglob:
+    - snippets/*
