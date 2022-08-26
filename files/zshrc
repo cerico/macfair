@@ -7,6 +7,6 @@ plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
 source $HOME/.zshenv
-source $HOME/zfiles
+source $HOME/.zsh/aliases
 
 eval "$(rbenv init - zsh)"

@@ -1,6 +1,77 @@
+source ~/.zsh/tokens
 export MARKPATH=$HOME/.marks
 alias sedi='sed -i "" -e'
 alias gr="git remote -v"
+
+help() {
+  if [[ $# -eq 0 ]] ; then
+    echo "run with command you're looking for help on"
+    return
+  fi
+  node $HOME/.zsh/help.js $1
+}
+
+upsearch () {
+  slashes=${PWD//[^\/]/}
+  directory="$PWD"
+  for (( n=${#slashes}; n>0; --n ))
+  do
+    test -e "$directory/$1" && echo "$directory" && return "hello"
+    directory="$directory/.."
+  done
+}
+
+back() {
+  cd -
+}
+
+newp() {
+  if [[ $# -eq 0 ]] ; then
+    echo 'run command with filename eg newp stadiums'
+    return
+  fi
+  dir=`upsearch package.json`
+  echo $dir
+  if [[ -f $dir'/next.config.js' ]]
+    then
+    touch $dir/src/pages/$1.tsx
+  elif  [ -f "astro.config.mjs" ]
+    then
+    touch $dir/src/pages/$1.astro
+  else
+    echo "idk"
+  fi
+}
+
+install() {
+  if [ -f "package-lock.json" ]
+    then
+    echo "installing via npm"
+    npm i
+  elif  [ -f "yarn.lock" ]
+    then
+    echo "installing via yarn"
+    yarn
+  else
+    echo "no yarn or npm found"
+  fi
+}
+
+cleanup(){
+  find . -name "node_modules" -type d -prune -exec rm -rf '{}' +
+}
+
+
+discogs() {
+  y=`echo $1 | awk -F'/' '{print $5}'`
+  mkdir -p ~/Downloads/discogs/$y
+  cd ~/Downloads/discogs/$y
+  youtube-dl -xiwc $1
+}
+tokens() {
+  echo mapbox
+  echo openweathermap
+}
 
 sourcez () {
   source ~/.zshrc

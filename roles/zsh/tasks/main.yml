@@ -14,10 +14,25 @@
     src: zshrc
     dest: ~{{ macbook_user.stdout }}/.zshrc
 
-- name: Copy zfiles
+- name: Create zsh directory
+  file:
+    path: "~{{ macbook_user.stdout }}/.zsh"
+    state: directory
+
+- name: Copy aliases
   copy:
-    src: zfiles
-    dest: ~{{ macbook_user.stdout }}/zfiles
+    src: aliases
+    dest: ~{{ macbook_user.stdout }}/.zsh/aliases
+
+- name: Copy tokens file
+  copy:
+    src: tokens
+    dest: ~{{ macbook_user.stdout }}/.zsh/tokens
+
+- name: copy js help file
+  copy:
+    src: help.js
+    dest: ~{{ macbook_user.stdout }}/.zsh/help.js
 
 - name: Copy zsh theme
   copy:

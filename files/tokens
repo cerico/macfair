@@ -1,0 +1,3 @@
+yay () {
+  echo 'put a token in here like this' | pbcopy
+}
