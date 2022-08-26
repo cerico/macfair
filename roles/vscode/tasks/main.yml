@@ -5,3 +5,29 @@
     dest: ~{{ macbook_user.stdout }}/Library/Application Support/Code/User/snippets
   with_fileglob:
     - snippets/*
+
+- name: install VSCode packages
+  shell: "code --install-extension {{ item }}"
+  with_items:
+    - "abalejr.forest-focus"
+    - "aregghazaryan.glass-ui"
+    - "dbaeumer.vscode-eslint"
+    - "gerane.Theme-zombiesatemyneighbors"
+    - "johnpapa.vscode-peacock"
+    - "juhakokkonen.py-light"
+    - "karunamurti.haml"
+    - "kumar-harsh.graphql-for-vscode"
+    - "lintangwisesa.arduino"
+    - "lninl.theme-hbuilderx-soft-green-light"
+    - "luqimin.tiny-light"
+    - "misogi.ruby-rubocop"
+    - "raashida.fixthecode-vs"
+    - "rebornix.ruby"
+    - "selfrefactor.zeppelin-themes"
+    - "sveggiani.vscode-field-lights"
+    - "syler.sass-indented"
+    - "taniarascia.new-moon-vscode"
+    - "teabyii.ayu"
+    - "tristanremy.mirage"
+    - "wingrunr21.vscode-ruby"
+    - "wraith13.unsaved-files-vscode"
