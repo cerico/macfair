@@ -46,10 +46,15 @@
     name: "{{ macbook_user.stdout }}"
     shell: /bin/zsh
 
+- name: Register ansible location
+  become: false
+  local_action: command python3 -m site --user-base
+  register: python_location
+
 - name: Add ansible to path.
   lineinfile:
     path: ~/.zshrc
-    line: export PATH="$HOME/Library/Python/3.8/bin/:$PATH"
+    line: export PATH="{{ python_location.stdout }}/bin/:$PATH"
 
 - name: copy iterm profiles
   copy:
