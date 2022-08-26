@@ -51,5 +51,10 @@
     path: ~/.zshrc
     line: export PATH="$HOME/Library/Python/3.8/bin/:$PATH"
 
+- name: copy iterm profiles
+  copy:
+    src: iterm.json
+    dest: ~{{ macbook_user.stdout }}/Desktop
+
 - name: source zshrc
   shell: source ~/.zshrc
