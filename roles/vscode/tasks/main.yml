@@ -25,6 +25,11 @@
     - "wingrunr21.vscode-ruby"
     - "wraith13.unsaved-files-vscode"
 
+- name: copy vscode profile
+  copy:
+    src: vscode.json
+    dest: ~{{ macbook_user.stdout }}/Library/Application Support/Code/User/settings.json
+
 - name: Create snippets directory
   file:
     path:  ~{{ macbook_user.stdout }}/Library/Application Support/Code/User/snippets
