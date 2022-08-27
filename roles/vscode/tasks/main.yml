@@ -2,6 +2,8 @@
 - name: install VSCode packages
   shell: "code --install-extension {{ item }}"
   with_items:
+    - "astro-build.astro-vscode"
+    - "styled-components.vscode-styled-components"
     - "abalejr.forest-focus"
     - "aregghazaryan.glass-ui"
     - "dbaeumer.vscode-eslint"
@@ -9,7 +11,8 @@
     - "johnpapa.vscode-peacock"
     - "juhakokkonen.py-light"
     - "karunamurti.haml"
-    - "kumar-harsh.graphql-for-vscode"
+    - "unifiedjs.vscode-mdx"
+    - "github.github-vscode-theme"
     - "lintangwisesa.arduino"
     - "lninl.theme-hbuilderx-soft-green-light"
     - "luqimin.tiny-light"
@@ -24,6 +27,12 @@
     - "tristanremy.mirage"
     - "wingrunr21.vscode-ruby"
     - "wraith13.unsaved-files-vscode"
+    - "aaron-bond.better-comments"
+    - "eamodio.gitlens"
+    - "dbaeumer.vscode-eslint"
+    - "dart-code.dart-code"
+    - "dart-code.flutter"
+    - "ms-vscode.vscode-typescript-tslint-plugin"
 
 - name: copy vscode profile
   copy:
