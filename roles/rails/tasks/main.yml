@@ -44,8 +44,11 @@
 - name: 'install bundler v2'
   command: "~{{ macbook_user.stdout }}/.rbenv/shims/gem install bundler -v 2.2.23"
 
-- name: 'install rails'
+- name: 'install rails 7'
   command: "~{{ macbook_user.stdout }}/.rbenv/shims/gem install rails"
+
+- name: 'install rails 6'
+  command: "~{{ macbook_user.stdout }}/.rbenv/shims/gem install rails -v 6.1.6.1"
 
 - name: 'rehash'
   command: "~{{ macbook_user.stdout }}/.rbenv/bin/rbenv rehash"
