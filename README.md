@@ -36,5 +36,6 @@ Each partial command is listed in the Makefile, with a corresponding role - zsh,
 
 # TODO
 
-[] Split the roles out further
-[] Work out how to import iterm profiles from the terminal and not through iterms interface
+[ ] Split the roles out further
+
+[ ] Work out how to import iterm profiles from the terminal and not through iterms interface
