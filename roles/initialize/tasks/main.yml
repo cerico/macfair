@@ -38,6 +38,9 @@
   tags:
     - initialize
 
+- name: pip install jmespath
+  shell: pip3 install jmespath
+
 - name: Set a hostname
   ansible.builtin.hostname:
     name: kelso
