@@ -33,6 +33,8 @@
     - "dart-code.dart-code"
     - "dart-code.flutter"
     - "ms-vscode.vscode-typescript-tslint-plugin"
+    - "ChakrounAnas.turbo-console-log"
+    - "humao.rest-client"
 
 - name: copy vscode profile
   copy:

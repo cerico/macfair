@@ -20,6 +20,8 @@ rails:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "rails"
 vscode:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "vscode"
+dock:
+	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "dock"
 update:
 	python3 -m pip install --upgrade pip
 	python3 -m pip install --user ansible

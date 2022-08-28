@@ -15,6 +15,7 @@
     state: present
     install_options: "appdir=~{{ macbook_user.stdout }}/Applications/"
   with_items:
+    - "hpedrorodrigues/tools/dockutil"
     - "vlc"
     - "firefox"
     - "alfred"

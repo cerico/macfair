@@ -14,3 +14,4 @@
     - { role: zsh, tags: zsh }
     - { role: rails, tags: rails }
     - { role: vscode, tags: vscode }
+    - { role: dock, tags: dock }
