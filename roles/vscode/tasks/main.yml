@@ -35,7 +35,7 @@
     - "ms-vscode.vscode-typescript-tslint-plugin"
     - "ChakrounAnas.turbo-console-log"
     - "humao.rest-client"
-    - "holroyd.jinja"
+    - "wholroyd.jinja"
 
 - name: copy vscode profile
   copy:
