@@ -29,6 +29,11 @@ back() {
   cd -
 }
 
+kawa() {
+  cpr kawa
+  ssh deploy
+  cpr
+}
 newp() {
   if [[ $# -eq 0 ]] ; then
     echo 'run command with filename eg newp stadiums'
@@ -208,7 +213,7 @@ sergey () {
 }
 
 railsn () {
-  make -f ~/ansible/railway/Makefile rails -C ~/ansible/railway
+  make -f ~/Work/ansible/finisterre/Makefile rails -C ~/Work/ansible/finisterre LOCATION=`pwd`
 }
 
 # Avoid creating .DS_Store files on network or USB volumes

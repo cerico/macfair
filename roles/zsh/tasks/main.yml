@@ -59,7 +59,7 @@
 - name: copy iterm profiles
   copy:
     src: iterm.json
-    dest: ~{{ macbook_user.stdout }}/Desktop
+    dest: ~{{ macbook_user.stdout }}/Library/Application Support/iTerm2/DynamicProfiles
 
 - name: source zshrc
   shell: source ~/.zshrc
