@@ -38,4 +38,3 @@ Each partial command is listed in the Makefile, with a corresponding role - zsh,
 
 [ ] Split the roles out further
 
-[ ] Work out how to import iterm profiles from the terminal and not through iterms interface
