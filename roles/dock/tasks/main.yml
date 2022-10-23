@@ -24,8 +24,8 @@
   shell: dockutil --find '{{ item.name }}' || dockutil --add '{{ item.path }}'
   with_items:
     - name: iTerm
-      path: "/Users/{{ macbook_user.stdout }}/Applications/iTerm.app"
+      path: "/Users/{{ brew_user.stdout }}/Applications/iTerm.app"
     - name: "Visual Studio Code"
-      path: "/Users/{{ macbook_user.stdout }}/Applications/Visual Studio Code.app"
+      path: "/Users/{{ brew_user.stdout }}/Applications/Visual\ Studio\ Code.app"
     - name: Firefox
-      path: "/Users/{{ macbook_user.stdout }}/Applications/Firefox.app"
+      path: "/Users/{{ brew_user.stdout }}/Applications/Firefox.app"
