@@ -32,6 +32,7 @@
       "screen",
       "pigz",
       "tree",
+      "ffmpeg",
       "shared-mime-info",
     ]
     state: present
