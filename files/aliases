@@ -9,10 +9,18 @@ alias brew='sudo -Hu '$brewser' brew'
 
 help() {
   if [[ $# -eq 0 ]] ; then
-    echo "run with command you're looking for help on"
+    node $HOME/.zsh/help.js
     return
   fi
   node $HOME/.zsh/help.js $1
+}
+
+batt () {
+  pmset -g batt
+}
+
+themes() {
+  grep Name Library/Application\ Support/iTerm2/DynamicProfiles/iterm.json | awk -F' ' '{print $3}' | awk -F'"' '{print $2}'
 }
 
 upsearch () {
