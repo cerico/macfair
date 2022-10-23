@@ -37,4 +37,4 @@ Each partial command is listed in the Makefile, with a corresponding role - zsh,
 # TODO
 
 [ ] Split the roles out further
-
+[ ] Add a more minimal user
