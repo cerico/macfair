@@ -56,6 +56,9 @@
     path: ~/.zshrc
     line: export PATH="{{ python_location.stdout }}/bin/:$PATH"
 
+- name: Create iterm preferences by opening
+  shell: open -a iTerm
+
 - name: copy iterm profiles
   template:
     src: iterm.json.j2
