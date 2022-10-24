@@ -53,3 +53,15 @@
     dest: ~{{ macbook_user.stdout }}/Library/Application Support/Code/User/snippets
   with_fileglob:
     - snippets/*
+
+- name: Create themes directory
+  file:
+    path:  ~{{ macbook_user.stdout }}/.vscode/themes
+    state: directory
+
+- name: Copy themes
+  copy:
+    src: "{{ item }}"
+    dest: ~{{ macbook_user.stdout }}/.vscode/themes
+  with_fileglob:
+    - themes/*
