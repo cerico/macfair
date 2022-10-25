@@ -1,7 +1,5 @@
 ANSIBLE=$$(python3 -m site --user-base)/bin/
-setup:
-	python3 -m pip install --user ansible
-	${ANSIBLE}ansible-galaxy install -r requirements.yml
+setup: ansible
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --ask-become-pass
 install:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "initialize" --ask-become-pass
@@ -15,7 +13,8 @@ vscode:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "vscode"
 desktop:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "desktop"
-light:
+slim: ansible
+	@echo setting up cutdown version with no rails or elasticsearch
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --skip-tags rails,elastic --ask-become-pass
 update:
 	python3 -m pip install --upgrade pip
