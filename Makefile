@@ -21,3 +21,4 @@ update:
 	python3 -m pip install --user ansible
 ansible:
 	python3 -m pip install --user ansible
+	#${ANSIBLE}ansible-galaxy install -r requirements.yml - uncomment if necessary but think not needed anymore
