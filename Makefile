@@ -16,7 +16,7 @@ vscode:
 desktop:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "desktop"
 mini:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "mini" --ask-become-pass
+	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --skip-tags rails,elastic --ask-become-pass
 update:
 	python3 -m pip install --upgrade pip
 	python3 -m pip install --user ansible
