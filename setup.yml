@@ -7,5 +7,5 @@
     - { role: terminal, tags: terminal }
     - { role: elastic, tags: elastic }
     - { role: rails, tags: rails }
-    - { role: vscode, tags: [vscode, mini] }
-    - { role: desktop, tags: [dock, mini] }
+    - { role: vscode, tags: vscode }
+    - { role: desktop, tags: desktop }
