@@ -1,9 +1,4 @@
 ---
-- name: ls
-  shell: echo taggedwsthing >> /tmp/hey
-  tags:
-    - initialize
-
 - name: Create wallpapers directory.
   file:
     path: "~{{ macbook_user.stdout }}/wallpapers"

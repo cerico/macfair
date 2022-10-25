@@ -7,7 +7,7 @@ install:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "initialize" --ask-become-pass
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "caskapps" --ask-become-pass
 terminal:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "terminal"
+	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "terminal" --ask-become-pass
 dev:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "webdev"
 databases:
@@ -23,7 +23,7 @@ vscode:
 dock:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "dock"
 mini:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "mini"
+	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "mini" --ask-become-pass
 update:
 	python3 -m pip install --upgrade pip
 	python3 -m pip install --user ansible

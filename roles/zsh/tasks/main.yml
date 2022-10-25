@@ -4,11 +4,6 @@
     repo=https://github.com/robbyrussell/oh-my-zsh
     dest=~{{ macbook_user.stdout }}/.oh-my-zsh
 
-- name: Copy zshenv
-  copy:
-    src: zshenv
-    dest: ~{{ macbook_user.stdout }}/.zshenv
-    
 - name: Copy zshrc
   copy:
     src: zshrc
