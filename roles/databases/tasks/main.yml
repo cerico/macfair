@@ -1,8 +1,0 @@
----
-- name: install databases
-  homebrew:
-    name: [
-      "postgresql",
-      "redis"
-    ]
-    state: present

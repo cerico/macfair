@@ -1,4 +1,21 @@
 ---
+- name: Create wallpapers directory.
+  file:
+    path: "~{{ macbook_user.stdout }}/wallpapers"
+    state: directory
+
+- name: Copy wallpapers
+  copy:
+    src: "{{ item }}"
+    dest: ~/wallpapers
+  with_items:
+  - wallpapers/bluetiled.png
+  - wallpapers/greentiled.png
+  - wallpapers/oaktiled.png
+
+- name: wallpaper
+  shell: osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/Users/{{ macbook_user.stdout }}/wallpapers/oaktiled.png"'
+  
 - name: Remove superfluous from dock
   shell: dockutil --remove '{{ item }}' | cat
   ignore_errors: true

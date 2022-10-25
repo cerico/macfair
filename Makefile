@@ -5,23 +5,16 @@ setup:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --ask-become-pass
 install:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "initialize" --ask-become-pass
-	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "caskapps" --ask-become-pass
 terminal:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "terminal" --ask-become-pass
-dev:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "webdev"
-databases:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "databases"
 elastic:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "elastic"
-zsh:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "zsh" --ask-become-pass
 rails:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "rails"
 vscode:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "vscode"
-dock:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "dock"
+desktop:
+	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "desktop"
 mini:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "mini" --ask-become-pass
 update:
