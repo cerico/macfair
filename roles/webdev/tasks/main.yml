@@ -6,8 +6,6 @@
       "graphviz",
     ]
     state: present
-  tags:
-    - webdev
 
 - name: install Node and yarn
   homebrew:
@@ -16,8 +14,6 @@
       "yarn",
     ]
     state: present
-  tags:
-    - webdev
 
 - name: link node16
   shell: brew link --overwrite node@16

@@ -9,9 +9,10 @@
     - { role: terminal, tags: terminal }
     - { role: databases, tags: databases }
     - { role: webdev, tags: webdev }
-    - { role: caskapps, tags: caskapps }
+    - { role: caskapps, tags: caskapps, mini }
     - { role: elastic, tags: elastic }
-    - { role: zsh, tags: zsh }
+    - { role: zsh, tags: zsh, mini }
     - { role: rails, tags: rails }
-    - { role: vscode, tags: vscode }
-    - { role: dock, tags: dock }
+    - { role: vscode, tags: vscode, mini }
+    - { role: dock, tags: dock, mini }
+    - { role: mini, tags: mini }

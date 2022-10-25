@@ -22,5 +22,3 @@
       "tmux",
     ]
     state: present
-  tags:
-    - terminal

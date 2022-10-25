@@ -8,8 +8,6 @@
   with_items:
     - "homebrew/services"
     - "homebrew/cask"
-  tags:
-    - initialize
 
 - name: install core packages
   become: true
@@ -36,8 +34,6 @@
       "shared-mime-info",
     ]
     state: present
-  tags:
-    - initialize
 
 - name: pip install jmespath
   shell: pip3 install jmespath
@@ -45,20 +41,3 @@
 - name: Set a hostname
   ansible.builtin.hostname:
     name: kelso
-
-- name: Create wallpapers directory.
-  file:
-    path: "~{{ macbook_user.stdout }}/wallpapers"
-    state: directory
-
-- name: Copy wallpapers
-  copy:
-    src: "{{ item }}"
-    dest: ~/wallpapers
-  with_items:
-  - wallpapers/bluetiled.png
-  - wallpapers/greentiled.png
-  - wallpapers/oaktiled.png
-
-- name: wallpaper
-  shell: osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/Users/{{ macbook_user.stdout }}/wallpapers/oaktiled.png"'
