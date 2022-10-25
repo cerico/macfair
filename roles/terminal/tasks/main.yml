@@ -54,7 +54,26 @@
 - name: Add ansible to path.
   lineinfile:
     path: ~/.zshrc
-    line: export PATH="{{ python_location.stdout }}/bin/:$PATH"
+    line: export PATH="{{ python_location.stdout }}/bin:$PATH"
+
+- name: Conditionally adding rails to zshrc
+  block:
+    - name: check if we have rbenv
+      shell: which rbenv
+
+    - name: rbenv available
+      debug:
+        msg: rbenv is installed, adding rails to zshrc
+
+    - name: Add Rbenv to .zshrc
+      lineinfile:
+        path: ~/.zshrc
+        line: 'source $HOME/.zsh/rails'
+
+  rescue:
+    - name: No rbenv
+      debug:
+        msg: rbenv not installed, not adding rails to zshrc
 
 - name: Create iterm preferences by opening
   shell: open -a iTerm
