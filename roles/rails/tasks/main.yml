@@ -5,11 +5,16 @@
 - name: Clone rbenv build
   git: repo=https://github.com/rbenv/ruby-build dest=~{{ macbook_user.stdout }}/.rbenv/plugins/ruby-build
 
-- name: Add Rbenv build to .zshrc
+- name: Copy zsh rails
+  copy:
+    src: zshrails
+    dest: ~{{ macbook_user.stdout }}/.zsh/rails
+
+- name: Add Rbenv to .zshrc
   lineinfile:
     dest: "~{{ macbook_user.stdout }}/.zshrc"
-    regexp: 'export PATH="\$HOME/.rbenv/plugins/ruby-build/bin:\$PATH"'
-    line: 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"'
+    regexp: 'source \$HOME/.zsh/rails'
+    line: 'source $HOME/.zsh/rails'
     state: present
 
 - name: Clone rbenv vars

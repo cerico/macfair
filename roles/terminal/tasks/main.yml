@@ -1,26 +1,90 @@
 ---
-- name: install zsh shell
-  homebrew:
-    name: [
-      "zsh",
-      "zsh-completions",
-      "zsh-autosuggestions",
-      "zsh-syntax-highlighting",
-    ]
-    state: present
-  tags:
-    - terminal
+- name: Cloning oh-my-zsh
+  git:
+    repo=https://github.com/robbyrussell/oh-my-zsh
+    dest=~{{ macbook_user.stdout }}/.oh-my-zsh
 
+- name: Copy zshrc
+  copy:
+    src: zshrc
+    dest: ~{{ macbook_user.stdout }}/.zshrc
 
-- name: install helpful command line tools
-  homebrew:
-    name: [
-      "direnv",
-      "watch",
-      "nmap",
-      "htop",
-      "tmux",
-    ]
-    state: present
-  tags:
-    - terminal
+- name: Create zsh directory
+  file:
+    path: "~{{ macbook_user.stdout }}/.zsh"
+    state: directory
+
+- name: Copy aliases
+  copy:
+    src: aliases
+    dest: ~{{ macbook_user.stdout }}/.zsh/aliases
+
+- name: Copy tokens file
+  copy:
+    src: tokens
+    dest: ~{{ macbook_user.stdout }}/.zsh/tokens
+
+- name: copy js help file
+  copy:
+    src: help.js
+    dest: ~{{ macbook_user.stdout }}/.zsh/help.js
+
+- name: Copy zsh theme
+  copy:
+    src: server/cerico.zsh-theme
+    dest: ~{{ macbook_user.stdout }}/.oh-my-zsh/themes/cerico.zsh-theme
+
+- name: Copy zsh theme ii
+  copy:
+    src: server/cerico-w-user.zsh-theme
+    dest: ~{{ macbook_user.stdout }}/.oh-my-zsh/themes/cerico-w-user.zsh-theme
+
+- name: change user shell to zsh
+  become: true
+  become_user: root
+  user:
+    name: "{{ macbook_user.stdout }}"
+    shell: /bin/zsh
+
+- name: Register ansible location
+  become: false
+  local_action: command python3 -m site --user-base
+  register: python_location
+
+- name: Add ansible to path.
+  lineinfile:
+    path: ~/.zshrc
+    line: export PATH="{{ python_location.stdout }}/bin:$PATH"
+
+- name: Conditionally adding rails to zshrc
+  block:
+    - name: check if we have rbenv
+      shell: which rbenv
+
+    - name: rbenv available
+      debug:
+        msg: rbenv is installed, adding rails to zshrc
+
+    - name: Add Rbenv to .zshrc
+      lineinfile:
+        path: ~/.zshrc
+        line: 'source $HOME/.zsh/rails'
+
+  rescue:
+    - name: No rbenv
+      debug:
+        msg: rbenv not installed, not adding rails to zshrc
+
+- name: Create iterm preferences by opening
+  shell: open -a iTerm
+
+- name: copy iterm profiles
+  template:
+    src: iterm.json.j2
+    dest: ~{{ macbook_user.stdout }}/Library/Application Support/iTerm2/DynamicProfiles/iterm.json
+
+- name: source zshrc
+  shell: source ~/.zshrc
+
+- name: set default iterm profile
+  shell: echo -e "\033]50;SetProfile=coffee\a"

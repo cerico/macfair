@@ -1,27 +1,24 @@
 ANSIBLE=$$(python3 -m site --user-base)/bin/
-setup:
-	python3 -m pip install --user ansible
-	${ANSIBLE}ansible-galaxy install -r requirements.yml
+setup: ansible
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --ask-become-pass
 install:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "initialize" --ask-become-pass
-	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "caskapps" --ask-become-pass
 terminal:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "terminal"
-dev:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "webdev"
-databases:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "databases"
+	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "terminal" --ask-become-pass
 elastic:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "elastic"
-zsh:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "zsh" --ask-become-pass
 rails:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "rails"
 vscode:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "vscode"
-dock:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "dock"
+desktop:
+	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --tags "desktop"
+slim: ansible
+	@echo setting up cutdown version with no rails or elasticsearch
+	${ANSIBLE}ansible-playbook setup.yml -i hosts -l local --skip-tags rails,elastic --ask-become-pass
 update:
 	python3 -m pip install --upgrade pip
 	python3 -m pip install --user ansible
+ansible:
+	python3 -m pip install --user ansible
+	#${ANSIBLE}ansible-galaxy install -r requirements.yml - uncomment if necessary but think not needed anymore

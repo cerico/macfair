@@ -1,17 +1,11 @@
 ---
 - name: Setup MacBook for a rich development environment
   hosts: all
-  vars:
-    ruby_version: '2.7.4'
   roles:
     - { role: whoami, tags: always }
     - { role: initialize, tags: initialize }
     - { role: terminal, tags: terminal }
-    - { role: databases, tags: databases }
-    - { role: webdev, tags: webdev }
-    - { role: caskapps, tags: caskapps }
     - { role: elastic, tags: elastic }
-    - { role: zsh, tags: zsh }
     - { role: rails, tags: rails }
     - { role: vscode, tags: vscode }
-    - { role: dock, tags: dock }
+    - { role: desktop, tags: desktop }
