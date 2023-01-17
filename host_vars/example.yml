@@ -1,1 +1,2 @@
-ansible_user: "jevo"
+ansible_user: "alison"
+ansible_connection: local
