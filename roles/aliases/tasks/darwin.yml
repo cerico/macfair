@@ -1,0 +1,65 @@
+---
+- name: Copy zshrc
+  copy:
+    src: zshrc
+    dest: ~{{ macbook_user.stdout }}/.zshrc
+
+- name: Create zsh directory
+  file:
+    path: "~{{ macbook_user.stdout }}/.zsh"
+    state: directory
+
+- name: Copy aliases
+  copy:
+    src: aliases
+    dest: ~{{ macbook_user.stdout }}/.zsh/aliases
+
+- name: Copy darwin
+  copy:
+    src: zsh/darwin
+    dest: ~{{ macbook_user.stdout }}/.zsh/darwin
+
+- name: Add darwin to path.
+  lineinfile:
+    path: ~/.zsh/aliases
+    line: source ~/.zsh/darwin
+    insertbefore: BOF
+
+- name: create empty tokens file only if one doesnt already exist
+  copy:
+    content: ""
+    dest: ~{{ macbook_user.stdout }}/.zsh/tokens
+    force: no
+
+- name: create trial file for new aliases if one doesn't already exist
+  copy:
+    content: "tinker(){\n  echo try out new aliases here, not in main file\n}"
+    dest: ~{{ macbook_user.stdout }}/.zsh/trialling
+    force: no
+
+- name: copy js help file
+  copy:
+    src: help.js
+    dest: ~{{ macbook_user.stdout }}/.zsh/help.js
+
+
+- name: Register ansible location
+  become: false
+  shell: command python3 -m site --user-base
+  register: python_location
+
+- name: Add ansible to path.
+  lineinfile:
+    path: ~/.zshrc
+    line: export PATH="{{ python_location.stdout }}/bin:$PATH"
+
+- name: register rbenv exists
+  stat:
+    path: ~{{ macbook_user.stdout }}/.rbenv/bin/rbenv
+  register: rbenv
+
+- name: Conditionally Add rails to zshrc.
+  lineinfile:
+    path: ~/.zshrc
+    line: source $HOME/.zsh/rails
+  when: rbenv.stat.exists

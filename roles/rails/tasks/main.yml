@@ -7,7 +7,7 @@
 
 - name: Copy zsh rails
   copy:
-    src: zshrails
+    src: zsh/rails
     dest: ~{{ macbook_user.stdout }}/.zsh/rails
 
 - name: Add Rbenv to .zshrc

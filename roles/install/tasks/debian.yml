@@ -1,0 +1,59 @@
+---
+- name: "roles/apt-task/tasks/main Add GitHub CLI gpg key"
+  shell: curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg --yes
+  become: yes
+
+- name: "roles/apt-task/tasks/main Set up the stable repository for GitHub CLI"
+  shell: echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+  become: yes
+
+- name: remove apache
+  apt:
+    name:
+      - apache2
+    state: absent
+  become: true
+  become_user: root
+
+- name: install apt packages
+  apt:
+    update_cache: yes
+    name:
+      - code
+      - gh 
+      - nginx
+      - firefox-esr
+      - snapd
+      - figlet
+    state: present
+  become: true
+  become_user: root
+
+- name: snap core
+  command: snap install core
+  become: true
+  become_user: root
+
+- name: Install nodejs vis snap
+  command: snap install node --classic --channel=18
+  become: true
+  become_user: root
+
+- name: Copy nginx html
+  copy:
+    src: nginx.html
+    dest: /var/www/html/index.nginx-debian.html
+  become: true
+  become_user: root
+
+- name: copy motd
+  copy:
+    src: motd
+    dest: /etc/profile.d/motd.sh
+  become: true
+  become_user: root
+
+- name: Add motd to path.
+  lineinfile:
+    path: ~/.zshrc
+    line: sh /etc/profile.d/motd.sh

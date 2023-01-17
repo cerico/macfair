@@ -1,11 +1,16 @@
 source ~/.zsh/tokens
+source ~/.zsh/trialling
 export MARKPATH=$HOME/.marks
 alias sedi='sed -i "" -e'
 alias gr="git remote -v"
 
+aliases () {
+	grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} '()' ~/.zsh/aliases | tr -cd '[:alnum:]\n' | sort
+}
 
-brewser=`stat -f "%Su" /usr/local/bin/brew`
-alias brew='sudo -Hu '$brewser' brew'
+alphnum () {
+	tr -cd '[:alnum:]\n'
+}
 
 help() {
   if [[ $# -eq 0 ]] ; then
@@ -19,10 +24,6 @@ batt () {
   pmset -g batt
 }
 
-themes() {
-  grep Name Library/Application\ Support/iTerm2/DynamicProfiles/iterm.json | awk -F' ' '{print $3}' | awk -F'"' '{print $2}'
-}
-
 upsearch () {
   slashes=${PWD//[^\/]/}
   directory="$PWD"
@@ -31,6 +32,30 @@ upsearch () {
     test -e "$directory/$1" && echo "$directory" && return "hello"
     directory="$directory/.."
   done
+}
+
+cdrepo () {
+	cd `upsearch .git`
+}
+
+todo () {
+	if [ -f "TODO.md" ]
+	then
+		y=`date "+%d %B %Y"`
+		sed -i "" -e "1s/.*/$y/" TODO.md
+	else
+		date "+%d %B %Y" > TODO.md
+	fi
+  vi TODO.md
+}
+
+isym () {
+	if [[ -f $1 ]]
+	then
+		ln -s $1 $2
+	else
+		ln -s $2 $1
+	fi
 }
 
 back() {
@@ -42,6 +67,7 @@ kawa() {
   ssh deploy
   cpr
 }
+
 newp() {
   if [[ $# -eq 0 ]] ; then
     echo 'run command with filename eg newp stadiums'
@@ -193,28 +219,6 @@ hist () {
   history | grep -i $1
 }
 
-wallpaper () {
-  osascript -e 'set desktopImage to POSIX file "'/Library/Desktop\ Pictures/$1'"
-  tell application "Finder"
-    set desktop picture to desktopImage
-  end tell'
-}
-
-green () {
-  background="greentiled.png"
-  wallpaper $background
-}
-
-blue () {
-  background="bluetiled.png"
-  wallpaper $background
-}
-
-oak () {
-  background="oaktiled.png"
-  wallpaper $background
-}
-
 geo () {
   curl -H 'User-Agent: keycdn-tools:https://picfair.com' 'https://tools.keycdn.com/geo.json?host='$1
 }
@@ -228,22 +232,7 @@ isp () {
   curl -H 'User-Agent: keycdn-tools:https://picfair.com' 'https://tools.keycdn.com/geo.json?host='$1 |jq -r '.data.geo.isp'
 }
 
-sergey () {
-  make -f ~/ansible/sergey/Makefile sergey -C ~/ansible/sergey
-}
-
 railsn () {
   make -f ~/Work/ansible/finisterre/Makefile rails -C ~/Work/ansible/finisterre LOCATION=`pwd`
 }
 
-# Avoid creating .DS_Store files on network or USB volumes
-defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
-defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
-# Don’t automatically rearrange Spaces based on most recent use
-defaults write com.apple.dock mru-spaces -bool false
-
-# Automatically hide and show the Dock
-defaults write com.apple.dock autohide -bool true
-
-# Enable “Do Not Track”
-defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true

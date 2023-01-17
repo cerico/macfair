@@ -17,7 +17,7 @@
   shell: osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/Users/{{ macbook_user.stdout }}/wallpapers/oaktiled.png"'
   
 - name: Remove superfluous from dock
-  shell: dockutil --remove '{{ item }}' | cat
+  shell: /usr/local/bin/dockutil --remove '{{ item }}' | cat
   ignore_errors: true
   with_items:
     - Mail
@@ -38,7 +38,7 @@
     - System Preferences
 
 - name: Check if items in dock exist
-  shell: dockutil --find '{{ item.name }}' || dockutil --add '{{ item.path }}'
+  shell: /usr/local/bin/dockutil --find '{{ item.name }}' || /usr/local/bin/dockutil --add '{{ item.path }}'
   with_items:
     - name: iTerm
       path: "/Users/{{ brew_user.stdout }}/Applications/iTerm.app"

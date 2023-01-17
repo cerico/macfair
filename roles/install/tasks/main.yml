@@ -1,7 +1,7 @@
-- name: configure terminal for mac
+- name: Install packages for mac
   import_tasks: darwin.yml
   when: ansible_os_family == "Darwin"
 
-- name: configure terminal for pi
+- name: Install packages for pi
   import_tasks: debian.yml
   when: ansible_os_family == "Debian"

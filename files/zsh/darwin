@@ -1,0 +1,87 @@
+themes() {
+  grep Name Library/Application\ Support/iTerm2/DynamicProfiles/iterm.json | awk -F' ' '{print $3}' | awk -F'"' '{print $2}'
+}
+
+brewser=`stat -f "%Su" /usr/local/bin/brew`
+alias brew='sudo -Hu '$brewser' brew'
+
+wallpaper () {
+  osascript -e 'set desktopImage to POSIX file "'/Library/Desktop\ Pictures/$1'"
+  tell application "Finder"
+    set desktop picture to desktopImage
+  end tell'
+}
+
+green () {
+  background="greentiled.png"
+  wallpaper $background
+}
+
+blue () {
+  background="bluetiled.png"
+  wallpaper $background
+}
+
+oak () {
+  background="oaktiled.png"
+  wallpaper $background
+}
+
+newuser () {
+	if [[ $# -eq 2 ]]
+	then
+		username=$1
+		displayName=$1
+		password=$2
+		admin=yes
+		hidden=no
+		highestUID=$( dscl . -list /Users UniqueID | /usr/bin/awk '$2>m {m=$2} END { print m }' )
+		nextUID=$(( highestUID+1 ))
+		sudo /usr/bin/dscl . create "/Users/$username"
+		sudo /usr/bin/dscl . create "/Users/$username" UserShell /bin/zsh
+		sudo /usr/bin/dscl . create "/Users/$username" RealName "$displayName"
+		sudo /usr/bin/dscl . create "/Users/$username" UniqueID "$nextUID"
+		sudo /usr/bin/dscl . create "/Users/$username" PrimaryGroupID 20
+		sudo /usr/bin/dscl . passwd "/Users/$username" "$password"
+		if [[ "$admin" = "yes" ]]
+		then
+			sudo /usr/bin/dscl . append /Groups/admin GroupMembership "$username"
+		fi
+		if [[ "$hidden" = "yes" ]]
+		then
+			sudo /usr/bin/dscl . create "/Users/$username" IsHidden 1
+			sudo /usr/bin/dscl . create "/Users/$username" NFSHomeDirectory "/private/var/$username"
+		else
+			sudo /usr/bin/dscl . create "/Users/$username" NFSHomeDirectory "/Users/$username"
+		fi
+		echo Sign in as new user
+		echo Run \"prepare\" from this user
+	else
+		echo Please specify user and password
+	fi
+}
+
+prepare () {
+	if [[ $# -eq 1 ]]
+	then
+		sudo cp -r ~/.ssh /Users/$1/.ssh
+		sudo chown -R $1 /Users/$1/.ssh
+		sudo cp ~/.gitconfig /Users/$1/.gitconfig
+		sudo git -c core.sshCommand="ssh -i ~/.ssh/id_rsa" clone git@github.com:cerico/macfair /Users/$1/macfair
+		sudo chown -R $1 /Users/$1/macfair
+	else
+		echo Please specify user
+	fi
+}
+
+# Avoid creating .DS_Store files on network or USB volumes
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+# Don’t automatically rearrange Spaces based on most recent use
+defaults write com.apple.dock mru-spaces -bool false
+
+# Automatically hide and show the Dock
+defaults write com.apple.dock autohide -bool true
+
+# Enable “Do Not Track”
+defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true

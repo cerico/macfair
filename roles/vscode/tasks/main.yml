@@ -41,11 +41,13 @@
   copy:
     src: vscode.json
     dest: ~{{ macbook_user.stdout }}/Library/Application Support/Code/User/settings.json
+  when: ansible_os_family == "Darwin"
 
 - name: Create snippets directory
   file:
     path:  ~{{ macbook_user.stdout }}/Library/Application Support/Code/User/snippets
     state: directory
+  when: ansible_os_family == "Darwin"
 
 - name: Copy snippets
   copy:
@@ -53,6 +55,7 @@
     dest: ~{{ macbook_user.stdout }}/Library/Application Support/Code/User/snippets
   with_fileglob:
     - snippets/*
+  when: ansible_os_family == "Darwin"
 
 - name: Create themes directory
   file:

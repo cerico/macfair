@@ -1,10 +1,11 @@
 ---
 - name: get the username running the deploy
   become: false
-  local_action: command whoami
+  ansible.builtin.command: whoami
   register: macbook_user
 
-- name: get the username running the deploy
+- name: get the brew users name
   become: false
-  local_action: command stat -f "%Su" /usr/local/bin/brew
+  ansible.builtin.command: stat -f "%Su" /usr/local/bin/brew
   register: brew_user
+  when: ansible_os_family == "Darwin"
