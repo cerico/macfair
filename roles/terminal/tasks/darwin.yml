@@ -1,0 +1,36 @@
+---
+- name: Cloning oh-my-zsh
+  git:
+    repo=https://github.com/robbyrussell/oh-my-zsh
+    dest=~{{ macbook_user.stdout }}/.oh-my-zsh
+
+- name: Copy zsh theme
+  copy:
+    src: server/cerico.zsh-theme
+    dest: ~{{ macbook_user.stdout }}/.oh-my-zsh/themes/cerico.zsh-theme
+
+- name: Copy zsh theme ii
+  copy:
+    src: server/cerico-w-user.zsh-theme
+    dest: ~{{ macbook_user.stdout }}/.oh-my-zsh/themes/cerico-w-user.zsh-theme
+
+- name: change user shell to zsh
+  become: true
+  become_user: root
+  user:
+    name: "{{ macbook_user.stdout }}"
+    shell: /bin/zsh
+
+- name: Create iterm preferences by opening
+  shell: open -a iTerm
+
+- name: copy iterm profiles
+  template:
+    src: iterm.json.j2
+    dest: ~{{ macbook_user.stdout }}/Library/Application Support/iTerm2/DynamicProfiles/iterm.json
+
+- name: source zshrc
+  shell: source ~/.zshrc
+
+- name: set default iterm profile
+  shell: echo -e "\033]50;SetProfile=coffee\a"

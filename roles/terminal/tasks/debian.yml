@@ -1,0 +1,35 @@
+---
+- name: install package
+  apt:
+    name: zsh
+    state: present
+  become: true
+  become_user: root
+
+- name: Cloning oh-my-zsh
+  git:
+    repo=https://github.com/robbyrussell/oh-my-zsh
+    dest=~{{ macbook_user.stdout }}/.oh-my-zsh
+
+- name: Copy zsh theme
+  copy:
+    src: server/cerico.zsh-theme
+    dest: ~{{ macbook_user.stdout }}/.oh-my-zsh/themes/cerico.zsh-theme
+
+- name: Copy zsh theme ii
+  copy:
+    src: server/cerico-w-user.zsh-theme
+    dest: ~{{ macbook_user.stdout }}/.oh-my-zsh/themes/cerico-w-user.zsh-theme
+
+- name: change user shell to zsh
+  become: true
+  become_user: root
+  user:
+    name: "{{ macbook_user.stdout }}"
+    shell: /bin/zsh
+
+- name: source zshrc
+  shell: /usr/bin/sh -c . ~/.zshrc
+
+- name: set default iterm profile
+  shell: echo -e "\033]50;SetProfile=liege\a"

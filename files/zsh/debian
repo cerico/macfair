@@ -1,0 +1,3 @@
+echo -e "\033]50;SetProfile=liege\a"
+
+export PATH="/snap/bin:$PATH"

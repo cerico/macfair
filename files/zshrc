@@ -8,5 +8,3 @@ echo -e "\033]50;SetProfile=coffee\a"
 source $ZSH/oh-my-zsh.sh
 
 source $HOME/.zsh/aliases
-
-export PATH="$HOME/homebrew/bin:$PATH"

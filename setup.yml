@@ -1,11 +1,21 @@
 ---
-- name: Setup MacBook for a rich development environment
-  hosts: all
+- name: Setup MacBook and pi
+  hosts: [macbook, pi]
   roles:
     - { role: whoami, tags: always }
-    - { role: initialize, tags: initialize }
+    - { role: install, tags: install }
     - { role: terminal, tags: terminal }
-    - { role: elastic, tags: elastic }
     - { role: rails, tags: rails }
     - { role: vscode, tags: vscode }
+    - { role: aliases, tags: [aliases, install] }
+
+- name: setup macbook
+  hosts: macbook
+  roles:
     - { role: desktop, tags: desktop }
+    - { role: elastic, tags: elastic }
+
+- name: setup pi
+  hosts: pi
+  roles:
+    - { role: pi, tags: pi }
