@@ -1,6 +1,5 @@
 ansible_user: "alison"
 ansible_connection: local
-ansible_connection: ssh
 users:
   - { username: cerico@kelso }
   - { username: cityguessr@kelso, userkey: ~/.ssh/city/id_rsa.pub' }

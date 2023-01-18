@@ -1,0 +1,2 @@
+ansible_user: "alison"
+ansible_connection: ssh
