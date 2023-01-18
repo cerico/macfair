@@ -1,2 +1,7 @@
 ansible_user: "alison"
 ansible_connection: local
+ansible_connection: ssh
+users:
+  - cerico@kelso
+  - cityguessr@kelso
+  - alison@raspberrypi

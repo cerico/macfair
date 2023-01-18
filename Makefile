@@ -1,4 +1,6 @@
 ANSIBLE=$$(python3 -m site --user-base)/bin/
+keys:
+	ansible-playbook keys.yml -i hosts
 setup: ansible
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --ask-become-pass
 install:
