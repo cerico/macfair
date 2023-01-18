@@ -82,6 +82,11 @@
     - "chromium"
   when: ansible_os_family == "Darwin"
 
+- name: Copy zshenv
+  copy:
+    src: zshenv
+    dest: ~{{ macbook_user.stdout }}/.zshenv
+
 - name: source zshenv so we get /usr/local/bin for npm
   shell: source ~/.zshenv
 
