@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+    - debug:
+        var: users
+    - name: Set up ssh key login for user
+      shell: "ssh-copy-id -i ~/.ssh/id_rsa.pub {{ item }}"
+      with_items: "{{ users }}"
