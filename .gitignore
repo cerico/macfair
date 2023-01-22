@@ -3,3 +3,4 @@ roles/.DS_Store
 host_vars/*
 !host_vars/example.yml
 !host_vars/example2.yml
+hosts
