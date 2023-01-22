@@ -1,9 +1,25 @@
+brewser=`stat -f "%Su" /usr/local/bin/brew`
+alias brew='sudo -Hu '$brewser' brew'
+
+green='\e[32m'
+blue='\e[34m'
+cyan='\e[36m'
+clear='\e[0m'
+
+ColorGreen(){
+        echo -ne $green$1$clear
+}
+ColorBlue(){
+        echo -ne $blue$1$clear
+}
+
+ColorCyan(){
+        echo -ne $cyan$1$clear
+}
+
 themes() {
   grep Name Library/Application\ Support/iTerm2/DynamicProfiles/iterm.json | awk -F' ' '{print $3}' | awk -F'"' '{print $2}'
 }
-
-brewser=`stat -f "%Su" /usr/local/bin/brew`
-alias brew='sudo -Hu '$brewser' brew'
 
 wallpaper () {
   osascript -e 'set desktopImage to POSIX file "'/Library/Desktop\ Pictures/$1'"
@@ -27,13 +43,26 @@ oak () {
   wallpaper $background
 }
 
+AdminQuestion () {
+	echo -ne "
+Will $1 be an admin user?
+$(ColorGreen '1)') Yes
+$(ColorGreen '2)') No
+$(ColorCyan 'Choose an option:') "
+	read a
+	array=(1 Yes yes Y y)
+	[[ ${array[*]} =~ $a ]] && admin=yes || admin=no
+}
+
 newuser () {
-	if [[ $# -eq 2 ]]
+	if [[ $# -eq 1 ]]
 	then
 		username=$1
 		displayName=$1
-		password=$2
-		admin=yes
+                echo -ne "Specify password to be used for $1
+$(ColorGreen Password): "
+		read password
+		AdminQuestion $1
 		hidden=no
 		highestUID=$( dscl . -list /Users UniqueID | /usr/bin/awk '$2>m {m=$2} END { print m }' )
 		nextUID=$(( highestUID+1 ))
@@ -54,10 +83,10 @@ newuser () {
 		else
 			sudo /usr/bin/dscl . create "/Users/$username" NFSHomeDirectory "/Users/$username"
 		fi
-		echo Sign in as new user
-		echo Run \"prepare\" from this user
+		echo Sign in as $1
+		echo Return here and run \"prepare\" from `whoami`
 	else
-		echo Please specify user and password
+		echo Please specify user to be created
 	fi
 }
 
@@ -70,7 +99,7 @@ prepare () {
 		sudo git -c core.sshCommand="ssh -i ~/.ssh/id_rsa" clone git@github.com:cerico/macfair /Users/$1/macfair
 		sudo chown -R $1 /Users/$1/macfair
 	else
-		echo Please specify user
+		echo Please specify user to be prepared
 	fi
 }
 
