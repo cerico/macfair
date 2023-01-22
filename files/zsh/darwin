@@ -71,7 +71,6 @@ newuser () {
 $(ColorGreen Password): "
 		read password
 		AdminQuestion $1
-		hidden=no
 		highestUID=$( dscl . -list /Users UniqueID | /usr/bin/awk '$2>m {m=$2} END { print m }' )
 		nextUID=$(( highestUID+1 ))
 		sudo /usr/bin/dscl . create "/Users/$username"
@@ -83,13 +82,6 @@ $(ColorGreen Password): "
 		if [[ "$admin" = "yes" ]]
 		then
 			sudo /usr/bin/dscl . append /Groups/admin GroupMembership "$username"
-		fi
-		if [[ "$hidden" = "yes" ]]
-		then
-			sudo /usr/bin/dscl . create "/Users/$username" IsHidden 1
-			sudo /usr/bin/dscl . create "/Users/$username" NFSHomeDirectory "/private/var/$username"
-		else
-			sudo /usr/bin/dscl . create "/Users/$username" NFSHomeDirectory "/Users/$username"
 		fi
 		newuseroutput $1
 	else
