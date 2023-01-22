@@ -4,10 +4,10 @@
   roles:
     - { role: whoami, tags: always }
     - { role: install, tags: install }
+    - { role: aliases, tags: [aliases, install] }
     - { role: terminal, tags: terminal }
     - { role: rails, tags: rails }
     - { role: vscode, tags: vscode }
-    - { role: aliases, tags: [aliases, install] }
 
 - name: setup macbook
   hosts: macbook
