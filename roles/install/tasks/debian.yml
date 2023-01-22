@@ -38,22 +38,3 @@
   command: snap install node --classic --channel=18
   become: true
   become_user: root
-
-- name: Copy nginx html
-  copy:
-    src: nginx.html
-    dest: /var/www/html/index.nginx-debian.html
-  become: true
-  become_user: root
-
-- name: copy motd
-  copy:
-    src: motd
-    dest: /etc/profile.d/motd.sh
-  become: true
-  become_user: root
-
-- name: Add motd to path.
-  lineinfile:
-    path: ~/.zshrc
-    line: sh /etc/profile.d/motd.sh
