@@ -1,8 +1,0 @@
-[local]
-localhost ansible_connection=local
-
-[pi]
-raspberrypi
-
-[macbook]
-kelso
