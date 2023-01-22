@@ -54,6 +54,14 @@ $(ColorCyan 'Choose an option:') "
 	[[ ${array[*]} =~ $a ]] && admin=yes || admin=no
 }
 
+newuseroutput () {
+  echo -ne "
+$(ColorGreen '1)') Lock screen and sign in as $1, accepting all defaults
+$(ColorGreen '2)') Lock screen and sign back in here as `whoami` and run \"prepare\" from terminal
+$(ColorGreen '3)') Lock screen and sign back in as $1, cd to ~/macfair and type \"make help\" for next steps
+"
+}
+
 newuser () {
 	if [[ $# -eq 1 ]]
 	then
@@ -83,8 +91,7 @@ $(ColorGreen Password): "
 		else
 			sudo /usr/bin/dscl . create "/Users/$username" NFSHomeDirectory "/Users/$username"
 		fi
-		echo Sign in as $1
-		echo Return here and run \"prepare\" from `whoami`
+		newuseroutput $1
 	else
 		echo Please specify user to be created
 	fi
