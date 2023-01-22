@@ -33,3 +33,11 @@
 
 - name: set default iterm profile
   shell: echo -e "\033]50;SetProfile=liege\a"
+
+
+- name: Copy nginx html
+  copy:
+    src: nginx.html
+    dest: /var/www/html/index.nginx-debian.html
+  become: true
+  become_user: root

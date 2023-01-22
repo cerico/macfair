@@ -35,6 +35,18 @@
     path: ~/.zshrc
     line: export PATH="{{ python_location.stdout }}/bin:$PATH"
 
+- name: copy motd
+  copy:
+    src: motd
+    dest: /etc/profile.d/motd.sh
+  become: true
+  become_user: root
+
+- name: Add motd to path.
+  lineinfile:
+    path: ~/.zshrc
+    line: sh /etc/profile.d/motd.sh
+
 - name: register motd.sh exists
   stat:
     path: /etc/profile.d/motd.sh
