@@ -2,6 +2,7 @@ ANSIBLE=$$(python3 -m site --user-base)/bin/
 keys:
 	ansible-playbook keys.yml -i hosts
 prepare:
+	cp hosts.example hosts
 	sed -i "" -e s/`grep -w macbook hosts -A 2 | tail -1 hosts`/`hostname`/g hosts
 	cp host_vars/example.yml host_vars/`hostname`.yml
 setup: ansible
