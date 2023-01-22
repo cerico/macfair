@@ -41,25 +41,48 @@ The brew uesr is configured to make sure than on a multi-user system brew owners
 
 ### install
 
-Installs all core packages on both macbook and debian raspberry pi. Can be run separately via 'make install'. Add packages via `roles/install/tasks/darwin.yml` and `roles/install/tasks/debian.yml`
+Installs all core packages on both macbook and debian raspberry pi. Can be run separately via `make install`. Add packages via `roles/install/tasks/darwin.yml` and `roles/install/tasks/debian.yml`
 
 ### aliases
 
+Configures zsh and copies across any new aliases or paths. Can be run separately via `make aliases`
+
 ### terminal
+
+Configures ohmyzsh and follows on from previous role. Can be run separately via `make terminal`. Likely to merge with above role
 
 ### rails
 
+installs ruby, rbenv, and rails. Can be run separately via `make rails`
+
 ### vscode
+
+Setup vscode with extensions, themes, snippets. Can be rjun separately via `make vscode`
+
 
 ### desktop
 
+Mac only role. configures gui elements, wallpapers, dock etc. Can be run separately via `make desktop`
+
 ### elastic
+
+Mac only role currently, installs and sets up elasticsearch. Can be run separately via `make elastic`
 
 ### slim
 
+Same as `mske setup` but skips the rails and elasticroles for a quicker playbook. Is run as `make slim`
+
 ### update
 
+Upgrades ansible. Run via `make update`
+
 ### ansible
+
+Installs ansible if its missing. Run via `make ansible`
+
+### help
+
+Print this out, run via `make help`
 
 
 
