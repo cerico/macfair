@@ -104,7 +104,7 @@
 
 - name: Set a hostname
   ansible.builtin.hostname:
-    name: kelso
+    name: "{{ hostname }}"
   when: ansible_os_family == "Darwin"
 
 - name: link node
