@@ -19,3 +19,8 @@
   hosts: pi
   roles:
     - { role: pi, tags: pi }
+
+- name: Are we ready?
+  hosts: localhost
+  roles:
+    - { role: checkhost, tags: always }
