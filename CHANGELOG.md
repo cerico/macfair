@@ -1,3 +1,18 @@
+# [0.4.0](https://github.com/cerico/macfair/compare/v0.3.0...v0.4.0) (2023-02-06)
+
+
+### Bug Fixes
+
+* clean up commit-msg-template file ([02fa3b6](https://github.com/cerico/macfair/commit/02fa3b6378189345974577cd98c52a1aa784d316))
+* remove git target from makefile ([2c624d4](https://github.com/cerico/macfair/commit/2c624d4f1b5a14fc0dc72ed51e99337fc0ec48b1))
+
+
+### Features
+
+* Added global pre-commit and commit-msg hooks ([ad631f5](https://github.com/cerico/macfair/commit/ad631f57f7790907124d52df4dde88639eb0c03e))
+
+
+
 # [0.3.0](https://github.com/cerico/macfair/compare/v0.0.4...v0.3.0) (2023-02-06)
 
 
