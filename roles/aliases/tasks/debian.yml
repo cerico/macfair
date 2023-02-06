@@ -11,13 +11,18 @@
 
 - name: Copy aliases
   copy:
-    src: aliases
+    src: zsh/aliases
     dest: ~{{ macbook_user.stdout }}/.zsh/aliases
 
 - name: Copy debian
   copy:
     src: zsh/debian
     dest: ~{{ macbook_user.stdout }}/.zsh/debian
+
+- name: Copy git aliases
+  copy:
+    src: zsh/git
+    dest: ~{{ macbook_user.stdout }}/.zsh/git
 
 - name: Add debian to path.
   lineinfile:
