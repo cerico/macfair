@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+declare -r msg=$(< $1);
+[[ ${#msg} -lt 12 ]] && echo 'please enter a longer commit message' && exit 1
+[[ $msg == fix:[[:space:]]* ]] && exit 0
+[[ $msg == feat:[[:space:]]* ]] && exit 0
+[[ $msg == feat!:[[:space:]]* ]] && exit 0
+echo "your commit should begin with fix:, feat:, or feat!:"
+echo "dont forget the colon, and the space after it"
+exit 1
