@@ -1,0 +1,20 @@
+[user]
+# Please adapt and uncomment the following lines:
+{% if git_name.stdout %}
+	name = {{ git_name.stdout }}
+{% else %}
+#	name = name
+{% endif %}
+{% if git_email.stdout %}
+        email = {{ git_email.stdout }}
+{% else %}
+#       email = email
+{% endif %}
+[init]
+        defaultBranch = main
+[alias]
+        br = checkout -b
+[push]
+        autoSetupRemote = true
+[commit]
+        template = .git/.commit-msg-template

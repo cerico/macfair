@@ -1,0 +1,11 @@
+# This is Git's per-user configuration file.
+[init]
+        defaultBranch = main
+[alias]
+        br = checkout -b
+[push]
+        autoSetupRemote = true
+[commit]
+	template = .git/.commit-msg-template
+[include]
+        path = .gituser

@@ -1,4 +1,5 @@
 ANSIBLE=$$(python3 -m site --user-base)/bin/
+COMMIT_FILE = .git/.commit-msg-template
 keys:
 	ansible-playbook keys.yml -i hosts
 help:
@@ -19,6 +20,8 @@ rails:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "rails"
 vscode:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "vscode"
+git:
+	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "git"
 aliases:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "aliases"
 desktop:
@@ -34,3 +37,26 @@ pi:
 ansible:
 	python3 -m pip install --user ansible
 	#${ANSIBLE}ansible-galaxy install -r requirements.yml - uncomment if necessary but think not needed anymore
+
+patch: patch-message pr
+minor: minor-message pr
+major: major-message pr
+patch-message:
+	echo fix:  > $(COMMIT_FILE)
+minor-message:
+	echo feat:  > $(COMMIT_FILE)
+major-message:
+	echo feat!:  > $(COMMIT_FILE)
+ifneq ("$(wildcard $(COMMIT_FILE))","")
+pr:
+	git rebase origin/main
+	git reset origin/main
+	git add .
+	git commit
+	git push -f
+	gh pr create --fill
+	echo fix: >  $(COMMIT_FILE)
+else
+pr:
+	@echo run \"make patch\" , \"make minor\", or \"make major\" to create conventional commits before creating PR
+endif

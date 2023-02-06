@@ -4,8 +4,29 @@
   ansible.builtin.command: whoami
   register: macbook_user
 
+- debug: var=macbook_user.stdout
+
+- name: get git email
+  become: false
+  ansible.builtin.command: git config --get user.email
+  register: git_email
+  ignore_errors: true
+
+- debug: var=git_email.stdout
+
+- name: get git name
+  become: false
+  ansible.builtin.command: git config --get user.name
+  register: git_name
+  ignore_errors: true
+
+- debug: var=git_name.stdout
+
 - name: get the brew users name
   become: false
   ansible.builtin.command: stat -f "%Su" /usr/local/bin/brew
   register: brew_user
+  when: ansible_os_family == "Darwin"
+
+- debug: var=brew_user.stdout
   when: ansible_os_family == "Darwin"
