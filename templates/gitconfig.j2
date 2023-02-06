@@ -12,9 +12,12 @@
 {% endif %}
 [init]
         defaultBranch = main
+        templatedir = ~/.git-templates
 [alias]
         br = checkout -b
 [push]
         autoSetupRemote = true
+[core]
+        editor = vi
 [commit]
-        template = .git/.commit-msg-template
+        template = ~/.gitmessage
