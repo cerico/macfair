@@ -1,3 +1,12 @@
+# [0.5.0](https://github.com/cerico/macfair/compare/v0.4.0...v0.5.0) (2023-02-06)
+
+
+### Features
+
+* new git aliases for pull requests ([7937978](https://github.com/cerico/macfair/commit/79379780c5005f0f6b86e21b094ef3059a18cd02))
+
+
+
 # [0.4.0](https://github.com/cerico/macfair/compare/v0.3.0...v0.4.0) (2023-02-06)
 
 
