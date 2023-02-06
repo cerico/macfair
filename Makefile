@@ -20,8 +20,6 @@ rails:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "rails"
 vscode:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "vscode"
-git:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "git"
 aliases:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "aliases"
 desktop:
