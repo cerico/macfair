@@ -1,5 +1,3 @@
-18 January 2023
+06 February 2023
 
-[ ] add changelog
-[ ] update readme
 [ ] make release
