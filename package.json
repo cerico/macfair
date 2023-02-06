@@ -1,0 +1,19 @@
+{
+  "name": "macfair",
+  "version": "0.0.4",
+  "description": "Build macbook and/or debian machine",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cerico/macfair.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cerico/macfair/issues"
+  },
+  "homepage": "https://github.com/cerico/macfair#readme"
+}

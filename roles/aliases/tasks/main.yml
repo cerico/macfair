@@ -5,3 +5,8 @@
 - name: configure terminal for pi
   import_tasks: debian.yml
   when: ansible_os_family == "Debian"
+
+- name: Copy gitconfig
+  template:
+    src: gitconfig.j2
+    dest: ~{{ macbook_user.stdout }}/.gitconfig
