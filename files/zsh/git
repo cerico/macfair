@@ -1,0 +1,58 @@
+getpr () {
+         pr=$(gh pr list | grep `git branch --show-current` | awk -F' ' '{print $1}')
+}
+
+closepr () {
+        getpr
+        gh pr close $pr
+}
+
+viewpr () {
+        getpr
+        gh pr view $pr --web
+}
+
+cleanpr () {
+        git rebase origin/main
+        git reset origin/main
+        git add .
+        git commit
+        git push -f
+        gh pr create --fill
+        echo fix: >  ~/.gitmessage
+}
+
+fix () {
+	echo fix: change > ~/.gitmessage
+	git commit
+	git push
+}
+
+minor () {
+	echo feat: change > ~/.gitmessage
+	git commit
+	git push
+}
+
+major () {
+	echo feat!: change > ~/.gitmessage
+	git commit
+	git push
+}
+
+ghpr () {
+        if [[ $1 == 'patch' || $1 == 'fix' ]] ; then
+          echo fix: change  > ~/.gitmessage
+          cleanpr
+        elif [[ $1 == 'minor' || $1 == 'feat' ]] ; then
+          echo feat: change  > ~/.gitmessage
+          cleanpr
+        elif [[ $1 == 'major' || $1 == 'breaking' ]] ; then
+          echo feat: change  > ~/.gitmessage
+          cleanpr
+        elif [[ `git cherry -v main | grep -v -e fix -e feat| wc -c` -eq 0 ]] ;  then
+          gh pr create --fill
+        else
+          echo syntax message
+        fi
+}

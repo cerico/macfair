@@ -11,13 +11,18 @@
 
 - name: Copy aliases
   copy:
-    src: aliases
+    src: zsh/aliases
     dest: ~{{ macbook_user.stdout }}/.zsh/aliases
 
 - name: Copy darwin
   copy:
     src: zsh/darwin
     dest: ~{{ macbook_user.stdout }}/.zsh/darwin
+
+- name: Copy git aliases
+  copy:
+    src: zsh/git
+    dest: ~{{ macbook_user.stdout }}/.zsh/git
 
 - name: Add darwin to path.
   lineinfile:
