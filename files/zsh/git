@@ -22,6 +22,12 @@ cleanpr () {
         echo fix: >  ~/.gitmessage
 }
 
+wip () {
+	echo wip: change > ~/.gitmessage
+	git commit
+	git push
+}
+
 fix () {
 	echo fix: change > ~/.gitmessage
 	git commit
@@ -53,6 +59,7 @@ ghpr () {
         elif [[ `git cherry -v main | grep -v -e fix -e feat| wc -c` -eq 0 ]] ;  then
           gh pr create --fill
         else
-          echo syntax message
+          echo please squash the following commits before submitting PR
+          git cherry -v main | grep -v -e fix -e feat
         fi
 }
