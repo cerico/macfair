@@ -1,3 +1,12 @@
+## [0.6.2](https://github.com/cerico/macfair/compare/v0.6.1...v0.6.2) (2023-02-07)
+
+
+### Bug Fixes
+
+* bug in themes alias looking at incorrect path ([ee9c478](https://github.com/cerico/macfair/commit/ee9c478a0b97a28b6a59f923c7b663e29bf00def))
+
+
+
 ## [0.6.1](https://github.com/cerico/macfair/compare/v0.6.0...v0.6.1) (2023-02-07)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * update prepare step to handle keys directly ([efdf033](https://github.com/cerico/macfair/commit/efdf0338d0cde250f6189221d81bf389010e10f2))
-
-
-
-# [0.5.0](https://github.com/cerico/macfair/compare/v0.4.0...v0.5.0) (2023-02-06)
-
-
-### Features
-
-* new git aliases for pull requests ([7937978](https://github.com/cerico/macfair/commit/79379780c5005f0f6b86e21b094ef3059a18cd02))
 
 
 
