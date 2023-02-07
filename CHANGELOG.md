@@ -1,3 +1,12 @@
+## [0.5.1](https://github.com/cerico/macfair/compare/v0.5.0...v0.5.1) (2023-02-07)
+
+
+### Bug Fixes
+
+* update prepare step to handle keys directly ([efdf033](https://github.com/cerico/macfair/commit/efdf0338d0cde250f6189221d81bf389010e10f2))
+
+
+
 # [0.5.0](https://github.com/cerico/macfair/compare/v0.4.0...v0.5.0) (2023-02-06)
 
 
