@@ -1,3 +1,12 @@
+## [0.5.2](https://github.com/cerico/macfair/compare/v0.5.1...v0.5.2) (2023-02-07)
+
+
+### Bug Fixes
+
+* updated makefile to add debug target and remove git targets ([b1e7027](https://github.com/cerico/macfair/commit/b1e702793cdb0e3ebb92583f3a808fc9867fcd59))
+
+
+
 ## [0.5.1](https://github.com/cerico/macfair/compare/v0.5.0...v0.5.1) (2023-02-07)
 
 
