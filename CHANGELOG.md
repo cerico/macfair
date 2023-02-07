@@ -1,3 +1,12 @@
+## [0.6.1](https://github.com/cerico/macfair/compare/v0.6.0...v0.6.1) (2023-02-07)
+
+
+### Bug Fixes
+
+* dont push on commit alias ([69db7d1](https://github.com/cerico/macfair/commit/69db7d1cde15e4cc8ad480927c3019f69c7fd6c3))
+
+
+
 # [0.6.0](https://github.com/cerico/macfair/compare/v0.5.2...v0.6.0) (2023-02-07)
 
 
@@ -31,21 +40,6 @@
 ### Features
 
 * new git aliases for pull requests ([7937978](https://github.com/cerico/macfair/commit/79379780c5005f0f6b86e21b094ef3059a18cd02))
-
-
-
-# [0.4.0](https://github.com/cerico/macfair/compare/v0.3.0...v0.4.0) (2023-02-06)
-
-
-### Bug Fixes
-
-* clean up commit-msg-template file ([02fa3b6](https://github.com/cerico/macfair/commit/02fa3b6378189345974577cd98c52a1aa784d316))
-* remove git target from makefile ([2c624d4](https://github.com/cerico/macfair/commit/2c624d4f1b5a14fc0dc72ed51e99337fc0ec48b1))
-
-
-### Features
-
-* Added global pre-commit and commit-msg hooks ([ad631f5](https://github.com/cerico/macfair/commit/ad631f57f7790907124d52df4dde88639eb0c03e))
 
 
 
