@@ -6,7 +6,6 @@ Sets up your Mac (and RaspberryPi or Debian box) from scratch via Ansible. A rep
 
 ```
 make prepare
-make keys
 make setup
 ```
 
@@ -14,13 +13,15 @@ make setup
 
  - Copies the example hostfile to hosts and adds your hostname
  - Copies the example host_vars yaml to a file named after hostname
+ - Copies ssh keys where necessary
 
 This prepares the macbook ready to be built. If running ansible on the target machine there's no more to do here. 
 
 If running ansible on a different machine, change ansible_connection from local to ssh in the newly created host_vars yml and add the hostname of the macbook to `/etc/hosts` on the machine running ansible. Then run the make keys step.
 
 ### make keys
-This step is only for building machines other than the macbook. A sample raspberry pi configuration is included. Any machines will need to be added to `/etc/hosts`. Users are added to the host_vars yaml created in tbe make prepare step in the format of the example users - userkey is an optioal parameter if specifying an ssh key other than `~/.ssh/id_rsa.pub`. Make key will copy the keys to target machines users for passwodless access
+This step is only for building machines other than the macbook. A sample raspberry pi configuration is included. Any machines will need to be added to `/etc/hosts`. Users are added to the host_vars yaml created in tbe make prepare step in the format of the example users - userkey is an optional parameter if specifying an ssh key other than `~/.ssh/id_rsa.pub`. Make key will copy the keys to target machines users for passwordless access
+
 
 ### make setup
 
