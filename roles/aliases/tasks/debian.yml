@@ -85,6 +85,12 @@
     path: ~{{ macbook_user.stdout }}/.rbenv/bin/rbenv
   register: rbenv
 
+- name: Conditionally Copy zsh rails
+  copy:
+    src: zsh/rails
+    dest: ~{{ macbook_user.stdout }}/.zsh/rails
+  when: rbenv.stat.exists
+
 - name: Conditionally Add rails to zshrc.
   lineinfile:
     path: ~/.zshrc
