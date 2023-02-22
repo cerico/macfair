@@ -19,38 +19,38 @@ cleanpr () {
         git commit
         git push -f
         gh pr create --fill
-        echo fix: >  ~/.gitmessage
+        echo "#wip: " >  ~/.gitmessage
 }
 
 wip () {
-	echo wip: change > ~/.gitmessage
+	echo "#wip: $1" > ~/.gitmessage
 	git commit
 }
 
 fix () {
-	echo fix: change > ~/.gitmessage
+	echo "#fix: $1" > ~/.gitmessage
 	git commit
 }
 
 minor () {
-	echo feat: change > ~/.gitmessage
+	echo "#feat: $1" > ~/.gitmessage
 	git commit
 }
 
 major () {
-	echo feat!: change > ~/.gitmessage
+	echo "#feat!: $1" > ~/.gitmessage
 	git commit
 }
 
 ghpr () {
         if [[ $1 == 'patch' || $1 == 'fix' ]] ; then
-          echo fix: change  > ~/.gitmessage
+          echo "#fix: "  > ~/.gitmessage
           cleanpr
         elif [[ $1 == 'minor' || $1 == 'feat' ]] ; then
-          echo feat: change  > ~/.gitmessage
+          echo "#feat: "  > ~/.gitmessage
           cleanpr
         elif [[ $1 == 'major' || $1 == 'breaking' ]] ; then
-          echo feat: change  > ~/.gitmessage
+          echo "#feat: "  > ~/.gitmessage
           cleanpr
         elif [[ `git cherry -v main | grep -v -e fix -e feat| wc -c` -eq 0 ]] ;  then
           git push
