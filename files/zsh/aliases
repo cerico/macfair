@@ -1,6 +1,7 @@
 source ~/.zsh/git
 source ~/.zsh/tokens
 source ~/.zsh/trialling
+source ~/.zsh/version
 export MARKPATH=$HOME/.marks
 alias sedi='sed -i "" -e'
 alias gr="git remote -v"

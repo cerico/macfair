@@ -4,6 +4,8 @@ keys:
 	ansible-playbook keys.yml -i hosts
 help:
 	cat README.md
+version:
+	echo "release: `npm pkg get version`" > group_vars/all/vars.yml
 vars:
 	cp hosts.example hosts
 	sed -i "" -e s/`grep -w macbook hosts -A 2 | tail -1 hosts`/`hostname`/g hosts
@@ -23,7 +25,7 @@ rails:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "rails"
 vscode:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "vscode"
-aliases:
+aliases: version
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "aliases"
 desktop:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "desktop"
@@ -40,3 +42,5 @@ ansible:
 	#${ANSIBLE}ansible-galaxy install -r requirements.yml - uncomment if necessary but think not needed anymore
 debug:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "whoami" -vv
+up2date:
+	@zsh bin/up2date.sh

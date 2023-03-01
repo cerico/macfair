@@ -32,3 +32,8 @@
   copy:
     src: git/commit-msg-template
     dest: ~{{ macbook_user.stdout }}/.gitmessage
+
+- name: Copy version file
+  template:
+    src: zsh/version.j2
+    dest: ~{{ macbook_user.stdout }}/.zsh/version
