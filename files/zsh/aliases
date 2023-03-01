@@ -227,7 +227,8 @@ vsc () {
   theme=~/.vscode/themes/$1.json
   if test -f "$theme"
   then
-    cp $theme ~/Library/Application\ Support/Code/User/settings.json
+    mkdir -p .vscode
+    cp $theme .vscode/settings.json
   fi
 }
 
