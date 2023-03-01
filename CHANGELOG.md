@@ -1,3 +1,12 @@
+## [0.8.1](https://github.com/cerico/macfair/compare/v0.8.0...v0.8.1) (2023-03-01)
+
+
+### Bug Fixes
+
+* Add versioning to alias file ([ae995c4](https://github.com/cerico/macfair/commit/ae995c495bb06c3b8278b6edd0d40f2b6de363e4))
+
+
+
 # [0.8.0](https://github.com/cerico/macfair/compare/v0.7.1...v0.8.0) (2023-03-01)
 
 
@@ -36,15 +45,6 @@
 ### Bug Fixes
 
 * bug in themes alias looking at incorrect path ([ee9c478](https://github.com/cerico/macfair/commit/ee9c478a0b97a28b6a59f923c7b663e29bf00def))
-
-
-
-## [0.6.1](https://github.com/cerico/macfair/compare/v0.6.0...v0.6.1) (2023-02-07)
-
-
-### Bug Fixes
-
-* dont push on commit alias ([69db7d1](https://github.com/cerico/macfair/commit/69db7d1cde15e4cc8ad480927c3019f69c7fd6c3))
 
 
 
