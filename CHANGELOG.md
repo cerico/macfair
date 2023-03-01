@@ -1,3 +1,12 @@
+# [0.8.0](https://github.com/cerico/macfair/compare/v0.7.1...v0.8.0) (2023-03-01)
+
+
+### Features
+
+* vsc function updates theme for project not globally ([2907407](https://github.com/cerico/macfair/commit/290740703d254d26366232d6cea8994641d506ca))
+
+
+
 ## [0.7.1](https://github.com/cerico/macfair/compare/v0.7.0...v0.7.1) (2023-02-22)
 
 
@@ -36,15 +45,6 @@
 ### Bug Fixes
 
 * dont push on commit alias ([69db7d1](https://github.com/cerico/macfair/commit/69db7d1cde15e4cc8ad480927c3019f69c7fd6c3))
-
-
-
-# [0.6.0](https://github.com/cerico/macfair/compare/v0.5.2...v0.6.0) (2023-02-07)
-
-
-### Features
-
-* allow commits to be prefaced with wip ([0dbbea1](https://github.com/cerico/macfair/commit/0dbbea1becf6afaa8a3635d7977326858f539d3e))
 
 
 
