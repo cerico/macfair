@@ -1,3 +1,13 @@
+# [0.9.0](https://github.com/cerico/macfair/compare/v0.8.1...v0.9.0) (2023-03-03)
+
+
+### Features
+
+* add index.html snippet ([2cf3948](https://github.com/cerico/macfair/commit/2cf3948cb8c096379e48ee66c613f9cfd55787f3))
+* add js snippet extension ([abe76d2](https://github.com/cerico/macfair/commit/abe76d20e3a5dbba678314120fb338defa9c6bc3))
+
+
+
 ## [0.8.1](https://github.com/cerico/macfair/compare/v0.8.0...v0.8.1) (2023-03-01)
 
 
@@ -36,15 +46,6 @@
 ### Features
 
 * improve batt alias ([670420c](https://github.com/cerico/macfair/commit/670420c0ddcecb4151b253063e9ac7c02b6e1200))
-
-
-
-## [0.6.2](https://github.com/cerico/macfair/compare/v0.6.1...v0.6.2) (2023-02-07)
-
-
-### Bug Fixes
-
-* bug in themes alias looking at incorrect path ([ee9c478](https://github.com/cerico/macfair/commit/ee9c478a0b97a28b6a59f923c7b663e29bf00def))
 
 
 
