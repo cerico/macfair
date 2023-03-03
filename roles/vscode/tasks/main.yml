@@ -3,6 +3,7 @@
   shell: "code --install-extension {{ item }}"
   with_items:
     - "astro-build.astro-vscode"
+    - "GitHub.copilot"
     - "styled-components.vscode-styled-components"
     - "abalejr.forest-focus"
     - "aregghazaryan.glass-ui"
