@@ -1,0 +1,27 @@
+{
+	"indexhtml": {
+		"prefix": "indexhtml",
+		"body": [
+			"<!DOCTYPE html>",
+      "<html lang=\"en\">",
+      "<head>",
+      "  <title>$1</title>",
+      "  <base href=\"/\">",
+      "  <meta content=\"width=device-width, minimum-scale=1, initial-scale=1, shrink-to-fit=no\" name=\"viewport\">",
+      "  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">",
+      "  <meta name=\"description\" content=\"$1\">",
+      "  <meta property=\"og:image\" content=\"https://gists.io37.ch/files/coat.jpg\">",
+      "  <link rel=\"shortcut icon\" href=\"/favicon.ico\">",
+      "  <link",
+      "    href=\"https://fonts.googleapis.com/css?family=.|Oswald:light,normal,bold|Oswald:light,normal,bold|Oswald:light,normal,bold|Roboto:light,normal,bold|Roboto:light,normal,bold|Raleway|Open+Sans:400,300,700\"",
+      "    rel='stylesheet' type='text/css'",
+      "  >",
+      "</head>",
+      "<body>",
+      "",
+      "</body>",
+      "</html>"
+		],
+		"description": "html skeleton"
+	}
+}
