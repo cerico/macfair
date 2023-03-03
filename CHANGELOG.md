@@ -1,3 +1,12 @@
+# [0.10.0](https://github.com/cerico/macfair/compare/v0.9.0...v0.10.0) (2023-03-03)
+
+
+### Features
+
+* add github copilot extension ([74f350b](https://github.com/cerico/macfair/commit/74f350b52428d9bfba5f574dbab509ae762209ae))
+
+
+
 # [0.9.0](https://github.com/cerico/macfair/compare/v0.8.1...v0.9.0) (2023-03-03)
 
 
@@ -32,20 +41,6 @@
 ### Bug Fixes
 
 * git hook for message length now working ([2d20193](https://github.com/cerico/macfair/commit/2d20193975d23dd59256fce73b14c5d944d2ecbc))
-
-
-
-# [0.7.0](https://github.com/cerico/macfair/compare/v0.6.2...v0.7.0) (2023-02-09)
-
-
-### Bug Fixes
-
-* readd rails alias file if not present ([3a7d2d0](https://github.com/cerico/macfair/commit/3a7d2d0380a0514368d933d43be8934a3685a951))
-
-
-### Features
-
-* improve batt alias ([670420c](https://github.com/cerico/macfair/commit/670420c0ddcecb4151b253063e9ac7c02b6e1200))
 
 
 
