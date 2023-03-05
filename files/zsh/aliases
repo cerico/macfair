@@ -121,6 +121,17 @@ cleanup(){
   find . -name "node_modules" -type d -prune -exec rm -rf '{}' +
 }
 
+nonewlines () {
+  find . -type f -not -path "./.git*" -exec sh -c 'file -b "{}" | grep -q text' \; -exec sh -c '[ "$(tail -c 1 "{}" | od -An -a | tr -d "[:space:]")" != "nl" ]' \; -print
+  find . -name '*.json' -exec sh -c '[ "$(tail -c 1 "{}" | od -An -a | tr -d "[:space:]")" != "nl" ]' \; -print
+}
+
+addnewlines () {
+  for i in `nonewlines`
+  do
+    echo >> $i
+  done
+}
 
 discogs() {
   y=`echo $1 | awk -F'/' '{print $5}'`
