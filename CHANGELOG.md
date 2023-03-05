@@ -1,3 +1,12 @@
+## [0.10.4](https://github.com/cerico/macfair/compare/v0.10.3...v0.10.4) (2023-03-05)
+
+
+### Bug Fixes
+
+* dont pin conventional-changelog-action to 3.7.1 ([b4674f3](https://github.com/cerico/macfair/commit/b4674f31f8c4cca5d24fd028424cd21c0d37fb9a))
+
+
+
 ## [0.10.3](https://github.com/cerico/macfair/compare/v0.10.2...v0.10.3) (2023-03-05)
 
 
