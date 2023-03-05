@@ -1,3 +1,14 @@
+## [0.10.2](https://github.com/cerico/macfair/compare/v0.10.1...v0.10.2) (2023-03-05)
+
+
+### Bug Fixes
+
+* add aliases for finding files w no newline at eof, and adding one ([124be55](https://github.com/cerico/macfair/commit/124be55bd5a7b7cb34c7984ffa42daf4ccdb85b1))
+* add newline setting to vscode ([dd51135](https://github.com/cerico/macfair/commit/dd51135022d3154cb530e13a3cb5e12bd3022598))
+* add vscode to gitignore ([1fa03aa](https://github.com/cerico/macfair/commit/1fa03aa0cfe1604b492a79381f3c49493d47a90d))
+
+
+
 ## [0.10.1](https://github.com/cerico/macfair/compare/v0.10.0...v0.10.1) (2023-03-03)
 
 
