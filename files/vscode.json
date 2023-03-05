@@ -4,6 +4,7 @@
   },
   "javascript.updateImportsOnFileMove.enabled" : "always",
   "editor.accessibilitySupport" : "off",
+  "files.insertFinalNewline": true,
   "bracketPairColorizer.depreciation-notice" : false,
   "[json]" : {
     "editor.defaultFormatter" : "esbenp.prettier-vscode"
