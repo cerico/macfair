@@ -1,3 +1,12 @@
+## [0.10.3](https://github.com/cerico/macfair/compare/v0.10.2...v0.10.3) (2023-03-05)
+
+
+### Bug Fixes
+
+* script run to add newlines to files where its missing ([e2aafa0](https://github.com/cerico/macfair/commit/e2aafa0669c5f4bffeee983b64c0abb41b50464c))
+
+
+
 ## [0.10.2](https://github.com/cerico/macfair/compare/v0.10.1...v0.10.2) (2023-03-05)
 
 
