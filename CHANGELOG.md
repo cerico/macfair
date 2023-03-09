@@ -1,3 +1,12 @@
+# [0.11.0](https://github.com/cerico/macfair/compare/v0.10.5...v0.11.0) (2023-03-09)
+
+
+### Features
+
+* add debug css snippet ([3b70106](https://github.com/cerico/macfair/commit/3b7010637c3059de7397949aeb3bbdc1b7ad99df))
+
+
+
 ## [0.10.5](https://github.com/cerico/macfair/compare/v0.10.4...v0.10.5) (2023-03-09)
 
 
