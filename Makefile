@@ -1,7 +1,7 @@
 ANSIBLE=$$(python3 -m site --user-base)/bin/
 COMMIT_FILE = .git/.commit-msg-template
 keys:
-	ansible-playbook keys.yml -i hosts
+	${ANSIBLE}ansible-playbook keys.yml -i hosts
 help:
 	cat README.md
 version:
