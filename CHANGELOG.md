@@ -1,3 +1,12 @@
+## [0.10.5](https://github.com/cerico/macfair/compare/v0.10.4...v0.10.5) (2023-03-09)
+
+
+### Bug Fixes
+
+* add full path for ansible-playbook in 'make keys' ([fcff998](https://github.com/cerico/macfair/commit/fcff9989ce45c96d4af81cae5eae52743c33c777))
+
+
+
 ## [0.10.4](https://github.com/cerico/macfair/compare/v0.10.3...v0.10.4) (2023-03-05)
 
 
