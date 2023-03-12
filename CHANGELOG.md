@@ -1,3 +1,12 @@
+## [0.11.2](https://github.com/cerico/macfair/compare/v0.11.1...v0.11.2) (2023-03-12)
+
+
+### Bug Fixes
+
+* show location info in motd only if exists ([0550f00](https://github.com/cerico/macfair/commit/0550f001c894c4e7e1214622e9b0da275f4b4e65))
+
+
+
 ## [0.11.1](https://github.com/cerico/macfair/compare/v0.11.0...v0.11.1) (2023-03-09)
 
 
