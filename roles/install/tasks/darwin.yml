@@ -108,7 +108,7 @@
 
 - name: Set a hostname
   ansible.builtin.hostname:
-    name: "{{ hostname }}"
+    name: "{{ inventory_hostname }}"
   when: ansible_os_family == "Darwin"
 
 - name: link node
