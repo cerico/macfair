@@ -1,3 +1,12 @@
+# [0.13.0](https://github.com/cerico/macfair/compare/v0.12.0...v0.13.0) (2023-03-12)
+
+
+### Features
+
+* add webserver role with nginx ([c7984b4](https://github.com/cerico/macfair/commit/c7984b4f33ccf734e00350ad7a286c3a0b8e184d))
+
+
+
 # [0.12.0](https://github.com/cerico/macfair/compare/v0.11.3...v0.12.0) (2023-03-12)
 
 
