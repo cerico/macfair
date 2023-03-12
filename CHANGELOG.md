@@ -1,3 +1,18 @@
+# [0.14.0](https://github.com/cerico/macfair/compare/v0.13.0...v0.14.0) (2023-03-12)
+
+
+### Bug Fixes
+
+* remove need to ask-become-pass, and use inventory_hostname ([7ded43e](https://github.com/cerico/macfair/commit/7ded43e9692bc8ab16e5143afc7408bb994f6108))
+* update example hosts and vars ([2b64c1d](https://github.com/cerico/macfair/commit/2b64c1d572fa57c838a89b114507b427ab30f2ea))
+
+
+### Features
+
+* add roles for remote login and key transfers ([e6bcf94](https://github.com/cerico/macfair/commit/e6bcf943e0b288bddf0bc893234dcbe1deb06034))
+
+
+
 # [0.13.0](https://github.com/cerico/macfair/compare/v0.12.0...v0.13.0) (2023-03-12)
 
 
