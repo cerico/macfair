@@ -1,3 +1,12 @@
+# [0.15.0](https://github.com/cerico/macfair/compare/v0.14.1...v0.15.0) (2023-03-12)
+
+
+### Features
+
+* add godaddy api functions ([98d270c](https://github.com/cerico/macfair/commit/98d270c93e206534a23f2ec912098885b5e37c30))
+
+
+
 ## [0.14.1](https://github.com/cerico/macfair/compare/v0.14.0...v0.14.1) (2023-03-12)
 
 
