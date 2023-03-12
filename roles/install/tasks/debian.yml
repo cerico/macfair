@@ -1,11 +1,11 @@
 ---
 - name: "roles/apt-task/tasks/main Add GitHub CLI gpg key"
   shell: curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg --yes
-  become: yes
+  become: true
 
 - name: "roles/apt-task/tasks/main Set up the stable repository for GitHub CLI"
   shell: echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-  become: yes
+  become: true
 
 - name: remove apache
   apt:
@@ -15,12 +15,19 @@
   become: true
   become_user: root
 
-- name: install apt packages
+- name: apt update
   apt:
     update_cache: yes
+    upgrade: yes
+  become: true
+  become_user: root
+
+- name: install apt packages
+  apt:
     name:
-      - code
+      - git
       - gh 
+      - jq
       - nginx
       - firefox-esr
       - snapd
@@ -28,6 +35,15 @@
     state: present
   become: true
   become_user: root
+
+- name: install vscode
+  apt:
+    name:
+      - code
+    state: present
+  become: true
+  become_user: root
+  ignore_errors: true
 
 - name: snap core
   command: snap install core
@@ -38,3 +54,57 @@
   command: snap install node --classic --channel=18
   become: true
   become_user: root
+
+- name: Install certbot snap with option --classic
+  command: snap install certbot --classic
+  become: true
+  become_user: root
+
+- name: create certbot cron file if it doesnt exist
+  copy:
+    content: ""
+    dest: /etc/cron.d/cert
+    force: no
+  become: true
+  become_user: root
+
+- name: Add certbot renewals to cron
+  lineinfile:
+    path: /etc/cron.d/cert
+    line: 5 4 * * 2 root /snap/bin/certbot renew
+    insertbefore: BOF
+  become: true
+  become_user: root
+
+- name: Install latest passlib with pip
+  pip: name=passlib
+
+- name: Replace a localhost entry searching for a literal string to avoid escaping
+  become: true
+  become_user: root
+  when: ansible_os_family == "Debian"
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    search_string: '127.0.0.1'
+    line: 127.0.0.1 {{ hostname }}
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Replace a localhost entry searching for a literal string to avoid escaping
+  become: true
+  become_user: root
+  when: ansible_os_family == "Debian"
+  ansible.builtin.lineinfile:
+    path: /etc/cloud/templates/hosts.debian.tmpl
+    search_string: '127.0.0.1'
+    line: 127.0.0.1 {{ hostname }}
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Set a hostname
+  become: true
+  become_user: root
+  ansible.builtin.hostname:
+    name: "{{ hostname }}"
