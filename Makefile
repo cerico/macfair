@@ -18,11 +18,11 @@ vars:
 	echo "  - { username: `whoami`@`hostname`, userkey: ~/.ssh/id_rsa.pub }" >> host_vars/localhost.yml
 prepare: vars keys
 setup: ansible
-	${ANSIBLE}ansible-playbook setup.yml -i hosts --ask-become-pass
+	${ANSIBLE}ansible-playbook setup.yml -i hosts
 install:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "install" --ask-become-pass
+	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "install"
 terminal:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "terminal" --ask-become-pass
+	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "terminal"
 elastic:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "elastic"
 debian:
@@ -39,12 +39,10 @@ desktop:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "desktop"
 slim: ansible
 	@echo setting up cutdown version with no rails or elasticsearch
-	${ANSIBLE}ansible-playbook setup.yml -i hosts --skip-tags rails,elastic --ask-become-pass
+	${ANSIBLE}ansible-playbook setup.yml -i hosts --skip-tags rails,elastic
 update:
 	python3 -m pip install --upgrade pip
 	python3 -m pip install --user ansible
-pi:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "pi" --ask-become-pass
 ansible:
 	python3 -m pip install --user ansible
 	#${ANSIBLE}ansible-galaxy install -r requirements.yml - uncomment if necessary but think not needed anymore
