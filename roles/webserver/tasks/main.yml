@@ -1,0 +1,25 @@
+---
+- name: Allow all access to nginx http/s
+  community.general.ufw:
+    rule: allow
+    name: "{{ item }}"
+  with_items:
+    - "Nginx HTTP"
+    - "Nginx Full"
+  when: ansible_os_family == "Debian"
+  become: true
+  become_user: root
+
+- name: Ownership of www and nginx to deploy user
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+    owner: "{{ macbook_user.stdout }}"
+    group: "{{ macbook_user.stdout }}"
+  when: ansible_os_family == "Debian"
+  become: true
+  become_user: root
+  with_items:
+    - /var/www/html
+    - /etc/nginx/conf.d

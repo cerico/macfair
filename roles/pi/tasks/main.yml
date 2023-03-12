@@ -1,7 +1,0 @@
----
-- name: Set a hostname
-  ansible.builtin.hostname:
-    name: raspberrypi
-  become: true
-  become_user: root
-

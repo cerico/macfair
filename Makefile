@@ -21,6 +21,10 @@ terminal:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "terminal" --ask-become-pass
 elastic:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "elastic"
+debian:
+	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "debian"
+webserver:
+	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "webserver"
 rails:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "rails"
 vscode:
