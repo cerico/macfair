@@ -1,3 +1,12 @@
+## [0.14.1](https://github.com/cerico/macfair/compare/v0.14.0...v0.14.1) (2023-03-12)
+
+
+### Bug Fixes
+
+* improved handling of sudoing on remote box ([4805ca8](https://github.com/cerico/macfair/commit/4805ca8c98318fd1b58cb784271c2a6b46a5d4d9))
+
+
+
 # [0.14.0](https://github.com/cerico/macfair/compare/v0.13.0...v0.14.0) (2023-03-12)
 
 
