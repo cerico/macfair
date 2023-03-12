@@ -1,7 +1,11 @@
 ANSIBLE=$$(python3 -m site --user-base)/bin/
 COMMIT_FILE = .git/.commit-msg-template
-keys:
-	${ANSIBLE}ansible-playbook keys.yml -i hosts
+userkeys:
+	${ANSIBLE}ansible-playbook keys/keys.yml -i hosts
+rootkeys:
+	${ANSIBLE}ansible-playbook keys/root.yml -i hosts  -e "ansible_user=root"
+remote_login:
+	${ANSIBLE}ansible-playbook remote_login.yml -i hosts -e "ansible_user=root"
 help:
 	cat README.md
 version:

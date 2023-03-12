@@ -1,0 +1,18 @@
+---
+- name: Setup remote login
+  hosts: [debian]
+  vars_prompt:
+    - name: "user_password"
+      prompt: "Enter a password for the user"
+      private: yes
+      encrypt: "md5_crypt" #need to have python-passlib installed in local machine before we can use it        
+      confirm: yes
+      salt_size: 7
+  roles:
+    - { role: whoami, tags: always }
+    - { role: sudo, tags: remote }
+
+- name: Are we ready?
+  hosts: localhost
+  roles:
+    - { role: checkhost, tags: always }
