@@ -37,3 +37,8 @@
   template:
     src: zsh/version.j2
     dest: ~{{ macbook_user.stdout }}/.zsh/version
+
+- name: Copy godaddy file
+  copy:
+    src: zsh/godaddy
+    dest: ~{{ macbook_user.stdout }}/.zsh/godaddy

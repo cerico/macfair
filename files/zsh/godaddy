@@ -1,0 +1,118 @@
+list_domains () {
+  curl -X 'GET' \
+    'https://api.godaddy.com/v1/domains' \
+    -H 'accept: application/json' \
+    -H "Authorization: sso-key $key" | jq -c '.[] | select( .status == "ACTIVE" ) ' | jq
+}
+
+show_domain () {
+  key=`godaddysecrets`
+  curl -X 'GET' \
+    'https://api.godaddy.com/v1/domains/yesmat.es' \
+    -H 'accept: application/json' \
+    -H "Authorization: sso-key $key" | jq
+}
+
+move_domain () {
+  echo "Coming soon, currently only able to move subdomains"
+}
+
+move_subdomain () {
+  subdomain=`echo $1 | cut -d'.' -f 1`
+  if [[ ${#subdomain} -lt 2 ]]; then
+    echo "subdomain too short"
+    return
+  fi
+  domain=`echo $1 | cut -d'.' -f 2-`
+  ip=$2
+  echo $domain
+  echo $subdomain
+  echo $ip
+  curl -X 'PUT' \
+  "https://api.godaddy.com/v1/domains/$domain/records/A/$subdomain" \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -H "Authorization: sso-key $key" \
+  -d '[
+  {
+    "data": "'"${ip}"'",
+    "port": 65535,
+    "priority": 0,
+    "protocol": "string",
+    "service": "string",
+    "ttl": 10800,
+    "type": "A",
+    "weight": 0
+  }
+]'
+}
+
+add_subdomain () {
+  subdomain=`echo $1 | cut -d'.' -f 1`
+  if [[ ${#subdomain} -lt 2 ]]; then
+    echo "subdomain too short"
+    return
+  fi
+  domain=`echo $1 | cut -d'.' -f 2-`
+  ip=$2
+  curl -X "PATCH" \
+  "https://api.godaddy.com/v1/domains/$domain/records" \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -H "Authorization: sso-key $key" \
+  -d '[
+  {
+    "data": "'"${ip}"'",
+    "name": "'"${subdomain}"'",
+    "port": 65535,
+    "priority": 0,
+    "protocol": "string",
+    "service": "string",
+    "ttl": 10800,
+    "type": "A",
+    "weight": 0
+  }
+]'
+}
+
+godaddy () {
+  ip=
+  key=`godaddysecrets`
+  if [[ $key != *:* ]]; then
+    echo "Add the following to ~.zsh/tokens\n\ngodaddysecrets () {\n  echo secrets:inthisformat\n}"
+    return
+  fi
+  if [[ $# -eq 0 ]] ; then
+    list_domains
+    return
+  fi
+  fields=`echo $1 | awk -F '.' '{print NF}'`
+  if [[ $fields -eq 3 ]]; then
+    actions=("Add $1" "Move $1" "List domains")
+  else
+    actions=("Move domain" "List domains")
+  fi
+  PS3='Select: '
+  select action in "${actions[@]}"; do
+    case $action in
+      "Add $1")   
+        vared -p "Enter ip of server to add $1 to: " -c ip
+        add_subdomain $1 $ip
+        break
+        ;;
+      "Move $1") 
+        vared -p "Enter ip of server to move $1 to: " -c ip
+        move_subdomain $1 $ip
+        break
+        ;;
+      "Move domain")
+        move_domain
+        break
+        ;;
+      "List domains")
+        list_domains
+        break
+        ;;
+    esac
+done
+}

@@ -1,4 +1,5 @@
 source ~/.zsh/git
+source ~/.zsh/godaddy
 source ~/.zsh/tokens
 source ~/.zsh/trialling
 source ~/.zsh/version
