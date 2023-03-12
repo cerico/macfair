@@ -1,6 +1,6 @@
 ---
-- name: Setup MacBook and pi
-  hosts: [macbook, pi]
+- name: Setup MacBook and debian
+  hosts: [macbook, debian]
   roles:
     - { role: whoami, tags: always }
     - { role: install, tags: install }
@@ -9,16 +9,19 @@
     - { role: rails, tags: rails }
     - { role: vscode, tags: vscode }
 
+- name: Setup debian machines
+  hosts: [debian]
+  roles:
+    - { role: install, tags: debian }
+    - { role: terminal, tags: debian }
+    - { role: aliases, tags: debian }
+    - { role: webserver, tags: [debian, webserver] }
+
 - name: setup macbook
   hosts: macbook
   roles:
     - { role: desktop, tags: desktop }
     - { role: elastic, tags: elastic }
-
-- name: setup pi
-  hosts: pi
-  roles:
-    - { role: pi, tags: pi }
 
 - name: Are we ready?
   hosts: localhost
