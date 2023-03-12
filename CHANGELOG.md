@@ -1,3 +1,12 @@
+# [0.12.0](https://github.com/cerico/macfair/compare/v0.11.3...v0.12.0) (2023-03-12)
+
+
+### Features
+
+* update installs and roles for debian targets ([4c66543](https://github.com/cerico/macfair/commit/4c6654394a84fccf0b46d7637aef82f2661bd49e))
+
+
+
 ## [0.11.3](https://github.com/cerico/macfair/compare/v0.11.2...v0.11.3) (2023-03-12)
 
 
