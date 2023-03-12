@@ -1,2 +1,3 @@
 ansible_user: "alison"
+user_that_will_sudo: "deploy"
 ansible_connection: ssh
