@@ -99,8 +99,12 @@
     - "netlify-cli"
     - "railway"
 
-- name: pip install jmespath
-  shell: pip3 install jmespath
+- name: pip installs
+  pip:
+    name: "{{ item }}"
+  with_items:
+    - "jmespath"
+    - "passlib"
 
 - name: Set a hostname
   ansible.builtin.hostname:
