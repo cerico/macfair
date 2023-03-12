@@ -1,3 +1,4 @@
-ansible_user: "alison"
-user_that_will_sudo: "deploy"
-ansible_connection: ssh
+ansible_user: "deploy"
+users_who_will_sudo:
+  - deploy
+  - mayo

@@ -1,18 +1,25 @@
 ---
-- name: add user to sudoers
-  template:
-    src: sudoers.j2
+- name: create sudoers
+  copy:
+    content: ""
     dest: /etc/sudoers.d/ansible
+    force: no
     mode: 0440
   become: true
   become_user: root
   when: ansible_os_family == "Debian"
 
+- name: add users to sudoers
+  lineinfile:
+    path: /etc/sudoers.d/ansible
+    line: "{{ item }} ALL=(ALL) NOPASSWD: ALL"
+  with_items: "{{ users_who_will_sudo }}"
 
-- name: Add the user {{ user_that_will_sudo }}
+- name: Add the users_who_will_sudo
   become: true
   become_user: root
   when: ansible_os_family == "Debian"
   ansible.builtin.user:
-    name: "{{ user_that_will_sudo }}"
+    name: "{{ item }}"
     password: "{{ user_password }}"
+  with_items: "{{ users_who_will_sudo }}"
