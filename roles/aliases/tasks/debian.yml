@@ -40,6 +40,9 @@
     path: ~/.zshrc
     line: export PATH="{{ python_location.stdout }}/bin:$PATH"
 
+- name: collect server info
+  shell: "curl -H 'User-Agent: keycdn-tools:https://google.com' 'https://tools.keycdn.com/geo.json?host={{ ansible_default_ipv4.address }}' > ~{{ macbook_user.stdout }}/provider.json"
+
 - name: copy motd
   copy:
     src: motd

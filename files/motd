@@ -5,8 +5,7 @@ UPTIME_MINUTES=$(expr `cat /proc/uptime | cut -d '.' -f1` % 31556926 % 86400 % 3
 
 # Basic info
 HOSTNAME=`uname -n`
-OS=`cat /etc/os-release | grep PRETTY | awk -F'=' '{print $2}'| tr -cd '[:alnum:] \n'`
-LOGO=`hostname | xargs figlet`
+LOGO=`hostname | awk -F"." '{print $1}' | xargs figlet`
 ROOT=`df -Ph | grep -w / | awk '{print $4}' | tr -d '\n'`
 
 # System load
@@ -23,6 +22,9 @@ MEMFREE=$(cat /proc/meminfo | grep -m 1 -w 'MemFree' | awk -F: '{print $2}')
 SWAPTOTAL=$(cat /proc/meminfo | grep -m 1 -w 'SwapTotal' | awk -F: '{print $2}')
 SWAPFREE=$(cat /proc/meminfo | grep -m 1 -w 'SwapFree' | awk -F: '{print $2}')
 
+#City
+CITY=`cat ~/provider.json | jq -r '.data.geo.city'`
+
 #Colours
 GREEN="\033[01;32m"
 CYAN="\033[01;36m"
@@ -32,13 +34,19 @@ NC="\033[00m"
 echo  "
 ${WHITE}$LOGO${NC}
 ===============================================
- - Hostname............: $HOSTNAME
- - OS..................: $OS
- - Uptime..............: $UPTIME_DAYS days, $UPTIME_HOURS hours, $UPTIME_MINUTES minutes
- - Disk Space..........: ${CYAN}$ROOT ${NC}remaining
+  - Hostname............: $HOSTNAME
+  - Uptime..............: $UPTIME_DAYS days, $UPTIME_HOURS hours, $UPTIME_MINUTES minutes
+  - Disk Space..........: ${CYAN}$ROOT ${NC}remaining
 ===============================================
- - CPU usage...........: ${CYAN}$LOAD1, $LOAD5, $LOAD15 ${NC}(1, 5, 15 min)
- - Memory used.........: ${CYAN}$MEMORY1${NC} / ${GREEN}$MEMORY2 ${NC}
- - Swap in use.........: `free -m | tail -n 1 | awk '{print $3}'` MB
-==============================================="${NC}"
+  - CPU usage...........: ${CYAN}$LOAD1, $LOAD5, $LOAD15 ${NC}(1, 5, 15 min)
+  - Memory used.........: ${CYAN}$MEMORY1${NC} / ${GREEN}$MEMORY2 ${NC}
+  - Swap in use.........: `free -m | tail -n 1 | awk '{print $3}'` MB
+===============================================
+  - OS..................: `cat /etc/os-release | grep PRETTY | awk -F '=' '{ print $2 }' | tr -d '\"'`
+  - Kernel..............: `uname -r`"
+if [ ${#CITY} -gt 0 ];then
+echo "  - Location............: `cat ~/provider.json | jq -r '.data.geo.city'`"
+echo "  - Provider............: `cat ~/provider.json | jq -r '.data.geo.isp'`"
+fi
+echo "==============================================="${NC}"
 "
