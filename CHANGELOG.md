@@ -1,3 +1,12 @@
+## [0.11.3](https://github.com/cerico/macfair/compare/v0.11.2...v0.11.3) (2023-03-12)
+
+
+### Bug Fixes
+
+* add missing passlib install ([3a79168](https://github.com/cerico/macfair/commit/3a791680d31c38f1905a63eb91ba13cc9caf182c))
+
+
+
 ## [0.11.2](https://github.com/cerico/macfair/compare/v0.11.1...v0.11.2) (2023-03-12)
 
 
