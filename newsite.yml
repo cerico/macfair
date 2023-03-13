@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  connection: local 
+
+  vars_prompt:
+    - name: app_name
+      prompt: What is your app_name? - supply full url if you know it
+      private: no
+  tasks:
+    - name: Create main yml
+      template:
+        src: template.yml.j2
+        dest: "{{ playbook_dir }}/sites/{{ app_name }}.yml"
+    - name: Create nginx template
+      template:
+        src: template.nginx.conf.j2
+        dest: "{{ playbook_dir }}/sites/files/{{ app_name }}.nginx.conf"
+    - name: append to makefile.
+      lineinfile:
+        path: "{{ playbook_dir }}/sites/Makefile"
+        line: "{{ app_name }}:\n\tansible-playbook {{ app_name}}.yml -i ../hosts"
