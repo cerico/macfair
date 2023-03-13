@@ -1,3 +1,12 @@
+## [0.18.2](https://github.com/cerico/macfair/compare/v0.18.1...v0.18.2) (2023-03-13)
+
+
+### Bug Fixes
+
+* setup sudoers on localhost ([c22fc0b](https://github.com/cerico/macfair/commit/c22fc0b50aa30dccd793c48ad825e1a4cefc4d9d))
+
+
+
 ## [0.18.1](https://github.com/cerico/macfair/compare/v0.18.0...v0.18.1) (2023-03-13)
 
 
