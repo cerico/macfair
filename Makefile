@@ -50,3 +50,5 @@ debug:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "whoami" -vv
 up2date:
 	@zsh bin/up2date.sh
+newsite:
+	${ANSIBLE}ansible-playbook newsite.yml -i hosts
