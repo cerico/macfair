@@ -1,0 +1,42 @@
+---
+- hosts: localhost
+  connection: local 
+
+  vars_prompt:
+    - name: target
+      prompt: What is the hostname of the new target?
+      private: no
+    - name: user
+      prompt: What is the username of the default user?
+      private: no
+    - name: group
+      prompt: Which group to add to in inventory?
+      private: no
+  tasks:
+    - name: Create vars folder for new target
+      file:
+        path: "{{ playbook_dir }}/host_vars/{{ target }}"
+        state: directory
+
+    - name: Create main vars yml for target
+      template:
+        src: targetvars.yml.j2
+        dest: "{{ playbook_dir }}/host_vars/{{ target }}/vars.yml"
+
+    - name: Add target to inventory file.
+      lineinfile:
+        path: "{{ playbook_dir }}/hosts"
+        line: "{{ target }}"
+        insertafter: "{{ group }}"
+
+    - name: Add ansible user to ssh list.
+      lineinfile:
+        path: "{{ playbook_dir }}/host_vars/localhost.yml"
+        line: "  - { username: {{ user }}@{{ target }}, userkey: ~/.ssh/id_rsa.pub }"
+        insertafter: "users"
+
+    - name: Add root user to ssh list.
+      lineinfile:
+        path: "{{ playbook_dir }}/host_vars/localhost.yml"
+        line: "  - { username: root@{{ target }}, userkey: ~/.ssh/id_rsa.pub }"
+        insertafter: "root"
