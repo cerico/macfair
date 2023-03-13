@@ -17,13 +17,13 @@
 
     - name: Create vars folder for this hostname
       file:
-        path: "{{ playbook_dir }}/host_vars/{{ target }}"
+        path: "{{ playbook_dir }}/host_vars/{{ target }}.localhost"
         state: directory
 
     - name: Create main vars yml for target
       template:
         src: vars/this.yml.j2
-        dest: "{{ playbook_dir }}/host_vars/{{ target }}/vars.yml"
+        dest: "{{ playbook_dir }}/host_vars/{{ target }}.localhost/vars.yml"
 
     - name: Create main vars yml for target
       template:
