@@ -1,5 +1,6 @@
 ANSIBLE=$$(python3 -m site --user-base)/bin/
-COMMIT_FILE = .git/.commit-msg-template
+thistarget:
+	${ANSIBLE}ansible-playbook thistarget.yml
 userkeys:
 	${ANSIBLE}ansible-playbook keys/keys.yml -i hosts
 rootkeys:
@@ -10,13 +11,6 @@ help:
 	cat README.md
 version:
 	echo "release: `npm pkg get version`" > group_vars/all/vars.yml
-vars:
-	cp hosts.example hosts
-	sed -i "" -e s/`grep -w macbook hosts -A 2 | tail -1 hosts`/`hostname`/g hosts
-	cp host_vars/example.yml host_vars/`hostname`.yml
-	echo "users:" > host_vars/localhost.yml
-	echo "  - { username: `whoami`@`hostname`, userkey: ~/.ssh/id_rsa.pub }" >> host_vars/localhost.yml
-prepare: vars keys
 setup: ansible
 	${ANSIBLE}ansible-playbook setup.yml -i hosts
 install:

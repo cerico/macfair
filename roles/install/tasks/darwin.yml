@@ -106,11 +106,5 @@
     - "jmespath"
     - "passlib"
 
-- name: Set a hostname
-  ansible.builtin.hostname:
-    name: "{{ inventory_hostname }}"
-  when: ansible_os_family == "Darwin"
-
 - name: link node
   shell: /usr/local/bin/brew link --overwrite node@{{ node_version }}
-

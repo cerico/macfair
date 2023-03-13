@@ -20,7 +20,7 @@
 
     - name: Create main vars yml for target
       template:
-        src: targetvars.yml.j2
+        src: vars/target.yml.j2
         dest: "{{ playbook_dir }}/host_vars/{{ target }}/vars.yml"
 
     - name: Add target to inventory file.
