@@ -23,3 +23,25 @@
   with_items:
     - /var/www/html
     - /etc/nginx/conf.d
+
+- name: Copy nginx html to act as 404 for unconfigured urls
+  copy:
+    src: nginx/404.html
+    dest: /var/www/html/index.nginx-debian.html
+
+- name: copy 404 and 503 error pages to /usr/share/nginx/html
+  copy:
+    src: "{{ item }}"
+    dest: /usr/share/nginx/html
+  with_items:
+    - nginx/404.html
+    - nginx/503.html
+  become: true
+  become_user: root
+
+- name: copy custom errors.conf to nginx snippets conf
+  copy:
+    src: nginx/errors.conf
+    dest: /etc/nginx/snippets/errors.conf
+  become: true
+  become_user: root
