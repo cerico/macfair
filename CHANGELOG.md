@@ -1,3 +1,12 @@
+# [0.16.0](https://github.com/cerico/macfair/compare/v0.15.3...v0.16.0) (2023-03-13)
+
+
+### Features
+
+* add newsite target ([ad1fe9f](https://github.com/cerico/macfair/commit/ad1fe9ff0c3dc542cc33e9a4d3b9562aa2be637a))
+
+
+
 ## [0.15.3](https://github.com/cerico/macfair/compare/v0.15.2...v0.15.3) (2023-03-13)
 
 
