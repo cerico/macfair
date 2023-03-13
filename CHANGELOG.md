@@ -1,3 +1,13 @@
+## [0.18.1](https://github.com/cerico/macfair/compare/v0.18.0...v0.18.1) (2023-03-13)
+
+
+### Bug Fixes
+
+* correct location of generated host_vars directory ([5d94503](https://github.com/cerico/macfair/commit/5d945037a307dc5a5018c2c9e7349080962301d7))
+* update ansible collection requirements with community.general ([d4af3dd](https://github.com/cerico/macfair/commit/d4af3dddda981ba37faf1c5da58acb9f0a2dd617))
+
+
+
 # [0.18.0](https://github.com/cerico/macfair/compare/v0.17.1...v0.18.0) (2023-03-13)
 
 
