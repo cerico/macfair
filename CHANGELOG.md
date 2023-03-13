@@ -1,3 +1,12 @@
+# [0.17.0](https://github.com/cerico/macfair/compare/v0.16.0...v0.17.0) (2023-03-13)
+
+
+### Features
+
+* add rule to add new targets to inventory ([1edf234](https://github.com/cerico/macfair/commit/1edf234b28ca2c0d9c203eef7ad2539960468f56))
+
+
+
 # [0.16.0](https://github.com/cerico/macfair/compare/v0.15.3...v0.16.0) (2023-03-13)
 
 
