@@ -1,3 +1,13 @@
+## [0.15.1](https://github.com/cerico/macfair/compare/v0.15.0...v0.15.1) (2023-03-13)
+
+
+### Bug Fixes
+
+* add 404 and 503 error pages and handling to webserver role ([117626a](https://github.com/cerico/macfair/commit/117626aa290b1b578e7b0bdbc1c85ad2dacbfe59))
+* rename webserver role to nginx ([4f71677](https://github.com/cerico/macfair/commit/4f716770c86a2213608eee1be58522cfd7000b66))
+
+
+
 # [0.15.0](https://github.com/cerico/macfair/compare/v0.14.1...v0.15.0) (2023-03-12)
 
 
