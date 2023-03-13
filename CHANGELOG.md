@@ -1,3 +1,12 @@
+# [0.18.0](https://github.com/cerico/macfair/compare/v0.17.1...v0.18.0) (2023-03-13)
+
+
+### Features
+
+* add playbook to setup inventory and vars ([1f1b275](https://github.com/cerico/macfair/commit/1f1b2751dccbe74ad525a9dd6c5f85461c5163ff))
+
+
+
 ## [0.17.1](https://github.com/cerico/macfair/compare/v0.17.0...v0.17.1) (2023-03-13)
 
 
