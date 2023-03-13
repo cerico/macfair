@@ -29,11 +29,12 @@
     src: nginx/404.html
     dest: /var/www/html/index.nginx-debian.html
 
-- name: copy 404 and 503 error pages to /usr/share/nginx/html
+- name: copy 403, 404, and 503 error pages to /usr/share/nginx/html
   copy:
     src: "{{ item }}"
     dest: /usr/share/nginx/html
   with_items:
+    - nginx/403.html
     - nginx/404.html
     - nginx/503.html
   become: true
