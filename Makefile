@@ -27,8 +27,8 @@ elastic:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "elastic"
 debian:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "debian"
-webserver:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "webserver"
+nginx:
+	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "nginx"
 rails:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "rails"
 vscode:
