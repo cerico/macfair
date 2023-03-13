@@ -1,7 +1,7 @@
 ANSIBLE=$$(python3 -m site --user-base)/bin/
 thistarget:
 	${ANSIBLE}ansible-galaxy collection install -r requirements.yml
-	${ANSIBLE}ansible-playbook thistarget.yml
+	${ANSIBLE}ansible-playbook thistarget.yml --ask-become-pass
 userkeys:
 	${ANSIBLE}ansible-playbook keys/keys.yml -i hosts
 rootkeys:

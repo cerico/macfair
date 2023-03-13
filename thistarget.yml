@@ -1,7 +1,6 @@
 ---
 - hosts: localhost
   connection: local 
-
   vars_prompt:
     - name: target
       prompt: How you want to refer to this machine (hostname)
@@ -10,6 +9,10 @@
       prompt: Group in inventory file to add target to
       private: no
   tasks:
+    - name: get the username running the deploy
+      become: false
+      ansible.builtin.command: whoami
+      register: user
     - name: Create main vars yml for localhost
       template:
         src: vars/localhost.yml.j2
@@ -35,3 +38,7 @@
         path: "{{ playbook_dir }}/hosts"
         line: "{{ target }}.localhost"
         insertafter: "{{ group }}"
+
+    - name: setup passwordless sudo
+      include_role:
+        name: sudo

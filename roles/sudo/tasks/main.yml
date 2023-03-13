@@ -9,17 +9,34 @@
   become_user: root
   when: ansible_os_family == "Debian"
 
+- name: create sudoers
+  copy:
+    content: ""
+    dest: /etc/sudoers.d/ansible
+    force: no
+    mode: 0440
+  become: true
+  when: ansible_os_family == "Darwin"
+
 - name: add users to sudoers
   lineinfile:
     path: /etc/sudoers.d/ansible
     line: "{{ item }} ALL=(ALL) NOPASSWD: ALL"
-  with_items: "{{ users_who_will_sudo }}"
+  with_items: "{{ to_sudo }}"
+  when: ansible_os_family == "Debian"
 
-- name: Add the users_who_will_sudo
+- name: add users to sudoers
+  lineinfile:
+    path: /etc/sudoers.d/ansible
+    line: "{{ user.stdout }} ALL=(ALL) NOPASSWD: ALL"
+  when: ansible_os_family == "Darwin"
+  become: true
+
+- name: Add the to_sudo
   become: true
   become_user: root
   when: ansible_os_family == "Debian"
   ansible.builtin.user:
     name: "{{ item }}"
     password: "{{ user_password }}"
-  with_items: "{{ users_who_will_sudo }}"
+  with_items: "{{ to_sudo }}"
