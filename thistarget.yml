@@ -1,0 +1,37 @@
+---
+- hosts: localhost
+  connection: local 
+
+  vars_prompt:
+    - name: target
+      prompt: How you want to refer to this machine (hostname)
+      private: no
+    - name: group
+      prompt: Group in inventory file to add target to
+      private: no
+  tasks:
+    - name: Create main vars yml for localhost
+      template:
+        src: vars/localhost.yml.j2
+        dest: "{{ playbook_dir }}/host_vars/localhost.yml"
+
+    - name: Create vars folder for this hostname
+      file:
+        path: "{{ playbook_dir }}/host_vars/{{ target }}"
+        state: directory
+
+    - name: Create main vars yml for target
+      template:
+        src: vars/this.yml.j2
+        dest: "{{ playbook_dir }}/host_vars/{{ target }}/vars.yml"
+
+    - name: Create main vars yml for target
+      template:
+        src: vars/hosts.j2
+        dest: "{{ playbook_dir }}/hosts"
+
+    - name: Add target to inventory file.
+      lineinfile:
+        path: "{{ playbook_dir }}/hosts"
+        line: "{{ target }}.localhost"
+        insertafter: "{{ group }}"

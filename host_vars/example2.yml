@@ -1,4 +1,0 @@
-ansible_user: "deploy"
-users_who_will_sudo:
-  - deploy
-  - mayo

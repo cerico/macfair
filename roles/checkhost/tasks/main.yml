@@ -7,7 +7,6 @@
 - name: display post install message
   debug:
     msg:
-      - 'Host file not set up yet. To set it up run the following:'
-      - 'make prepare'
-      - Then edit resulting hosts file and hosts_vars/{{ ansible_hostname }}.yml file if necessary
+      - 'Host file not set up yet. To set it up run the following'
+      - 'make thistarget'
   when: not hosts.stat.exists
