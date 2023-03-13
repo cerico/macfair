@@ -9,3 +9,33 @@
     - name: Set up ssh key login for user
       shell: "ssh-copy-id -i {{ item.userkey | default(default_key) }} {{ item.username }}"
       with_items: "{{ users }}"
+
+- hosts: debian
+  tasks:
+    - debug:
+        var: hostvars['localhost']['users']
+
+    - name: create sshd rules file if doesnt exist
+      copy:
+        content: "PasswordAuthentication yes"
+        dest: /etc/ssh/sshd_config.d/10-disable-password-login.conf
+        force: no
+      become: true
+      become_user: root
+
+    - name: add lines to sshd rules file
+      lineinfile:
+        dest: /etc/ssh/sshd_config.d/10-disable-password-login.conf
+        line: "Match User {{ item.username  | split('@') | first }}\n   PasswordAuthentication no"
+      with_items:
+        - "{{ hostvars['localhost']['users'] }}"
+      when: 'inventory_hostname in item.username'
+      become: true
+      become_user: root
+
+    - name: Restart ssh
+      ansible.builtin.service:
+        name: sshd
+        state: restarted
+      become: true
+      become_user: root
