@@ -1,3 +1,12 @@
+## [0.17.1](https://github.com/cerico/macfair/compare/v0.17.0...v0.17.1) (2023-03-13)
+
+
+### Bug Fixes
+
+* set ansible tmp dir explicitly ([45c43c3](https://github.com/cerico/macfair/commit/45c43c313b14182e8984680bb049d8f4acd856a6))
+
+
+
 # [0.17.0](https://github.com/cerico/macfair/compare/v0.16.0...v0.17.0) (2023-03-13)
 
 
