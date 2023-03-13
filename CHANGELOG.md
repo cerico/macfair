@@ -1,3 +1,12 @@
+## [0.15.3](https://github.com/cerico/macfair/compare/v0.15.2...v0.15.3) (2023-03-13)
+
+
+### Bug Fixes
+
+* turn off password authentication for users with keys ([196358b](https://github.com/cerico/macfair/commit/196358b738f2239c951eb49f576a9f6da3f463b4))
+
+
+
 ## [0.15.2](https://github.com/cerico/macfair/compare/v0.15.1...v0.15.2) (2023-03-13)
 
 
