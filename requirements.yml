@@ -1,4 +1,3 @@
 ---
-- name: elliotweiser.osx-command-line-tools
-- name: geerlingguy.homebrew
-- name: gantsign.visual-studio-code-extensions
+collections:
+- community.general
