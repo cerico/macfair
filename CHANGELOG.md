@@ -1,3 +1,13 @@
+## [0.15.2](https://github.com/cerico/macfair/compare/v0.15.1...v0.15.2) (2023-03-13)
+
+
+### Bug Fixes
+
+* add an error page for 403 forbidden ([9919e07](https://github.com/cerico/macfair/commit/9919e074d027c618896daa7f76a2729b00622fea))
+* remove link to css in error pages ([d9fef63](https://github.com/cerico/macfair/commit/d9fef6338e1dd1072f1a9ab325833bfd67feafb8))
+
+
+
 ## [0.15.1](https://github.com/cerico/macfair/compare/v0.15.0...v0.15.1) (2023-03-13)
 
 
