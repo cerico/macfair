@@ -52,3 +52,5 @@ up2date:
 	@zsh bin/up2date.sh
 newsite:
 	${ANSIBLE}ansible-playbook newsite.yml -i hosts
+newtarget:
+	${ANSIBLE}ansible-playbook newtarget.yml -i hosts
