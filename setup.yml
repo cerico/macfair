@@ -15,7 +15,7 @@
     - { role: install, tags: debian }
     - { role: terminal, tags: debian }
     - { role: aliases, tags: debian }
-    - { role: webserver, tags: [debian, webserver] }
+    - { role: nginx, tags: [debian, nginx] }
 
 - name: setup macbook
   hosts: macbook
