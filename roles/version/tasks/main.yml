@@ -14,6 +14,6 @@
 - name: add version to file
   lineinfile:
     path: "~{{ macbook_user.stdout }}/.macfair/version"
-    line: "{{ parent_role_name }}: {{ hostvars['localhost']['macfair_version'].stdout }}"
+    line: "{{ parent_role_name }}: {{ hostvars['localhost']['macfair_version'].stdout[1:-1] }}"
     regexp: '{{ parent_role_name }}'
     insertbefore: BOF
