@@ -1,3 +1,13 @@
+## [0.18.4](https://github.com/cerico/macfair/compare/v0.18.3...v0.18.4) (2023-03-14)
+
+
+### Bug Fixes
+
+* simplify Makefile and setup.yml ([b088960](https://github.com/cerico/macfair/commit/b08896026d98ba0c58183d10325eb8bf8fc5b32d))
+* update readme and help docs ([6d35b31](https://github.com/cerico/macfair/commit/6d35b316a2c7b355b6c7a255882d863d1a2f3844))
+
+
+
 ## [0.18.3](https://github.com/cerico/macfair/compare/v0.18.2...v0.18.3) (2023-03-14)
 
 
