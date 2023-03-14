@@ -33,12 +33,15 @@
     src: git/commit-msg-template
     dest: ~{{ macbook_user.stdout }}/.gitmessage
 
-- name: Copy version file
-  template:
-    src: zsh/version.j2
-    dest: ~{{ macbook_user.stdout }}/.zsh/version
-
 - name: Copy godaddy file
   copy:
     src: zsh/godaddy
     dest: ~{{ macbook_user.stdout }}/.zsh/godaddy
+
+- name: print role name
+  set_fact:
+    parent_role_name:  "{{ role_name }}"
+
+- name: add version
+  include_role:
+    name: version

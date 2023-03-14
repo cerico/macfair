@@ -46,3 +46,11 @@
       path: "/Users/{{ brew_user.stdout }}/Applications/Visual\ Studio\ Code.app"
     - name: Firefox
       path: "/Users/{{ brew_user.stdout }}/Applications/Firefox.app"
+
+- name: print role name
+  set_fact:
+    parent_role_name:  "{{ role_name }}"
+
+- name: add version
+  include_role:
+    name: version

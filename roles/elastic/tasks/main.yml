@@ -7,3 +7,11 @@
 
 - name: remove tar
   command: rm elasticsearch-7.14.1-darwin-x86_64.tar.gz
+
+- name: print role name
+  set_fact:
+    parent_role_name:  "{{ role_name }}"
+
+- name: add version
+  include_role:
+    name: version

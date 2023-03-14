@@ -5,3 +5,11 @@
 - name: configure terminal for pi
   import_tasks: debian.yml
   when: ansible_os_family == "Debian"
+
+- name: print role name
+  set_fact:
+    parent_role_name:  "{{ role_name }}"
+
+- name: add version
+  include_role:
+    name: version

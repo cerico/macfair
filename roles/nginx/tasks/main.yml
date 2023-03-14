@@ -46,3 +46,11 @@
     dest: /etc/nginx/snippets/errors.conf
   become: true
   become_user: root
+
+- name: print role name
+  set_fact:
+    parent_role_name:  "{{ role_name }}"
+
+- name: add version
+  include_role:
+    name: version
