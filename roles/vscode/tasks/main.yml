@@ -71,3 +71,11 @@
     dest: ~{{ macbook_user.stdout }}/.vscode/themes
   with_fileglob:
     - themes/*
+
+- name: print role name
+  set_fact:
+    parent_role_name:  "{{ role_name }}"
+
+- name: add version
+  include_role:
+    name: version

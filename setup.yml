@@ -1,4 +1,12 @@
 ---
+- name: Get the version
+  hosts: localhost
+  tags: always
+  tasks:
+    - name: get version
+      ansible.builtin.command: npm pkg get version
+      register: macfair_version
+
 - name: Setup MacBook and debian
   hosts: [macbook, debian]
   roles:

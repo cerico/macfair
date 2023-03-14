@@ -1,4 +1,19 @@
-- name: get macfair version
-  become: false
-  ansible.builtin.command: npm pkg get version
-  register: macfair_version
+---
+- name: Create macfair if directory only if doesnt exist
+  file:
+    path: "~{{ macbook_user.stdout }}/.macfair"
+    state: directory
+    force: no
+
+- name: create empty version file only if doesnt already exist
+  copy:
+    content: ""
+    dest: ~{{ macbook_user.stdout }}/.macfair/version
+    force: no
+
+- name: add version to file
+  lineinfile:
+    path: "~{{ macbook_user.stdout }}/.macfair/version"
+    line: "{{ parent_role_name }}: {{ hostvars['localhost']['macfair_version'].stdout }}"
+    regexp: '{{ parent_role_name }}'
+    insertbefore: BOF

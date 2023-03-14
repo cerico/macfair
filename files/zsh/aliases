@@ -2,7 +2,6 @@ source ~/.zsh/git
 source ~/.zsh/godaddy
 source ~/.zsh/tokens
 source ~/.zsh/trialling
-source ~/.zsh/version
 export MARKPATH=$HOME/.marks
 alias sedi='sed -i "" -e'
 alias gr="git remote -v"
@@ -28,6 +27,10 @@ help() {
     return
   fi
   node $HOME/.zsh/help.js $1
+}
+
+macfair () {
+  cat ~/.macfair/version
 }
 
 batt () {

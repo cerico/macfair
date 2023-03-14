@@ -30,3 +30,11 @@
 
 - debug: var=brew_user.stdout
   when: ansible_os_family == "Darwin"
+
+- name: print role name
+  set_fact:
+    parent_role_name:  "{{ role_name }}"
+
+- name: add version
+  include_role:
+    name: version
