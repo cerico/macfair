@@ -1,6 +1,9 @@
 ANSIBLE=$$(python3 -m site --user-base)/bin/
-thistarget:
+update:
+	python3 -m pip install --upgrade pip
+	python3 -m pip install --user ansible
 	${ANSIBLE}ansible-galaxy collection install -r requirements.yml
+thistarget:
 	${ANSIBLE}ansible-playbook thistarget.yml --ask-become-pass
 userkeys:
 	${ANSIBLE}ansible-playbook keys/keys.yml -i hosts
@@ -10,8 +13,6 @@ remote_login:
 	${ANSIBLE}ansible-playbook remote_login.yml -i hosts -e "ansible_user=root"
 help:
 	cat README.md
-version:
-	echo "release: `npm pkg get version`" > group_vars/all/vars.yml
 setup:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "setup"
 install:
@@ -28,23 +29,15 @@ rails:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "rails"
 vscode:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "vscode"
-aliases: version
+aliases:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "aliases"
 desktop:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "desktop"
-slim: ansible
+slim:
 	@echo setting up cutdown version with no rails or elasticsearch
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --skip-tags rails,elastic
-update:
-	python3 -m pip install --upgrade pip
-	python3 -m pip install --user ansible
-ansible:
-	python3 -m pip install --user ansible
-	#${ANSIBLE}ansible-galaxy install -r requirements.yml - uncomment if necessary but think not needed anymore
 debug:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "whoami" -vv
-up2date:
-	@zsh bin/up2date.sh
 newsite:
 	${ANSIBLE}ansible-playbook newsite.yml -i hosts
 newtarget:
