@@ -1,3 +1,13 @@
+## [0.19.1](https://github.com/cerico/macfair/compare/v0.19.0...v0.19.1) (2023-03-14)
+
+
+### Bug Fixes
+
+* remove checkhost role and invoke directly in main playbook instead ([a159955](https://github.com/cerico/macfair/commit/a159955926e6682ba121cfb6a831c52ef81ba7ee))
+* remove unused targets from Makefile ([8ebf048](https://github.com/cerico/macfair/commit/8ebf0480d218c21f4b5b879465509d334541fbac))
+
+
+
 # [0.19.0](https://github.com/cerico/macfair/compare/v0.18.4...v0.19.0) (2023-03-14)
 
 
