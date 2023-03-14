@@ -1,3 +1,12 @@
+## [0.18.3](https://github.com/cerico/macfair/compare/v0.18.2...v0.18.3) (2023-03-14)
+
+
+### Bug Fixes
+
+* re-add example file to host_vars dir ([2e09603](https://github.com/cerico/macfair/commit/2e096037fe58dd06a5468319bf96ed1ebfba6898))
+
+
+
 ## [0.18.2](https://github.com/cerico/macfair/compare/v0.18.1...v0.18.2) (2023-03-13)
 
 
