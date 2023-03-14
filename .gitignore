@@ -1,9 +1,7 @@
 roles/.DS_Store
-!host_vars
 host_vars/*
 group_vars/all/vars.yml
 !host_vars/example.yml
-!host_vars/example2.yml
 !group_vars/all/example.yml
 hosts
 .vscode
