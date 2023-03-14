@@ -3,11 +3,11 @@
   hosts: [macbook, debian]
   roles:
     - { role: whoami, tags: always }
-    - { role: install, tags: install }
-    - { role: aliases, tags: [aliases, install] }
-    - { role: terminal, tags: terminal }
-    - { role: rails, tags: rails }
-    - { role: vscode, tags: vscode }
+    - { role: install, tags: [install, setup] }
+    - { role: aliases, tags: [aliases, install, setup] }
+    - { role: terminal, tags: [terminal, setup] }
+    - { role: rails, tags: [rails, setup] }
+    - { role: vscode, tags: [vscode, setup] }
 
 - name: Setup debian machines
   hosts: [debian]
@@ -20,8 +20,8 @@
 - name: setup macbook
   hosts: macbook
   roles:
-    - { role: desktop, tags: desktop }
-    - { role: elastic, tags: elastic }
+    - { role: desktop, tags: [desktop, setup] }
+    - { role: elastic, tags: [elastic, setup] }
 
 - name: Are we ready?
   hosts: localhost
