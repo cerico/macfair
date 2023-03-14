@@ -1,3 +1,12 @@
+## [0.19.2](https://github.com/cerico/macfair/compare/v0.19.1...v0.19.2) (2023-03-14)
+
+
+### Bug Fixes
+
+* strip quotes from version output for macfair command ([47083a7](https://github.com/cerico/macfair/commit/47083a794158db902a62335fc34e9876cb9e310e))
+
+
+
 ## [0.19.1](https://github.com/cerico/macfair/compare/v0.19.0...v0.19.1) (2023-03-14)
 
 
