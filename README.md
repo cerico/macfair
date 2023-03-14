@@ -1,123 +1,102 @@
 # Macfair
 
-Sets up your Mac (and RaspberryPi or Debian box) from scratch via Ansible. A replacement for dotfiles. With Ansible being idempotent, each command is only run if actually required
+Sets up your Mac (and any debian targets) from scratch via Ansible. A replacement for dotfiles. With Ansible being idempotent, each command is only run if actually required
 
 ## TLDR
 
+To set up and run all the roles, run the following
+
 ```
-make prepare
+make update
+make thistarget
 make setup
 ```
 
-### make prepare
+Or to set up specific roles, run individually eg
 
- - Copies the example hostfile to hosts and adds your hostname
- - Copies the example host_vars yaml to a file named after hostname
- - Copies ssh keys where necessary
+```
+make update
+make thistarget
+make install
+make terminal
+make rails
+```
 
-This prepares the macbook ready to be built. If running ansible on the target machine there's no more to do here. 
+# Roles
 
-If running ansible on a different machine, change ansible_connection from local to ssh in the newly created host_vars yml and add the hostname of the macbook to `/etc/hosts` on the machine running ansible. Then run the make keys step.
+### make update
 
-### make keys
-This step is only for building machines other than the macbook. A sample raspberry pi configuration is included. Any machines will need to be added to `/etc/hosts`. Users are added to the host_vars yaml created in tbe make prepare step in the format of the example users - userkey is an optional parameter if specifying an ssh key other than `~/.ssh/id_rsa.pub`. Make key will copy the keys to target machines users for passwordless access
+Updates ansible and any ansible-galaxy collections as listed in requirements.yml
 
+### make thistarget
+
+Sets up the host machine's inventory file and host_vars. This only needs to be run once to set up ansible correctly
 
 ### make setup
 
-`make setup` by default setups the macbook and a raspberry pi if present. it an be run from either machine. The setup.yml defines which roles are execiuted on the macbook, which roles are executed on the raspberry pi, and which on both. Each role can also be executed individually.
+Runs the install, aliases, terminal, rails, vscode, desktop, and elastic roles
 
-## Roles
+### make newtarget
 
-`make setup` runs all the roles, but each can be run individiually as follows
+Sets up another machine in the inventory file, typically a debian server such as a VPS or Raspberry PI. Also creates host_vars for the new machine
 
-### whoami
+### make rootkeys
 
-This isn't run directly, but all roles run it to establish
+Uses ssh-copy-id to copy root ssh keys to other machines, based on root users specified in host_vars/localhost.yml previously created with `make newtarget`
 
- - the username of the user running the playbook
- - the brew user
+### make remote_login
 
-The brew uesr is configured to make sure than on a multi-user system brew ownership stays consistent under one user, but can be used by other users
+Creates a user on remote machine and adds to sudoers. This uses a user previously added to host_vars/localhost.yml by `make newtarget`
 
-### install
+### make userkeys
 
-Installs all core packages on both macbook and debian raspberry pi. Can be run separately via `make install`. Add packages via `roles/install/tasks/darwin.yml` and `roles/install/tasks/debian.yml`
+Uses ssh-copy-id to copy ssh keys to other machines. This is for the non-root ansible user previously created in the `make remote_login` step
 
-### aliases
+### make debian
 
-Configures zsh and copies across any new aliases or paths. Can be run separately via `make aliases`
+Runs the install, aliases, terminal, and nginx roles. This runs on targets add to the debian group in the `make newtarget` step
 
-### terminal
+### make install
 
-Configures ohmyzsh and follows on from previous role. Can be run separately via `make terminal`. Likely to merge with above role
+Installs packages
 
-### rails
+### make aliases
 
-installs ruby, rbenv, and rails. Can be run separately via `make rails`
+Sets up the zsh/aliases files
 
-### vscode
+### make terminal
 
-Setup vscode with extensions, themes, snippets. Can be rjun separately via `make vscode`
+Sets up zsh
 
+### make rails
 
-### desktop
+Sets up Ruby on Rails
 
-Mac only role. configures gui elements, wallpapers, dock etc. Can be run separately via `make desktop`
+### make vscode
 
-### elastic
+Sets up vscode complete with extensions and themes
 
-Mac only role currently, installs and sets up elasticsearch. Can be run separately via `make elastic`
+### make desktop
 
-### slim
+Sets up dock and extensionsr. Runs on mac only
 
-Same as `mske setup` but skips the rails and elasticroles for a quicker playbook. Is run as `make slim`
+### make elastic
 
-### update
+Install elasticsearch
 
-Upgrades ansible. Run via `make update`
+### make nginx
 
-### ansible
+Install and setsup nginx. Runs on debian only
 
-Installs ansible if its missing. Run via `make ansible`
+### make debug
 
-### help
+debugs all the above!
+
+### make help
 
 Print this out, run via `make help`
 
+### make newsite
 
+Sets up nginx and certbot for a new site. Site doesn't need to be created yet, but domain/subdomain should be pointing to the correct ip first.
 
-
-
-
-
-## Installs and configures
-
-- Ansible
-- Node
-- Yarn
-- Ruby on Rails
-- gh
-- jq
-- tree
-- zsh
-- vscode
-- iterm
-- alfred
-- vagrant
-- redis
-- postgres
-- elasticsearch
-- netlify-cli
-- vercel
-
-# Partial setup
-
-`make setup` will run through the entire process of setting up your mac. Each time you want to update something, its ok to do this again - ansible being idempotent means it will skip steps it doesn't need to redo. However, modularizing the setup means we don't need to do that, we can just run one section, eg `make zsh` or `make vscode`, this is much quicker. 
-
-Each partial command is listed in the Makefile, with a corresponding role - zsh, vscode, rails, databases etc
-
-# TODO
-
-[ ] Split the roles out further
-[ ] Add a more minimal user
