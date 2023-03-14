@@ -12,8 +12,8 @@ help:
 	cat README.md
 version:
 	echo "release: `npm pkg get version`" > group_vars/all/vars.yml
-setup: ansible
-	${ANSIBLE}ansible-playbook setup.yml -i hosts
+setup:
+	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "setup"
 install:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "install"
 terminal:
