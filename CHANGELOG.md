@@ -1,3 +1,12 @@
+# [0.19.0](https://github.com/cerico/macfair/compare/v0.18.4...v0.19.0) (2023-03-14)
+
+
+### Features
+
+* add versioning ([3a7454d](https://github.com/cerico/macfair/commit/3a7454d0810d43041630242727eb34208497cb0b))
+
+
+
 ## [0.18.4](https://github.com/cerico/macfair/compare/v0.18.3...v0.18.4) (2023-03-14)
 
 
