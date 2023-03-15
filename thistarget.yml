@@ -13,6 +13,7 @@
       become: false
       ansible.builtin.command: whoami
       register: user
+
     - name: Create main vars yml for localhost
       template:
         src: vars/localhost.yml.j2
@@ -32,11 +33,13 @@
       template:
         src: vars/hosts.j2
         dest: "{{ playbook_dir }}/hosts"
+        force: no
 
     - name: Add target to inventory file.
       lineinfile:
         path: "{{ playbook_dir }}/hosts"
         line: "{{ target }}.localhost"
+        regexp: '.localhost'
         insertafter: "{{ group }}"
 
     - name: setup passwordless sudo
