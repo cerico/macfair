@@ -33,16 +33,5 @@
 
 - name: After everything
   hosts: localhost
-  tags: always
-  tasks:
-    - name: does host file exist?
-      stat:
-        path: hosts
-      register: hosts
-
-    - name: display post install message
-      debug:
-        msg:
-          - 'Host file not set up yet. To set it up run the following'
-          - 'make thistarget'
-      when: not hosts.stat.exists
+  roles:
+    - { role: afterwards, tags: always }

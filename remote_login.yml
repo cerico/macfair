@@ -15,4 +15,4 @@
 - name: Are we ready?
   hosts: localhost
   roles:
-    - { role: checkhost, tags: always }
+    - { role: afterwards, tags: always }
