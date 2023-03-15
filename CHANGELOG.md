@@ -1,3 +1,12 @@
+## [0.19.3](https://github.com/cerico/macfair/compare/v0.19.2...v0.19.3) (2023-03-15)
+
+
+### Bug Fixes
+
+* rename checkhost role to afterwards and only register if defined ([0e2e0e2](https://github.com/cerico/macfair/commit/0e2e0e249d5e590c15a694e2bfae69cf4fd59e7e))
+
+
+
 ## [0.19.2](https://github.com/cerico/macfair/compare/v0.19.1...v0.19.2) (2023-03-14)
 
 
