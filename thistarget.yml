@@ -34,7 +34,7 @@
         dest: "{{ playbook_dir }}/hosts"
         force: false
 
-    - name: Add target to inventory file whxen debian.
+    - name: Add target to inventory file when debian.
       lineinfile:
         path: "{{ playbook_dir }}/hosts"
         line: "{{ target }}.localhost"
@@ -42,7 +42,7 @@
         insertafter: "debian"
       when: ansible_os_family == "Debian"
 
-    - name: Add target to inventory file when.
+    - name: Add target to inventory file when darwin.
       lineinfile:
         path: "{{ playbook_dir }}/hosts"
         line: "{{ target }}.localhost"
