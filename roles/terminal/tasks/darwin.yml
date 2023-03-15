@@ -21,13 +21,14 @@
     name: "{{ macbook_user.stdout }}"
     shell: /bin/zsh
 
-- name: Create iterm preferences by opening
-  shell: open -a iTerm
-
 - name: register iterm location
   stat:
     path: ~{{ macbook_user.stdout }}/Library/Application Support/iTerm2
   register: iterm_path
+
+- name: Create iterm preferences by opening
+  shell: open -a iTerm
+  when: iterm_path.stat.exists
 
 - name: copy iterm profiles
   template:
