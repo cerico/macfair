@@ -1,3 +1,12 @@
+# [0.20.0](https://github.com/cerico/macfair/compare/v0.19.3...v0.20.0) (2023-03-15)
+
+
+### Features
+
+* add git alias for un-adding back to main ([7e3bc29](https://github.com/cerico/macfair/commit/7e3bc29599dab2ddb40cb2a4011b8b1e7208c763))
+
+
+
 ## [0.19.3](https://github.com/cerico/macfair/compare/v0.19.2...v0.19.3) (2023-03-15)
 
 
