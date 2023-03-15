@@ -1,3 +1,12 @@
+## [0.20.1](https://github.com/cerico/macfair/compare/v0.20.0...v0.20.1) (2023-03-15)
+
+
+### Bug Fixes
+
+* dont recreate host file if exists, replace localhost entry in host file ([f643249](https://github.com/cerico/macfair/commit/f643249294957b501232ce29486cdc873879ccc4))
+
+
+
 # [0.20.0](https://github.com/cerico/macfair/compare/v0.19.3...v0.20.0) (2023-03-15)
 
 
