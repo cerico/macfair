@@ -15,6 +15,7 @@
         templatedir = ~/.git-templates
 [alias]
         br = checkout -b
+        main = !git reset  $(git rev-parse main)
 [push]
         autoSetupRemote = true
 [core]
