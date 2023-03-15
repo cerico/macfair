@@ -1,3 +1,15 @@
+## [0.20.2](https://github.com/cerico/macfair/compare/v0.20.1...v0.20.2) (2023-03-15)
+
+
+### Bug Fixes
+
+* improve thistarget names ([b97980f](https://github.com/cerico/macfair/commit/b97980fa982a66efb3b6b582a8c1c631ccacc72c))
+* Only cope iterm profiles if iterm installed/setup ([195271b](https://github.com/cerico/macfair/commit/195271b8a7c39637c3c6c021f962c295aca0f730))
+* Supply current hostname to `make thistarget` as default ([834ac4f](https://github.com/cerico/macfair/commit/834ac4f0107439ad759d58b41641b66222052240))
+* Update 'make newtarget' with some defaults ([aad6cb9](https://github.com/cerico/macfair/commit/aad6cb937d97f05af6cb8955fc2afeb9cfc0b7aa))
+
+
+
 ## [0.20.1](https://github.com/cerico/macfair/compare/v0.20.0...v0.20.1) (2023-03-15)
 
 
