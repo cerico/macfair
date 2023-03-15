@@ -1,0 +1,36 @@
+name: Test
+on:        
+  push:
+    branches-ignore:
+      - main
+      
+jobs:
+  macbook:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Print the readme
+        run: make help
+
+      - name: Installs ansible and pip
+        run: make update 
+
+      - name: makes this target
+        run: $(python3 -m site --user-base)/bin/ansible-playbook thistarget.yml -i hosts -e "hostname=tavernier"
+
+      - name: Runs the debug target
+        run: make debug
+
+      - name: runs the terminal target
+        run: make terminal
+
+      - name: runs the aliases target
+        run: make aliases
+
+      - name: cat zshrc
+        run: cat ~/.macfair/version
+
+      - name: runs the newtarget target with vars to bypass prompt
+        run: $(python3 -m site --user-base)/bin/ansible-playbook newtarget.yml -i hosts -e "target=dox.io37.ch" -e "user=deploy" -e "group=debian"
