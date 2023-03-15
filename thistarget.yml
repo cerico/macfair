@@ -1,13 +1,12 @@
 ---
-- hosts: localhost
-  connection: local 
+- name: setup this machine
+  hosts: localhost
+  connection: local
   vars_prompt:
     - name: target
-      prompt: How you want to refer to this machine (hostname)
-      private: no
-    - name: group
-      prompt: Group in inventory file to add target to
-      private: no
+      prompt: How you want to refer to this machine
+      private: false
+      default: "{{ hostname }}"
   tasks:
     - name: get the username running the deploy
       become: false
@@ -33,14 +32,23 @@
       template:
         src: vars/hosts.j2
         dest: "{{ playbook_dir }}/hosts"
-        force: no
+        force: false
 
-    - name: Add target to inventory file.
+    - name: Add target to inventory file whxen debian.
       lineinfile:
         path: "{{ playbook_dir }}/hosts"
         line: "{{ target }}.localhost"
         regexp: '.localhost'
-        insertafter: "{{ group }}"
+        insertafter: "debian"
+      when: ansible_os_family == "Debian"
+
+    - name: Add target to inventory file when.
+      lineinfile:
+        path: "{{ playbook_dir }}/hosts"
+        line: "{{ target }}.localhost"
+        regexp: '.localhost'
+        insertafter: "macbook"
+      when: ansible_os_family == "Darwin"
 
     - name: setup passwordless sudo
       include_role:
