@@ -1,3 +1,12 @@
+## [0.21.3](https://github.com/cerico/macfair/compare/v0.21.2...v0.21.3) (2023-03-16)
+
+
+### Bug Fixes
+
+* Rename newtarget to newcomputer and documentation on rule ([091bee6](https://github.com/cerico/macfair/commit/091bee69a997f21edd5dc2b20854c592f1d8072a))
+
+
+
 ## [0.21.2](https://github.com/cerico/macfair/compare/v0.21.1...v0.21.2) (2023-03-16)
 
 
