@@ -81,4 +81,4 @@ rhyl.io37.ch               : ok=5    changed=3    unreachable=0    failed=0    s
 
 # NEXT STEPS
 
-Now we can run the `make debian` rule. You can read more about that [here](REMOTE_LOGIN.md)
+Now we can run the `make debian` rule. You can read more about that [here](DEBIAN.md)
