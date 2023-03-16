@@ -85,3 +85,7 @@ to_sudo:
 </pre>
 
 This vars file is created in a directory named after the specified hostname. This is recreated from scratch if the command is rerun with the same hostname. Don't add to or edit anything in this file as it will be overwritten if the command is re-reun. You can however add vars that won't be lost by creating new yaml files in this directory. Those will never be overwritten
+
+# NEXT STEPS
+
+Now we can run the `make rootkeys` rule. You can read more about that [here](ROOTKEYS.md)
