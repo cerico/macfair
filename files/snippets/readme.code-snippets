@@ -1,0 +1,27 @@
+{
+"readme": {
+  "prefix": "readme",
+  "body": [
+    "# $1",
+    "",
+    "Information",
+    "",
+    "## Features",
+    "",
+    "* Feature",
+    "* Feature",
+    "",
+    "## How To Use",
+    "",
+    "```bash",
+    "# install the packages",
+    "$ make install",
+    "",
+    "# Run the app",
+    "$ make start",
+    "```",
+    ""
+  ],
+  "description": "readme"
+}
+}

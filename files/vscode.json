@@ -17,6 +17,9 @@
   "[html]" : {
     "editor.defaultFormatter" : "vscode.html-language-features"
   },
+  "[markdown]":  {
+    "editor.quickSuggestions": true
+  },
   "workbench.iconTheme": "vscode-icons",
   "terminal.integrated.env.osx": {
     "FIG_NEW_SESSION": "1"
