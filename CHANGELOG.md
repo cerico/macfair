@@ -1,3 +1,13 @@
+## [0.21.10](https://github.com/cerico/macfair/compare/v0.21.9...v0.21.10) (2023-03-16)
+
+
+### Bug Fixes
+
+* corrected typos in docs ([41016ce](https://github.com/cerico/macfair/commit/41016cebe81f7c6ffc78c1c336e175acd30c013a))
+* Update documentation for install playbook ([6651422](https://github.com/cerico/macfair/commit/6651422ae66e3afeca1617530e1b9dcb36b96ae6))
+
+
+
 ## [0.21.9](https://github.com/cerico/macfair/compare/v0.21.8...v0.21.9) (2023-03-16)
 
 
