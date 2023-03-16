@@ -47,7 +47,6 @@
     src: help.js
     dest: ~{{ macbook_user.stdout }}/.zsh/help.js
 
-
 - name: Register ansible location
   become: false
   shell: command python3 -m site --user-base
