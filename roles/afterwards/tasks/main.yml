@@ -8,5 +8,5 @@
   debug:
     msg:
       - 'Host file not set up yet. To set it up run the following'
-      - 'make thistarget'
+      - 'make thiscomputer'
   when: not hosts.stat.exists

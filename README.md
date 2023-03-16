@@ -11,7 +11,7 @@ To set up and run all the roles, run the following
 
 ```
 make update
-make thistarget
+make thiscomputer
 make setup
 ```
 
@@ -19,7 +19,7 @@ Or to set up specific roles, run individually eg
 
 ```
 make update
-make thistarget
+make thiscomputer
 make install
 make terminal
 make rails
@@ -31,7 +31,7 @@ make rails
 
 Updates ansible and any ansible-galaxy collections as listed in requirements.yml
 
-### make thistarget
+### make thiscomputer
 
 Sets up the host machine's inventory file and host_vars. This only needs to be run once to set up ansible correctly
 
