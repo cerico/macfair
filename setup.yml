@@ -1,11 +1,14 @@
 ---
-- name: before everything
+- name: Before everything
   hosts: localhost
   tags: always
   tasks:
-    - name: get version
+    - name: Get version
       ansible.builtin.command: npm pkg get version
       register: macfair_version
+
+    - name: Print version
+      debug: var=macfair_version.stdout
 
 - name: Setup MacBook and debian
   hosts: [macbook, debian]
@@ -25,7 +28,7 @@
     - { role: aliases, tags: debian }
     - { role: nginx, tags: [debian, nginx] }
 
-- name: setup macbook
+- name: Setup macbook
   hosts: macbook
   roles:
     - { role: desktop, tags: [desktop, setup] }

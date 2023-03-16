@@ -1,5 +1,5 @@
 ANSIBLE=$$(python3 -m site --user-base)/bin/
-install:
+update:
 	python3 -m pip install --upgrade pip
 	python3 -m pip install --user ansible
 	${ANSIBLE}ansible-galaxy collection install -r requirements.yml
@@ -13,10 +13,12 @@ remote_login:
 	${ANSIBLE}ansible-playbook remote_login.yml -i hosts -e "ansible_user=root"
 help:
 	cat README.md
-setup:
+macbook:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "setup"
 terminal:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "terminal"
+install:
+	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "install"
 elastic:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "elastic"
 debian:
