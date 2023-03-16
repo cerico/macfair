@@ -1,3 +1,12 @@
+## [0.21.2](https://github.com/cerico/macfair/compare/v0.21.1...v0.21.2) (2023-03-16)
+
+
+### Bug Fixes
+
+* Rename thistarget to thiscomputer and documentation on rule ([8516e95](https://github.com/cerico/macfair/commit/8516e95c1ced4c5eaf9338f9e0e85807e90594b1))
+
+
+
 ## [0.21.1](https://github.com/cerico/macfair/compare/v0.21.0...v0.21.1) (2023-03-16)
 
 
