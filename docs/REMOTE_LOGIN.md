@@ -1,6 +1,4 @@
-# REMOTE_LOGIN
-
-Information
+# REMOTE_LOGIN PLAYBOOK
 
 ## What it does
 
