@@ -27,13 +27,13 @@ make rails
 
 # Roles
 
-### make update
+### make install
 
-Updates ansible and any ansible-galaxy collections as listed in requirements.yml
+Read more [here](docs/INSTALL.md)
 
 ### make thiscomputer
 
-Sets up the host machine's inventory file and host_vars. This only needs to be run once to set up ansible correctly
+Read more [here](docs/THISCOMPUTER.md)
 
 ### make setup
 
@@ -41,19 +41,19 @@ Runs the install, aliases, terminal, rails, vscode, desktop, and elastic roles
 
 ### make newcomputer
 
-Sets up another machine in the inventory file, typically a debian server such as a VPS or Raspberry PI. Also creates host_vars for the new machine
+Read more [here](docs/NEWCOMPUTER.md)
 
 ### make rootkeys
 
-Uses ssh-copy-id to copy root ssh keys to other machines, based on root users specified in host_vars/localhost.yml previously created with `make newcomputer`
+Read more [here](docs/ROOTKEYS.md)
 
 ### make remote_login
 
-Creates a user on remote machine and adds to sudoers. This uses a user previously added to host_vars/localhost.yml by `make newcomputer`
+Read more [here](docs/REMOTE_LOGIN.md)
 
 ### make userkeys
 
-Uses ssh-copy-id to copy ssh keys to other machines. This is for the non-root ansible user previously created in the `make remote_login` step
+Read more [here](docs/USERKEYS.md)
 
 ### make debian
 
