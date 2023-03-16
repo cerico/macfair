@@ -17,7 +17,7 @@ Information
 $ make rootkeys
 ```
 
-This will ssh-copy-id any kets found in the root section of `host_vars/localhost.yml` previously created by the `make newcomputer` step, eg
+This will ssh-copy-id any keys found in the root section of `host_vars/localhost.yml` previously created by the `make newcomputer` step, eg
 
 <pre>
 # host_vars/localhost.yml
