@@ -1,3 +1,13 @@
+## [0.21.6](https://github.com/cerico/macfair/compare/v0.21.5...v0.21.6) (2023-03-16)
+
+
+### Bug Fixes
+
+* Lint remote_login and sudo role ymls ([8aa1f2e](https://github.com/cerico/macfair/commit/8aa1f2e60aa6c3354f8f8fbe061e9980f8d28411))
+* Update documentation for remote_login rule ([2887863](https://github.com/cerico/macfair/commit/2887863daca565fa47764e427f3cc0049b2c10e6))
+
+
+
 ## [0.21.5](https://github.com/cerico/macfair/compare/v0.21.4...v0.21.5) (2023-03-16)
 
 
