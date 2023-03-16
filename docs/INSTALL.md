@@ -1,4 +1,4 @@
-# INSTALL
+# INSTALL RULE
 
 Install ansible, pip, and the contents of the requirements.yml via ansible-galaxy. To upgrade its the same command as to install initially
 
