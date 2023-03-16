@@ -1,3 +1,12 @@
+## [0.21.4](https://github.com/cerico/macfair/compare/v0.21.3...v0.21.4) (2023-03-16)
+
+
+### Bug Fixes
+
+* Update errors in newcomputer documentation ([7484ecc](https://github.com/cerico/macfair/commit/7484ecc87995f92242ae3e46b7bb21748b88345b))
+
+
+
 ## [0.21.3](https://github.com/cerico/macfair/compare/v0.21.2...v0.21.3) (2023-03-16)
 
 
