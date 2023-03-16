@@ -2,7 +2,7 @@
 
 Install ansible, pip, and the contents of the requirements.yml via ansible-galaxy. To upgrade its the same command as to install initially
 
-## Features
+## What it does
 
 * Installs pip
 * Installs ansible
