@@ -1,3 +1,12 @@
+## [0.21.9](https://github.com/cerico/macfair/compare/v0.21.8...v0.21.9) (2023-03-16)
+
+
+### Bug Fixes
+
+* Update documentation for debian playbook ([e188f22](https://github.com/cerico/macfair/commit/e188f22b06ecd18c46d9b68f95f091f6f4e58d6d))
+
+
+
 ## [0.21.8](https://github.com/cerico/macfair/compare/v0.21.7...v0.21.8) (2023-03-16)
 
 
