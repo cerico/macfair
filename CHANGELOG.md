@@ -1,3 +1,12 @@
+## [0.20.3](https://github.com/cerico/macfair/compare/v0.20.2...v0.20.3) (2023-03-16)
+
+
+### Bug Fixes
+
+* Display action status in readme ([d8b41a5](https://github.com/cerico/macfair/commit/d8b41a51c96bf3ebcd198275541ec829e450ee42))
+
+
+
 ## [0.20.2](https://github.com/cerico/macfair/compare/v0.20.1...v0.20.2) (2023-03-15)
 
 
