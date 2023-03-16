@@ -1,5 +1,5 @@
 ANSIBLE=$$(python3 -m site --user-base)/bin/
-update:
+install:
 	python3 -m pip install --upgrade pip
 	python3 -m pip install --user ansible
 	${ANSIBLE}ansible-galaxy collection install -r requirements.yml
@@ -15,8 +15,6 @@ help:
 	cat README.md
 setup:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "setup"
-install:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "install"
 terminal:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "terminal"
 elastic:
@@ -40,5 +38,5 @@ debug:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "whoami" -vv
 newsite:
 	${ANSIBLE}ansible-playbook newsite.yml -i hosts
-newtarget:
-	${ANSIBLE}ansible-playbook newtarget.yml -i hosts
+newcomputer:
+	${ANSIBLE}ansible-playbook newcomputer.yml -i hosts
