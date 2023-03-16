@@ -1,3 +1,12 @@
+## [0.21.7](https://github.com/cerico/macfair/compare/v0.21.6...v0.21.7) (2023-03-16)
+
+
+### Bug Fixes
+
+* Update documentation for userkeys rule ([61cfdde](https://github.com/cerico/macfair/commit/61cfdde863c435b6467f2caca380ee5085c70d20))
+
+
+
 ## [0.21.6](https://github.com/cerico/macfair/compare/v0.21.5...v0.21.6) (2023-03-16)
 
 
