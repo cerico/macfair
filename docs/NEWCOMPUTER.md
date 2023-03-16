@@ -1,6 +1,6 @@
 # NEWCOMPUTER
 
-Sets up the host machine, ready to run the other roles
+Sets up another machine, typically a debian computer such as a VPS or raspberry pi.
 
 ## What it does
 
@@ -57,7 +57,7 @@ localhost                  : ok=6    changed=2    unreachable=0    failed=0    s
 tavernier.localhost
 
 <b>[debian]
-dox.io37.ch</b>
+rhyl.io37.ch</b>
 
 [unused]
 wilson
