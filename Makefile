@@ -3,8 +3,8 @@ update:
 	python3 -m pip install --upgrade pip
 	python3 -m pip install --user ansible
 	${ANSIBLE}ansible-galaxy collection install -r requirements.yml
-thistarget:
-	${ANSIBLE}ansible-playbook thistarget.yml --ask-become-pass -e "hostname=`hostname`"
+thiscomputer:
+	${ANSIBLE}ansible-playbook thiscomputer.yml --ask-become-pass -e "hostname=`hostname`"
 userkeys:
 	${ANSIBLE}ansible-playbook keys/keys.yml -i hosts
 rootkeys:

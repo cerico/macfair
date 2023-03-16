@@ -17,6 +17,7 @@
       template:
         src: vars/localhost.yml.j2
         dest: "{{ playbook_dir }}/host_vars/localhost.yml"
+        force: false
 
     - name: Create vars folder for this hostname
       file:
@@ -53,3 +54,8 @@
     - name: setup passwordless sudo
       include_role:
         name: sudo
+
+    - name: Set a hostname
+      become: true
+      ansible.builtin.hostname:
+        name: "{{ target }}"
