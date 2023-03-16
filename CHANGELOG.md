@@ -1,3 +1,12 @@
+# [0.21.0](https://github.com/cerico/macfair/compare/v0.20.3...v0.21.0) (2023-03-16)
+
+
+### Features
+
+* add snippets for readme ([bffa4c1](https://github.com/cerico/macfair/commit/bffa4c166b2605e8bce23603799cd8613d762684))
+
+
+
 ## [0.20.3](https://github.com/cerico/macfair/compare/v0.20.2...v0.20.3) (2023-03-16)
 
 
