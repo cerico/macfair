@@ -1,3 +1,12 @@
+## [0.21.8](https://github.com/cerico/macfair/compare/v0.21.7...v0.21.8) (2023-03-16)
+
+
+### Bug Fixes
+
+* Update readme w links to individual docs sections ([542065b](https://github.com/cerico/macfair/commit/542065b17971a1c928dc5d30a4172a0f06911c17))
+
+
+
 ## [0.21.7](https://github.com/cerico/macfair/compare/v0.21.6...v0.21.7) (2023-03-16)
 
 
