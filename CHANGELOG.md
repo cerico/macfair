@@ -1,3 +1,13 @@
+## [0.21.5](https://github.com/cerico/macfair/compare/v0.21.4...v0.21.5) (2023-03-16)
+
+
+### Bug Fixes
+
+* Rename features to 'what it does' in readme snippet ([b160ab5](https://github.com/cerico/macfair/commit/b160ab5a580aecb7c447d4fa1bc15db7c6194a59))
+* Update documentation for rootkeys role ([26490f0](https://github.com/cerico/macfair/commit/26490f071670441b0168b53d7933d47e736f3d2e))
+
+
+
 ## [0.21.4](https://github.com/cerico/macfair/compare/v0.21.3...v0.21.4) (2023-03-16)
 
 
