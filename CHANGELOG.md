@@ -1,3 +1,12 @@
+## [0.21.1](https://github.com/cerico/macfair/compare/v0.21.0...v0.21.1) (2023-03-16)
+
+
+### Bug Fixes
+
+* Add readme templates for each section ([76877b2](https://github.com/cerico/macfair/commit/76877b28813b5eea6b330dba9f9c5aefc8fe8ba4))
+
+
+
 # [0.21.0](https://github.com/cerico/macfair/compare/v0.20.3...v0.21.0) (2023-03-16)
 
 
