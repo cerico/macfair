@@ -31,4 +31,4 @@ Each of these roles can be run individually with their own make command, or coll
 * [INSTALL.md](INSTALL.md)
 * [TERMINAL.md](TERMINAL.md)
 * [ALIASES.md](ALIASES.md)
-* [NGINXL.md](NGINXL.md)
+* [NGINX.md](NGINX.md)
