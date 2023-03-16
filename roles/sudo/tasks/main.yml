@@ -1,9 +1,9 @@
 ---
-- name: create sudoers
-  copy:
+- name: Create the sudoers
+  ansible.builtin.copy:
     content: ""
     dest: /etc/sudoers.d/ansible
-    force: no
+    force: false
     mode: 0440
   become: true
   become_user: root
@@ -13,7 +13,7 @@
   copy:
     content: ""
     dest: /etc/sudoers.d/ansible
-    force: no
+    force: false
     mode: 0440
   become: true
   when: ansible_os_family == "Darwin"

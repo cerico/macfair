@@ -4,9 +4,9 @@
   vars_prompt:
     - name: "user_password"
       prompt: "Enter a password for user that will sudo"
-      private: yes
-      encrypt: "md5_crypt" #need to have python-passlib installed in local machine before we can use it        
-      confirm: yes
+      private: true
+      encrypt: "md5_crypt"
+      confirm: true
       salt_size: 7
   roles:
     - { role: whoami, tags: always }
