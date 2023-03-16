@@ -39,17 +39,17 @@ Sets up the host machine's inventory file and host_vars. This only needs to be r
 
 Runs the install, aliases, terminal, rails, vscode, desktop, and elastic roles
 
-### make newtarget
+### make newcomputer
 
 Sets up another machine in the inventory file, typically a debian server such as a VPS or Raspberry PI. Also creates host_vars for the new machine
 
 ### make rootkeys
 
-Uses ssh-copy-id to copy root ssh keys to other machines, based on root users specified in host_vars/localhost.yml previously created with `make newtarget`
+Uses ssh-copy-id to copy root ssh keys to other machines, based on root users specified in host_vars/localhost.yml previously created with `make newcomputer`
 
 ### make remote_login
 
-Creates a user on remote machine and adds to sudoers. This uses a user previously added to host_vars/localhost.yml by `make newtarget`
+Creates a user on remote machine and adds to sudoers. This uses a user previously added to host_vars/localhost.yml by `make newcomputer`
 
 ### make userkeys
 
@@ -57,7 +57,7 @@ Uses ssh-copy-id to copy ssh keys to other machines. This is for the non-root an
 
 ### make debian
 
-Runs the install, aliases, terminal, and nginx roles. This runs on targets add to the debian group in the `make newtarget` step
+Runs the install, aliases, terminal, and nginx roles. This runs on targets add to the debian group in the `make newcomputer` step
 
 ### make install
 
