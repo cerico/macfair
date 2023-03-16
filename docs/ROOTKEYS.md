@@ -8,7 +8,8 @@ Information
 
 ## Pre-requisites
 
-`make newcomputer` should have been run before this step. You can read about that [here](../NEWCOMPUTER.md)
+`make newcomputer` should have been run before this step. You can read about that [here](NEWCOMPUTER.md)
+
 ## How To Use
 
 ```bash
@@ -21,7 +22,7 @@ This will ssh-copy-id any kets found in the root section of `host_vars/localhost
 <pre>
 # host_vars/localhost.yml
 users:
-  - { username: deploy@rhyl.io37.ch, userkey: ~/.ssh/id_rsa.pub }
+  - { username: alison@rhyl.io37.ch, userkey: ~/.ssh/id_rsa.pub }
 root:
   <b>- { username: root@rhyl.io37.ch, userkey: ~/.ssh/id_rsa.pub }</b>
 </pre>
@@ -60,4 +61,6 @@ PLAY RECAP *********************************************************************
 localhost                  : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
-Read more in the main [README.md](../README.md)
+# NEXT STEPS
+
+Now we can run the `make remote_login` rule. You can read more about that [here](REMOTE_LOGIN.md)
