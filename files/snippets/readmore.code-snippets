@@ -1,0 +1,9 @@
+{
+"readmore": {
+  "prefix": "readmore",
+  "body": [
+    "read more in the main [README.md](../README.md)"
+  ],
+  "description": "readmore"
+}
+}
