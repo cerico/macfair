@@ -13,7 +13,7 @@
 $ make vscode
 ```
 
-Is also run automatically by `make macbook`
+Is also run automatically by `make setup`
 
 By default runs on all targets, example run below shows role executing on both mac target (kelso.localhost) and debian target (rhyl.io37.ch)
 

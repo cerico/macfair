@@ -11,7 +11,7 @@
 $ make desktop
 ```
 
-Is also run automatically as part of `make macbook`
+Is also run automatically as part of `make setup`
 
 Only runs on targets in the macbook group
 
