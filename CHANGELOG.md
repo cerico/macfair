@@ -1,3 +1,12 @@
+## [0.22.1](https://github.com/cerico/macfair/compare/v0.22.0...v0.22.1) (2023-03-17)
+
+
+### Bug Fixes
+
+* update nginx doc to show generated nginx.conf example ([8b90cbb](https://github.com/cerico/macfair/commit/8b90cbb0bd6bc49196d0f4887a79fe1bbda75b58))
+
+
+
 # [0.22.0](https://github.com/cerico/macfair/compare/v0.21.14...v0.22.0) (2023-03-17)
 
 
