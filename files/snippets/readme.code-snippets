@@ -1,27 +1,39 @@
 {
-"readme": {
-  "prefix": "readme",
-  "body": [
-    "# $1",
-    "",
-    "Information",
-    "",
-    "## What it does",
-    "",
-    "* Feature",
-    "* Feature",
-    "",
-    "## How To Use",
-    "",
-    "```bash",
-    "# install the packages",
-    "$ make install",
-    "",
-    "# Run the app",
-    "$ make start",
-    "```",
-    ""
-  ],
-  "description": "readme"
-}
+  "readme": {
+    "prefix": "readme",
+    "body": [
+      "# ${1/(.*)/${1:/upcase}/}",
+      "",
+      "Information",
+      "",
+      "## What it does",
+      "",
+      "* Feature",
+      "* Feature",
+      "",
+      "## How To Use",
+      "",
+      "```bash",
+      "# install the packages",
+      "$ make install",
+      "",
+      "# Run the app",
+      "$ make start",
+      "```",
+      ""
+    ],
+  },
+  "readmore": {
+    "prefix": "readmore",
+    "body": [ "Read more in the main [README.md](../README.md)"],
+    "description": "readmore"
+  },
+  "dochere": {
+    "prefix": "dochere",
+    "body": ["[here](docs/${1/(.*)/${1:/upcase}/}.md)"],
+  },
+  "Doclink": {
+    "prefix": "doclink",
+    "body": "[${1}](docs/${1/(.*)/${1:/upcase}/}.md)"
+  }
 }
