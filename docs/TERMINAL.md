@@ -12,7 +12,7 @@
 $ make terminal
 ```
 
-Is also run automatically by both `make macbook` and `make debian`
+Is also run automatically by both `make setup` and `make debian`
 
 By default runs on all targets, example run below shows role executing on both mac target (kelso.localhost) and debian target (rhyl.io37.ch)
 

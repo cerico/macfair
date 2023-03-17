@@ -13,7 +13,7 @@
 $ make debian
 ```
 
-This only executes on hosts in the debian group in the inventory file (hosts). It executes the install, terminal, aliases, and nginx roles, as seen below
+This only executes on hosts in the debian group in the inventory file (hosts). It runs all roles tagged with 'debian' as shown below
 
 ```yml
 # setup.yml

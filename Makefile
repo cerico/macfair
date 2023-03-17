@@ -13,7 +13,7 @@ remote_login:
 	${ANSIBLE}ansible-playbook remote_login.yml -i hosts -e "ansible_user=root"
 help:
 	cat README.md
-macbook:
+setup:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "setup"
 terminal:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "terminal"

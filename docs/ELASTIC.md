@@ -10,7 +10,7 @@ Installs ElasticSearch
 $ make elastic
 ```
 
-Is also run automatically as part of both `make macbook` and `make debian`
+Is also run automatically as part of both `make setup` and `make debian`
 
 Runs on both macbook and debian targets
 
