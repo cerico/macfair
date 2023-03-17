@@ -83,9 +83,49 @@ localhost                  : ok=4    changed=3    unreachable=0    failed=0    s
 
 # Results
 
-A 403 page is shown on the index route, 404 pages are shown for all other routes. All pages are certified
+Creates the following nginx.conf file
 
-![404](../docs/404.png "404")
+```bash
+# /etc/nginx/conf.d/rhyl.io37.ch.conf
+server {
+    server_name rhyl.io37.ch;
+    location = /favicon.ico {
+      alias /var/www/html/favicon.ico;
+    }
+    root /var/www/html/rhyl.io37.ch;
+    index index.html;
+    include snippets/errors.conf;
+    add_header Content-Security-Policy "font-src 'self' https://rsms.me  https://*.gstatic.com data:; frame-src 'se
+lf'; connect-src 'self' https://apis.google.com; object-src 'none'; img-src 'self' https://*.ggpht.com https://*.go
+ogleapis.com https://*.gstatic.com data:; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://d3js.org https://
+*.googleapis.com; style-src 'self' https://rsms.me https://*.googleapis.com 'unsafe-inline';form-action 'self'; bas
+e-uri 'self';default-src 'self';frame-ancestors 'self'";
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/rhyl.io37.ch/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/rhyl.io37.ch/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+}
+server {
+    if ($host = rhyl.io37.ch) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    server_name rhyl.io37.ch;
+    listen 80;
+    return 404; # managed by Certbot
+
+
+}
+```
+
+With 404 and 403 pages working as followd
+
+![404](../docs/404.png){:height="36px" width="36px"}
 
 ![403](../docs/403.png "403")
 
