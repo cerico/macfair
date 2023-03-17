@@ -27,79 +27,22 @@ make rails
 
 # Roles
 
-### make install
-
-Read more [here](docs/INSTALL.md)
-
-### make thiscomputer
-
-Read more [here](docs/THISCOMPUTER.md)
-
-### make setup
-
-Runs the install, aliases, terminal, rails, vscode, desktop, and elastic roles
-
-### make newcomputer
-
-Read more [here](docs/NEWCOMPUTER.md)
-
-### make rootkeys
-
-Read more [here](docs/ROOTKEYS.md)
-
-### make remote_login
-
-Read more [here](docs/REMOTE_LOGIN.md)
-
-### make userkeys
-
-Read more [here](docs/USERKEYS.md)
-
-### make debian
-
-Runs the install, aliases, terminal, and nginx roles. This runs on targets add to the debian group in the `make newcomputer` step
-
-### make install
-
-Installs packages
-
-### make aliases
-
-Sets up the zsh/aliases files
-
-### make terminal
-
-Sets up zsh
-
-### make rails
-
-Sets up Ruby on Rails
-
-### make vscode
-
-Sets up vscode complete with extensions and themes
-
-### make desktop
-
-Sets up dock and extensionsr. Runs on mac only
-
-### make elastic
-
-Install elasticsearch
-
-### make nginx
-
-Install and setsup nginx. Runs on debian only
-
-### make debug
-
-debugs all the above!
-
-### make help
-
-Print this out, run via `make help`
-
-### make newsite
-
-Sets up nginx and certbot for a new site. Site doesn't need to be created yet, but domain/subdomain should be pointing to the correct ip first.
-
+* [make update](docs/UPDATE.md)
+* [make thiscomputer](docs/THISCOMPUTER.md)
+* [make newcomputer](docs/NEWCOMPUTER.md)
+* [make rootkeys](docs/ROOTKEYS.md)
+* [make remote_login](docs/REMOTE_LOGIN.md)
+* [make userkeys](docs/USERKEYS.md)
+* [make setup](docs/SETUP.md)
+* [make debian](docs/DEBIAN.md)
+* [make install](docs/INSTALL.md)
+* [make aliases](docs/ALIASES.md)
+* [make terminal](docs/TERMINAL.md)
+* [make vscode](docs/VSCODE.md)
+* [make rails](docs/RAILS.md)
+* [make nginx](docs/NGINX.md)
+* [make desktop](docs/DESKTOP.md)
+* [make elastic](docs/ELASTIC.md)
+* [make newsite](docs/NEWSITE.md)
+* [make debug](docs/DEBUG.md)
+* [make help](docs/HELP.md)
