@@ -59,3 +59,13 @@ changed: [rhyl.io37.ch] => (item=nginx/503.html)
 TASK [nginx : copy custom errors.conf to nginx snippets conf] *************************************************************************
 changed: [rhyl.io37.ch]
 ```
+
+# Results
+
+A 404 page is shown for your URL.
+
+![404](404.png "404")
+
+# Next STEPS
+
+To prepare and cerify a site to go here, we need to run `make newsite`, and you can read more about that [here](NEWSITE.md)
