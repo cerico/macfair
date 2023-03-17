@@ -1,3 +1,17 @@
+# [0.22.0](https://github.com/cerico/macfair/compare/v0.21.14...v0.22.0) (2023-03-17)
+
+
+### Bug Fixes
+
+* rename target in test file ([8b99716](https://github.com/cerico/macfair/commit/8b997169fbe82e550be8608a4301f3b816915bbd))
+
+
+### Features
+
+* update readme snippets ([a1b733b](https://github.com/cerico/macfair/commit/a1b733b1f3b0681c831fd8d1b8dc3d0057ce1246))
+
+
+
 ## [0.21.14](https://github.com/cerico/macfair/compare/v0.21.13...v0.21.14) (2023-03-17)
 
 
