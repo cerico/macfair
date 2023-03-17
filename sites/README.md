@@ -81,6 +81,15 @@ PLAY RECAP *********************************************************************
 localhost                  : ok=4    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
+# Results
+
+A 403 page is shown on the index route, 404 pages are shown for all other routes. All pages are certified
+
+![404](../docs/404.png "404")
+
+![403](../docs/403.png "403")
+
+
 # NEXT STEPS
 
 Deploy a site to the URL
