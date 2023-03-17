@@ -1,4 +1,4 @@
-# MACBOOK PLAYBOOK
+# SETUP PLAYBOOK
 
 ## What it does
 
