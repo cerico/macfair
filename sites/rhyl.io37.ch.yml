@@ -1,0 +1,35 @@
+---
+- hosts: localhost
+  tasks:
+    - name: register email
+      command: git config --get user.email
+      register: email
+
+    - debug: 
+        var: hostvars['localhost']['email']
+- hosts: debian
+  vars:
+    url: 'rhyl.io37.ch' 
+    name: 'rhyl.io37.ch'
+    email: "{{ hostvars['localhost']['email'].stdout  }}"
+
+  tasks:
+    - name: 'lookup subdomain ip'
+      shell: nslookup {{ url }} | grep Address | tail -1 | awk -F ' ' '{ print $2 }'
+      register: target_ip
+
+    - name: Copy nginx conf
+      copy:
+        src: rhyl.io37.ch.nginx.conf
+        dest: /etc/nginx/conf.d/{{ url }}.conf
+        force: no
+
+    - name: Creates directory
+      file:
+        path: /var/www/html/rhyl.io37.ch
+        state: directory
+
+    - name: certify
+      become: true
+      become_user: root
+      shell: "/snap/bin/certbot --nginx -n --agree-tos --email {{ email }} -d {{ url }}"
