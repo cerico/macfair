@@ -18,7 +18,7 @@ jobs:
         run: make update 
 
       - name: makes this target
-        run: $(python3 -m site --user-base)/bin/ansible-playbook thistarget.yml -i hosts -e "hostname=tavernier"
+        run: $(python3 -m site --user-base)/bin/ansible-playbook thiscomputer.yml -i hosts -e "hostname=tavernier"
 
       - name: Runs the debug target
         run: make debug
@@ -32,5 +32,5 @@ jobs:
       - name: cat zshrc
         run: cat ~/.macfair/version
 
-      - name: runs the newtarget target with vars to bypass prompt
-        run: $(python3 -m site --user-base)/bin/ansible-playbook newtarget.yml -i hosts -e "target=dox.io37.ch" -e "user=deploy" -e "group=debian"
+      - name: runs the newcomputer target with vars to bypass prompt
+        run: $(python3 -m site --user-base)/bin/ansible-playbook newcomputer.yml -i hosts -e "target=dox.io37.ch" -e "user=deploy" -e "group=debian"
