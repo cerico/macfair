@@ -1,3 +1,12 @@
+## [0.21.12](https://github.com/cerico/macfair/compare/v0.21.11...v0.21.12) (2023-03-17)
+
+
+### Bug Fixes
+
+* Add images to sites/README.md ([e9134f1](https://github.com/cerico/macfair/commit/e9134f1597912f1160099aff8087edaa81c71c8a))
+
+
+
 ## [0.21.11](https://github.com/cerico/macfair/compare/v0.21.10...v0.21.11) (2023-03-17)
 
 
