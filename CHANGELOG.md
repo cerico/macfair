@@ -1,3 +1,13 @@
+## [0.21.13](https://github.com/cerico/macfair/compare/v0.21.12...v0.21.13) (2023-03-17)
+
+
+### Bug Fixes
+
+* Add workflow to test out macfair in github runner ([5c8ba84](https://github.com/cerico/macfair/commit/5c8ba84cda6eb2333ea78b44107aefafa708e55f))
+* Check for prescence of iterm before opening for prefernces ([e227274](https://github.com/cerico/macfair/commit/e22727419a809ec139b4f4696b0809a7f4afe92e))
+
+
+
 ## [0.21.12](https://github.com/cerico/macfair/compare/v0.21.11...v0.21.12) (2023-03-17)
 
 
