@@ -1,3 +1,23 @@
+## [0.21.11](https://github.com/cerico/macfair/compare/v0.21.10...v0.21.11) (2023-03-17)
+
+
+### Bug Fixes
+
+* Add screenshots to  documentation ([7f0f411](https://github.com/cerico/macfair/commit/7f0f411419ba92a63b7167acca2216de1822de72))
+* correct name in setup documentation ([012eb1f](https://github.com/cerico/macfair/commit/012eb1f4e8b7391d0117a276dcd5f721ab49e81f))
+* Update documentation for aliases playbook ([711db99](https://github.com/cerico/macfair/commit/711db992b52fac2cb88be6666da4c00657674eb6))
+* Update documentation for debug role ([c566db7](https://github.com/cerico/macfair/commit/c566db78badcab4ce04ec1098685cf12c88bd91c))
+* Update documentation for desktop role ([20437ac](https://github.com/cerico/macfair/commit/20437acc7fc3205b7aaaae14d73b0939489d81fd))
+* Update documentation for elastic role ([b27f2ee](https://github.com/cerico/macfair/commit/b27f2ee677efdea4a5a4f6341229aa32818b1636))
+* Update documentation for macbook role ([5e85d21](https://github.com/cerico/macfair/commit/5e85d2195bb4e3ece60e4f7383945578e39564d1))
+* Update documentation for newsite role ([772c07c](https://github.com/cerico/macfair/commit/772c07c4528556c2e9a37140b441fe68c5445a05))
+* Update documentation for nginx role ([53098af](https://github.com/cerico/macfair/commit/53098af83bbe3d3015e9e83c0f1d6af8ffebda34))
+* Update documentation for rails role ([ce5422b](https://github.com/cerico/macfair/commit/ce5422b40b051b39b32cf7a0bc036978f0ab5655))
+* Update documentation for terminal role ([1c669f4](https://github.com/cerico/macfair/commit/1c669f4cbcae67eec5b0b3866a8dc2ee66af9a05))
+* Update documentation for vscode role ([22ea174](https://github.com/cerico/macfair/commit/22ea17430428377b08dc0c89a9a7ca60e32bcc4a))
+
+
+
 ## [0.21.10](https://github.com/cerico/macfair/compare/v0.21.9...v0.21.10) (2023-03-16)
 
 
