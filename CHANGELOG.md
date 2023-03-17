@@ -1,3 +1,12 @@
+## [0.21.14](https://github.com/cerico/macfair/compare/v0.21.13...v0.21.14) (2023-03-17)
+
+
+### Bug Fixes
+
+* update main readme to point to sections in docs folder ([162d722](https://github.com/cerico/macfair/commit/162d72204a95435cadcd4d522f319e350e0ca7b2))
+
+
+
 ## [0.21.13](https://github.com/cerico/macfair/compare/v0.21.12...v0.21.13) (2023-03-17)
 
 
