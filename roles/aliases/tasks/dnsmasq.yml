@@ -1,0 +1,35 @@
+- name: Add yay domain to dnsmasq.conf
+  lineinfile:
+    path: "/usr/local/etc/dnsmasq.conf"
+    line:  "address=/.{{ item.domain }}/{{ item.ip }}"
+    insertbefore: EOF
+  with_items: "{{ local_domains }}"
+
+- name: get plist_filename
+  ansible.builtin.shell: brew list dnsmasq | grep /homebrew.mxcl.dnsmasq.plist$
+  register: plist_filename
+  changed_when: plist_filename.rc != 0
+
+- name: dump plist_filename
+  ansible.builtin.debug: 
+    var: plist_filename.stdout
+
+- name: Copy the daemon configuration file into place
+  ansible.builtin.command: "cp {{plist_filename.stdout}} /Library/LaunchDaemons/"
+  become: true
+
+- name: unload dnsmasq.plist
+  ansible.builtin.command: launchctl unload /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
+  become: true
+
+- name: load dnsmasq.plist
+  ansible.builtin.command: launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
+  become: true
+
+- name: empty the dns
+  ansible.builtin.command: networksetup -setdnsservers Wi-Fi empty
+  become: true
+
+- name: use the dns
+  ansible.builtin.command: networksetup -setdnsservers Wi-Fi 127.0.0.1 8.8.4.4
+  become: true

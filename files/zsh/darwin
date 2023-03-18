@@ -1,6 +1,11 @@
 brewser=`stat -f "%Su" /usr/local/bin/brew`
 alias brew='sudo -Hu '$brewser' brew'
 
+dnsmasq () {
+  sudo launchctl unload /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
+  sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
+}
+
 green='\e[32m'
 blue='\e[34m'
 cyan='\e[36m'
