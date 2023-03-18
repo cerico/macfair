@@ -1,4 +1,13 @@
 ---
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Check whether a package called ufw is installed
+  ansible.builtin.debug:
+    msg: "{{ ansible_facts.packages['ufw'] | length }} versions of ufw are installed!"
+  when: "'ufw' in ansible_facts.packages"
+
 - name: Allow all access to nginx http/s
   community.general.ufw:
     rule: allow
@@ -6,7 +15,7 @@
   with_items:
     - "Nginx HTTP"
     - "Nginx Full"
-  when: ansible_os_family == "Debian"
+  when: (ansible_os_family == "Debian") and ('ufw' in ansible_facts.packages)
   become: true
   become_user: root
 
