@@ -1,3 +1,12 @@
+## [0.22.2](https://github.com/cerico/macfair/compare/v0.22.1...v0.22.2) (2023-03-18)
+
+
+### Bug Fixes
+
+* only modify ufw in nginx role if there is a ufw ([3266ab4](https://github.com/cerico/macfair/commit/3266ab4c069b3fe3f7fc44e9fcb3fa7df55b0aec))
+
+
+
 ## [0.22.1](https://github.com/cerico/macfair/compare/v0.22.0...v0.22.1) (2023-03-17)
 
 
