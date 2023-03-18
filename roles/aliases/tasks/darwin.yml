@@ -76,3 +76,4 @@
 
 - name: import dnsmasq.yml
   import_tasks: dnsmasq.yml
+  when: inventory_hostname != 'github-runner.localhost'
