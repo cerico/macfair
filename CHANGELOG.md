@@ -1,3 +1,18 @@
+# [0.23.0](https://github.com/cerico/macfair/compare/v0.22.2...v0.23.0) (2023-03-18)
+
+
+### Bug Fixes
+
+* Only run the dnsmasq tasks if the hostname isnt github-runner ([b383d4f](https://github.com/cerico/macfair/commit/b383d4fba6da59e10b76103c40f9192dc1a61d0b))
+
+
+### Features
+
+* add dnsmasq configuration or local and 192.168.1.80 domains ([d5fe3da](https://github.com/cerico/macfair/commit/d5fe3da6928d209f46a97d16be70a24eb2302b5d))
+* add dnsmasq to darwin installs ([c0e7d0e](https://github.com/cerico/macfair/commit/c0e7d0ef8117a4b58de4806253a6116cf794909b))
+
+
+
 ## [0.22.2](https://github.com/cerico/macfair/compare/v0.22.1...v0.22.2) (2023-03-18)
 
 
