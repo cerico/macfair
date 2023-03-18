@@ -7,14 +7,14 @@ alias sedi='sed -i "" -e'
 alias gr="git remote -v"
 
 aliases () {
-	grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} '()' ~/.zsh/aliases | tr -cd '[:alnum:]\n' | sort
+	grep '()' ~/.zsh/aliases | tr -cd '[:alnum:]\n' | sort
 	if [ -f ~/.zsh/darwin ] ; then
-          grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} '()' ~/.zsh/darwin | tr -cd '[:alnum:]\n' | sort
+          grep '()' ~/.zsh/darwin | tr -cd '[:alnum:]\n' | sort
 	fi
         if [ -f ~/.zsh/debian ] ; then
-	  grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} '()' ~/.zsh/debian | tr -cd '[:alnum:]\n' | sort
+	  grep '()' ~/.zsh/debian | tr -cd '[:alnum:]\n' | sort
 	fi
-        grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} '()' ~/.zsh/git | tr -cd '[:alnum:]\n' | sort
+        grep '()' ~/.zsh/git | tr -cd '[:alnum:]\n' | sort
 }
 
 alphnum () {
@@ -143,9 +143,9 @@ discogs() {
   cd ~/Downloads/discogs/$y
   youtube-dl -xiwc $1
 }
+
 tokens() {
-  echo mapbox
-  echo openweathermap
+  grep '()' ~/.zsh/tokens | tr -cd '[:alnum:]\n' | sort
 }
 
 sourcez () {
