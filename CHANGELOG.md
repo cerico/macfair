@@ -1,3 +1,12 @@
+## [0.23.1](https://github.com/cerico/macfair/compare/v0.23.0...v0.23.1) (2023-03-18)
+
+
+### Bug Fixes
+
+* echo current aliases and tokens correctly ([2335d8f](https://github.com/cerico/macfair/commit/2335d8f793d48d8530fafe6bb6e9314c4062480d))
+
+
+
 # [0.23.0](https://github.com/cerico/macfair/compare/v0.22.2...v0.23.0) (2023-03-18)
 
 
