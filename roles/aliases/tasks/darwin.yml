@@ -73,3 +73,6 @@
     path: ~/.zshrc
     line: source $HOME/.zsh/rails
   when: rbenv.stat.exists
+
+- name: import dnsmasq.yml
+  import_tasks: dnsmasq.yml
