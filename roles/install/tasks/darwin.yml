@@ -19,6 +19,7 @@
       "gh",
       "jq",
       "wget",
+      "dnsmasq",
       "gcc",
       "openssl",
       "cmake",
