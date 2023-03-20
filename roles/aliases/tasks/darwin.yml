@@ -77,3 +77,8 @@
 - name: import dnsmasq.yml
   import_tasks: dnsmasq.yml
   when: inventory_hostname != 'github-runner.localhost'
+
+- name: Copy dns aliases
+  copy:
+    src: zsh/dns
+    dest: ~{{ macbook_user.stdout }}/.zsh/dns
