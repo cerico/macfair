@@ -1,3 +1,12 @@
+# [0.24.0](https://github.com/cerico/macfair/compare/v0.23.1...v0.24.0) (2023-03-20)
+
+
+### Features
+
+* Add dns aliases into own file (darwin only) ([3f59c93](https://github.com/cerico/macfair/commit/3f59c9395ce927d156b0691d2a8a2cbeb477e0e2))
+
+
+
 ## [0.23.1](https://github.com/cerico/macfair/compare/v0.23.0...v0.23.1) (2023-03-18)
 
 
