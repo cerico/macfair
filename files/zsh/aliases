@@ -7,14 +7,13 @@ alias sedi='sed -i "" -e'
 alias gr="git remote -v"
 
 aliases () {
-	grep '()' ~/.zsh/aliases | tr -cd '[:alnum:]\n' | sort
-	if [ -f ~/.zsh/darwin ] ; then
-          grep '()' ~/.zsh/darwin | tr -cd '[:alnum:]\n' | sort
-	fi
-        if [ -f ~/.zsh/debian ] ; then
-	  grep '()' ~/.zsh/debian | tr -cd '[:alnum:]\n' | sort
-	fi
-        grep '()' ~/.zsh/git | tr -cd '[:alnum:]\n' | sort
+  for i in `ls ~/.zsh`
+    do
+      echo ${i:u}
+      echo -------------
+      grep '() {$' ~/.zsh/$i | tr -cd '[:alnum:]\n' | sort
+      echo ""
+    done
 }
 
 alphnum () {
