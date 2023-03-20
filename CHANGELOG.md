@@ -1,3 +1,12 @@
+## [0.24.1](https://github.com/cerico/macfair/compare/v0.24.0...v0.24.1) (2023-03-20)
+
+
+### Bug Fixes
+
+* improve listing of available aliases ([0e3abd2](https://github.com/cerico/macfair/commit/0e3abd2d5d324f85c482460c6360177ea4923bda))
+
+
+
 # [0.24.0](https://github.com/cerico/macfair/compare/v0.23.1...v0.24.0) (2023-03-20)
 
 
