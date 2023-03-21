@@ -7,6 +7,10 @@
       ansible.builtin.command: npm pkg get version
       register: macfair_version
 
+    - name: Get hostname of control machine
+      ansible.builtin.command: hostname
+      register: hostname
+
     - name: Print version
       debug: var=macfair_version.stdout
 

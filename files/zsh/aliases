@@ -1,5 +1,6 @@
 source ~/.zsh/git
 source ~/.zsh/godaddy
+source ~/.zsh/macfair
 source ~/.zsh/tokens
 source ~/.zsh/trialling
 export MARKPATH=$HOME/.marks
@@ -28,10 +29,6 @@ help() {
   node $HOME/.zsh/help.js $1
 }
 
-macfair () {
-  cat ~/.macfair/version
-}
-
 batt () {
   [[ $1 = "clear" ]] && rm ~/.batt
   if (pmset -g batt | grep Internal | grep estimate > /tmp/a); then
@@ -52,6 +49,16 @@ upsearch () {
     test -e "$directory/$1" && echo "$directory" && return "hello"
     directory="$directory/.."
   done
+}
+
+m () {
+  mf=`upsearch Makefile`
+  if [[ ${#mf} -gt 0 ]] ; then
+    cd $mf
+    make $1
+  else
+    echo No Makefile found. Nothing to do
+  fi
 }
 
 cdrepo () {

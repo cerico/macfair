@@ -38,6 +38,18 @@
     src: zsh/godaddy
     dest: ~{{ macbook_user.stdout }}/.zsh/godaddy
 
+- name: Copy macfair file (this machine)
+  template:
+    src: zsh/macfair
+    dest: ~{{ macbook_user.stdout }}/.zsh/macfair
+  when: hostvars['localhost']['hostname'].stdout == ansible_hostname
+
+- name: Copy macfair file (other machines)
+  copy:
+    src: zsh/macfair
+    dest:  ~{{ macbook_user.stdout }}/.zsh/macfair
+  when: hostvars['localhost']['hostname'].stdout != ansible_hostname
+
 - name: print role name
   set_fact:
     parent_role_name: "{{ role_name }}"
