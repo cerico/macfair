@@ -1,3 +1,13 @@
+## [0.24.3](https://github.com/cerico/macfair/compare/v0.24.2...v0.24.3) (2023-03-21)
+
+
+### Bug Fixes
+
+* dont hardcode macfair location ([e6afce7](https://github.com/cerico/macfair/commit/e6afce73b18d9e3070e3265604cd58591f9f4600))
+* improve macfair alias ([53ff71f](https://github.com/cerico/macfair/commit/53ff71fc996210038f3c220f2ef0b8ba36083c11))
+
+
+
 ## [0.24.2](https://github.com/cerico/macfair/compare/v0.24.1...v0.24.2) (2023-03-21)
 
 
