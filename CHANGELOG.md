@@ -1,3 +1,12 @@
+## [0.24.2](https://github.com/cerico/macfair/compare/v0.24.1...v0.24.2) (2023-03-21)
+
+
+### Bug Fixes
+
+* improve structure of alias files ([e5c0da9](https://github.com/cerico/macfair/commit/e5c0da942201fa3f12077468d92496de688e6f59))
+
+
+
 ## [0.24.1](https://github.com/cerico/macfair/compare/v0.24.0...v0.24.1) (2023-03-20)
 
 
