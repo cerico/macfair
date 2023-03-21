@@ -7,7 +7,7 @@ alias sedi='sed -i "" -e'
 alias gr="git remote -v"
 
 aliases () {
-  for i in `ls ~/.zsh`
+  for i in `ls ~/.zsh |grep -v "\."`
     do
       echo ${i:u}
       echo -------------
@@ -82,30 +82,6 @@ back() {
   cd -
 }
 
-kawa() {
-  cpr kawa
-  ssh deploy
-  cpr
-}
-
-newp() {
-  if [[ $# -eq 0 ]] ; then
-    echo 'run command with filename eg newp stadiums'
-    return
-  fi
-  dir=`upsearch package.json`
-  echo $dir
-  if [[ -f $dir'/next.config.js' ]]
-    then
-    touch $dir/src/pages/$1.tsx
-  elif  [ -f "astro.config.mjs" ]
-    then
-    touch $dir/src/pages/$1.astro
-  else
-    echo "idk"
-  fi
-}
-
 install() {
   if [ -f "package-lock.json" ]
     then
@@ -124,27 +100,11 @@ cleanup(){
   find . -name "node_modules" -type d -prune -exec rm -rf '{}' +
 }
 
-nonewlines () {
-  find . -type f -not -path "./.git*" -exec sh -c 'file -b "{}" | grep -q text' \; -exec sh -c '[ "$(tail -c 1 "{}" | od -An -a | tr -d "[:space:]")" != "nl" ]' \; -print
-  find . -name '*.json' -exec sh -c '[ "$(tail -c 1 "{}" | od -An -a | tr -d "[:space:]")" != "nl" ]' \; -print
-}
-
-addnewlines () {
-  for i in `nonewlines`
-  do
-    echo >> $i
-  done
-}
-
 discogs() {
   y=`echo $1 | awk -F'/' '{print $5}'`
   mkdir -p ~/Downloads/discogs/$y
   cd ~/Downloads/discogs/$y
   youtube-dl -xiwc $1
-}
-
-tokens() {
-  grep '()' ~/.zsh/tokens | tr -cd '[:alnum:]\n' | sort
 }
 
 sourcez () {
@@ -197,41 +157,8 @@ start () {
   fi
 }
 
-alias branches="branchdate | head -18"
-alias current_branch="git rev-parse --abbrev-ref HEAD"
-
-repo () {
-  git branch -m main
-  gh repo create $(pwd | xargs basename) --private -y
-}
-
-gitinit () {
-  git init
-  echo node_modules >> .gitignore
-  git add .
-  git commit -m "init"
-}
-
 awks () {
   echo awk -F\' \' \'{print \$2}\'
-}
-
-alias vip="vi package.json"
-
-logify () {
-  cpr logging
-  tail -f log/development.log
-  cpr v
-}
-
-railsc () {
-  cpr railsc
-  rails c
-  cpr v
-}
-
-railshist () {
-  echo 'puts Readline::HISTORY.entries.each { |c| puts c }' | spring rails c | grep $1
 }
 
 cpr () { 
@@ -252,19 +179,14 @@ hist () {
 }
 
 geo () {
-  curl -H 'User-Agent: keycdn-tools:https://picfair.com' 'https://tools.keycdn.com/geo.json?host='$1
+  curl -H 'User-Agent: keycdn-tools:https://google.com' 'https://tools.keycdn.com/geo.json?host='$1
 }
 city () {
-  curl -H 'User-Agent: keycdn-tools:https://picfair.com' 'https://tools.keycdn.com/geo.json?host='$1 |jq -r '.data.geo.city'
+  geo | jq -r '.data.geo.city'
 }
 region () {
-  curl -H 'User-Agent: keycdn-tools:https://picfair.com' 'https://tools.keycdn.com/geo.json?host='$1 |jq -r '.data.geo.region_name'
+  geo | jq -r '.data.geo.region_name'
 }
 isp () {
-  curl -H 'User-Agent: keycdn-tools:https://picfair.com' 'https://tools.keycdn.com/geo.json?host='$1 |jq -r '.data.geo.isp'
+  geo | jq -r '.data.geo.isp'
 }
-
-railsn () {
-  make -f ~/Work/ansible/finisterre/Makefile rails -C ~/Work/ansible/finisterre LOCATION=`pwd`
-}
-

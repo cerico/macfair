@@ -9,14 +9,14 @@ cyan='\e[36m'
 clear='\e[0m'
 
 ColorGreen(){
-        echo -ne $green$1$clear
+  echo -ne $green$1$clear
 }
 ColorBlue(){
-        echo -ne $blue$1$clear
+  echo -ne $blue$1$clear
 }
 
 ColorCyan(){
-        echo -ne $cyan$1$clear
+  echo -ne $cyan$1$clear
 }
 
 themes() {

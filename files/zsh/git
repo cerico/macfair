@@ -1,25 +1,25 @@
 getpr () {
-         pr=$(gh pr list | grep `git branch --show-current` | awk -F' ' '{print $1}')
+  pr=$(gh pr list | grep `git branch --show-current` | awk -F' ' '{print $1}')
 }
 
 closepr () {
-        getpr
-        gh pr close $pr
+  getpr
+  gh pr close $pr
 }
 
 viewpr () {
-        getpr
-        gh pr view $pr --web
+  getpr
+  gh pr view $pr --web
 }
 
 cleanpr () {
-        git rebase origin/main
-        git reset origin/main
-        git add .
-        git commit
-        git push -f
-        gh pr create --fill
-        echo "#wip: " >  ~/.gitmessage
+  git rebase origin/main
+  git reset origin/main
+  git add .
+  git commit
+  git push -f
+  gh pr create --fill
+  echo "#wip: " >  ~/.gitmessage
 }
 
 wip () {
@@ -43,20 +43,44 @@ major () {
 }
 
 ghpr () {
-        if [[ $1 == 'patch' || $1 == 'fix' ]] ; then
-          echo "#fix: "  > ~/.gitmessage
-          cleanpr
-        elif [[ $1 == 'minor' || $1 == 'feat' ]] ; then
-          echo "#feat: "  > ~/.gitmessage
-          cleanpr
-        elif [[ $1 == 'major' || $1 == 'breaking' ]] ; then
-          echo "#feat: "  > ~/.gitmessage
-          cleanpr
-        elif [[ `git cherry -v main | grep -v -e fix -e feat| wc -c` -eq 0 ]] ;  then
-          git push
-          gh pr create --fill
-        else
-          echo please squash the following commits before submitting PR
-          git cherry -v main | grep -v -e fix -e feat
-        fi
+  if [[ $1 == 'patch' || $1 == 'fix' ]] ; then
+    echo "#fix: "  > ~/.gitmessage
+    cleanpr
+  elif [[ $1 == 'minor' || $1 == 'feat' ]] ; then
+    echo "#feat: "  > ~/.gitmessage
+    cleanpr
+  elif [[ $1 == 'major' || $1 == 'breaking' ]] ; then
+    echo "#feat: "  > ~/.gitmessage
+    cleanpr
+  elif [[ `git cherry -v main | grep -v -e fix -e feat| wc -c` -eq 0 ]] ;  then
+    git push
+    gh pr create --fill
+  else
+    echo please squash the following commits before submitting PR
+    git cherry -v main | grep -v -e fix -e feat
+  fi
+}
+
+nonewlines () {
+  find . -type f -not -path "./.git*" -exec sh -c 'file -b "{}" | grep -q text' \; -exec sh -c '[ "$(tail -c 1 "{}" | od -An -a | tr -d "[:space:]")" != "nl" ]' \; -print
+  find . -name '*.json' -exec sh -c '[ "$(tail -c 1 "{}" | od -An -a | tr -d "[:space:]")" != "nl" ]' \; -print
+}
+
+addnewlines () {
+  for i in `nonewlines`
+  do
+    echo >> $i
+  done
+}
+
+repo () {
+  git branch -m main
+  gh repo create $(pwd | xargs basename) --private -y
+}
+
+gitinit () {
+  git init
+  echo node_modules >> .gitignore
+  git add .
+  git commit -m "init"
 }
