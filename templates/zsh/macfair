@@ -1,0 +1,28 @@
+macfair () {
+  v=`npm --prefix {{ playbook_dir  }} pkg get version | tr -d '"'`
+  echo ""
+  echo "Current Available Version: $v"
+  echo -------------
+  sort -k2r ~/.macfair/version
+  echo ""
+  if (grep -qv $v ~/.macfair/version) ; then
+    echo "Run following to update roles to latest version"
+    echo -------------
+    sort -k2r ~/.macfair/version| while read line;
+      do
+      x=`echo $line | awk -F ' ' '{print $2}'`
+      y=`echo $line | awk -F ':' '{print $1}'`
+      [[ $x != $v ]] &&  echo mf $y
+    done
+  else
+    echo "All roles up to date, nothing to do!"
+  fi
+}
+
+mf () {
+  if [[ $1 = "-v" ]] ; then
+    cat ~/.macfair/version
+  else
+    make -f ~/macfair/Makefile $1 -C ~/macfair
+  fi
+}
