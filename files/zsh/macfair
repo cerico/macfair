@@ -1,11 +1,3 @@
 macfair () {
   sort -k2r ~/.macfair/version
 }
-
-mf () {
-  if [[ $1 = "-v" ]] ; then
-    cat ~/.macfair/version
-  else
-    make -f ~/macfair/Makefile $1 -C ~/macfair
-  fi
-}

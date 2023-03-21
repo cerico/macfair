@@ -23,6 +23,6 @@ mf () {
   if [[ $1 = "-v" ]] ; then
     cat ~/.macfair/version
   else
-    make -f ~/macfair/Makefile $1 -C ~/macfair
+    make -f {{ playbook_dir  }}/Makefile $1 -C {{ playbook_dir  }}
   fi
 }
