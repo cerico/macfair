@@ -1,23 +1,13 @@
 ---
 - name: Before everything
   hosts: localhost
-  tags: always
-  tasks:
-    - name: Get version
-      ansible.builtin.command: npm pkg get version
-      register: macfair_version
-
-    - name: Get hostname of control machine
-      ansible.builtin.command: hostname
-      register: hostname
-
-    - name: Print version
-      debug: var=macfair_version.stdout
+  roles:
+    - { role: before, tags: [always] }
 
 - name: Setup MacBook and debian
   hosts: [macbook, debian]
   roles:
-    - { role: whoami, tags: always }
+    - { role: whoami, tags: [always] }
     - { role: install, tags: [install, setup] }
     - { role: aliases, tags: [aliases, install, setup] }
     - { role: terminal, tags: [terminal, setup] }
@@ -27,9 +17,9 @@
 - name: Setup debian machines
   hosts: [debian]
   roles:
-    - { role: install, tags: debian }
-    - { role: terminal, tags: debian }
-    - { role: aliases, tags: debian }
+    - { role: install, tags: [debian] }
+    - { role: terminal, tags: [debian] }
+    - { role: aliases, tags: [debian] }
     - { role: nginx, tags: [debian, nginx] }
 
 - name: Setup macbook
@@ -41,4 +31,4 @@
 - name: After everything
   hosts: localhost
   roles:
-    - { role: afterwards, tags: always }
+    - { role: afterwards, tags: [always] }
