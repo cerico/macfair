@@ -76,8 +76,13 @@
   become: true
   become_user: root
 
-- name: Install latest passlib with pip
-  pip: name=passlib
+- name: pip installs
+  pip:
+    name: "{{ item }}"
+  with_items:
+    - "jmespath"
+    - "passlib"
+    - "yq"
 
 - name: Replace a localhost entry searching for a literal string to avoid escaping
   become: true

@@ -102,6 +102,7 @@
   with_items:
     - "jmespath"
     - "passlib"
+    - "yq"
 
 - name: link node
   shell: /usr/local/bin/brew link --overwrite node@{{ node_version }}
