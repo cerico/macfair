@@ -1,3 +1,12 @@
+## [0.25.2](https://github.com/cerico/macfair/compare/v0.25.1...v0.25.2) (2023-03-22)
+
+
+### Bug Fixes
+
+* correct location of available_to_install alias ([905411d](https://github.com/cerico/macfair/commit/905411d5ea5ad68078750a56e8819719d6d3ff9d))
+
+
+
 ## [0.25.1](https://github.com/cerico/macfair/compare/v0.25.0...v0.25.1) (2023-03-22)
 
 
