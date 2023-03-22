@@ -1,3 +1,12 @@
+## [0.25.3](https://github.com/cerico/macfair/compare/v0.25.2...v0.25.3) (2023-03-22)
+
+
+### Bug Fixes
+
+* move git tasks into own role ([ffe97a7](https://github.com/cerico/macfair/commit/ffe97a7311fa23d3e787ae16f1f4fd3385eb0d0d))
+
+
+
 ## [0.25.2](https://github.com/cerico/macfair/compare/v0.25.1...v0.25.2) (2023-03-22)
 
 
