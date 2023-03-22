@@ -8,7 +8,6 @@
   with_items:
     - "homebrew/services"
     - "homebrew/cask"
-  when: ansible_os_family == "Darwin"
 
 - name: install core packages
   become: true
@@ -51,14 +50,12 @@
       "redis"
     ]
     state: present
-  when: ansible_os_family == "Darwin"
 
 - name: Create directory for installed caskapps
   file:
     path: "~{{ brew_user.stdout }}/Applications"
     state: directory
     mode: 0775
-  when: ansible_os_family == "Darwin"
 
 - name: install cask apps
   become: true
@@ -81,7 +78,6 @@
     - "brave-browser"
     - "google-chrome"
     - "chromium"
-  when: ansible_os_family == "Darwin"
 
 - name: Copy zshenv
   copy:
