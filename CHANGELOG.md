@@ -1,3 +1,13 @@
+## [0.25.1](https://github.com/cerico/macfair/compare/v0.25.0...v0.25.1) (2023-03-22)
+
+
+### Bug Fixes
+
+* improve macfair alias by also showing available uninstalled roles ([a51dabc](https://github.com/cerico/macfair/commit/a51dabc9dc09f91fcb740043049fce8140f7fdb4))
+* move before tasks into own role, and make tags always be an array ([18c1afc](https://github.com/cerico/macfair/commit/18c1afcac2b14effdf315941faa48dce85255ac5))
+
+
+
 # [0.25.0](https://github.com/cerico/macfair/compare/v0.24.3...v0.25.0) (2023-03-22)
 
 
