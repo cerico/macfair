@@ -34,8 +34,8 @@ macfair () {
     done
   else
     echo "All installed roles up to date."
-    also_available_to_install
   fi
+  also_available_to_install
 }
 
 mf () {
