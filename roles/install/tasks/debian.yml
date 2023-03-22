@@ -82,7 +82,6 @@
 - name: Replace a localhost entry searching for a literal string to avoid escaping
   become: true
   become_user: root
-  when: ansible_os_family == "Debian"
   ansible.builtin.lineinfile:
     path: /etc/hosts
     search_string: '127.0.0.1'
@@ -94,7 +93,6 @@
 - name: Replace a localhost entry searching for a literal string to avoid escaping
   become: true
   become_user: root
-  when: ansible_os_family == "Debian"
   ansible.builtin.lineinfile:
     path: /etc/cloud/templates/hosts.debian.tmpl
     search_string: '127.0.0.1'
