@@ -1,5 +1,23 @@
+macfairloc={{ playbook_dir }}
+
+also_available_to_install () {
+  x=`yq  '.[].roles | map(select(.tags[]  == "setup"))[].role' $macfairloc/setup.yml`
+  list=""
+  echo $x| while read line;
+    do
+    y=`echo $line | tr -d \"`
+    if (grep -q $y ~/.macfair/version); then
+      foo="bar"
+    else
+      list="$list""mf $y\n"
+      message="\nRun following to install uninstalled roles\n-------------"
+    fi
+    done
+    [[ $message ]] && echo $message && echo $list
+}
+
 macfair () {
-  v=`npm --prefix {{ playbook_dir  }} pkg get version | tr -d '"'`
+  v=`npm --prefix $macfairloc pkg get version | tr -d '"'`
   echo ""
   echo "Current Available Version: $v"
   echo -------------
@@ -15,7 +33,8 @@ macfair () {
       [[ $x != $v ]] &&  echo mf $y
     done
   else
-    echo "All roles up to date, nothing to do!"
+    echo "All installed roles up to date."
+    also_available_to_install
   fi
 }
 
@@ -23,6 +42,6 @@ mf () {
   if [[ $1 = "-v" ]] ; then
     cat ~/.macfair/version
   else
-    make -f {{ playbook_dir  }}/Makefile $1 -C {{ playbook_dir  }}
+    make -f $macfairloc/Makefile $1 -C $macfairloc
   fi
 }
