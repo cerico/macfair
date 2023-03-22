@@ -1,3 +1,17 @@
+# [0.25.0](https://github.com/cerico/macfair/compare/v0.24.3...v0.25.0) (2023-03-22)
+
+
+### Bug Fixes
+
+* remove unnecessary os_family conditions ([ff0b242](https://github.com/cerico/macfair/commit/ff0b242164f00701b56e1dca248b131bc955cec1))
+
+
+### Features
+
+* add yq to install role ([2cd6953](https://github.com/cerico/macfair/commit/2cd695325ef2105f1b9086825c07339fd32f775e))
+
+
+
 ## [0.24.3](https://github.com/cerico/macfair/compare/v0.24.2...v0.24.3) (2023-03-21)
 
 
