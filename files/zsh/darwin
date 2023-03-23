@@ -24,25 +24,21 @@ themes() {
 }
 
 wallpaper () {
-  osascript -e 'set desktopImage to POSIX file "'/Library/Desktop\ Pictures/$1'"
-  tell application "Finder"
-    set desktop picture to desktopImage
-  end tell'
-}
-
-green () {
-  background="greentiled.png"
-  wallpaper $background
-}
-
-blue () {
-  background="bluetiled.png"
-  wallpaper $background
-}
-
-oak () {
-  background="oaktiled.png"
-  wallpaper $background
+   if [[ $# -eq 0 ]] ; then
+		 echo "Available wallpapers:"
+		 ls $HOME/wallpapers | awk -F "." '{ print $1 }'
+		 return
+	 fi
+	if [[ -f $HOME/wallpapers/$1.png ]] ; then
+    osascript -e 'set desktopImage to POSIX file "'$HOME/wallpapers/$1.png'"
+    tell application "Finder"
+      set desktop picture to desktopImage
+    end tell'
+		return
+	fi
+	echo "Wallpaper not found"
+	echo "Available wallpapers:"
+	s $HOME/wallpapers | awk -F "." '{ print $1 }'
 }
 
 AdminQuestion () {

@@ -8,13 +8,11 @@
   copy:
     src: "{{ item }}"
     dest: ~/wallpapers
-  with_items:
-  - wallpapers/bluetiled.png
-  - wallpapers/greentiled.png
-  - wallpapers/oaktiled.png
+  with_fileglob:
+    - wallpapers/*
 
 - name: wallpaper
-  shell: osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/Users/{{ macbook_user.stdout }}/wallpapers/oaktiled.png"'
+  shell: osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/Users/{{ macbook_user.stdout }}/wallpapers/pink.png"'
   
 - name: Remove superfluous from dock
   shell: /usr/local/bin/dockutil --remove '{{ item }}' | cat
