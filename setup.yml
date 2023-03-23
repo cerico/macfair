@@ -11,7 +11,7 @@
     - { role: install, tags: [install, setup] }
     - { role: aliases, tags: [aliases, install, setup] }
     - { role: terminal, tags: [terminal, setup] }
-    - { role: rails, tags: [rails, setup] }
+    - { role: rails, tags: [rails] }
     - { role: vscode, tags: [vscode, setup] }
 
 - name: Setup debian machines
@@ -26,7 +26,6 @@
   hosts: macbook
   roles:
     - { role: desktop, tags: [desktop, setup] }
-    - { role: elastic, tags: [elastic, setup] }
 
 - name: After everything
   hosts: localhost

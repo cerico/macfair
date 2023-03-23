@@ -58,6 +58,10 @@
 - name: 'rehash'
   command: "~{{ macbook_user.stdout }}/.rbenv/bin/rbenv rehash"
 
+- name: import elastic search
+  import_tasks: elastic.yml
+  when: ansible_os_family == "Darwin"
+
 - name: print role name
   set_fact:
     parent_role_name:  "{{ role_name }}"

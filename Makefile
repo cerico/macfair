@@ -19,8 +19,6 @@ terminal:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "terminal"
 install:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "install"
-elastic:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "elastic"
 debian:
 	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "debian"
 nginx:
