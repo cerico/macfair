@@ -1,0 +1,18 @@
+{
+  "ifnoarg": {
+    "prefix": "ifnoarg",
+    "body": [ "if [[ $# -eq 0 ]] ; then"],
+  },
+  "iflength": {
+    "prefix": "iflength",
+    "body": ["if [[ ${#$1} -gt 0 ]] ; then"],
+  },
+  "iffile": {
+    "prefix": "iffile",
+    "body": "if [ -f \"$1\" ]"
+  },
+  "ifarg": {
+    "prefix": "ifarg",
+    "body": "if [[ \\$1 = \"$1\" ]] ; then"
+  }
+}
