@@ -1,3 +1,13 @@
+## [0.25.5](https://github.com/cerico/macfair/compare/v0.25.4...v0.25.5) (2023-03-23)
+
+
+### Bug Fixes
+
+* Remove rails role from setup playbook, and roll elastic and rails roles into one ([e0a08af](https://github.com/cerico/macfair/commit/e0a08af1bc9a7424502144c8f67ad1f00006b966))
+* remove unused files ([7c09507](https://github.com/cerico/macfair/commit/7c095070818f6e1b11cc8f1b1583b9ce34293ae3))
+
+
+
 ## [0.25.4](https://github.com/cerico/macfair/compare/v0.25.3...v0.25.4) (2023-03-23)
 
 
