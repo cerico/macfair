@@ -1,3 +1,12 @@
+## [0.25.4](https://github.com/cerico/macfair/compare/v0.25.3...v0.25.4) (2023-03-23)
+
+
+### Bug Fixes
+
+* improve wallpaper handling ([f3db275](https://github.com/cerico/macfair/commit/f3db275a345c77e1afd895e0f5efb144f13fe65d))
+
+
+
 ## [0.25.3](https://github.com/cerico/macfair/compare/v0.25.2...v0.25.3) (2023-03-22)
 
 
