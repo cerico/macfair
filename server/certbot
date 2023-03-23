@@ -1,6 +1,0 @@
-email=$(git config --get user.email)
-apps=$(grep server_name -m 1 /etc/nginx/conf.d/* | awk -F' ' '{print $3}' | awk -F';' '{print $1}')
-for i in `echo $apps`
-do
-  sudo certbot --nginx -n --agree-tos --email $email -d $i
-done

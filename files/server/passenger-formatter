@@ -1,9 +1,0 @@
-while read line
-do
-	a=$(echo "\e[1;32m$line" | grep www | awk -F'/' '{print $5}' | xargs echo -e "\e[1;32m")
-  read line
-  b=$(echo "\e[1;36m$line")
-  echo $a $b
-  read line
-done
-echo  "\e[0m"
