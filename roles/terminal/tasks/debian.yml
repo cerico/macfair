@@ -13,12 +13,12 @@
 
 - name: Copy zsh theme
   copy:
-    src: server/cerico.zsh-theme
+    src: cerico.zsh-theme
     dest: ~{{ macbook_user.stdout }}/.oh-my-zsh/themes/cerico.zsh-theme
 
 - name: Copy zsh theme ii
   copy:
-    src: server/cerico-w-user.zsh-theme
+    src: cerico-w-user.zsh-theme
     dest: ~{{ macbook_user.stdout }}/.oh-my-zsh/themes/cerico-w-user.zsh-theme
 
 - name: change user shell to zsh
