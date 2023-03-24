@@ -1,3 +1,21 @@
+# [0.26.0](https://github.com/cerico/macfair/compare/v0.25.5...v0.26.0) (2023-03-24)
+
+
+### Bug Fixes
+
+* remove yaml entries in vscode.json temporarily ([5a0749c](https://github.com/cerico/macfair/commit/5a0749c03ec7d4c6c484322b97b67dfe22b7867e))
+* update vscode settings with prettier saves ([948dfd2](https://github.com/cerico/macfair/commit/948dfd26adc25777ac97a5b4820e5e468ecd2582))
+
+
+### Features
+
+* add files.trimTrailingWhitespace to vscode ([60aa462](https://github.com/cerico/macfair/commit/60aa462ea09b214b4b29b773f7085ae6cd0eed92))
+* add prettier for css ([d279442](https://github.com/cerico/macfair/commit/d2794427960b24b2394805e5da5f783b18531629))
+* add some bash snippets ([a72d287](https://github.com/cerico/macfair/commit/a72d28788b423a1f70988b8940a79d44aa338a1d))
+* trim extranewlines in vscode ([429070f](https://github.com/cerico/macfair/commit/429070fa9d5db657935a70b74de92eecf16ed241))
+
+
+
 ## [0.25.5](https://github.com/cerico/macfair/compare/v0.25.4...v0.25.5) (2023-03-23)
 
 
