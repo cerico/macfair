@@ -6,6 +6,7 @@
   "javascript.updateImportsOnFileMove.enabled": "always",
   "editor.accessibilitySupport": "off",
   "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
   "bracketPairColorizer.depreciation-notice": false,
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
