@@ -3,10 +3,12 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
   },
+  "editor.formatOnSave": true,
   "javascript.updateImportsOnFileMove.enabled": "always",
   "editor.accessibilitySupport": "off",
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
+  "files.trimFinalNewlines": true,
   "bracketPairColorizer.depreciation-notice": false,
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
