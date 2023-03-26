@@ -5,7 +5,6 @@ source ~/.zsh/tokens
 source ~/.zsh/trialling
 export MARKPATH=$HOME/.marks
 alias sedi='sed -i "" -e'
-alias gr="git remote -v"
 
 aliases () {
   for i in `ls ~/.zsh |grep -v "\."`
@@ -161,7 +160,7 @@ compctl -K _completemarks jump
 compctl -K _completemarks unmark
 
 mcd () {
-  mkdir "$1"
+  mkdir -p "$1"
   cd "$1"
 }
 
