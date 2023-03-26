@@ -30,15 +30,24 @@ help() {
 }
 
 batt () {
-  [[ $1 = "clear" ]] && rm ~/.batt
+  if [[ $1 = "clear" ]] ; then
+    rm ~/.batt
+    return
+  fi
   if (pmset -g batt | grep Internal | grep estimate > /tmp/a); then
     batt=$(pmset -g batt | grep Internal |awk -F' ' '{print $3,$4}' | tr -d \;)
   else
     batt=$(pmset -g batt | grep Internal |awk -F' ' '{print $3,$4,$5,$6}' | tr -d \;)
   fi
-  formatted_date=$(date | awk -F' ' '{print $5}')
-  echo ${formatted_date%???} $batt >> ~/.batt
-  cat ~/.batt
+  if [[ $2 = "cron" ]] ; then
+    formatted_date=$(date | awk -F' ' '{print $4}')
+    echo ${formatted_date%???} $batt >> ~/.batt
+    cat ~/.batt
+   else
+    formatted_date=$(date | awk -F' ' '{print $5}')
+    [[ -f ~/.batt ]] && cat ~/.batt
+    echo ${formatted_date%???} $batt
+   fi
 }
 
 upsearch () {
@@ -122,15 +131,15 @@ ds () {
   du -sm * | sort -n
 }
 
-jump () { 
+jump () {
     cd -P "$MARKPATH/$1" 2>/dev/null || echo "No such mark: $1"
 }
 
-mark () { 
+mark () {
     mkdir -p "$MARKPATH"; ln -s "$(pwd)" "$MARKPATH/$1"
 }
 
-unmark () { 
+unmark () {
     rm -if "$MARKPATH/$1"
 }
 marks () {
@@ -168,7 +177,7 @@ awks () {
   echo awk -F\' \' \'{print \$2}\'
 }
 
-cpr () { 
+cpr () {
   echo -e "\033]50;SetProfile=$1\a"
 }
 
