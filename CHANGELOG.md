@@ -1,3 +1,14 @@
+# [0.27.0](https://github.com/cerico/macfair/compare/v0.26.0...v0.27.0) (2023-03-27)
+
+
+### Features
+
+* add tldr rule to makefile to list available commands ([c492f91](https://github.com/cerico/macfair/commit/c492f917af50154463981215db558249d977c719))
+* improve aliases ([309d13d](https://github.com/cerico/macfair/commit/309d13d9436118f33e62e55381bcbbddde574c9e))
+* improve batt alias ([422bc83](https://github.com/cerico/macfair/commit/422bc8330bd8e4bb1eb02e7b09a2126b5e2ea99b))
+
+
+
 # [0.26.0](https://github.com/cerico/macfair/compare/v0.25.5...v0.26.0) (2023-03-24)
 
 
