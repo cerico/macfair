@@ -1,0 +1,32 @@
+---
+- name: Setup vars
+  hosts: localhost
+  connection: local
+  vars_prompt:
+    - name: site
+      prompt: Which site are you connecting to?
+      private: false
+    - name: user
+      prompt: What is the username of the default user?
+      private: false
+      default: deploy
+
+  tasks:
+    - debug: msg="Connecting to {{ site }} as {{ user }}"
+
+    - name: Register file location
+      stat:
+        path: "files/{{ site }}.nginx.conf"
+      register: site_path
+
+    - name: Create vars folder for new target
+      file:
+        path: "../host_vars/{{ site }}"
+        state: directory
+      when: site_path.stat.exists == true
+
+    - name: Create main vars yml for target
+      copy:
+        content: "ansible_user: {{ user }}"
+        dest: "../host_vars/{{ site }}/vars.yml"
+      when: site_path.stat.exists == true
