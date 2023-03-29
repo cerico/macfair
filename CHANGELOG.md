@@ -1,3 +1,12 @@
+## [0.27.1](https://github.com/cerico/macfair/compare/v0.27.0...v0.27.1) (2023-03-29)
+
+
+### Bug Fixes
+
+* update newsite role to only run in one host not all in debian group ([257c1c1](https://github.com/cerico/macfair/commit/257c1c1c3c46e232e9f71ed083b74bdfe9536764))
+
+
+
 # [0.27.0](https://github.com/cerico/macfair/compare/v0.26.0...v0.27.0) (2023-03-27)
 
 
