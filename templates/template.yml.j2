@@ -5,15 +5,21 @@
       command: git config --get user.email
       register: email
 
-    - debug: 
+    - debug:
         var: hostvars['localhost']['email']
-- hosts: debian
+
+- hosts: '{{ app_name }}'
+  gather_facts: false
   vars:
-    url: '{{ app_name }}' 
+    url: '{{ app_name }}'
     name: '{{ app_name }}'
     email: "{{ "{{ hostvars['localhost']['email'].stdout  }}" }}"
 
   tasks:
+    - include_vars:
+        dir: "{{ '../group_vars/sites' }}"
+      when: hostvars[inventory_hostname]['ansible_user'] is undefined
+
     - name: 'lookup subdomain ip'
       shell: nslookup {{ '{{ url }}' }} | grep Address | tail -1 | awk -F ' ' '{ print $2 }'
       register: target_ip

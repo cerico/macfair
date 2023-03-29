@@ -29,7 +29,7 @@
       ansible.builtin.lineinfile:
         path: "{{ playbook_dir }}/hosts"
         line: "{{ target }}"
-        insertafter: "{{ group }}"
+        insertafter: "\\[{{ group }}\\]"
 
     - name: Add ansible user to ssh list.
       ansible.builtin.lineinfile:

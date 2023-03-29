@@ -1,0 +1,5 @@
+{% filter indent(width="\t") %}
+{{ app_name }}:
+if ! ansible -m ping {{ app_name }} -i ../hosts; then ansible-playbook vars.yml -i ../hosts -e "site={{ app_name }}"; fi
+ansible-playbook {{ app_name }}.yml -i ../hosts
+{% endfilter %}

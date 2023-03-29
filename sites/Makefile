@@ -1,5 +1,14 @@
 ANSIBLE=$$(python3 -m site --user-base)/bin/
-newsite:
+tldr:
+	@echo Available commands
+	@echo ------------------
+	@for i in `grep -v "\t" Makefile | grep "a*:" | tr -d \:`; do echo make $$i; done
+	@for i in `ls makefiles`; do echo make $$i; done
+new:
 	ansible-playbook ../newsite.yml -i ../hosts
-rhyl.io37.ch:
-	ansible-playbook rhyl.io37.ch.yml -i ../hosts
+vars:
+	@echo Available sites\:
+	@ls files | awk -F".nginx.conf" '{ print $$1 }'
+	@echo ""
+	@ansible-playbook vars.yml -i ../hosts
+include makefiles/*
