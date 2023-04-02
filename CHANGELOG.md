@@ -1,3 +1,12 @@
+## [0.28.1](https://github.com/cerico/macfair/compare/v0.28.0...v0.28.1) (2023-04-02)
+
+
+### Bug Fixes
+
+* improve gh issue alias ([c1bdeab](https://github.com/cerico/macfair/commit/c1bdeab012aacc8dac63096d6d3aa9944047185f))
+
+
+
 # [0.28.0](https://github.com/cerico/macfair/compare/v0.27.1...v0.28.0) (2023-04-02)
 
 
