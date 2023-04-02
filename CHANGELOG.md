@@ -1,3 +1,17 @@
+# [0.28.0](https://github.com/cerico/macfair/compare/v0.27.1...v0.28.0) (2023-04-02)
+
+
+### Bug Fixes
+
+* correct typo in wallpaper alias ([573ea03](https://github.com/cerico/macfair/commit/573ea0304a770d9d7f9dc79c711ea19d1093141a))
+
+
+### Features
+
+* add gh issue alias ([87fc332](https://github.com/cerico/macfair/commit/87fc3322354dcc2d80fa03b3c8cf0ff52c80e714))
+
+
+
 ## [0.27.1](https://github.com/cerico/macfair/compare/v0.27.0...v0.27.1) (2023-03-29)
 
 
