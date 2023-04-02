@@ -1,3 +1,19 @@
+issue () {
+  [[ ! $1 ]] && gh issue list && return
+  [[ ! $1 = *[[:alpha:]]* ]] && gh issue view $1 && return
+  [[ $2 ]] && body=$2 || body=$1
+  gh issue create -t $1 -b $body
+  [[ $3 ]] && gh issue list --web
+}
+
+issues () {
+  [[ $1 ]] && gh issue view $1 || gh issue list
+}
+
+prs () {
+  [[ $1 ]] && gh pr view $1 || gh pr list
+}
+
 getpr () {
   pr=$(gh pr list | grep `git branch --show-current` | awk -F' ' '{print $1}')
 }
