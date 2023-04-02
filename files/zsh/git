@@ -1,9 +1,9 @@
 issue () {
   [[ ! $1 ]] && gh issue list && return
   [[ ! $1 = *[[:alpha:]]* ]] && gh issue view $1 && return
-  [[ $2 ]] && body=$2 || body=$1
-  gh issue create -t $1 -b $body
-  [[ $3 ]] && gh issue list --web
+  [[ $2 = [[:alpha:]]* ]] && body=$2 || body=$1
+  issue=`gh issue create -t $1 -b $body`
+  for i in "$@" ; do if [[ "$i" == "-"* ]] && gh issue view "${issue##*/}" --web; done;
 }
 
 issues () {
