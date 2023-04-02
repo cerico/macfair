@@ -26,7 +26,7 @@ themes() {
 wallpaper () {
    if [[ $# -eq 0 ]] ; then
 		 echo "Available wallpapers:"
-		 ls $HOME/wallpapers | awk -F "." '{ print $1 }'
+		 ls $HOME/wallpapers | grep .png | awk -F "." '{ print $1 }'
 		 return
 	 fi
 	if [[ -f $HOME/wallpapers/$1.png ]] ; then
@@ -38,7 +38,7 @@ wallpaper () {
 	fi
 	echo "Wallpaper not found"
 	echo "Available wallpapers:"
-	s $HOME/wallpapers | awk -F "." '{ print $1 }'
+	ls $HOME/wallpapers | grep .png | awk -F "." '{ print $1 }'
 }
 
 AdminQuestion () {
