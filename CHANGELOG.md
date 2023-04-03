@@ -1,3 +1,12 @@
+# [0.30.0](https://github.com/cerico/macfair/compare/v0.29.0...v0.30.0) (2023-04-03)
+
+
+### Features
+
+* add date ordered branches to gitconfig ([35a8f90](https://github.com/cerico/macfair/commit/35a8f908620adee3a8a2144d9df48d9f15124b01))
+
+
+
 # [0.29.0](https://github.com/cerico/macfair/compare/v0.28.1...v0.29.0) (2023-04-03)
 
 
