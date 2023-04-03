@@ -1,3 +1,12 @@
+# [0.29.0](https://github.com/cerico/macfair/compare/v0.28.1...v0.29.0) (2023-04-03)
+
+
+### Features
+
+* update macfair alias ([2155fa8](https://github.com/cerico/macfair/commit/2155fa8075a3b50bd37218f37364640ccc85704e))
+
+
+
 ## [0.28.1](https://github.com/cerico/macfair/compare/v0.28.0...v0.28.1) (2023-04-02)
 
 
