@@ -1,5 +1,14 @@
 macfairloc={{ playbook_dir }}
 
+changes_since_last () {
+  PASSED_VERSION=$1
+  VERSION=$(git log | grep chore | grep release | head -1 | awk -F " " '{print $2}')
+  PREVIOUS_VERSION=$(git log | grep chore | grep release | head -2 | tail -1 | awk -F " " '{print $2}')
+  [[ $1 ]] && COMPARED_VERSION=v$PASSED_VERSION || COMPARED_VERSION=$PREVIOUS_VERSION
+  CHANGES=$(git log --pretty="- %s" $VERSION...$COMPARED_VERSION)
+  [[ $VERSION != $COMPARED_VERSION ]] && printf "\n# 🎁 Release notes (\`$VERSION\`)\n\n## Changes\n$CHANGES\n\n## Metadata\n\`\`\`\nThis version -------- $VERSION\nPrevious version ---- $COMPARED_VERSION\nTotal commits -------$(echo "$CHANGES" | wc -l)\n\`\`\`\n"
+}
+
 also_available_to_install () {
   x=`yq  '.[].roles | map(select(.tags[]  == "setup"))[].role' $macfairloc/setup.yml`
   list=""
@@ -36,6 +45,8 @@ macfair () {
     echo "All installed roles up to date."
   fi
   also_available_to_install
+  [[ $1 ]] && v=`grep -w $1 ~/.macfair/version | awk -F ': ' '{print $2}'` || unset v
+  changes_since_last $v
 }
 
 mf () {
