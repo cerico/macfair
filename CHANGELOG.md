@@ -1,3 +1,12 @@
+## [0.31.1](https://github.com/cerico/macfair/compare/v0.31.0...v0.31.1) (2023-04-06)
+
+
+### Bug Fixes
+
+* rename mdx files to md ([13f425a](https://github.com/cerico/macfair/commit/13f425ac0d5a7e6dc8424846ab2fe7ce5403c059))
+
+
+
 # [0.31.0](https://github.com/cerico/macfair/compare/v0.30.0...v0.31.0) (2023-04-06)
 
 
