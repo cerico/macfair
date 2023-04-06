@@ -1,3 +1,12 @@
+# [0.31.0](https://github.com/cerico/macfair/compare/v0.30.0...v0.31.0) (2023-04-06)
+
+
+### Features
+
+* add docsite publishable by gh action ([6bf3376](https://github.com/cerico/macfair/commit/6bf337626a3a918798334ee0f0470719a4bd2a49))
+
+
+
 # [0.30.0](https://github.com/cerico/macfair/compare/v0.29.0...v0.30.0) (2023-04-03)
 
 
