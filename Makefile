@@ -44,3 +44,5 @@ newsite:
 	${ANSIBLE}ansible-playbook newsite.yml -i hosts
 newcomputer:
 	${ANSIBLE}ansible-playbook newcomputer.yml -i hosts
+deploy_key:
+	gh secret set DEPLOY_KEY < ~/.ssh/kawajevo/deploy_rsa
