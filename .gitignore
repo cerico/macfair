@@ -6,3 +6,4 @@ group_vars/all/vars.yml
 !group_vars/all/example.yml
 hosts
 .vscode
+TODO.md
