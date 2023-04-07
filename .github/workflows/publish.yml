@@ -33,3 +33,42 @@ jobs:
         run: gh release create ${{ steps.changelog.outputs.tag  }} --notes-file notes.text
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: make a gitconfig
+        run: |
+          echo -e "[user]
+            name = github-runner
+            email = githubrunner@google.fi
+          " > ~/.gitconfig
+
+      - name: is gitconfig there
+        run: cat ~/.gitconfig
+
+      - name: installs the site
+        run: npm_config_yes=true npx venlo@latest --default site documentation
+
+      - name: empties template pages
+        run: rm -rf site/src/pages/[a-z]*.astro
+
+      - name: copies the Docs
+        run: cp -r docs/*md site/src/content/docs
+
+      - name: copies top level mds
+        run: for f in *.md; do cp "$f" "site/src/content/top/$(echo "$f" | tr '[:upper:]' '[:lower:]' )"; done
+
+      - name: copies top readme to index
+        run: cp README.md site/src/content/top/index.md
+
+      - name: Build
+        run: cd site && make build
+
+      - name: Rsync
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -a
+          path: site/dist/
+          remote_path: "/var/www/html/macfair.io37.ch"
+          remote_host: macfair.io37.ch
+          remote_user: deploy
+          remote_key: ${{ secrets.DEPLOY_KEY }}
+
