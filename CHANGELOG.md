@@ -1,3 +1,12 @@
+# [0.32.0](https://github.com/cerico/macfair/compare/v0.31.2...v0.32.0) (2023-04-07)
+
+
+### Features
+
+* add git park to gitconfig ([7486855](https://github.com/cerico/macfair/commit/74868553f8b34efced1c1b6f1d4964f83e568677))
+
+
+
 ## [0.31.2](https://github.com/cerico/macfair/compare/v0.31.1...v0.31.2) (2023-04-07)
 
 
