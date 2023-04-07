@@ -1,3 +1,12 @@
+## [0.32.1](https://github.com/cerico/macfair/compare/v0.32.0...v0.32.1) (2023-04-07)
+
+
+### Bug Fixes
+
+* combine publish and docsite actions ([785971b](https://github.com/cerico/macfair/commit/785971bc1a83d7442853b49071cfb8af9508e21f))
+
+
+
 # [0.32.0](https://github.com/cerico/macfair/compare/v0.31.2...v0.32.0) (2023-04-07)
 
 
