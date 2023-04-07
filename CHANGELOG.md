@@ -1,3 +1,12 @@
+## [0.31.2](https://github.com/cerico/macfair/compare/v0.31.1...v0.31.2) (2023-04-07)
+
+
+### Bug Fixes
+
+* downcase any top level readmes before deploying ([4d5fb59](https://github.com/cerico/macfair/commit/4d5fb59f9608383bf99afd65c22935324cd03260))
+
+
+
 ## [0.31.1](https://github.com/cerico/macfair/compare/v0.31.0...v0.31.1) (2023-04-06)
 
 
