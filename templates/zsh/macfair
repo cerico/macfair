@@ -10,7 +10,7 @@ changes_since_last () {
 }
 
 also_available_to_install () {
-  x=`yq  '.[].roles | map(select(.tags[]  == "setup"))[].role' $macfairloc/setup.yml`
+  x=`yq  '.[].roles | map(select(.tags[]  == "info"))[].role' $macfairloc/setup.yml`
   list=""
   echo $x| while read line;
     do
