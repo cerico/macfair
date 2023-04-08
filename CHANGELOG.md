@@ -1,3 +1,20 @@
+# [0.35.0](https://github.com/cerico/macfair/compare/v0.34.0...v0.35.0) (2023-04-08)
+
+
+### Bug Fixes
+
+* add missing "$1" to city and region aliases ([09f3c4d](https://github.com/cerico/macfair/commit/09f3c4db4663c283e7f77449dec06d8891661c9b))
+* add underscore to alias command ([cbc7a5c](https://github.com/cerico/macfair/commit/cbc7a5c22409e895dc7c07f8046a6a2e20464dca))
+* correct issue where macfair alias doesnt work outside of repo ([7697178](https://github.com/cerico/macfair/commit/769717812b61d74390fb5c188475f490548e266c))
+* remove formatting in output of macfair alias ([0777000](https://github.com/cerico/macfair/commit/0777000d9aac967f693f0346c55a24e5283324ce))
+
+
+### Features
+
+* add git changed alias ([d401feb](https://github.com/cerico/macfair/commit/d401febb0f03e5c82ef123ae4878498d246a8a04))
+
+
+
 # [0.34.0](https://github.com/cerico/macfair/compare/v0.33.2...v0.34.0) (2023-04-08)
 
 
