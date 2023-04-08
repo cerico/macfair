@@ -11,7 +11,7 @@ aliases () {
     do
       echo ${i:u}
       echo -------------
-      grep '() {$' ~/.zsh/$i | tr -cd '[:alnum:]\n' | sort
+      grep '() {$' ~/.zsh/$i | tr -cd '[:alnum:]_\n' | sort
       echo ""
     done
 }
