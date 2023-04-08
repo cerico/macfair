@@ -1,3 +1,13 @@
+## [0.33.2](https://github.com/cerico/macfair/compare/v0.33.1...v0.33.2) (2023-04-08)
+
+
+### Bug Fixes
+
+* add info tag to roles ([1dc3248](https://github.com/cerico/macfair/commit/1dc3248e4b451273272c3f9a1b51ef69fbcbc801))
+* use info tag in macfair alias ([89efba0](https://github.com/cerico/macfair/commit/89efba005dd58d367f29bf7cfb34a2e0d3011ba9))
+
+
+
 ## [0.33.1](https://github.com/cerico/macfair/compare/v0.33.0...v0.33.1) (2023-04-08)
 
 
