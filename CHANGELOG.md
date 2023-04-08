@@ -1,3 +1,17 @@
+# [0.33.0](https://github.com/cerico/macfair/compare/v0.32.1...v0.33.0) (2023-04-08)
+
+
+### Bug Fixes
+
+* remove unused astro file ([eab7245](https://github.com/cerico/macfair/commit/eab72453a3235135ae0437d489c202d969a53ffc))
+
+
+### Features
+
+* update batt alias and add dfh alias ([4cf7dc2](https://github.com/cerico/macfair/commit/4cf7dc255cf8819e8dc87cc9de2bead7935bb1c7))
+
+
+
 ## [0.32.1](https://github.com/cerico/macfair/compare/v0.32.0...v0.32.1) (2023-04-07)
 
 
