@@ -1,9 +1,6 @@
 server {
     server_name {{ app_name }};
     listen 80;
-    location = /favicon.ico {
-      alias /var/www/html/favicon.ico;
-    }
     root /var/www/html/{{ app_name }};
     index index.html;
     include snippets/errors.conf;
