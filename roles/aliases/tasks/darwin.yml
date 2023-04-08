@@ -82,3 +82,15 @@
   copy:
     src: zsh/dns
     dest: ~{{ macbook_user.stdout }}/.zsh/dns
+
+- name: Setup cron for batt
+  ansible.builtin.cron:
+    name: Batt cron
+    minute: "0,15,30,45"
+    job: ". $HOME/.zshrc; batt cron"
+
+- name: Setup cron for dfh
+  ansible.builtin.cron:
+    name: dfh cron
+    minute: "0,15,30,45"
+    job: ". $HOME/.zshrc; dfh cron"
