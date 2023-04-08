@@ -176,11 +176,11 @@ geo () {
   curl -H 'User-Agent: keycdn-tools:https://google.com' 'https://tools.keycdn.com/geo.json?host='$1
 }
 city () {
-  geo | jq -r '.data.geo.city'
+  geo $1 | jq -r '.data.geo.city'
 }
 region () {
-  geo | jq -r '.data.geo.region_name'
+  geo $1 | jq -r '.data.geo.region_name'
 }
 isp () {
-  geo | jq -r '.data.geo.isp'
+  geo $1 | jq -r '.data.geo.isp'
 }
