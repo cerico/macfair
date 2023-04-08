@@ -3,6 +3,31 @@ source ~/.zsh/dns
 brewser=`stat -f "%Su" /usr/local/bin/brew`
 alias brew='sudo -Hu '$brewser' brew'
 
+batt () {
+  [[ $1 = "clear" ]] && echo -n > ~/.batt
+  if (pmset -g batt | grep Internal | grep estimate > /dev/null); then
+    batt=$(pmset -g batt | grep Internal |awk -F' ' '{print $3,$4}' | tr -d \;)
+  else
+    batt=$(pmset -g batt | grep Internal |awk -F' ' '{print $3,$4,$5,$6}' | tr -d \;)
+  fi
+  last=`tail -n 1 ~/.batt | awk -F " " '{ print $3}'`
+  this=`echo $batt | awk -F " " '{ print $2}'`
+  date=`date "+%H:%M"`
+  cat ~/.batt
+  [[ $last = 'charged' ]] && [[ $this = 'charged' ]] && return
+  echo only see this if one of last two is not charged
+  [[ $1 = "cron" ]] && echo $date $batt >> ~/.batt
+}
+
+dfh () {
+  [[ $1 = "clear" ]] && echo -n > ~/.dfh
+  dfh=`df -h | head -2 | tail -1 | awk -F " " '{print $4}'`
+  date=`date "+%H:%M"`
+  [[ $1 = "cron" ]] && echo $date $dfh >> ~/.dfh
+  [[ -f ~/.dfh ]] && cat ~/.dfh
+  echo $date $dfh
+}
+
 green='\e[32m'
 blue='\e[34m'
 cyan='\e[36m'
