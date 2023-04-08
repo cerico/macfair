@@ -14,8 +14,8 @@ batt () {
   this=`echo $batt | awk -F " " '{ print $2}'`
   date=`date "+%H:%M"`
   cat ~/.batt
+  echo $date $batt
   [[ $last = 'charged' ]] && [[ $this = 'charged' ]] && return
-  echo only see this if one of last two is not charged
   [[ $1 = "cron" ]] && echo $date $batt >> ~/.batt
 }
 
@@ -23,9 +23,11 @@ dfh () {
   [[ $1 = "clear" ]] && echo -n > ~/.dfh
   dfh=`df -h | head -2 | tail -1 | awk -F " " '{print $4}'`
   date=`date "+%H:%M"`
-  [[ $1 = "cron" ]] && echo $date $dfh >> ~/.dfh
+  last=`tail -n 1 ~/.dfh | awk -F " " '{ print $2}'`
   [[ -f ~/.dfh ]] && cat ~/.dfh
   echo $date $dfh
+  [[ $last = $dfh ]] && return
+  [[ $1 = "cron" ]] && echo $date $dfh >> ~/.dfh
 }
 
 green='\e[32m'
