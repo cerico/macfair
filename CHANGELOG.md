@@ -1,3 +1,17 @@
+# [0.34.0](https://github.com/cerico/macfair/compare/v0.33.2...v0.34.0) (2023-04-08)
+
+
+### Bug Fixes
+
+* correct errors in batt and dgh aliases ([1ada8e7](https://github.com/cerico/macfair/commit/1ada8e72731d9d6b71176a984a07da0800caad1d))
+
+
+### Features
+
+* Create cron jobs for batt and dfh ([a459ecc](https://github.com/cerico/macfair/commit/a459ecc88c9aa19e74a81b544f6f9d29ae67d45c))
+
+
+
 ## [0.33.2](https://github.com/cerico/macfair/compare/v0.33.1...v0.33.2) (2023-04-08)
 
 
