@@ -1,3 +1,12 @@
+## [0.33.1](https://github.com/cerico/macfair/compare/v0.33.0...v0.33.1) (2023-04-08)
+
+
+### Bug Fixes
+
+* allow github hosted images in nginx security policy ([a1d7302](https://github.com/cerico/macfair/commit/a1d7302455bbe1c7d2461fd5f74fbcd0e0502061))
+
+
+
 # [0.33.0](https://github.com/cerico/macfair/compare/v0.32.1...v0.33.0) (2023-04-08)
 
 
