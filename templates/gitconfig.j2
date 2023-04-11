@@ -15,12 +15,12 @@
         templatedir = ~/.git-templates
 [alias]
         br = checkout -b
-        main = !git reset  $(git rev-parse main)
         remot = remote -v
         changed = whatchanged
         last = ! git branch --format='%(HEAD)%(color:yellow)%(refname:short)|%(color:bold green)%(committerdate:relative)|%(color:blue)%(subject)|%(color:reset)' --color=always | column -ts'|' | head -n 10
         full = ! git branch --format='%(HEAD)%(color:yellow)%(refname:short)|%(color:bold green)%(committerdate:relative)|%(color:blue)%(subject)|%(color:reset)' --color=always | column -ts'|'
         park = ! git add . && git commit -m \"wip: parking this here for now\"
+        unpark = !git reset  $(git rev-parse main)
 [push]
         autoSetupRemote = true
 [core]
