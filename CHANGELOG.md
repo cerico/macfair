@@ -1,3 +1,12 @@
+# [0.36.0](https://github.com/cerico/macfair/compare/v0.35.0...v0.36.0) (2023-04-11)
+
+
+### Features
+
+* add repos alias ([6184147](https://github.com/cerico/macfair/commit/61841473b0045cab3fa565db53340469e60bb3d3))
+
+
+
 # [0.35.0](https://github.com/cerico/macfair/compare/v0.34.0...v0.35.0) (2023-04-08)
 
 
