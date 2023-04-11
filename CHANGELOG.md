@@ -1,3 +1,13 @@
+## [0.36.4](https://github.com/cerico/macfair/compare/v0.36.3...v0.36.4) (2023-04-11)
+
+
+### Bug Fixes
+
+* add rename, makefiles, gits aliases ([41957f7](https://github.com/cerico/macfair/commit/41957f7a67ce1e2e88833e4d6634172db0b08bb8))
+* color code output of macfair alias ([30dcf9c](https://github.com/cerico/macfair/commit/30dcf9cf729f58cb867d938f0d80bf2b40cc6909))
+
+
+
 ## [0.36.3](https://github.com/cerico/macfair/compare/v0.36.2...v0.36.3) (2023-04-11)
 
 
