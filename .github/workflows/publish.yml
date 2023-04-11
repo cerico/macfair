@@ -45,7 +45,7 @@ jobs:
         run: cat ~/.gitconfig
 
       - name: installs the site
-        run: npm_config_yes=true npx venlo@latest --default macfair documentation
+        run: npm_config_yes=true npx venlo@latest --default macfair readme
 
       - name: copies the Docs
         run: cp -r docs/*md macfair/src/content/docs
