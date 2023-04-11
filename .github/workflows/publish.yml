@@ -47,9 +47,6 @@ jobs:
       - name: installs the site
         run: npm_config_yes=true npx venlo@latest --default site documentation
 
-      - name: empties template pages
-        run: rm -rf site/src/pages/[a-z]*.astro
-
       - name: copies the Docs
         run: cp -r docs/*md site/src/content/docs
 
