@@ -1,3 +1,13 @@
+## [0.36.2](https://github.com/cerico/macfair/compare/v0.36.1...v0.36.2) (2023-04-11)
+
+
+### Bug Fixes
+
+* dont remove astro files when building site ([c6f0705](https://github.com/cerico/macfair/commit/c6f0705a275c492c1b674c95301f09074b577ce1))
+* rename gh action created site to macfair ([7e21c70](https://github.com/cerico/macfair/commit/7e21c705935e8b91b3d009fb0deea27772b0fac8))
+
+
+
 ## [0.36.1](https://github.com/cerico/macfair/compare/v0.36.0...v0.36.1) (2023-04-11)
 
 
