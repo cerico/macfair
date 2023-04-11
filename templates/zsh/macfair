@@ -7,7 +7,7 @@ changes_since_last () {
   PREVIOUS_VERSION=$(git log | grep chore | grep release | head -2 | tail -1 | awk -F " " '{print $2}')
   [[ $1 ]] && COMPARED_VERSION=v$PASSED_VERSION || COMPARED_VERSION=$PREVIOUS_VERSION
   CHANGES=$(git log --pretty="- %s" $VERSION...$COMPARED_VERSION)
-  [[ $VERSION != $COMPARED_VERSION ]] && printf "\n# 🎁 Release notes (\`$VERSION\`)\n\n## Changes\n$CHANGES\n\n## Metadata\nThis version -------- $VERSION\nPrevious version ---- $COMPARED_VERSION\nTotal commits -------$(echo "$CHANGES" | wc -l)\n"
+  [[ $VERSION != $COMPARED_VERSION ]] && printf "# 🌊 Release notes $(ColorCyan $VERSION)\n\n## Changes\n$CHANGES\n\n## Metadata\nThis version -------- $(ColorCyan $VERSION)\nPrevious version ---- $COMPARED_VERSION\nTotal commits -------$(echo "$CHANGES" | wc -l)\n"
   cd - > /dev/null
 }
 
@@ -30,7 +30,7 @@ also_available_to_install () {
 macfair () {
   v=`npm --prefix $macfairloc pkg get version | tr -d '"'`
   echo ""
-  echo "Current Available Version: $v"
+  echo "Current Available Version: $(ColorCyan $v)"
   echo -------------
   sort -k2r ~/.macfair/version
   echo ""
