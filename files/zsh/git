@@ -1,3 +1,19 @@
+repos () {
+  [[ $1 ]] && num=$1 || num=10
+  [[ $2 ]] && f=$2 || f=".git"
+  arrVar=()
+  echo Finding $(ColorCyan $num) most recent directories containing $(ColorGreen $f)
+  echo ---
+  for i in `find . -name $f | grep -v node_modules | awk -F "/$f" '{print $1}'`
+  do
+  b=$(date -r $(ls -t $i/* | head -n 1 | sed s/://g) "+%Y-%m-%d")
+  arrVar+=($b:$i)
+  done
+  array=($arrVar); printf '%s\n' "${(o)array[@]}" | sort -r | head -n $num
+  echo ""
+  echo $(ColorCyan ${#arrVar[@]}) total
+}
+
 issue () {
   [[ ! $1 ]] && gh issue list && return
   [[ ! $1 = *[[:alpha:]]* ]] && gh issue view $1 && return
