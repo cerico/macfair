@@ -1,3 +1,12 @@
+## [0.36.3](https://github.com/cerico/macfair/compare/v0.36.2...v0.36.3) (2023-04-11)
+
+
+### Bug Fixes
+
+* use 'readme' design template in gh action ([297476f](https://github.com/cerico/macfair/commit/297476fcf682a9a16e389b7f17ad46dc39ed44de))
+
+
+
 ## [0.36.2](https://github.com/cerico/macfair/compare/v0.36.1...v0.36.2) (2023-04-11)
 
 
