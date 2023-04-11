@@ -1,4 +1,4 @@
-repos () {
+recent () {
   [[ $1 ]] && num=$1 || num=10
   [[ $2 ]] && f=$2 || f=".git"
   arrVar=()
@@ -12,6 +12,14 @@ repos () {
   array=($arrVar); printf '%s\n' "${(o)array[@]}" | sort -r | head -n $num
   echo ""
   echo $(ColorCyan ${#arrVar[@]}) total
+}
+
+gits () {
+  [[ $1 ]] && recent $1 .git || recent 10 .git
+}
+
+makefiles () {
+  [[ $1 ]] && recent $1 Makefile || recent 10 Makefile
 }
 
 issue () {
