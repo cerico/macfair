@@ -1,3 +1,15 @@
+## [0.36.1](https://github.com/cerico/macfair/compare/v0.36.0...v0.36.1) (2023-04-11)
+
+
+### Bug Fixes
+
+* add prune true as default for git fetch ([ba619e3](https://github.com/cerico/macfair/commit/ba619e3f1dcdfac525a7a92f9cd8c3079b8cc2a5))
+* make git main pull by default when checking out ([1ca12e2](https://github.com/cerico/macfair/commit/1ca12e20184e40aebef5e8148378f5c4b150e7eb))
+* only show unmerged branchs with git last ([d9b9ff8](https://github.com/cerico/macfair/commit/d9b9ff8f41c0bd2a774fb55089f6ab7d276c4062))
+* rename git main alias to unpark ([297663d](https://github.com/cerico/macfair/commit/297663d1869b0551c082c40c2e1ae374b0214fd4))
+
+
+
 # [0.36.0](https://github.com/cerico/macfair/compare/v0.35.0...v0.36.0) (2023-04-11)
 
 
