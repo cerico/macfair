@@ -45,25 +45,25 @@ jobs:
         run: cat ~/.gitconfig
 
       - name: installs the site
-        run: npm_config_yes=true npx venlo@latest --default site documentation
+        run: npm_config_yes=true npx venlo@latest --default macfair documentation
 
       - name: copies the Docs
-        run: cp -r docs/*md site/src/content/docs
+        run: cp -r docs/*md macfair/src/content/docs
 
       - name: copies top level mds
-        run: for f in *.md; do cp "$f" "site/src/content/top/$(echo "$f" | tr '[:upper:]' '[:lower:]' )"; done
+        run: for f in *.md; do cp "$f" "macfair/src/content/top/$(echo "$f" | tr '[:upper:]' '[:lower:]' )"; done
 
       - name: copies top readme to index
-        run: cp README.md site/src/content/top/index.md
+        run: cp README.md macfair/src/content/top/index.md
 
       - name: Build
-        run: cd site && make build
+        run: cd macfair && make build
 
       - name: Rsync
         uses: burnett01/rsync-deployments@4.1
         with:
           switches: -a
-          path: site/dist/
+          path: macfair/dist/
           remote_path: "/var/www/html/macfair.io37.ch"
           remote_host: macfair.io37.ch
           remote_user: deploy
