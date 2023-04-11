@@ -15,6 +15,7 @@
         templatedir = ~/.git-templates
 [alias]
         br = checkout -b
+        main = ! git checkout main && git pull
         remot = remote -v
         changed = whatchanged
         last = ! git branch --format='%(HEAD)%(color:yellow)%(refname:short)|%(color:bold green)%(committerdate:relative)|%(color:blue)%(subject)|%(color:reset)' --color=always | column -ts'|' | head -n 10
