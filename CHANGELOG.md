@@ -1,3 +1,12 @@
+## [0.36.5](https://github.com/cerico/macfair/compare/v0.36.4...v0.36.5) (2023-04-12)
+
+
+### Bug Fixes
+
+* improve output of recent alias ([2b8f1d3](https://github.com/cerico/macfair/commit/2b8f1d3424f9719426b0b5ad1deb47dd3582169b))
+
+
+
 ## [0.36.4](https://github.com/cerico/macfair/compare/v0.36.3...v0.36.4) (2023-04-11)
 
 
