@@ -1,3 +1,18 @@
+# [0.37.0](https://github.com/cerico/macfair/compare/v0.36.5...v0.37.0) (2023-04-13)
+
+
+### Bug Fixes
+
+* when finding most recent file include hidden files ([16ccbeb](https://github.com/cerico/macfair/commit/16ccbeb27f88c3326463d8145f712c33c60b9da9))
+
+
+### Features
+
+* add aliases for supabase ([8f6e6e5](https://github.com/cerico/macfair/commit/8f6e6e55fbbebf34a8996eee05d2389a42a57c29))
+* add astros and repos aliases ([32d7656](https://github.com/cerico/macfair/commit/32d7656c8de5b492d071ab6a34e6a9a388a0c319))
+
+
+
 ## [0.36.5](https://github.com/cerico/macfair/compare/v0.36.4...v0.36.5) (2023-04-12)
 
 
