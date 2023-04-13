@@ -14,6 +14,11 @@
     src: zsh/godaddy
     dest: ~{{ macbook_user.stdout }}/.zsh/godaddy
 
+- name: Copy supabase file
+  copy:
+    src: zsh/supabase
+    dest: ~{{ macbook_user.stdout }}/.zsh/supabase
+
 - name: Copy macfair file (this machine)
   template:
     src: zsh/macfair

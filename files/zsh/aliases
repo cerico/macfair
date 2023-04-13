@@ -1,5 +1,6 @@
 source ~/.zsh/git
 source ~/.zsh/godaddy
+source ~/.zsh/supabase
 source ~/.zsh/macfair
 source ~/.zsh/tokens
 source ~/.zsh/trialling
