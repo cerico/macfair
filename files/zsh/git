@@ -22,6 +22,14 @@ makefiles () {
   [[ $1 ]] && recent $1 Makefile || recent 10 Makefile
 }
 
+astros () {
+  [[ $1 ]] && recent $1 astro.config.mjs || recent 10 astro.config.mjs
+}
+
+repos () {
+  [[ -n $1 ]] && gh repo list --visibility $1 || gh repo list
+}
+
 issue () {
   [[ ! $1 ]] && gh issue list && return
   [[ ! $1 = *[[:alpha:]]* ]] && gh issue view $1 && return
