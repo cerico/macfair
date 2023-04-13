@@ -6,7 +6,7 @@ recent () {
   echo ---
   for i in `find . -name $f | grep -v node_modules | awk -F "/$f" '{print $1}'`
   do
-  b=$(date -r $(ls -t $i/* | head -n 1 | sed s/://g) "+%Y-%m-%d")
+  b=$(date -r $(ls -ta $i/* | head -n 1 | sed s/://g) "+%Y-%m-%d")
   arrVar+=($b" ${i#./}")
   done
   array=($arrVar); printf '%s\n' "${(o)array[@]}" | sort -r | head -n $num
