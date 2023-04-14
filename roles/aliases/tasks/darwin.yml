@@ -83,6 +83,12 @@
     src: zsh/dns
     dest: ~{{ macbook_user.stdout }}/.zsh/dns
 
+- name: Makes zsh the cron shell
+  ansible.builtin.cron:
+    name: SHELL
+    env: yes
+    job: /bin/zsh
+
 - name: Setup cron for batt
   ansible.builtin.cron:
     name: Batt cron
