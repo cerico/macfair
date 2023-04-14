@@ -213,3 +213,18 @@ makefiles () {
 astros () {
   [[ $1 ]] && recent $1 astro.config.mjs || recent 10 astro.config.mjs
 }
+
+apps () {
+  if [[ $1 = "cron" ]]
+    then
+    cd ~
+    date > .apps
+    echo "----------------" >> .apps
+    echo Astro: `astros | tail -n 1` >> .apps
+    echo Git: `gits | tail -n 1` >> .apps
+    echo Makefile: `makefiles | tail -n 1` >> .apps
+    echo Supabase: `supas | tail -n 1` >> .apps
+    cd - > /dev/null
+  fi
+  cat ~/.apps
+}
