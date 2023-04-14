@@ -100,3 +100,10 @@
     name: dfh cron
     minute: "0,15,30,45"
     job: ". $HOME/.zshrc; dfh cron"
+
+- name: Setup cron for appcount
+  ansible.builtin.cron:
+    name: apps cron
+    hour: "16"
+    minute: "31"
+    job: ". $HOME/.zshrc; apps cron"
