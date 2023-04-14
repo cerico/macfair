@@ -1,3 +1,19 @@
+# [0.38.0](https://github.com/cerico/macfair/compare/v0.37.0...v0.38.0) (2023-04-14)
+
+
+### Bug Fixes
+
+* create cron job for apps alias ([b6cbc73](https://github.com/cerico/macfair/commit/b6cbc73467a3cccc08b5eb2ec174a7bc3c90ce7f))
+* make zsh the shell for cronjobs ([d660f08](https://github.com/cerico/macfair/commit/d660f08b023056e6965d37b74cf25939b6957da5))
+* move some none-git aliases out of git file to main alias file ([7a64ee6](https://github.com/cerico/macfair/commit/7a64ee695d92776a4c436b093c8c75ae350eac39))
+
+
+### Features
+
+* add new apps alias to list count of apps by type ([5c7e27b](https://github.com/cerico/macfair/commit/5c7e27b979227f5e0c2910ebaf0e3e6d20bf069c))
+
+
+
 # [0.37.0](https://github.com/cerico/macfair/compare/v0.36.5...v0.37.0) (2023-04-13)
 
 
