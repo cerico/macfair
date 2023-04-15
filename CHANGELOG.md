@@ -1,3 +1,12 @@
+## [0.38.1](https://github.com/cerico/macfair/compare/v0.38.0...v0.38.1) (2023-04-15)
+
+
+### Bug Fixes
+
+* update recent alias to allow args in any order ([a41a3f4](https://github.com/cerico/macfair/commit/a41a3f4f234b3b27e8d7fc2a808522757a4d9eef))
+
+
+
 # [0.38.0](https://github.com/cerico/macfair/compare/v0.37.0...v0.38.0) (2023-04-14)
 
 
