@@ -1,3 +1,12 @@
+## [0.38.2](https://github.com/cerico/macfair/compare/v0.38.1...v0.38.2) (2023-04-21)
+
+
+### Bug Fixes
+
+* improve tldr target in makefile ([97dc00e](https://github.com/cerico/macfair/commit/97dc00e5684c6e8847c576a81b211b355f83f7bc))
+
+
+
 ## [0.38.1](https://github.com/cerico/macfair/compare/v0.38.0...v0.38.1) (2023-04-15)
 
 
