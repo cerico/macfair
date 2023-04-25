@@ -49,6 +49,11 @@ m () {
   fi
 }
 
+viz () {
+  [[ -n $1 ]] && a=$1 || a=trialling
+  vi ~/.zsh/$a
+}
+
 cdrepo () {
 	cd `upsearch .git`
 }
@@ -214,6 +219,10 @@ makefiles () {
 
 astros () {
   [[ $1 ]] && recent $1 astro.config.mjs || recent 10 astro.config.mjs
+}
+
+readmes () {
+  [[ -n $1 ]] && recent $1 README.md || recent 10 README.md
 }
 
 apps () {
