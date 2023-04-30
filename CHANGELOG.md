@@ -1,3 +1,12 @@
+# [0.39.0](https://github.com/cerico/macfair/compare/v0.38.2...v0.39.0) (2023-04-30)
+
+
+### Features
+
+* add viz and readmes aliases ([a8832aa](https://github.com/cerico/macfair/commit/a8832aa93802e0e49205417fc33a0b3a269be5ea))
+
+
+
 ## [0.38.2](https://github.com/cerico/macfair/compare/v0.38.1...v0.38.2) (2023-04-21)
 
 
