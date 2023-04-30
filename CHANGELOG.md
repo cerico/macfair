@@ -1,3 +1,12 @@
+## [0.39.1](https://github.com/cerico/macfair/compare/v0.39.0...v0.39.1) (2023-04-30)
+
+
+### Bug Fixes
+
+* improve git changed output ([1284836](https://github.com/cerico/macfair/commit/12848360deefe1598285078673a994b9aac38d0b))
+
+
+
 # [0.39.0](https://github.com/cerico/macfair/compare/v0.38.2...v0.39.0) (2023-04-30)
 
 
