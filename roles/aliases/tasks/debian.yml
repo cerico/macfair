@@ -75,7 +75,7 @@
 - name: create trial file for new aliases if one doesn't already exist
   copy:
     content: "tinker(){\n  echo try out new aliases here, not in main file\n}"
-    dest: ~{{ macbook_user.stdout }}/.zsh/trialling
+    dest: ~{{ macbook_user.stdout }}/.zsh/_trialling
     force: no
 
 - name: copy js help file
