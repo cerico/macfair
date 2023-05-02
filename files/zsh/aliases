@@ -3,18 +3,25 @@ source ~/.zsh/godaddy
 source ~/.zsh/supabase
 source ~/.zsh/macfair
 source ~/.zsh/tokens
-source ~/.zsh/trialling
+source ~/.zsh/_trialling
 export MARKPATH=$HOME/.marks
 alias sedi='sed -i "" -e'
 
 aliases () {
   for i in `ls ~/.zsh |grep -v "\."`
     do
-      echo ${i:u}
-      echo -------------
-      grep '() {$' ~/.zsh/$i | tr -cd '[:alnum:]_\n' | sort
+      echo $(ColorCyan ${i:u})
+      echo $(ColorCyan -------------)
+      grep '^[[:alpha:]].*{' ~/.zsh/$i | tr -cd '[:alnum:]# _\n' | sort
       echo ""
     done
+}
+
+trialling () {
+  echo $(ColorCyan "TRIAL ALIASES")
+  echo $(ColorCyan -------------)
+  grep '^[[:alpha:]].*{' ~/.zsh/_trialling | tr -cd '[:alnum:]# _\n' | sort
+  echo ""
 }
 
 alphnum () {
@@ -50,7 +57,7 @@ m () {
 }
 
 viz () {
-  [[ -n $1 ]] && a=$1 || a=trialling
+  [[ -n $1 ]] && a=$1 || a=_trialling
   vi ~/.zsh/$a
 }
 
