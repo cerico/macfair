@@ -1,3 +1,13 @@
+## [0.39.2](https://github.com/cerico/macfair/compare/v0.39.1...v0.39.2) (2023-05-03)
+
+
+### Bug Fixes
+
+* list trial aliases separately with alias command ([f2bb042](https://github.com/cerico/macfair/commit/f2bb042b2ddaae4dcd5565c30d47a877306d2603))
+* rename git last to git branches ([e7f54fd](https://github.com/cerico/macfair/commit/e7f54fdf69f0fc63b68ec1bb3e772fcf7b88db9a))
+
+
+
 ## [0.39.1](https://github.com/cerico/macfair/compare/v0.39.0...v0.39.1) (2023-04-30)
 
 
