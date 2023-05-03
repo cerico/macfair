@@ -8,20 +8,21 @@ export MARKPATH=$HOME/.marks
 alias sedi='sed -i "" -e'
 
 aliases () {
-  for i in `ls ~/.zsh |grep -v "\."`
+  if [[ $1 ]]
+  then
+    [ -f ~/.zsh/$1 ] && f=$1 || f="_trialling"
+    echo $(ColorCyan ${f:u})
+    echo $(ColorCyan -------------)
+    grep '^[[:alpha:]].*{' ~/.zsh/$f | tr -cd '[:alnum:]# _\n' | sort | awk -F"#" '{printf "\033[0;38m%-10s\t\033[1;36m%s\n", $1, $2}'
+  else
+  for i in $(ls ~/.zsh | grep -v "\." | grep -v trialling)
     do
       echo $(ColorCyan ${i:u})
       echo $(ColorCyan -------------)
-      grep '^[[:alpha:]].*{' ~/.zsh/$i | tr -cd '[:alnum:]# _\n' | sort
+      grep '^[[:alpha:]].*{' ~/.zsh/$i | tr -cd '[:alnum:]# _\n' | sort | awk -F"#" '{printf "\033[0;38m%-10s\t\033[1;36m%s\n", $1, $2}'
       echo ""
     done
-}
-
-trialling () {
-  echo $(ColorCyan "TRIAL ALIASES")
-  echo $(ColorCyan -------------)
-  grep '^[[:alpha:]].*{' ~/.zsh/_trialling | tr -cd '[:alnum:]# _\n' | sort
-  echo ""
+  fi
 }
 
 alphnum () {
@@ -36,7 +37,7 @@ help() {
   node $HOME/.zsh/help.js $1
 }
 
-upsearch () {
+upsearch () { # Search for file traversing up directory tree
   slashes=${PWD//[^\/]/}
   directory="$PWD"
   for (( n=${#slashes}; n>0; --n ))
@@ -46,7 +47,7 @@ upsearch () {
   done
 }
 
-m () {
+m () { # Find nearest Makefile and execute Make from there
   mf=`upsearch Makefile`
   if [[ ${#mf} -gt 0 ]] ; then
     cd $mf
@@ -76,7 +77,7 @@ todo () {
   vi TODO.md
 }
 
-isym () {
+isym () { # Make symbolic link in any order
 	if [[ -f $1 ]]
 	then
 		ln -s $1 $2
