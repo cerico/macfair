@@ -1,23 +1,15 @@
-list_domains () {
+_list_domains () {
   curl -X 'GET' \
     'https://api.godaddy.com/v1/domains' \
     -H 'accept: application/json' \
     -H "Authorization: sso-key $key" | jq -c '.[] | select( .status == "ACTIVE" ) ' | jq
 }
 
-show_domain () {
-  key=`godaddysecrets`
-  curl -X 'GET' \
-    'https://api.godaddy.com/v1/domains/yesmat.es' \
-    -H 'accept: application/json' \
-    -H "Authorization: sso-key $key" | jq
-}
-
-move_domain () {
+_move_domain () {
   echo "Coming soon, currently only able to move subdomains"
 }
 
-move_subdomain () {
+_move_subdomain () {
   subdomain=`echo $1 | cut -d'.' -f 1`
   if [[ ${#subdomain} -lt 2 ]]; then
     echo "subdomain too short"
@@ -47,7 +39,7 @@ move_subdomain () {
 ]'
 }
 
-add_subdomain () {
+_add_subdomain () {
   subdomain=`echo $1 | cut -d'.' -f 1`
   if [[ ${#subdomain} -lt 2 ]]; then
     echo "subdomain too short"
@@ -75,7 +67,7 @@ add_subdomain () {
 ]'
 }
 
-godaddy () {
+godaddy () { # manage or list godaddy domains # ➜ godaddy macfair.io37.ch
   ip=
   key=`godaddysecrets`
   if [[ $key != *:* ]]; then
@@ -83,7 +75,7 @@ godaddy () {
     return
   fi
   if [[ $# -eq 0 ]] ; then
-    list_domains
+    _list_domains
     return
   fi
   fields=`echo $1 | awk -F '.' '{print NF}'`
@@ -95,22 +87,22 @@ godaddy () {
   PS3='Select: '
   select action in "${actions[@]}"; do
     case $action in
-      "Add $1")   
+      "Add $1")
         vared -p "Enter ip of server to add $1 to: " -c ip
-        add_subdomain $1 $ip
+        _add_subdomain $1 $ip
         break
         ;;
-      "Move $1") 
+      "Move $1")
         vared -p "Enter ip of server to move $1 to: " -c ip
-        move_subdomain $1 $ip
+        _move_subdomain $1 $ip
         break
         ;;
       "Move domain")
-        move_domain
+        _move_domain
         break
         ;;
       "List domains")
-        list_domains
+        _list_domains
         break
         ;;
     esac
