@@ -77,7 +77,7 @@ todo () {
   vi TODO.md
 }
 
-isym () { # Make symbolic link in any order
+isym () { # Make symbolic link in any order # ➜ isym cats dogs
 	if [[ -f $1 ]]
 	then
 		ln -s $1 $2
