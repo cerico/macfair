@@ -3,24 +3,34 @@
     src: gitconfig.j2
     dest: ~{{ macbook_user.stdout }}/.gitconfig
 
+- name: Create git directory
+  file:
+    path: "~{{ macbook_user.stdout }}/.config/git"
+    state: directory
+
 - name: Create git hooks directory
   file:
-    path: "~{{ macbook_user.stdout }}/.git-templates/hooks"
+    path: "~{{ macbook_user.stdout }}/.config/git/hooks"
     state: directory
 
 - name: Copy global pre-commit hook
   copy:
     src: git/pre-commit
-    dest: ~{{ macbook_user.stdout }}/.git-templates/hooks/pre-commit
+    dest: ~{{ macbook_user.stdout }}/.config/git/hooks/pre-commit
     mode: a+x
 
 - name: Copy global commit-msg hook
   copy:
     src: git/commit-msg
-    dest: ~{{ macbook_user.stdout }}/.git-templates/hooks/commit-msg
+    dest: ~{{ macbook_user.stdout }}/.config/git/hooks/commit-msg
     mode: a+x
 
-- name: create blank template commit file
+- name: Create blank template commit file
   copy:
     src: git/commit-msg-template
-    dest: ~{{ macbook_user.stdout }}/.gitmessage
+    dest: ~{{ macbook_user.stdout }}/.config/git/commit-msg-template
+
+- name: Create global gitignore
+  copy:
+    src: git/ignore
+    dest: ~{{ macbook_user.stdout }}/.config/git/ignore

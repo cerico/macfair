@@ -12,7 +12,7 @@
 {% endif %}
 [init]
         defaultBranch = main
-        templatedir = ~/.git-templates
+        templatedir = ~/.config/git
 [alias]
         br = checkout -b
         main = ! git checkout main && git pull
@@ -27,7 +27,7 @@
 [core]
         editor = vi
 [commit]
-        template = ~/.gitmessage
+        template = ~/.config/git/commit-msg-template
 [branch]
         sort = -committerdate
 [fetch]

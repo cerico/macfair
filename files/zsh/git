@@ -38,38 +38,38 @@ cleanpr () {
   git commit
   git push -f
   gh pr create --fill
-  echo "#wip: " >  ~/.gitmessage
+  echo "#wip: " >  ~/.config/git/commit-msg-template
 }
 
 wip () {
-	echo "#wip: $1" > ~/.gitmessage
+	echo "#wip: $1" > ~/.config/git/commit-msg-template
 	git commit
 }
 
 fix () {
-	echo "#fix: $1" > ~/.gitmessage
+	echo "#fix: $1" > ~/.config/git/commit-msg-template
 	git commit
 }
 
 minor () {
-	echo "#feat: $1" > ~/.gitmessage
+	echo "#feat: $1" > ~/.config/git/commit-msg-template
 	git commit
 }
 
 major () {
-	echo "#feat!: $1" > ~/.gitmessage
+	echo "#feat!: $1" > ~/.config/git/commit-msg-template
 	git commit
 }
 
 ghpr () {
   if [[ $1 == 'patch' || $1 == 'fix' ]] ; then
-    echo "#fix: "  > ~/.gitmessage
+    echo "#fix: "  > ~/.config/git/commit-msg-template
     cleanpr
   elif [[ $1 == 'minor' || $1 == 'feat' ]] ; then
-    echo "#feat: "  > ~/.gitmessage
+    echo "#feat: "  > ~/.config/git/commit-msg-template
     cleanpr
   elif [[ $1 == 'major' || $1 == 'breaking' ]] ; then
-    echo "#feat: "  > ~/.gitmessage
+    echo "#feat: "  > ~/.config/git/commit-msg-template
     cleanpr
   elif [[ `git cherry -v main | grep -v -e fix -e feat| wc -c` -eq 0 ]] ;  then
     git push
@@ -90,16 +90,4 @@ addnewlines () {
   do
     echo >> $i
   done
-}
-
-repo () {
-  git branch -m main
-  gh repo create $(pwd | xargs basename) --private -y
-}
-
-gitinit () {
-  git init
-  echo node_modules >> .gitignore
-  git add .
-  git commit -m "init"
 }
