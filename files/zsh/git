@@ -1,7 +1,8 @@
-repos () {
+repos () { # List all repos # ➜ repos public
   [[ -n $1 ]] && gh repo list --visibility $1 || gh repo list
 }
-issue () {
+
+issue () { # Create or view gh issue # ➜ issue "update nginx security policy"
   [[ ! $1 ]] && gh issue list && return
   [[ ! $1 = *[[:alpha:]]* ]] && gh issue view $1 && return
   [[ $2 = [[:alpha:]]* ]] && body=$2 || body=$1
@@ -9,25 +10,25 @@ issue () {
   for i in "$@" ; do if [[ "$i" == "-"* ]] && gh issue view "${issue##*/}" --web; done;
 }
 
-issues () {
+issues () { # List gh issues
   [[ $1 ]] && gh issue view $1 || gh issue list
 }
 
-prs () {
+prs () { # List open prs
   [[ $1 ]] && gh pr view $1 || gh pr list
 }
 
-getpr () {
+_getpr () {
   pr=$(gh pr list | grep `git branch --show-current` | awk -F' ' '{print $1}')
 }
 
 closepr () {
-  getpr
+  _getpr
   gh pr close $pr
 }
 
 viewpr () {
-  getpr
+  _getpr
   gh pr view $pr --web
 }
 
@@ -41,27 +42,27 @@ cleanpr () {
   echo "#wip: " >  ~/.config/git/commit-msg-template
 }
 
-wip () {
+wip () { # Create work-in-progress commit # ➜ wip "Initial cities now shading correctly"
 	echo "#wip: $1" > ~/.config/git/commit-msg-template
 	git commit
 }
 
-fix () {
+fix () { # Create semver fix commit # ➜ fix "Add missing data for Daegu"
 	echo "#fix: $1" > ~/.config/git/commit-msg-template
 	git commit
 }
 
-minor () {
+minor () { # Create semver minor commit # ➜ minor "Colorize and tab aliases output"
 	echo "#feat: $1" > ~/.config/git/commit-msg-template
 	git commit
 }
 
-major () {
+major () { # Create semver major commit # ➜ major "Replace big breaking thing"
 	echo "#feat!: $1" > ~/.config/git/commit-msg-template
 	git commit
 }
 
-ghpr () {
+ghpr () { # Create and validate a PR
   if [[ $1 == 'patch' || $1 == 'fix' ]] ; then
     echo "#fix: "  > ~/.config/git/commit-msg-template
     cleanpr
@@ -80,13 +81,13 @@ ghpr () {
   fi
 }
 
-nonewlines () {
+_find_missing_newlines () {
   find . -type f -not -path "./.git*" -exec sh -c 'file -b "{}" | grep -q text' \; -exec sh -c '[ "$(tail -c 1 "{}" | od -An -a | tr -d "[:space:]")" != "nl" ]' \; -print
   find . -name '*.json' -exec sh -c '[ "$(tail -c 1 "{}" | od -An -a | tr -d "[:space:]")" != "nl" ]' \; -print
 }
 
-addnewlines () {
-  for i in `nonewlines`
+addnewlines () { # Add newlines where missing
+  for i in $(_find_missing_newlines)
   do
     echo >> $i
   done
