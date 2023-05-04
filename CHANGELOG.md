@@ -1,3 +1,20 @@
+## [0.39.3](https://github.com/cerico/macfair/compare/v0.39.2...v0.39.3) (2023-05-04)
+
+
+### Bug Fixes
+
+* add coments for dns aliases ([37b20a8](https://github.com/cerico/macfair/commit/37b20a89a4152908abb9f185ddaaa18048e31508))
+* add comments for supabase aliases ([6235fc2](https://github.com/cerico/macfair/commit/6235fc237915a285859495f418905c7586d7f64f))
+* add isym example in comment ([9ad2fb7](https://github.com/cerico/macfair/commit/9ad2fb7ea99d311202835149321e79c47f2ab4fc))
+* add third column to aliases command to show usage ([6c6bb4b](https://github.com/cerico/macfair/commit/6c6bb4bd7ce59f94a7db643e6386a2186ea22d6f))
+* allow dots in aliases alias ([9b97a51](https://github.com/cerico/macfair/commit/9b97a518d400875aad64448ae8f6ea4efc929f92))
+* comment godaddy alias file and underscore internal aliases ([ff6e2c1](https://github.com/cerico/macfair/commit/ff6e2c16ae792ccf4646bf01b35f59c3871837f6))
+* improve alias output ([f711f09](https://github.com/cerico/macfair/commit/f711f09a6a3322ec24c5cd9925fda2445f83b6d1))
+* increase spacing on  aliases alias for cleaner output ([7ba8009](https://github.com/cerico/macfair/commit/7ba80095fabfed2778fffe3918a0bb3df51cbf24))
+* update dnsmasq alias to 3 col layout format ([3046c9c](https://github.com/cerico/macfair/commit/3046c9c9cba40ea2ba70681a57ecad7e24739902))
+
+
+
 ## [0.39.2](https://github.com/cerico/macfair/compare/v0.39.1...v0.39.2) (2023-05-03)
 
 
