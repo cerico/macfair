@@ -13,13 +13,13 @@ aliases () {
     [ -f ~/.zsh/$1 ] && f=$1 || f="_trialling"
     echo $(ColorCyan ${f:u})
     echo $(ColorCyan -------------)
-    grep '^[[:alpha:]].*{' ~/.zsh/$f | tr -cd '[:alnum:]# ➜._\n' | sort | awk -F"#" '{printf "\033[0;38m%-10s\t\033[1;36m%-72s\t\033[0;32m%s\n", $1, $2, $3}'
+    grep '^[[:alpha:]].*{' ~/.zsh/$f | tr -cd '[:alnum:]# ➜."_\n' | sort | awk -F"#" '{printf "\033[0;38m%-10s\t\033[1;36m%-54s\t\033[0;32m%s\n", $1, $2, $3}'
   else
   for i in $(ls ~/.zsh | grep -v "\." | grep -v trialling)
     do
       echo $(ColorCyan ${i:u})
       echo $(ColorCyan -------------)
-      grep '^[[:alpha:]].*{' ~/.zsh/$i | tr -cd '[:alnum:]# ➜._\n' | sort | awk -F"#" '{printf "\033[0;38m%-10s\t\033[1;36m%-72s\t\033[0;32m%s\n", $1, $2, $3}'
+      grep '^[[:alpha:]].*{' ~/.zsh/$i | tr -cd '[:alnum:]# ➜"._\n' | sort | awk -F"#" '{printf "\033[0;38m%-10s\t\033[1;36m%-54s\t\033[0;32m%s\n", $1, $2, $3}'
       echo ""
     done
   fi
@@ -47,7 +47,7 @@ upsearch () { # Search for file traversing up directory tree
   done
 }
 
-m () { # Find nearest Makefile and execute Make from there
+m () { # Execute nearest Makefile up directory tree
   mf=`upsearch Makefile`
   if [[ ${#mf} -gt 0 ]] ; then
     cd $mf
@@ -199,7 +199,7 @@ isp () {
   geo $1 | jq -r '.data.geo.isp'
 }
 
-recent () { # Find most recent directories containing a file with specified filename # ➜ recent 12 astro.config.mjs
+recent () { # Find n most recent directories containing named file # ➜ recent 12 astro.config.mjs
   [[ $1 = [1-9]* ]] && num=$1 || num=10
   [[ $1 = [.[:alpha:]]* ]] && f=$1 || f='.git'
   [[ $2 = [1-9]* ]] && num=$2

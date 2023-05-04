@@ -1,4 +1,4 @@
-dnsvpn() { # Override OpenVPN dns servers with local and google dns servers
+dnsvpn() { # Override OpenVPN dns servers
   local="dhcp-option DNS 127.0.0.1"
   google="dhcp-option DNS 8.8.4.4"
   brewser=`stat -f "%Su" /usr/local/bin/brew`
