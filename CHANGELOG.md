@@ -1,3 +1,12 @@
+# [0.40.0](https://github.com/cerico/macfair/compare/v0.39.3...v0.40.0) (2023-05-04)
+
+
+### Features
+
+* add global gitignore ([77bf34c](https://github.com/cerico/macfair/commit/77bf34cb308f7fea0bba06b5b35b71d432bccea1))
+
+
+
 ## [0.39.3](https://github.com/cerico/macfair/compare/v0.39.2...v0.39.3) (2023-05-04)
 
 
