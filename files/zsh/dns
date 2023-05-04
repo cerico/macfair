@@ -12,7 +12,7 @@ dnsvpn() { # Override OpenVPN dns servers with local and google dns servers
   cd -
 }
 
-dnsmasq () { # Add local domain for dns eg dnsmasq raspberry.pi 192.168.1.102
+dnsmasq () { # Add local domain for dns # ➜ dnsmasq raspberry.pi 192.168.1.102
   if [[ $# -gt 1 ]] ; then
     file="/usr/local/etc/dnsmasq.conf"
     domain=`grep -n address=/.$1/ $file`
