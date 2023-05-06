@@ -1,3 +1,18 @@
+# [0.41.0](https://github.com/cerico/macfair/compare/v0.40.0...v0.41.0) (2023-05-06)
+
+
+### Bug Fixes
+
+* improve commenting for dns, git, and main aliases ([17913b1](https://github.com/cerico/macfair/commit/17913b13dc08560ba7d1dbfe3e97c757016f7d49))
+* update vsc and city aliases ([224ac72](https://github.com/cerico/macfair/commit/224ac72bd77045912dad3af5e777d18964c53a36))
+
+
+### Features
+
+* add aud alias to dl audio ([9c8c781](https://github.com/cerico/macfair/commit/9c8c7810fe7cdbccfcdf148ccf63699dc4c34472))
+
+
+
 # [0.40.0](https://github.com/cerico/macfair/compare/v0.39.3...v0.40.0) (2023-05-04)
 
 
