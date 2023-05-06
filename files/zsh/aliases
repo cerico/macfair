@@ -177,12 +177,16 @@ cpr () {
   echo -e "\033]50;SetProfile=$1\a"
 }
 
-vsc () {
+vsc () { # list or switch vscode themes # ➜ vsc sunlight
   theme=~/.vscode/themes/$1.json
   if test -f "$theme"
   then
     mkdir -p .vscode
     cp $theme .vscode/settings.json
+  else
+    echo "Available themes"
+    echo "----------------"
+    ls -G ~/.vscode/themes/ | awk -F'.json' '{print $1}'
   fi
 }
 
@@ -193,7 +197,7 @@ hist () {
 geo () {
   curl -H 'User-Agent: keycdn-tools:https://google.com' 'https://tools.keycdn.com/geo.json?host='$1
 }
-city () {
+city () { # find city of an ip address # ➜ city 23.5.4.1
   geo $1 | jq -r '.data.geo.city'
 }
 region () {
