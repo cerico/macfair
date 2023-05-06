@@ -29,6 +29,10 @@ alphnum () {
 	tr -cd '[:alnum:]\n'
 }
 
+aud () {
+  yt-dlp -xiwc $1
+}
+
 help() {
   if [[ $# -eq 0 ]] ; then
     node $HOME/.zsh/help.js
