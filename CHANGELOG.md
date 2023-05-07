@@ -1,3 +1,12 @@
+# [0.42.0](https://github.com/cerico/macfair/compare/v0.41.0...v0.42.0) (2023-05-07)
+
+
+### Features
+
+* base iterm and zsh themes on vars ([4f717c9](https://github.com/cerico/macfair/commit/4f717c91bf5da6c4785c4203388a1f948c51164a))
+
+
+
 # [0.41.0](https://github.com/cerico/macfair/compare/v0.40.0...v0.41.0) (2023-05-06)
 
 
