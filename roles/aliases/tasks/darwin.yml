@@ -1,7 +1,7 @@
 ---
 - name: Copy zshrc
-  copy:
-    src: zshrc
+  template:
+    src: zshrc.j2
     dest: ~{{ macbook_user.stdout }}/.zshrc
 
 - name: Create zsh directory

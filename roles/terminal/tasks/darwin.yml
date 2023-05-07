@@ -35,6 +35,3 @@
     src: iterm.json.j2
     dest: ~{{ macbook_user.stdout }}/Library/Application Support/iTerm2/DynamicProfiles/iterm.json
   when: iterm_path.stat.exists
-
-- name: set default iterm profile
-  shell: echo -e "\033]50;SetProfile=coffee\a"
