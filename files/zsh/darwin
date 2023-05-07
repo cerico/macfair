@@ -30,6 +30,10 @@ dfh () {
   [[ $1 = "cron" ]] && echo $date $dfh >> ~/.dfh
 }
 
+nfy () {
+  netlify sites:list | grep url
+}
+
 green='\e[32m'
 blue='\e[34m'
 cyan='\e[36m'
