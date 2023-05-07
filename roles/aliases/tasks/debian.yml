@@ -1,32 +1,12 @@
 ---
-- name: Copy zshrc
-  template:
-    src: zshrc.j2
-    dest: ~{{ macbook_user.stdout }}/.zshrc
-
-- name: Create zsh directory
-  file:
-    path: "~{{ macbook_user.stdout }}/.zsh"
-    state: directory
-
-- name: Copy aliases
-  copy:
-    src: zsh/aliases
-    dest: ~{{ macbook_user.stdout }}/.zsh/aliases
-
 - name: Copy debian
   copy:
     src: zsh/debian
     dest: ~{{ macbook_user.stdout }}/.zsh/debian
 
-- name: Copy git aliases
-  copy:
-    src: zsh/git
-    dest: ~{{ macbook_user.stdout }}/.zsh/git
-
 - name: Add debian to path.
   lineinfile:
-    path: ~/.zsh/aliases
+    path: ~/.zsh/main
     line: source $HOME/.zsh/debian
     insertbefore: BOF
 
