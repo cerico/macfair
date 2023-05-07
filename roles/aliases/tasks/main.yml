@@ -1,3 +1,18 @@
+- name: Copy zshrc
+  template:
+    src: zshrc.j2
+    dest: ~{{ macbook_user.stdout }}/.zshrc
+
+- name: Create zsh directory
+  file:
+    path: "~{{ macbook_user.stdout }}/.zsh"
+    state: directory
+
+- name: Copy main aliases file
+  copy:
+    src: zsh/main
+    dest: ~{{ macbook_user.stdout }}/.zsh/main
+
 - name: configure terminal for mac
   import_tasks: darwin.yml
   when: ansible_os_family == "Darwin"
