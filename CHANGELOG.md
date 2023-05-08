@@ -1,3 +1,12 @@
+## [0.42.1](https://github.com/cerico/macfair/compare/v0.42.0...v0.42.1) (2023-05-08)
+
+
+### Bug Fixes
+
+* rename aliases file to main ([4f34d6e](https://github.com/cerico/macfair/commit/4f34d6ebadf5f7041f87960ca3e57541714f8608))
+
+
+
 # [0.42.0](https://github.com/cerico/macfair/compare/v0.41.0...v0.42.0) (2023-05-07)
 
 
