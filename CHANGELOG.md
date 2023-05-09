@@ -1,3 +1,17 @@
+# [0.43.0](https://github.com/cerico/macfair/compare/v0.42.1...v0.43.0) (2023-05-09)
+
+
+### Bug Fixes
+
+* remove tslint from extensions ([5dabb47](https://github.com/cerico/macfair/commit/5dabb47b803a59d24b938332688ecb7916638b39))
+
+
+### Features
+
+* add nfy alias to list netlify sites ([82dfe77](https://github.com/cerico/macfair/commit/82dfe77345cd3d30ddeb7e6f3595277015977e71))
+
+
+
 ## [0.42.1](https://github.com/cerico/macfair/compare/v0.42.0...v0.42.1) (2023-05-08)
 
 
