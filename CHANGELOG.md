@@ -1,3 +1,12 @@
+## [0.43.1](https://github.com/cerico/macfair/compare/v0.43.0...v0.43.1) (2023-05-10)
+
+
+### Bug Fixes
+
+* add optional arg to viewpr alias ([cf34c06](https://github.com/cerico/macfair/commit/cf34c060685bee834eb6b5652c144802a235c47e))
+
+
+
 # [0.43.0](https://github.com/cerico/macfair/compare/v0.42.1...v0.43.0) (2023-05-09)
 
 
