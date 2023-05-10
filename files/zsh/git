@@ -28,7 +28,7 @@ closepr () {
 }
 
 viewpr () {
-  _getpr
+  [[ $1 ]] && pr=$1 || _getpr
   gh pr view $pr --web
 }
 
