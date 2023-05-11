@@ -1,3 +1,12 @@
+## [0.43.2](https://github.com/cerico/macfair/compare/v0.43.1...v0.43.2) (2023-05-11)
+
+
+### Bug Fixes
+
+* change dns to quad9 ([5d7f591](https://github.com/cerico/macfair/commit/5d7f5911fdd59ea956abd470313e47634f790a40))
+
+
+
 ## [0.43.1](https://github.com/cerico/macfair/compare/v0.43.0...v0.43.1) (2023-05-10)
 
 
