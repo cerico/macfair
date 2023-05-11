@@ -1,15 +1,15 @@
 dnsvpn() { # Override OpenVPN dns servers
   local="dhcp-option DNS 127.0.0.1"
-  google="dhcp-option DNS 8.8.4.4"
+  quad9="dhcp-option DNS 9.9.9.9"
   brewser=`stat -f "%Su" /usr/local/bin/brew`
   files="/Users/$brewser/Library/Application Support/OpenVPN Connect/profiles"
   cd $files
   for i in `ls`
   do
     grep -qxF $local $i || echo $local >> $i
-    grep -qxF $google $i || echo $google >> $i
+    grep -qxF $quad9 $i || echo $quad9 >> $i
   done
-  cd -
+  cd - > /dev/null
 }
 
 dnsmasq () { # Add local domain for dns # ➜ dnsmasq raspberry.pi 192.168.1.102
