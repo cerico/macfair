@@ -1,3 +1,15 @@
+## [0.43.3](https://github.com/cerico/macfair/compare/v0.43.2...v0.43.3) (2023-05-14)
+
+
+### Bug Fixes
+
+* add /usr/local/sbin to zshrc ([261951f](https://github.com/cerico/macfair/commit/261951f4717b153a31507fcfdac0b410b17d4e56))
+* add missing dns file to aliases main ([2c0f8ee](https://github.com/cerico/macfair/commit/2c0f8ee27500c9c7f6ef23bd2e61914e04979bec))
+* change dns to quad9 in dnsmasq role ([92c3e6b](https://github.com/cerico/macfair/commit/92c3e6bd4881ce1f02b290ad1dc4fc4862b4f4c4))
+* rename dnsmasq to dnslocal ([5632be5](https://github.com/cerico/macfair/commit/5632be55c754b1de6f0a79e05c107bf3013980a5))
+
+
+
 ## [0.43.2](https://github.com/cerico/macfair/compare/v0.43.1...v0.43.2) (2023-05-11)
 
 
