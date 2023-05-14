@@ -31,5 +31,5 @@
   become: true
 
 - name: use the dns
-  ansible.builtin.command: networksetup -setdnsservers Wi-Fi 127.0.0.1 8.8.4.4
+  ansible.builtin.command: networksetup -setdnsservers Wi-Fi 127.0.0.1 9.9.9.9
   become: true
