@@ -8,7 +8,7 @@
   lineinfile:
     path: ~/.zsh/main
     line: source $HOME/.zsh/debian
-    insertbefore: BOF
+    insertafter: 'source ~/.zsh/colors'
 
 - name: Register ansible location
   become: false

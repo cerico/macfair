@@ -34,6 +34,11 @@
     src: zsh/supabase
     dest: ~{{ macbook_user.stdout }}/.zsh/supabase
 
+- name: Copy colors file
+  copy:
+    src: zsh/colors
+    dest: ~{{ macbook_user.stdout }}/.zsh/colors
+
 - name: Copy macfair file (this machine)
   template:
     src: zsh/macfair
