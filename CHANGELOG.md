@@ -1,3 +1,12 @@
+## [0.43.4](https://github.com/cerico/macfair/compare/v0.43.3...v0.43.4) (2023-05-19)
+
+
+### Bug Fixes
+
+* add separate colors file for zsh aliases ([a0cdd92](https://github.com/cerico/macfair/commit/a0cdd924d04b77ea1148458a6619cf800db3093a))
+
+
+
 ## [0.43.3](https://github.com/cerico/macfair/compare/v0.43.2...v0.43.3) (2023-05-14)
 
 
