@@ -1,4 +1,4 @@
-source ~/.zsh/dns
+source ~/.zsh/colors
 source ~/.zsh/git
 source ~/.zsh/godaddy
 source ~/.zsh/supabase

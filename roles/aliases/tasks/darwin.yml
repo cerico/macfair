@@ -8,7 +8,13 @@
   lineinfile:
     path: ~/.zsh/main
     line: source ~/.zsh/darwin
-    insertbefore: BOF
+    insertafter: 'source ~/.zsh/colors'
+
+- name: Add dns to path.
+  lineinfile:
+    path: ~/.zsh/main
+    line: source ~/.zsh/dns
+    insertafter: 'source ~/.zsh/colors'
 
 - name: create empty tokens file only if one doesnt already exist
   copy:
