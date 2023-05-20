@@ -36,7 +36,9 @@
 
 - name: Install Docker
   apt:
-    name: docker-ce
+    name:
+      -  docker-ce
+      -  docker-compose
     state: present
 
 - name: Start and enable Docker service
