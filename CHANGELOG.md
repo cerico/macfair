@@ -1,3 +1,12 @@
+# [0.44.0](https://github.com/cerico/macfair/compare/v0.43.4...v0.44.0) (2023-05-20)
+
+
+### Features
+
+* add docker for tagged hosts ([ffcbb1a](https://github.com/cerico/macfair/commit/ffcbb1a338d0684e9da121cf5b7d05d98f02925b))
+
+
+
 ## [0.43.4](https://github.com/cerico/macfair/compare/v0.43.3...v0.43.4) (2023-05-19)
 
 
