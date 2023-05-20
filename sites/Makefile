@@ -2,7 +2,7 @@ ANSIBLE=$$(python3 -m site --user-base)/bin/
 tldr:
 	@echo Available commands
 	@echo ------------------
-	@for i in `grep -v "\t" Makefile | grep "a*:" | tr -d \:`; do echo make $$i; done
+	@for i in `grep '^[[:alpha:]]*:' Makefile | tr -d \:`; do echo make $$i; done
 	@for i in `ls makefiles`; do echo make $$i; done
 new:
 	ansible-playbook ../newsite.yml -i ../hosts
