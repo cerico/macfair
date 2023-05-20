@@ -2,7 +2,7 @@ ANSIBLE=$$(python3 -m site --user-base)/bin/
 tldr:
 	@echo Available commands
 	@echo ------------------
-	@for i in `grep -v "\t" Makefile | grep "a*:" | awk -F ":" '{print $$1}'`; do echo make $$i; done
+	@for i in `grep '^[[:alpha:]]*:' Makefile | awk -F ":" '{print $$1}'`; do echo make $$i; done
 update:
 	python3 -m pip install --upgrade pip
 	python3 -m pip install --user ansible
