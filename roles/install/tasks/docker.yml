@@ -1,14 +1,6 @@
 ---
-- name: Register version
-  ansible.builtin.command: lsb_release -cs
-  register: release
-
-- name: Register architecture
-  ansible.builtin.command: dpkg --print-architecture
-  register: arch
-
 - name: Register os
-  shell: lsb_release -is | tr '[:upper:]' '[:lower:]'
+  shell: lsb_release -is
   register: os
 
 - name: Update apt package cache
@@ -26,12 +18,12 @@
 
 - name: Add Docker GPG key
   apt_key:
-    url: https://download.docker.com/linux/{{ os.stdout }}/gpg
+    url: https://download.docker.com/linux/{{ os.stdout | lower }}/gpg
     state: present
 
 - name: Add Docker repository
   apt_repository:
-    repo: deb [arch={{ arch.stdout }}] https://download.docker.com/linux/{{ os.stdout }} {{ release.stdout }} stable
+    repo: deb [arch={{ ansible_architecture }}] https://download.docker.com/linux/{{ os.stdout | lower }} {{ ansible_distribution_release }} stable
     state: present
 
 - name: Install Docker
