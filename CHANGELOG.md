@@ -1,3 +1,14 @@
+## [0.44.1](https://github.com/cerico/macfair/compare/v0.44.0...v0.44.1) (2023-05-21)
+
+
+### Bug Fixes
+
+* avoid permission denied messages when using find in 'recent' alias ([f814cea](https://github.com/cerico/macfair/commit/f814cea1456832b008cc4a506b8dc6ec4b790079))
+* dont search in hidden dirs when using 'recent' alias ([aec9f7b](https://github.com/cerico/macfair/commit/aec9f7b818c6f010e253b17f858a89fa6069a780))
+* grep for rules correctly in makefile tldr ([d3ade2d](https://github.com/cerico/macfair/commit/d3ade2deaf51a953ff199ce3a638325dbeeec248))
+
+
+
 # [0.44.0](https://github.com/cerico/macfair/compare/v0.43.4...v0.44.0) (2023-05-20)
 
 
