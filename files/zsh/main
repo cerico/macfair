@@ -216,7 +216,7 @@ recent () { # Find n most recent directories containing named file # ➜ recent 
   arrVar=()
   echo Finding $(ColorCyan $num) most recent directories containing $(ColorGreen $f)
   echo ---
-  for i in `find . -not -path '*/.*' -not -path './Library/*' -name $f | grep -v node_modules | awk -F "/$f" '{print $1}'`
+  for i in `find . -not -path '*/.*' -not -path './Library/*' -name $f -print 2>/dev/null | grep -v node_modules | awk -F "/$f" '{print $1}'`
   do
   b=$(date -r $(ls -ta $i/* | head -n 1 | sed s/://g) "+%Y-%m-%d")
   arrVar+=($b" ${i#./}")
