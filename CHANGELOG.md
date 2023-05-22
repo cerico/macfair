@@ -1,3 +1,19 @@
+# [0.45.0](https://github.com/cerico/macfair/compare/v0.44.1...v0.45.0) (2023-05-22)
+
+
+### Bug Fixes
+
+* add role to add optional packages via host_vars ([58d3942](https://github.com/cerico/macfair/commit/58d3942a2f27fc40dd11ba794dc953eb5a275054))
+* allow underscores in make tldr ([366f91b](https://github.com/cerico/macfair/commit/366f91b490bc2e9a58e48e242aebdffdf0631459))
+* improve docker installation with ansible_architecture and ansible_release ([39bd6b4](https://github.com/cerico/macfair/commit/39bd6b4e6f5d00d6a55e3c48f9da43dd52d88ddf))
+
+
+### Features
+
+* add docker-compose to docker install ([68272e0](https://github.com/cerico/macfair/commit/68272e098ccbcd3535fd1b03e8b43ae8380ece1c))
+
+
+
 ## [0.44.1](https://github.com/cerico/macfair/compare/v0.44.0...v0.44.1) (2023-05-21)
 
 
