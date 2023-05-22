@@ -3,7 +3,7 @@
   import_tasks: docker.yml
   become: true
   become_user: root
-  when: "hostvars[inventory_hostname].docker is defined"
+  when: hostvars[inventory_hostname].optional is defined and "docker" in hostvars[inventory_hostname].optional
 
 - name: "roles/apt-task/tasks/main Add GitHub CLI gpg key"
   shell: curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg --yes
