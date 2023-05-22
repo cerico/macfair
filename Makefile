@@ -2,7 +2,7 @@ ANSIBLE=$$(python3 -m site --user-base)/bin/
 tldr:
 	@echo Available commands
 	@echo ------------------
-	@for i in `grep '^[[:alpha:]]*:' Makefile | awk -F ":" '{print $$1}'`; do echo make $$i; done
+	@for i in `grep '^[[:alpha:]_]*:' Makefile | awk -F ":" '{print $$1}'`; do echo make $$i; done
 update:
 	python3 -m pip install --upgrade pip
 	python3 -m pip install --user ansible
@@ -46,3 +46,5 @@ newcomputer:
 	${ANSIBLE}ansible-playbook newcomputer.yml -i hosts
 deploy_key:
 	gh secret set DEPLOY_KEY < ~/.ssh/kawajevo/deploy_rsa
+add_package:
+	${ANSIBLE}ansible-playbook addpackage.yml -i hosts
