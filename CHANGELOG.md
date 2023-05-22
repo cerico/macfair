@@ -1,3 +1,12 @@
+## [0.45.1](https://github.com/cerico/macfair/compare/v0.45.0...v0.45.1) (2023-05-22)
+
+
+### Bug Fixes
+
+* update documentation for adding optional packages ([119f42b](https://github.com/cerico/macfair/commit/119f42b67bbe3a93cd156c347e2cdc6ca84bebae))
+
+
+
 # [0.45.0](https://github.com/cerico/macfair/compare/v0.44.1...v0.45.0) (2023-05-22)
 
 
