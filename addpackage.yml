@@ -1,0 +1,42 @@
+---
+- name: Multiple Choice Menu
+  hosts: localhost
+  gather_facts: false
+  vars_prompt:
+    - name: package
+      prompt: What is the optional package you want to add?
+      private: false
+      default: docker
+
+  tasks:
+    - name: Get host variable filenames
+      ansible.builtin.find:
+        paths: host_vars
+        patterns: '*'
+        file_type: directory
+      register: host_var_files
+
+    - name: Create multiple-choice menu
+      ansible.builtin.set_fact:
+        menu_options: "{{ host_var_files.files | map(attribute='path') | map('basename') | list }}"
+
+    - name: Display menu
+      ansible.builtin.pause:
+        prompt: "Select a host variable file: {{ menu_options }}"
+        echo: true
+      register: menu_selection
+
+    - name: Process selection
+      ansible.builtin.debug:
+        var: menu_selection.user_input
+
+    - name: Add target to inventory file when debian.
+      ansible.builtin.lineinfile:
+        path: "host_vars/{{ menu_selection.user_input }}/vars.yml"
+        line: "optional:"
+
+    - name: Add new package to host vars.
+      ansible.builtin.lineinfile.lineinfile:
+        path: "host_vars/{{ menu_selection.user_input }}/vars.yml"
+        line: " - {{ package }}"
+        insertafter: "optional:"
