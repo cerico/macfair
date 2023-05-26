@@ -38,7 +38,8 @@ cleanpr () {
   git add .
   git commit
   git push -f
-  gh pr create --fill
+  _format_pr_title $(git rev-parse --abbrev-ref HEAD)
+  gh pr create --title "$modified_title" --body ""
   echo "#wip: " >  ~/.config/git/commit-msg-template
 }
 
@@ -74,10 +75,30 @@ ghpr () { # Create and validate a PR
     cleanpr
   elif [[ `git cherry -v main | grep -v -e fix -e feat| wc -c` -eq 0 ]] ;  then
     git push
-    gh pr create --fill
+    _format_pr_title $(git rev-parse --abbrev-ref HEAD)
+    gh pr create --title "$modified_title" --body ""
   else
     echo please squash the following commits before submitting PR
     git cherry -v main | grep -v -e fix -e feat
+  fi
+}
+
+_format_pr_title () {
+  if [[ $1 =~ -[0-9] ]]
+    then
+    input_string=$1
+
+    # Extract the prefix and suffix
+    prefix=$(echo "$input_string" | awk 'match($0, /[0-9]+/){ print substr($0, 1, RSTART-1) substr($0, RSTART, RLENGTH) }')
+    suffix=$(echo "$input_string" | awk 'match($0, /[0-9]+/){ print substr($0, RSTART+RLENGTH) }')
+
+    # Replace hyphens with spaces in the suffix
+    modified_suffix=$(echo "$suffix" | awk '{gsub(/-/, " "); print}')
+
+    # Concatenate the prefix and modified suffix, separated with a colon
+    modified_title="${prefix}:${modified_suffix}"
+  else
+    modified_title=$(echo "$1" | awk '{gsub(/-/, " "); print}')
   fi
 }
 
