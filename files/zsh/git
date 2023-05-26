@@ -83,6 +83,14 @@ ghpr () { # Create and validate a PR
   fi
 }
 
+card () {
+  [[ ! $1 ]] && return
+  _format_pr_title $1
+  echo $modified_title
+  gh issue create -t $modified_title -b ""
+  git checkout -b $1
+}
+
 _format_pr_title () {
   if [[ $1 =~ -[0-9] ]]
     then
