@@ -1,3 +1,12 @@
+# [0.46.0](https://github.com/cerico/macfair/compare/v0.45.1...v0.46.0) (2023-05-26)
+
+
+### Features
+
+* create and format pr title from branch name ([ad9faad](https://github.com/cerico/macfair/commit/ad9faad83cae9385e6af48c484c0ae7627eb2b56))
+
+
+
 ## [0.45.1](https://github.com/cerico/macfair/compare/v0.45.0...v0.45.1) (2023-05-22)
 
 
