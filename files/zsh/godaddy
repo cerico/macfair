@@ -84,17 +84,35 @@ godaddy () { # manage or list godaddy domains # ➜ godaddy macfair.io37.ch
   else
     actions=("Move domain" "List domains")
   fi
-  PS3='Select: '
+  PS3='Select domain: '
   select action in "${actions[@]}"; do
     case $action in
       "Add $1")
-        vared -p "Enter ip of server to add $1 to: " -c ip
-        _add_subdomain $1 $ip
+          PS3='Select ip: '
+          select ip in "${ip_addresses[@]}"
+	        if [[ " ${ip_addresses[@]} " =~ " ${ip} " ]];
+	        then
+		        echo "adding $1 to $address"
+            _add_subdomain $1 $ip
+            break
+	        else
+		        echo "Please select a valid ip address"
+            break
+	        fi
         break
         ;;
       "Move $1")
-        vared -p "Enter ip of server to move $1 to: " -c ip
-        _move_subdomain $1 $ip
+          PS3='Select ip: '
+          select ip in "${ip_addresses[@]}"
+	        if [[ " ${ip_addresses[@]} " =~ " ${ip} " ]];
+	        then
+		        echo "moving $1 to $ip"
+            _move_subdomain $1 $ip
+            break
+	        else
+		        echo "Please select a valid ip address"
+            break
+	        fi
         break
         ;;
       "Move domain")
@@ -106,5 +124,5 @@ godaddy () { # manage or list godaddy domains # ➜ godaddy macfair.io37.ch
         break
         ;;
     esac
-done
+  done
 }
