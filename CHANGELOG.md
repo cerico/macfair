@@ -1,3 +1,12 @@
+# [0.47.0](https://github.com/cerico/macfair/compare/v0.46.0...v0.47.0) (2023-05-27)
+
+
+### Features
+
+* create gh issue at same time as branch ([f6e3d3c](https://github.com/cerico/macfair/commit/f6e3d3ccf1d023a502490adef7f5fd15aac04d39))
+
+
+
 # [0.46.0](https://github.com/cerico/macfair/compare/v0.45.1...v0.46.0) (2023-05-26)
 
 
