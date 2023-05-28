@@ -1,3 +1,12 @@
+# [0.48.0](https://github.com/cerico/macfair/compare/v0.47.0...v0.48.0) (2023-05-28)
+
+
+### Features
+
+* add trim alias ([bd385eb](https://github.com/cerico/macfair/commit/bd385ebc34371e1efcdf0c9d2e4add0bb66c107a))
+
+
+
 # [0.47.0](https://github.com/cerico/macfair/compare/v0.46.0...v0.47.0) (2023-05-27)
 
 
