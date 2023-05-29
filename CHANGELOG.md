@@ -1,3 +1,12 @@
+## [0.48.1](https://github.com/cerico/macfair/compare/v0.48.0...v0.48.1) (2023-05-29)
+
+
+### Bug Fixes
+
+* add fallback for zsh_theme if not in host_vars ([54dee27](https://github.com/cerico/macfair/commit/54dee270edb17b385092ef23d9e1d6f2a851aecc))
+
+
+
 # [0.48.0](https://github.com/cerico/macfair/compare/v0.47.0...v0.48.0) (2023-05-28)
 
 
