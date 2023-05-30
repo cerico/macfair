@@ -115,6 +115,10 @@ _format_pr_title () {
   fi
 }
 
+update_hooks () { # Updates hooks for current repo
+  cp -r ~/.config/git/hooks/* .git/hooks
+}
+
 _find_missing_newlines () {
   find . -type f -not -path "./.git*" -exec sh -c 'file -b "{}" | grep -q text' \; -exec sh -c '[ "$(tail -c 1 "{}" | od -An -a | tr -d "[:space:]")" != "nl" ]' \; -print
   find . -name '*.json' -exec sh -c '[ "$(tail -c 1 "{}" | od -An -a | tr -d "[:space:]")" != "nl" ]' \; -print
