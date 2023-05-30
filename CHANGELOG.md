@@ -1,3 +1,14 @@
+## [0.48.2](https://github.com/cerico/macfair/compare/v0.48.1...v0.48.2) (2023-05-30)
+
+
+### Bug Fixes
+
+* add docs alias for docs commit messages ([d0597c7](https://github.com/cerico/macfair/commit/d0597c7ec97f799a65b2020da8c630627801c550))
+* add docs to allowed commit messages ([d9b6e2d](https://github.com/cerico/macfair/commit/d9b6e2d4b53a954a5a3d67a391498ea979152a1a))
+* add update_hooks alias ([9b9e58f](https://github.com/cerico/macfair/commit/9b9e58f03dc7df29108fe3199d715d15f7ca5408))
+
+
+
 ## [0.48.1](https://github.com/cerico/macfair/compare/v0.48.0...v0.48.1) (2023-05-29)
 
 
