@@ -53,6 +53,11 @@ fix () { # Create semver fix commit # ➜ fix "Add missing data for Daegu"
 	git commit
 }
 
+docs () { # Create semver docs commit # ➜ docs "Add new blog post for new routes"
+        echo "docs: $1" > ~/.config/git/commit-msg-template
+        git commit
+}
+
 minor () { # Create semver minor commit # ➜ minor "Colorize and tab aliases output"
 	echo "#feat: $1" > ~/.config/git/commit-msg-template
 	git commit
