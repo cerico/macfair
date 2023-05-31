@@ -1,3 +1,12 @@
+## [0.48.3](https://github.com/cerico/macfair/compare/v0.48.2...v0.48.3) (2023-05-31)
+
+
+### Bug Fixes
+
+* list available ips in menu for godaddy ([130bca3](https://github.com/cerico/macfair/commit/130bca3b39c0bd882b93f4031677e44316a94e6e))
+
+
+
 ## [0.48.2](https://github.com/cerico/macfair/compare/v0.48.1...v0.48.2) (2023-05-30)
 
 
