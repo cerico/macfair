@@ -1,3 +1,12 @@
+# [0.49.0](https://github.com/cerico/macfair/compare/v0.48.3...v0.49.0) (2023-06-01)
+
+
+### Features
+
+* set word wrap to 120 in vscode ([e3c6579](https://github.com/cerico/macfair/commit/e3c6579e8d65b6e778892244415693ea6f4a1f4a))
+
+
+
 ## [0.48.3](https://github.com/cerico/macfair/compare/v0.48.2...v0.48.3) (2023-05-31)
 
 
