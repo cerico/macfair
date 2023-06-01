@@ -54,7 +54,7 @@ fix () { # Create semver fix commit # ➜ fix "Add missing data for Daegu"
 }
 
 docs () { # Create semver docs commit # ➜ docs "Add new blog post for new routes"
-        echo "docs: $1" > ~/.config/git/commit-msg-template
+        echo "#docs: $1" > ~/.config/git/commit-msg-template
         git commit
 }
 
