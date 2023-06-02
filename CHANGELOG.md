@@ -1,3 +1,12 @@
+## [0.49.1](https://github.com/cerico/macfair/compare/v0.49.0...v0.49.1) (2023-06-02)
+
+
+### Bug Fixes
+
+* update ghpr alias ([d5e5912](https://github.com/cerico/macfair/commit/d5e591284fe063311a08476279731d2059d5ab32))
+
+
+
 # [0.49.0](https://github.com/cerico/macfair/compare/v0.48.3...v0.49.0) (2023-06-01)
 
 
