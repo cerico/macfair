@@ -1,3 +1,12 @@
+## [0.49.2](https://github.com/cerico/macfair/compare/v0.49.1...v0.49.2) (2023-06-03)
+
+
+### Bug Fixes
+
+* improve syntax of Recent alias ([4b8502d](https://github.com/cerico/macfair/commit/4b8502d57b2193176dab9d68567f237b2f32ec92))
+
+
+
 ## [0.49.1](https://github.com/cerico/macfair/compare/v0.49.0...v0.49.1) (2023-06-02)
 
 
