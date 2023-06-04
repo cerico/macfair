@@ -1,3 +1,12 @@
+## [0.49.3](https://github.com/cerico/macfair/compare/v0.49.2...v0.49.3) (2023-06-04)
+
+
+### Bug Fixes
+
+* update pre commit hook ([8d3d4e0](https://github.com/cerico/macfair/commit/8d3d4e084bccdd3b32448fff57b046c508ea50db))
+
+
+
 ## [0.49.2](https://github.com/cerico/macfair/compare/v0.49.1...v0.49.2) (2023-06-03)
 
 
