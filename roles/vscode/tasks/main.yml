@@ -45,11 +45,17 @@
     - "humao.rest-client"
     - "wholroyd.jinja"
 
-- name: copy vscode profile
+- name: copy vscode profile darwin
   copy:
     src: vscode.json
     dest: ~{{ macbook_user.stdout }}/Library/Application Support/Code/User/settings.json
   when: ansible_os_family == "Darwin"
+
+- name: copy vscode profile debian
+  copy:
+    src: vscode.json
+    dest: ~{{ macbook_user.stdout }}/.config/Code/User/settings.json
+  when: ansible_os_family == "Debian"
 
 - name: Create snippets directory
   file:
