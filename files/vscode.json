@@ -12,6 +12,7 @@
     "editor.formatOnSave": true
   },
   "editor.wordWrapColumn": 120,
+  "editor.linkedEditing": true,
   "editor.wordWrap": "bounded",
   "editor.formatOnSave": true,
   "javascript.updateImportsOnFileMove.enabled": "always",
