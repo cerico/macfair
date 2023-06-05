@@ -36,6 +36,9 @@
   "[markdown]": {
     "editor.quickSuggestions": true
   },
+  "prettier.semi": false,
+  "prettier.printWidth": 120,
+  "prettier.trailingComma": "none",
   "workbench.iconTheme": "vscode-icons",
   "terminal.integrated.env.osx": {
     "FIG_NEW_SESSION": "1"
