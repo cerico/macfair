@@ -14,7 +14,7 @@
   "editor.wordWrapColumn": 120,
   "editor.linkedEditing": true,
   "editor.wordWrap": "bounded",
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "javascript.updateImportsOnFileMove.enabled": "always",
   "editor.accessibilitySupport": "off",
   "files.insertFinalNewline": true,
