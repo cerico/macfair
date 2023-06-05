@@ -1,3 +1,13 @@
+## [0.49.4](https://github.com/cerico/macfair/compare/v0.49.3...v0.49.4) (2023-06-05)
+
+
+### Bug Fixes
+
+* update brew alias ([05f73ea](https://github.com/cerico/macfair/commit/05f73eae2f8451f6861e2ff4c4c0d5482b3a2ea5))
+* update docs alias to start with comment ([5151667](https://github.com/cerico/macfair/commit/51516678dfb3d14b65d132d1379d193ea07f5e54))
+
+
+
 ## [0.49.3](https://github.com/cerico/macfair/compare/v0.49.2...v0.49.3) (2023-06-04)
 
 
