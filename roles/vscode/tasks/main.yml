@@ -4,6 +4,11 @@
   with_items:
     - "astro-build.astro-vscode"
     - "GitHub.copilot"
+    - "GitHub.vscode-pull-request-github"
+    - "kruemelkatze.vscode-dashboard"
+    - "vsls-contrib.gistfs"
+    - "intal.intalicons"
+    - "pranaygp.vscode-css-peek"
     - "esbenp.prettier-vscode"
     - "styled-components.vscode-styled-components"
     - "abalejr.forest-focus"
