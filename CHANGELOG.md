@@ -1,3 +1,17 @@
+## [0.49.5](https://github.com/cerico/macfair/compare/v0.49.4...v0.49.5) (2023-06-06)
+
+
+### Bug Fixes
+
+* add linkedEditing to vscode settings ([50c5dc6](https://github.com/cerico/macfair/commit/50c5dc689cd32118f521e41a3abaf210a7f79c39))
+* add scss and javascriptreact sections to vscode settings ([65cbc29](https://github.com/cerico/macfair/commit/65cbc292dbfb570bf3e3b33ad8cf028b32bde793))
+* make formatOnSave false for global in vscode settings ([cea475b](https://github.com/cerico/macfair/commit/cea475b0001dbc5fb1f6a8bf0a376a81e81a76e1))
+* update vscode extensions ([e49a2cf](https://github.com/cerico/macfair/commit/e49a2cf019d14d4fbd5c4b56e62c1da267565a98))
+* update vscode role to copy settings on debian ([606a041](https://github.com/cerico/macfair/commit/606a0413590acb70639c235b86c5793b075abc41))
+* update vscode settings for prettier ([5af04de](https://github.com/cerico/macfair/commit/5af04de33ba8341ffd559ed3b3fabcba76fc1f5a))
+
+
+
 ## [0.49.4](https://github.com/cerico/macfair/compare/v0.49.3...v0.49.4) (2023-06-05)
 
 
