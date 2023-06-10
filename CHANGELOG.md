@@ -1,3 +1,12 @@
+## [0.49.6](https://github.com/cerico/macfair/compare/v0.49.5...v0.49.6) (2023-06-10)
+
+
+### Bug Fixes
+
+* update vscode settings for html ([5f221a1](https://github.com/cerico/macfair/commit/5f221a1481ee5e4475baea096a892eafcac418b9))
+
+
+
 ## [0.49.5](https://github.com/cerico/macfair/compare/v0.49.4...v0.49.5) (2023-06-06)
 
 
