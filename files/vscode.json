@@ -32,7 +32,10 @@
   },
   "workbench.colorTheme": "zombies_ate_my_neighbors",
   "[html]": {
-    "editor.defaultFormatter": "vscode.html-language-features"
+    "editor.defaultFormatter": "vscode.html-language-features",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.detectIndentation": false
   },
   "[markdown]": {
     "editor.quickSuggestions": true
