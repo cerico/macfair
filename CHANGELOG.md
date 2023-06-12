@@ -1,3 +1,13 @@
+## [0.49.7](https://github.com/cerico/macfair/compare/v0.49.6...v0.49.7) (2023-06-12)
+
+
+### Bug Fixes
+
+* move dot to correct place in recent alias ([03fbba9](https://github.com/cerico/macfair/commit/03fbba963a86038080c7808fb8b22069db62c690))
+* use prune in recent alias ([eb42fa2](https://github.com/cerico/macfair/commit/eb42fa20d470d1ba6e14a8a0f877544c7074a48d))
+
+
+
 ## [0.49.6](https://github.com/cerico/macfair/compare/v0.49.5...v0.49.6) (2023-06-10)
 
 
