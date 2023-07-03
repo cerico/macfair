@@ -1,3 +1,12 @@
+## [0.49.8](https://github.com/cerico/macfair/compare/v0.49.7...v0.49.8) (2023-07-03)
+
+
+### Bug Fixes
+
+* allow initial commit on main and block thereafter ([534f477](https://github.com/cerico/macfair/commit/534f47779bc7634ee1a0f98821b506c3a751416e))
+
+
+
 ## [0.49.7](https://github.com/cerico/macfair/compare/v0.49.6...v0.49.7) (2023-06-12)
 
 
