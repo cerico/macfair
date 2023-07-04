@@ -6,6 +6,7 @@
     name: "{{ item }}"
     state: present
   with_items:
+    - "homebrew/core"
     - "homebrew/services"
     - "homebrew/cask"
 
@@ -95,6 +96,8 @@
     - "vercel"
     - "netlify-cli"
     - "railway"
+    - "ts-node"
+    - "typescript"
 
 - name: pip installs
   pip:
