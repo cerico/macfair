@@ -261,3 +261,15 @@ apps () {
   fi
   cat ~/.apps
 }
+
+killport () { # Kill process running on port # ➜ killport 2960
+  [ ! $1 ] && return
+  process=$(lsof -i :$1 | grep LISTEN | awk -F' ' '{print $2}')
+  if [[ $process ]]
+    then
+    echo "killing process $process on $1"
+    kill -9 $process
+    return
+  fi
+  echo "nothing running on $1"
+}
