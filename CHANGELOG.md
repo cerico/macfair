@@ -1,3 +1,12 @@
+# [0.50.0](https://github.com/cerico/macfair/compare/v0.49.8...v0.50.0) (2023-07-04)
+
+
+### Features
+
+* add killport alias ([6e2a562](https://github.com/cerico/macfair/commit/6e2a562e9078f952432ae88dfb56506118718e9f))
+
+
+
 ## [0.49.8](https://github.com/cerico/macfair/compare/v0.49.7...v0.49.8) (2023-07-03)
 
 
