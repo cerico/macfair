@@ -1,3 +1,12 @@
+# [0.51.0](https://github.com/cerico/macfair/compare/v0.50.0...v0.51.0) (2023-07-05)
+
+
+### Features
+
+* add typescript and ts-node ([009f55d](https://github.com/cerico/macfair/commit/009f55df0a3753abd9d7be905d3d231044c97397))
+
+
+
 # [0.50.0](https://github.com/cerico/macfair/compare/v0.49.8...v0.50.0) (2023-07-04)
 
 
