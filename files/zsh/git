@@ -87,9 +87,9 @@ ghpr () { # Create and validate a PR
 card () {
   [[ ! $1 ]] && return
   _format_pr_title $1
-  echo $modified_title
-  gh issue create -t $modified_title -b ""
-  git checkout -b $1
+  issue=$(gh issue create -t $modified_title -b "")
+  num=$(echo $issue | awk -F'/' 'END{print $NF}')
+  gh issue develop -c -n $1 $num
 }
 
 _format_pr_title () {
