@@ -1,3 +1,12 @@
+## [0.51.1](https://github.com/cerico/macfair/compare/v0.51.0...v0.51.1) (2023-07-06)
+
+
+### Bug Fixes
+
+* link issue to branch automatically on creation ([d72369f](https://github.com/cerico/macfair/commit/d72369f718cc84d60a5944a10d2dd7a91555e184))
+
+
+
 # [0.51.0](https://github.com/cerico/macfair/compare/v0.50.0...v0.51.0) (2023-07-05)
 
 
