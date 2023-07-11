@@ -1,3 +1,12 @@
+# [0.52.0](https://github.com/cerico/macfair/compare/v0.51.1...v0.52.0) (2023-07-11)
+
+
+### Features
+
+* add addmake and addtomake aliases ([c5efb71](https://github.com/cerico/macfair/commit/c5efb71544cc71809cb653e412198cb33b6d9ebe))
+
+
+
 ## [0.51.1](https://github.com/cerico/macfair/compare/v0.51.0...v0.51.1) (2023-07-06)
 
 
