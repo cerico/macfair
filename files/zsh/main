@@ -273,3 +273,15 @@ killport () { # Kill process running on port # ➜ killport 2960
   fi
   echo "nothing running on $1"
 }
+
+addmake () {
+  [[ -f Makefile ]] && return
+  echo "tldr:" > Makefile
+  echo -e '\t@for i in `grep '\''^[[:alpha:]_]*:'\'' Makefile | awk -F ":" '\''{print $$1}'\''`; do echo make $$i; done' >> Makefile
+}
+
+addtomake () {
+  read "target?Enter target: "
+  read "recipe?Enter recipe: "
+  echo "$target:\n\t$recipe" >> Makefile
+}
