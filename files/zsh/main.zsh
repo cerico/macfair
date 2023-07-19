@@ -1,26 +1,20 @@
-source ~/.zsh/colors
-source ~/.zsh/git
-source ~/.zsh/godaddy
-source ~/.zsh/supabase
-source ~/.zsh/macfair
-source ~/.zsh/tokens
-source ~/.zsh/_trialling
 export MARKPATH=$HOME/.marks
 alias sedi='sed -i "" -e'
 
 aliases () {
   if [[ $1 ]]
   then
-    [ -f ~/.zsh/$1 ] && f=$1 || f="_trialling"
+    [ -f ~/.zsh/$1.zsh ] && f=$1 || f="_trialling"
     echo $(ColorCyan ${f:u})
     echo $(ColorCyan -------------)
-    grep '^[[:alpha:]].*{' ~/.zsh/$f | tr -cd '[:alnum:]# ➜."_\n' | sort | awk -F"#" '{printf "\033[0;38m%-10s\t\033[1;36m%-54s\t\033[0;32m%s\n", $1, $2, $3}'
+    grep '^[[:alpha:]].*{' ~/.zsh/$f.zsh | tr -cd '[:alnum:]# ➜."_\n' | sort | awk -F"#" '{printf "\033[0;38m%-10s\t\033[1;36m%-54s\t\033[0;32m%s\n", $1, $2, $3}'
   else
-  for i in $(ls ~/.zsh | grep -v "\." | grep -v trialling)
+  for i in $(ls ~/.zsh/*.zsh | grep -v trialling)
     do
-      echo $(ColorCyan ${i:u})
+      j=$(basename $i .zsh)
+      echo $(ColorCyan ${j:u})
       echo $(ColorCyan -------------)
-      grep '^[[:alpha:]].*{' ~/.zsh/$i | tr -cd '[:alnum:]# ➜"._\n' | sort | awk -F"#" '{printf "\033[0;38m%-10s\t\033[1;36m%-54s\t\033[0;32m%s\n", $1, $2, $3}'
+      grep '^[[:alpha:]].*{' ~/.zsh/$j.zsh | tr -cd '[:alnum:]# ➜"._\n' | sort | awk -F"#" '{printf "\033[0;38m%-10s\t\033[1;36m%-54s\t\033[0;32m%s\n", $1, $2, $3}'
       echo ""
     done
   fi
@@ -67,7 +61,7 @@ m () { # Execute nearest Makefile up directory tree
 }
 
 viz () {
-  [[ -n $1 ]] && a=$1 || a=_trialling
+  [[ -n $1 ]] && a=$1.zsh || a=_trialling.zsh
   vi ~/.zsh/$a
 }
 

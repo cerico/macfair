@@ -1,14 +1,8 @@
 ---
 - name: Copy debian
   copy:
-    src: zsh/debian
-    dest: ~{{ macbook_user.stdout }}/.zsh/debian
-
-- name: Add debian to path.
-  lineinfile:
-    path: ~/.zsh/main
-    line: source $HOME/.zsh/debian
-    insertafter: 'source ~/.zsh/colors'
+    src: zsh/debian.zsh
+    dest: ~{{ macbook_user.stdout }}/.zsh/debian.zsh
 
 - name: Register ansible location
   become: false
@@ -49,13 +43,13 @@
 - name: create empty tokens file only if one doesnt already exist
   copy:
     content: ""
-    dest: ~{{ macbook_user.stdout }}/.zsh/tokens
+    dest: ~{{ macbook_user.stdout }}/.zsh/tokens.zsh
     force: no
 
 - name: create trial file for new aliases if one doesn't already exist
   copy:
     content: "tinker(){\n  echo try out new aliases here, not in main file\n}"
-    dest: ~{{ macbook_user.stdout }}/.zsh/_trialling
+    dest: ~{{ macbook_user.stdout }}/.zsh/_trialling.zsh
     force: no
 
 - name: copy js help file
@@ -70,8 +64,8 @@
 
 - name: Conditionally Copy zsh rails
   copy:
-    src: zsh/rails
-    dest: ~{{ macbook_user.stdout }}/.zsh/rails
+    src: zsh/rails.zsh
+    dest: ~{{ macbook_user.stdout }}/.zsh/rails.zsh
   when: rbenv.stat.exists
 
 - name: Conditionally Add rails to zshrc.

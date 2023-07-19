@@ -10,8 +10,8 @@
 
 - name: Copy main aliases file
   copy:
-    src: zsh/main
-    dest: ~{{ macbook_user.stdout }}/.zsh/main
+    src: zsh/main.zsh
+    dest: ~{{ macbook_user.stdout }}/.zsh/main.zsh
 
 - name: configure terminal for mac
   import_tasks: darwin.yml
@@ -26,29 +26,29 @@
 
 - name: Copy godaddy file
   copy:
-    src: zsh/godaddy
-    dest: ~{{ macbook_user.stdout }}/.zsh/godaddy
+    src: zsh/godaddy.zsh
+    dest: ~{{ macbook_user.stdout }}/.zsh/godaddy.zsh
 
 - name: Copy supabase file
   copy:
-    src: zsh/supabase
-    dest: ~{{ macbook_user.stdout }}/.zsh/supabase
+    src: zsh/supabase.zsh
+    dest: ~{{ macbook_user.stdout }}/.zsh/supabase.zsh
 
 - name: Copy colors file
   copy:
-    src: zsh/colors
-    dest: ~{{ macbook_user.stdout }}/.zsh/colors
+    src: zsh/colors.zsh
+    dest: ~{{ macbook_user.stdout }}/.zsh/colors.zsh
 
 - name: Copy macfair file (this machine)
   template:
-    src: zsh/macfair
-    dest: ~{{ macbook_user.stdout }}/.zsh/macfair
+    src: zsh/macfair.zsh.j2
+    dest: ~{{ macbook_user.stdout }}/.zsh/macfair.zsh
   when: hostvars['localhost']['hostname'].stdout == ansible_hostname
 
 - name: Copy macfair file (other machines)
   copy:
-    src: zsh/macfair
-    dest:  ~{{ macbook_user.stdout }}/.zsh/macfair
+    src: zsh/macfair.zsh
+    dest:  ~{{ macbook_user.stdout }}/.zsh/macfair.zsh
   when: hostvars['localhost']['hostname'].stdout != ansible_hostname
 
 - name: print role name

@@ -1,9 +1,9 @@
 name: Test
-on:        
+on:
   push:
     branches-ignore:
       - main
-      
+
 jobs:
   macbook:
     runs-on: macos-latest
@@ -11,14 +11,22 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Print the readme
-        run: make help
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install Ansible
+        run: pip install ansible
+
+      - name: Check Ansible path
+        run: echo 'export PATH="$(python3 -m site --user-base)/bin:$PATH"' >> $GITHUB_ENV
 
       - name: Installs ansible and pip
-        run: make update 
+        run: ansible-galaxy collection install -r requirements.yml
 
       - name: makes this target
-        run: $(python3 -m site --user-base)/bin/ansible-playbook thiscomputer.yml -i hosts -e "hostname=github-runner"
+        run: ansible-playbook thiscomputer.yml -i hosts -e "hostname=github-runner"
 
       - name: Runs the debug target
         run: make debug
@@ -33,4 +41,4 @@ jobs:
         run: cat ~/.macfair/version
 
       - name: runs the newcomputer target with vars to bypass prompt
-        run: $(python3 -m site --user-base)/bin/ansible-playbook newcomputer.yml -i hosts -e "target=dox.io37.ch" -e "user=deploy" -e "group=debian"
+        run: ansible-playbook newcomputer.yml -i hosts -e "target=dox.io37.ch" -e "user=deploy" -e "group=debian"
