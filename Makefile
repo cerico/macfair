@@ -1,50 +1,51 @@
-ANSIBLE=$$(python3 -m site --user-base)/bin/
 tldr:
 	@echo Available commands
 	@echo ------------------
 	@for i in `grep '^[[:alpha:]_]*:' Makefile | awk -F ":" '{print $$1}'`; do echo make $$i; done
+fix:
+	echo 'export PATH="'$$(python3 -m site --user-base)'/bin:$$PATH"' >> ~/.zshrc
 update:
 	python3 -m pip install --upgrade pip
 	python3 -m pip install --user ansible
-	${ANSIBLE}ansible-galaxy collection install -r requirements.yml
+	ansible-galaxy collection install -r requirements.yml
 thiscomputer:
-	${ANSIBLE}ansible-playbook thiscomputer.yml --ask-become-pass -e "hostname=`hostname`"
+	ansible-playbook thiscomputer.yml --ask-become-pass -e "hostname=`hostname`"
 userkeys:
-	${ANSIBLE}ansible-playbook keys/keys.yml -i hosts
+	ansible-playbook keys/keys.yml -i hosts
 rootkeys:
-	${ANSIBLE}ansible-playbook keys/root.yml -i hosts  -e "ansible_user=root"
+	ansible-playbook keys/root.yml -i hosts  -e "ansible_user=root"
 remote_login:
-	${ANSIBLE}ansible-playbook remote_login.yml -i hosts -e "ansible_user=root"
+	ansible-playbook remote_login.yml -i hosts -e "ansible_user=root"
 help:
 	cat README.md
 setup:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "setup"
+	ansible-playbook setup.yml -i hosts --tags "setup"
 terminal:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "terminal"
+	ansible-playbook setup.yml -i hosts --tags "terminal"
 install:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "install"
+	ansible-playbook setup.yml -i hosts --tags "install"
 debian:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "debian"
+	ansible-playbook setup.yml -i hosts --tags "debian"
 nginx:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "nginx"
+	ansible-playbook setup.yml -i hosts --tags "nginx"
 rails:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "rails"
+	ansible-playbook setup.yml -i hosts --tags "rails"
 vscode:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "vscode"
+	ansible-playbook setup.yml -i hosts --tags "vscode"
 aliases:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "aliases"
+	ansible-playbook setup.yml -i hosts --tags "aliases"
 desktop:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "desktop"
+	ansible-playbook setup.yml -i hosts --tags "desktop"
 slim:
 	@echo setting up cutdown version with no rails or elasticsearch
-	${ANSIBLE}ansible-playbook setup.yml -i hosts --skip-tags rails,elastic
+	ansible-playbook setup.yml -i hosts --skip-tags rails,elastic
 debug:
-	${ANSIBLE}ansible-playbook setup.yml -i hosts --tags "whoami" -vv
+	ansible-playbook setup.yml -i hosts --tags "whoami" -vv
 newsite:
-	${ANSIBLE}ansible-playbook newsite.yml -i hosts
+	ansible-playbook newsite.yml -i hosts
 newcomputer:
-	${ANSIBLE}ansible-playbook newcomputer.yml -i hosts
+	ansible-playbook newcomputer.yml -i hosts
 deploy_key:
 	gh secret set DEPLOY_KEY < ~/.ssh/kawajevo/deploy_rsa
 add_package:
-	${ANSIBLE}ansible-playbook addpackage.yml -i hosts
+	ansible-playbook addpackage.yml -i hosts

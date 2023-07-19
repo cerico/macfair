@@ -1,25 +1,13 @@
 ---
 - name: Copy darwin
   copy:
-    src: zsh/darwin
-    dest: ~{{ macbook_user.stdout }}/.zsh/darwin
-
-- name: Add darwin to path.
-  lineinfile:
-    path: ~/.zsh/main
-    line: source ~/.zsh/darwin
-    insertafter: 'source ~/.zsh/colors'
-
-- name: Add dns to path.
-  lineinfile:
-    path: ~/.zsh/main
-    line: source ~/.zsh/dns
-    insertafter: 'source ~/.zsh/colors'
+    src: zsh/darwin.zsh
+    dest: ~{{ macbook_user.stdout }}/.zsh/darwin.zsh
 
 - name: create empty tokens file only if one doesnt already exist
   copy:
     content: ""
-    dest: ~{{ macbook_user.stdout }}/.zsh/tokens
+    dest: ~{{ macbook_user.stdout }}/.zsh/tokens.zsh
     force: no
 
 - name: create trial file for new aliases if one doesn't already exist
@@ -50,14 +38,14 @@
 
 - name: Conditionally Copy zsh rails
   copy:
-    src: zsh/rails
-    dest: ~{{ macbook_user.stdout }}/.zsh/rails
+    src: zsh/rails.zsh
+    dest: ~{{ macbook_user.stdout }}/.zsh/rails.zsh
   when: rbenv.stat.exists
 
 - name: Conditionally Add rails to zshrc.
   lineinfile:
     path: ~/.zshrc
-    line: source $HOME/.zsh/rails
+    line: source $HOME/.zsh/rails.zsh
   when: rbenv.stat.exists
 
 - name: import dnsmasq.yml
@@ -66,8 +54,8 @@
 
 - name: Copy dns aliases
   copy:
-    src: zsh/dns
-    dest: ~{{ macbook_user.stdout }}/.zsh/dns
+    src: zsh/dns.zsh
+    dest: ~{{ macbook_user.stdout }}/.zsh/dns.zsh
 
 - name: Makes zsh the cron shell
   ansible.builtin.cron:

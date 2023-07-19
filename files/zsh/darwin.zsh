@@ -1,5 +1,3 @@
-source ~/.zsh/dns
-
 unalias brew 2>/dev/null
 brewser=$(stat -f "%Su" $(which brew))
 alias brew='sudo -Hu '$brewser' brew'
