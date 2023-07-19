@@ -1,3 +1,12 @@
+## [0.52.1](https://github.com/cerico/macfair/compare/v0.52.0...v0.52.1) (2023-07-19)
+
+
+### Bug Fixes
+
+* improve sourcing of zsh files ([a8cf6e0](https://github.com/cerico/macfair/commit/a8cf6e0921c1c1d4e486a64ef1adb45896d75b6f))
+
+
+
 # [0.52.0](https://github.com/cerico/macfair/compare/v0.51.1...v0.52.0) (2023-07-11)
 
 
