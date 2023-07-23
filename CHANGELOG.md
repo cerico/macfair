@@ -1,3 +1,12 @@
+# [0.53.0](https://github.com/cerico/macfair/compare/v0.52.1...v0.53.0) (2023-07-23)
+
+
+### Features
+
+* create alias for parsing makefiles ([5eb01c5](https://github.com/cerico/macfair/commit/5eb01c539e98fb0c6b41322272e82c169db02a96))
+
+
+
 ## [0.52.1](https://github.com/cerico/macfair/compare/v0.52.0...v0.52.1) (2023-07-19)
 
 
