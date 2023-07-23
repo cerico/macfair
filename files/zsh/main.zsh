@@ -274,8 +274,33 @@ addmake () {
   echo -e '\t@for i in `grep '\''^[[:alpha:]_]*:'\'' Makefile | awk -F ":" '\''{print $$1}'\''`; do echo make $$i; done' >> Makefile
 }
 
-addtomake () {
-  read "target?Enter target: "
+addtomake () { # Add target to makefile # ➜ addtomake start
+  [[ -n $1 ]] && target=$1 || read "target?Enter target: "
   read "recipe?Enter recipe: "
   echo "$target:\n\t$recipe" >> Makefile
+}
+
+mi () { # List all Makefile targets or get info in target # ➜ mi start
+  # If there is no Makefile, return with an error message
+  if [[ ! -f Makefile ]]; then
+    echo "Error: No Makefile found in the current directory."
+    return 1
+  fi
+
+  # If there is an argument
+  if [[ $1 ]]; then
+    local command=$1
+    # Attempt to find the command in the Makefile
+    local output=$(sed -n -e "/^$command:/,/^.*:$/p" Makefile | sed '$d' | sed '/^[[:space:]]*$/d')
+    # If the command was not found, output a special message
+    [[ -n "$output" ]] && echo "$output" || echo "Target not found. Add with ➜ addtomake $command"
+  else
+    # Otherwise, list all available commands
+    echo "Available commands:"
+    echo "-------------------"
+    local i
+    for i in $(grep '^[[:alpha:]_]*:' Makefile | awk -F ":" '{print $1}'); do
+      echo "make $i"
+    done
+  fi
 }
