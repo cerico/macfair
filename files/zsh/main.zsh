@@ -304,3 +304,7 @@ mi () { # List all Makefile targets or get info in target # ➜ mi start
     done
   fi
 }
+
+scripts () {
+  [[ -f package.json ]] && jq .scripts package.json || echo "package.json not round. To create run ➜ npm init"
+}
