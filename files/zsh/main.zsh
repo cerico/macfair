@@ -276,6 +276,10 @@ addmake () {
 
 addtomake () { # Add target to makefile # ➜ addtomake start
   [[ -n $1 ]] && target=$1 || read "target?Enter target: "
+  if [[ -e $target ]]
+    then
+    echo "Error: A file or directory named '$target' already exists." && return 1
+  fi
   if grep -q "^$target:" Makefile
     then
     echo "Error: Target '$target' already exists in the Makefile." && return 1
