@@ -276,6 +276,10 @@ addmake () {
 
 addtomake () { # Add target to makefile # ➜ addtomake start
   [[ -n $1 ]] && target=$1 || read "target?Enter target: "
+  if grep -q "^$target:" Makefile
+    then
+    echo "Error: Target '$target' already exists in the Makefile." && return 1
+  fi
   read "recipe?Enter recipe: "
   echo "$target:\n\t$recipe" >> Makefile
 }
