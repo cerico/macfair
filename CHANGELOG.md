@@ -1,3 +1,19 @@
+# [0.54.0](https://github.com/cerico/macfair/compare/v0.53.0...v0.54.0) (2023-07-26)
+
+
+### Bug Fixes
+
+* mi alias now showing final target correctly ([e341e1b](https://github.com/cerico/macfair/commit/e341e1b88f9933247c6c6c0d1e4ef31514e61c65))
+* prevent adding duplicate targets with addtomake ([b74a738](https://github.com/cerico/macfair/commit/b74a738859dcd4f75813897491d87a0fc2c52d98))
+* prevent addtomake adding targets w same name as a file ([1109fd4](https://github.com/cerico/macfair/commit/1109fd446201bd83e8a7685dc7d3a764ad1545a8))
+
+
+### Features
+
+* add scripts alias ([31caf75](https://github.com/cerico/macfair/commit/31caf7507d8bb4084d40ae9431811e8fb5a45326))
+
+
+
 # [0.53.0](https://github.com/cerico/macfair/compare/v0.52.1...v0.53.0) (2023-07-23)
 
 
