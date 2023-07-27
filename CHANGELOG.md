@@ -1,3 +1,18 @@
+# [0.55.0](https://github.com/cerico/macfair/compare/v0.54.0...v0.55.0) (2023-07-27)
+
+
+### Bug Fixes
+
+* update python version in gh action ([a356aab](https://github.com/cerico/macfair/commit/a356aab56039294e346d94b08cc59f79ed335471))
+
+
+### Features
+
+* add global hooks ([f0915cb](https://github.com/cerico/macfair/commit/f0915cbcab18a308ff58cb829b1626667a896ed7))
+* add max length to commit message ([c468957](https://github.com/cerico/macfair/commit/c4689576f4e8520e73e11d64c7b19b38f194a38a))
+
+
+
 # [0.54.0](https://github.com/cerico/macfair/compare/v0.53.0...v0.54.0) (2023-07-26)
 
 
