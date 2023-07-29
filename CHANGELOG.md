@@ -1,3 +1,15 @@
+## [0.55.1](https://github.com/cerico/macfair/compare/v0.55.0...v0.55.1) (2023-07-29)
+
+
+### Bug Fixes
+
+* addmake tldr now handles chained targets ([3c1f1da](https://github.com/cerico/macfair/commit/3c1f1da9b1fe969f4be80633a8d7c591dd6b4e32))
+* mi no longer lists duplicate targets ([19b70a8](https://github.com/cerico/macfair/commit/19b70a8a219a5d99689c05bbe208fc933f55447e))
+* mi now reports on a chained target correctly ([78ba3cf](https://github.com/cerico/macfair/commit/78ba3cf1a1626856374ec37c2eee7ba4a3ebcf53))
+* tldr lists chained targets correctly ([2421a17](https://github.com/cerico/macfair/commit/2421a17fba28a68da03a0ea13701ab1d1b7f7341))
+
+
+
 # [0.55.0](https://github.com/cerico/macfair/compare/v0.54.0...v0.55.0) (2023-07-27)
 
 
