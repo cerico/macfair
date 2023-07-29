@@ -303,11 +303,7 @@ mi () { # List all Makefile targets or get info in target # ➜ mi start
   else
     echo "Available commands:"
     echo "-------------------"
-    local i
-    for i in $(grep '^[[:alpha:]_]*:' Makefile | awk -F ":" '{print $1}')
-    do
-      echo "make $i"
-    done
+    grep '^[[:alpha:]][^:[:space:]]*:' Makefile | cut -d ':' -f 1 | sort -u | sed 's/^/make /'s
   fi
 }
 
