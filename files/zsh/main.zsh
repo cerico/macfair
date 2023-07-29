@@ -271,7 +271,9 @@ killport () { # Kill process running on port # ➜ killport 2960
 addmake () {
   [[ -f Makefile ]] && return
   echo "tldr:" > Makefile
-  echo -e '\t@for i in `grep '\''^[[:alpha:]_]*:'\'' Makefile | awk -F ":" '\''{print $$1}'\''`; do echo make $$i; done' >> Makefile
+  echo "\t@echo Available commands" >> Makefile
+	echo "\t@echo ------------------" >> Makefile
+	echo "\t@grep '^[[:alpha:]][^:[:space:]]*:' Makefile | cut -d ':' -f 1 | sort -u | sed 's/^/make /'" >> Makefile
 }
 
 addtomake () { # Add target to makefile # ➜ addtomake start
