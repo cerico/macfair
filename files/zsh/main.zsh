@@ -298,7 +298,7 @@ mi () { # List all Makefile targets or get info in target # ➜ mi start
   if [[ -n $1 ]]
     then
     local command=$1
-    local output=$(awk -v cmd="$command" '/^.*:$/{p=0} $0 ~ cmd ".*:"{p=1} p' Makefile)
+    local output=$(awk -v cmd="$command" '/^.*:$/{p=0} $0 ~ cmd ".*:"{p=1} p; /^\t/{p=0}' Makefile)
     [[ -n "$output" ]] && echo "$output" || echo "Target not found. Add with ➜ addtomake $command"
   else
     echo "Available commands:"
