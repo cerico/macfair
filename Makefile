@@ -1,7 +1,7 @@
 tldr:
 	@echo Available commands
 	@echo ------------------
-	@for i in `grep '^[[:alpha:]_]*:' Makefile | awk -F ":" '{print $$1}'`; do echo make $$i; done
+	@grep '^[[:alpha:]][^:[:space:]]*:' Makefile | cut -d ':' -f 1 | sort -u | sed 's/^/make /'
 fix:
 	echo 'export PATH="'$$(python3 -m site --user-base)'/bin:$$PATH"' >> ~/.zshrc
 update:
