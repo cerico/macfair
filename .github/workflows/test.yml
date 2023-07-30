@@ -38,10 +38,10 @@ jobs:
       - name: Show hostname
         run: hostname
 
-      - name: Hello from Zsh
-        run: echo "Hello from Zsh"
-        shell: /bin/zsh
-
+      - name: source zshrc
+        run: |
+          chmod +x .github/scripts/hello.sh
+          ./.github/scripts/hello.sh
       - name: source zshrc
         run: source ~/.zshrc
 
