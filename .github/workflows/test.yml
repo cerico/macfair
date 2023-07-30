@@ -38,10 +38,9 @@ jobs:
       - name: Show hostname
         run: hostname
 
-      - name: Switch to Zsh shell
-        run: |
-          echo "Hello from Zsh"
-        shell: zsh
+      - name: Hello from Zsh
+        run: echo "Hello from Zsh"
+        shell: /bin/zsh
 
       - name: source zshrc
         run: source ~/.zshrc
