@@ -38,5 +38,8 @@ jobs:
       - name: Show hostname
         run: hostname
 
-      - name: is there a zshrc
-        run: cat ~/.zshrc
+      - name: source zshrc
+        run: source ~/.zshrc
+
+      - name: run a command
+        run: aliases
