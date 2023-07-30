@@ -47,5 +47,8 @@ jobs:
       - name: source zshrc
         run: source ~/.zshrc
 
+      - name: ls zsh
+        run: ls ~/.zsh
+
       - name: run a command
         run: aliases
