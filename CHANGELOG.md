@@ -1,3 +1,13 @@
+## [0.55.2](https://github.com/cerico/macfair/compare/v0.55.1...v0.55.2) (2023-07-30)
+
+
+### Bug Fixes
+
+* improve matching of mi targets ([e48dc9d](https://github.com/cerico/macfair/commit/e48dc9da8c1adfbc979033491d36601f765db8b1))
+* remove errant character breaking mi ([2d3b638](https://github.com/cerico/macfair/commit/2d3b638830b99524ae7c6ff826fdc474a6cc00f2))
+
+
+
 ## [0.55.1](https://github.com/cerico/macfair/compare/v0.55.0...v0.55.1) (2023-07-29)
 
 
