@@ -37,3 +37,6 @@ jobs:
 
       - name: Show hostname
         run: hostname
+
+      - name: is there a zshrc
+        run: cat ~/.zshrc
