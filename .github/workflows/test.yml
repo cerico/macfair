@@ -38,6 +38,9 @@ jobs:
       - name: Show hostname
         run: hostname
 
+      - name: is there a zsh
+        run: zsh --version
+
       - name: source zshrc
         run: source ~/.zshrc
 
