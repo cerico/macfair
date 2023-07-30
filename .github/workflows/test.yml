@@ -1,15 +1,15 @@
 name: Test
-on:        
+on:
   push:
     branches-ignore:
       - main
-      
+
 jobs:
   macbook:
     runs-on: macos-latest
     defaults:
       run:
-        shell: zsh
+        shell: zsh {0}
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -21,7 +21,7 @@ jobs:
         run: make help
 
       - name: Installs ansible and pip
-        run: make update 
+        run: make update
 
       - name: makes this target
         run: $(python3 -m site --user-base)/bin/ansible-playbook thiscomputer.yml -i hosts -e "hostname=github-runner"
@@ -44,10 +44,6 @@ jobs:
       - name: Show hostname
         run: hostname
 
-      - name: source zshrc
-        run: |
-          chmod +x .github/scripts/hello.sh
-          ./.github/scripts/hello.sh
       - name: source zshrc
         run: source ~/.zshrc
 
