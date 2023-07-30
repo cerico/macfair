@@ -15,10 +15,8 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Initialize Oh My Zsh
-        run: |
-          echo "source ~/.oh-my-zsh/oh-my-zsh.sh" >> ~/.zshrc
-          echo "export ZSH=\"/Users/runner/.oh-my-zsh\"" >> ~/.zshrc
-          echo "ZSH_THEME=\"robbyrussell\"" >> ~/.zshrc
+        run: echo "source ~/.oh-my-zsh/oh-my-zsh.sh" | tee -a ~/.zshrc
+
       - name: Print the readme
         run: make help
 
