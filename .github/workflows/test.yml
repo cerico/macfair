@@ -34,3 +34,6 @@ jobs:
 
       - name: runs the newcomputer target with vars to bypass prompt
         run: $(python3 -m site --user-base)/bin/ansible-playbook newcomputer.yml -i hosts -e "target=dox.io37.ch" -e "user=deploy" -e "group=debian"
+
+      - name: Show hostname
+        run: hostname
