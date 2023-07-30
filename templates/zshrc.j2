@@ -8,4 +8,9 @@ echo -e "\033]50;SetProfile={{ iterm_theme if iterm_theme is defined }}\a"
 
 source $ZSH/oh-my-zsh.sh
 
-source $HOME/.zsh/main
+# Sourcing additional zsh configuration files if they exist
+for file in $HOME/.zsh/*.zsh; do
+  if [[ -r $file ]]; then
+    source $file
+  fi
+done

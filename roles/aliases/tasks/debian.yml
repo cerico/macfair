@@ -1,14 +1,8 @@
 ---
 - name: Copy debian
   copy:
-    src: zsh/debian
-    dest: ~{{ macbook_user.stdout }}/.zsh/debian
-
-- name: Add debian to path.
-  lineinfile:
-    path: ~/.zsh/main
-    line: source $HOME/.zsh/debian
-    insertafter: 'source ~/.zsh/colors'
+    src: zsh/debian.zsh
+    dest: ~{{ macbook_user.stdout }}/.zsh/debian.zsh
 
 - name: Register ansible location
   become: false
@@ -70,8 +64,8 @@
 
 - name: Conditionally Copy zsh rails
   copy:
-    src: zsh/rails
-    dest: ~{{ macbook_user.stdout }}/.zsh/rails
+    src: zsh/rails.zsh
+    dest: ~{{ macbook_user.stdout }}/.zsh/rails.zsh
   when: rbenv.stat.exists
 
 - name: Conditionally Add rails to zshrc.

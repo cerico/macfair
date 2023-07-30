@@ -1,7 +1,7 @@
 - name: Copy git aliases
   copy:
-    src: zsh/git
-    dest: ~{{ macbook_user.stdout }}/.zsh/git
+    src: zsh/git.zsh
+    dest: ~{{ macbook_user.stdout }}/.zsh/git.zsh
 
 - name: Copy gitconfig
   template:
