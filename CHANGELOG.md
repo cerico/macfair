@@ -1,3 +1,12 @@
+## [0.55.3](https://github.com/cerico/macfair/compare/v0.55.2...v0.55.3) (2023-07-31)
+
+
+### Bug Fixes
+
+* run a zsh function in gh action ([3571d2e](https://github.com/cerico/macfair/commit/3571d2e84ab756197e32a2216438aa4b9b00460b))
+
+
+
 ## [0.55.2](https://github.com/cerico/macfair/compare/v0.55.1...v0.55.2) (2023-07-30)
 
 
