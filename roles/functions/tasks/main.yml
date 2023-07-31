@@ -8,7 +8,7 @@
     path: "~{{ macbook_user.stdout }}/.zsh"
     state: directory
 
-- name: Copy main aliases file
+- name: Copy main functions file
   copy:
     src: zsh/main.zsh
     dest: ~{{ macbook_user.stdout }}/.zsh/main.zsh

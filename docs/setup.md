@@ -4,7 +4,7 @@
 
 * Runs the Install role
 * Runs the Terminal role
-* Runs the Aliases role
+* Runs the Functions role
 * Runs the Rails role
 * Runs the Vscode role
 * Runs the Desktop role
@@ -18,7 +18,7 @@
 $ make setup
 ```
 
-This only executes on hosts in the macbook group in the inventory file (hosts), and runs all roles tagged with setup - install, aliases, terminal, rails, and vscode on both macbook and debian targets, and desktop and elastic roles only on targets in the macbook group.
+This only executes on hosts in the macbook group in the inventory file (hosts), and runs all roles tagged with setup - install, functions, terminal, rails, and vscode on both macbook and debian targets, and desktop and elastic roles only on targets in the macbook group.
 
 ```yml
 # setup.yml
@@ -27,7 +27,7 @@ This only executes on hosts in the macbook group in the inventory file (hosts), 
   roles:
     - { role: whoami, tags: always }
     - { role: install, tags: [install, setup] }
-    - { role: aliases, tags: [aliases, install, setup] }
+    - { role: functions, tags: [functions, install, setup] }
     - { role: terminal, tags: [terminal, setup] }
     - { role: rails, tags: [rails, setup] }
     - { role: vscode, tags: [vscode, setup] }
@@ -43,7 +43,7 @@ Each of these roles can be run individually with their own make command, or coll
 
 * [INSTALL.md](/docs/install.md)
 * [TERMINAL.md](/docs/terminal.md)
-* [ALIASES.md](/docs/aliases.md)
+* [functions.md](/docs/functions.md)
 * [RAILS.md](/docs/rails.md)
 * [VSCODE.md](/docs/vscode.md)
 * [DESKTOP.md](/docs/desktop.md)

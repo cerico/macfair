@@ -1,7 +1,7 @@
 export MARKPATH=$HOME/.marks
 alias sedi='sed -i "" -e'
 
-aliases () {
+functions () {
   if [[ $1 ]]
   then
     [ -f ~/.zsh/$1.zsh ] && f=$1 || f="_trialling"

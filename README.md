@@ -36,7 +36,7 @@ make rails
 * [make setup](docs/setup.md)
 * [make debian](docs/debian.md)
 * [make install](docs/install.md)
-* [make aliases](docs/aliases.md)
+* [make functions](docs/functions.md)
 * [make terminal](docs/terminal.md)
 * [make vscode](docs/vscode.md)
 * [make rails](docs/rails.md)

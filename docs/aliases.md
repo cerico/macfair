@@ -1,14 +1,14 @@
-# ALiASES ROLE
+# FUNCTIONS ROLE
 
 ## What it does
 
-* Sets up zsh aliases
-* Sets up .gitconfig and git aliases
+* Sets up zsh functions
+* Sets up .gitconfig and git functions
 
 ## How To Use
 
 ```bash
-$ make aliases
+$ make functions
 ```
 
 Is also run automatically by both `make setup` and `make debian`
@@ -18,8 +18,8 @@ By default runs on all targets, example run below shows role executing on both m
 ## Example run
 
 ```bash
-make aliases
-$(python3 -m site --user-base)/bin/ansible-playbook setup.yml -i hosts --tags "aliases"
+make functions
+$(python3 -m site --user-base)/bin/ansible-playbook setup.yml -i hosts --tags "functions"
 
 PLAY [Before everything] **************************************************************************************************************
 
@@ -34,163 +34,163 @@ TASK [Gathering Facts] *********************************************************
 ok: [kelso.localhost]
 ok: [rhyl.io37.ch]
 
-TASK [aliases : Copy zshrc] ***********************************************************************************************************
+TASK [functions : Copy zshrc] ***********************************************************************************************************
 skipping: [rhyl.io37.ch]
 changed: [kelso.localhost]
 
-TASK [aliases : Create zsh directory] *************************************************************************************************
+TASK [functions : Create zsh directory] *************************************************************************************************
 skipping: [rhyl.io37.ch]
 ok: [kelso.localhost]
 
-TASK [aliases : Copy aliases] *********************************************************************************************************
+TASK [functions : Copy functions] *********************************************************************************************************
 skipping: [rhyl.io37.ch]
 changed: [kelso.localhost]
 
-TASK [aliases : Copy darwin] **********************************************************************************************************
+TASK [functions : Copy darwin] **********************************************************************************************************
 skipping: [rhyl.io37.ch]
 ok: [kelso.localhost]
 
-TASK [aliases : Copy git aliases] *****************************************************************************************************
+TASK [functions : Copy git functions] *****************************************************************************************************
 skipping: [rhyl.io37.ch]
 ok: [kelso.localhost]
 
-TASK [aliases : Add darwin to path.] **************************************************************************************************
+TASK [functions : Add darwin to path.] **************************************************************************************************
 skipping: [rhyl.io37.ch]
 changed: [kelso.localhost]
 
-TASK [aliases : create empty tokens file only if one doesnt already exist] ************************************************************
+TASK [functions : create empty tokens file only if one doesnt already exist] ************************************************************
 skipping: [rhyl.io37.ch]
 ok: [kelso.localhost]
 
-TASK [aliases : create trial file for new aliases if one doesnt already exist] *******************************************************
+TASK [functions : create trial file for new functions if one doesnt already exist] *******************************************************
 skipping: [rhyl.io37.ch]
 ok: [kelso.localhost]
 
-TASK [aliases : copy js help file] ****************************************************************************************************
+TASK [functions : copy js help file] ****************************************************************************************************
 skipping: [rhyl.io37.ch]
 ok: [kelso.localhost]
 
-TASK [aliases : Register ansible location] ********************************************************************************************
+TASK [functions : Register ansible location] ********************************************************************************************
 skipping: [rhyl.io37.ch]
 changed: [kelso.localhost]
 
-TASK [aliases : Add ansible to path.] *************************************************************************************************
+TASK [functions : Add ansible to path.] *************************************************************************************************
 skipping: [rhyl.io37.ch]
 changed: [kelso.localhost]
 
-TASK [aliases : register rbenv exists] ************************************************************************************************
+TASK [functions : register rbenv exists] ************************************************************************************************
 skipping: [rhyl.io37.ch]
 ok: [kelso.localhost]
 
-TASK [aliases : Conditionally Copy zsh rails] *****************************************************************************************
+TASK [functions : Conditionally Copy zsh rails] *****************************************************************************************
 skipping: [rhyl.io37.ch]
 ok: [kelso.localhost]
 
-TASK [aliases : Conditionally Add rails to zshrc.] ************************************************************************************
+TASK [functions : Conditionally Add rails to zshrc.] ************************************************************************************
 skipping: [rhyl.io37.ch]
 changed: [kelso.localhost]
 
-TASK [aliases : Copy zshrc] ***********************************************************************************************************
+TASK [functions : Copy zshrc] ***********************************************************************************************************
 skipping: [kelso.localhost]
 changed: [rhyl.io37.ch]
 
-TASK [aliases : Create zsh directory] *************************************************************************************************
+TASK [functions : Create zsh directory] *************************************************************************************************
 skipping: [kelso.localhost]
 changed: [rhyl.io37.ch]
 
-TASK [aliases : Copy aliases] *********************************************************************************************************
+TASK [functions : Copy functions] *********************************************************************************************************
 skipping: [kelso.localhost]
 changed: [rhyl.io37.ch]
 
-TASK [aliases : Copy debian] **********************************************************************************************************
+TASK [functions : Copy debian] **********************************************************************************************************
 skipping: [kelso.localhost]
 changed: [rhyl.io37.ch]
 
-TASK [aliases : Copy git aliases] *****************************************************************************************************
+TASK [functions : Copy git functions] *****************************************************************************************************
 skipping: [kelso.localhost]
 changed: [rhyl.io37.ch]
 
-TASK [aliases : Add debian to path.] **************************************************************************************************
+TASK [functions : Add debian to path.] **************************************************************************************************
 skipping: [kelso.localhost]
 changed: [rhyl.io37.ch]
 
-TASK [aliases : Register ansible location] ********************************************************************************************
+TASK [functions : Register ansible location] ********************************************************************************************
 skipping: [kelso.localhost]
 changed: [rhyl.io37.ch]
 
-TASK [aliases : Add ansible to path.] *************************************************************************************************
+TASK [functions : Add ansible to path.] *************************************************************************************************
 skipping: [kelso.localhost]
 changed: [rhyl.io37.ch]
 
-TASK [aliases : collect server info] **************************************************************************************************
+TASK [functions : collect server info] **************************************************************************************************
 skipping: [kelso.localhost]
 changed: [rhyl.io37.ch]
 
-TASK [aliases : copy motd] ************************************************************************************************************
+TASK [functions : copy motd] ************************************************************************************************************
 skipping: [kelso.localhost]
 changed: [rhyl.io37.ch]
 
-TASK [aliases : Add motd to path.] ****************************************************************************************************
+TASK [functions : Add motd to path.] ****************************************************************************************************
 skipping: [kelso.localhost]
 changed: [rhyl.io37.ch]
 
-TASK [aliases : register motd.sh exists] **********************************************************************************************
+TASK [functions : register motd.sh exists] **********************************************************************************************
 skipping: [kelso.localhost]
 ok: [rhyl.io37.ch]
 
-TASK [aliases : Conditionally Add motd to path.] **************************************************************************************
+TASK [functions : Conditionally Add motd to path.] **************************************************************************************
 skipping: [kelso.localhost]
 ok: [rhyl.io37.ch]
 
-TASK [aliases : create empty tokens file only if one doesnt already exist] ************************************************************
+TASK [functions : create empty tokens file only if one doesnt already exist] ************************************************************
 skipping: [kelso.localhost]
 changed: [rhyl.io37.ch]
 
-TASK [aliases : create trial file for new aliases if one doesnt already exist] *******************************************************
+TASK [functions : create trial file for new functions if one doesnt already exist] *******************************************************
 skipping: [kelso.localhost]
 changed: [rhyl.io37.ch]
 
-TASK [aliases : copy js help file] ****************************************************************************************************
+TASK [functions : copy js help file] ****************************************************************************************************
 skipping: [kelso.localhost]
 changed: [rhyl.io37.ch]
 
-TASK [aliases : register rbenv exists] ************************************************************************************************
+TASK [functions : register rbenv exists] ************************************************************************************************
 skipping: [kelso.localhost]
 ok: [rhyl.io37.ch]
 
-TASK [aliases : Conditionally Copy zsh rails] *****************************************************************************************
+TASK [functions : Conditionally Copy zsh rails] *****************************************************************************************
 skipping: [kelso.localhost]
 skipping: [rhyl.io37.ch]
 
-TASK [aliases : Conditionally Add rails to zshrc.] ************************************************************************************
+TASK [functions : Conditionally Add rails to zshrc.] ************************************************************************************
 skipping: [kelso.localhost]
 skipping: [rhyl.io37.ch]
 
-TASK [aliases : Copy gitconfig] *******************************************************************************************************
+TASK [functions : Copy gitconfig] *******************************************************************************************************
 ok: [kelso.localhost]
 changed: [rhyl.io37.ch]
 
-TASK [aliases : Create git hooks directory] *******************************************************************************************
+TASK [functions : Create git hooks directory] *******************************************************************************************
 ok: [kelso.localhost]
 changed: [rhyl.io37.ch]
 
-TASK [aliases : Copy global pre-commit hook] ******************************************************************************************
+TASK [functions : Copy global pre-commit hook] ******************************************************************************************
 ok: [kelso.localhost]
 changed: [rhyl.io37.ch]
 
-TASK [aliases : Copy global commit-msg hook] ******************************************************************************************
+TASK [functions : Copy global commit-msg hook] ******************************************************************************************
 ok: [kelso.localhost]
 changed: [rhyl.io37.ch]
 
-TASK [aliases : create blank template commit file] ************************************************************************************
+TASK [functions : create blank template commit file] ************************************************************************************
 changed: [kelso.localhost]
 changed: [rhyl.io37.ch]
 
-TASK [aliases : Copy godaddy file] ****************************************************************************************************
+TASK [functions : Copy godaddy file] ****************************************************************************************************
 ok: [kelso.localhost]
 changed: [rhyl.io37.ch]
 
-TASK [aliases : print role name] ******************************************************************************************************
+TASK [functions : print role name] ******************************************************************************************************
 ok: [kelso.localhost]
 ok: [rhyl.io37.ch]
 
@@ -199,4 +199,3 @@ kelso.localhost            : ok=38   changed=13   unreachable=0    failed=0    s
 localhost                  : ok=5    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
 rhyl.io37.ch               : ok=39   changed=25   unreachable=0    failed=0    skipped=18   rescued=0    ignored=2
 ```
-

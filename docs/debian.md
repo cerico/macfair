@@ -4,7 +4,7 @@
 
 * Runs the install role
 * Runs the terminal role
-* Runs the aliases role
+* Runs the functions role
 * Runs the nginx role
 
 ## How To Use
@@ -22,7 +22,7 @@ This only executes on hosts in the debian group in the inventory file (hosts). I
   roles:
     - { role: install, tags: debian }
     - { role: terminal, tags: debian }
-    - { role: aliases, tags: debian }
+    - { role: functions, tags: debian }
     - { role: nginx, tags: [debian, nginx] }
 ```
 
@@ -30,5 +30,5 @@ Each of these roles can be run individually with their own make command, or coll
 
 * [INSTALL.md](/docs/install.md)
 * [TERMINAL.md](/docs/terminal.md)
-* [ALIASES.md](/docs/aliases.md)
+* [functions.md](/docs/functions.md)
 * [NGINX.md](/docs/nginx.md)

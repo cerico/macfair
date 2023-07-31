@@ -133,7 +133,7 @@ docs () { # Create semver docs commit # ➜ docs "Add new blog post for new rout
         git commit
 }
 
-minor () { # Create semver minor commit # ➜ minor "Colorize and tab aliases output"
+minor () { # Create semver minor commit # ➜ minor "Colorize and tab output"
 	echo "#feat: $1" > ~/.config/git/commit-msg-template
 	git commit
 }

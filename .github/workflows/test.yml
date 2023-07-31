@@ -34,8 +34,8 @@ jobs:
       - name: runs the terminal target
         run: make terminal
 
-      - name: runs the aliases target
-        run: make aliases
+      - name: runs the functions target
+        run: make functions
 
       - name: cat zshrc
         run: cat ~/.macfair/version
@@ -43,6 +43,6 @@ jobs:
       - name: runs the newcomputer target with vars to bypass prompt
         run: ansible-playbook newcomputer.yml -i hosts -e "target=dox.io37.ch" -e "user=deploy" -e "group=debian"
 
-      - name: source zshrc & run aliases
-        run: source ~/.zshrc && aliases
+      - name: source zshrc & run functions
+        run: source ~/.zshrc && functions
         shell: zsh {0}
