@@ -32,8 +32,8 @@ rails:
 	ansible-playbook setup.yml -i hosts --tags "rails"
 vscode:
 	ansible-playbook setup.yml -i hosts --tags "vscode"
-aliases:
-	ansible-playbook setup.yml -i hosts --tags "aliases"
+functions:
+	ansible-playbook setup.yml -i hosts --tags "functions"
 desktop:
 	ansible-playbook setup.yml -i hosts --tags "desktop"
 slim:

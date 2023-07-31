@@ -9,7 +9,7 @@
   roles:
     - { role: whoami, tags: [always] }
     - { role: install, tags: [install, setup, info] }
-    - { role: aliases, tags: [aliases, install, setup, info] }
+    - { role: functions, tags: [functions, install, setup, info] }
     - { role: terminal, tags: [terminal, setup, info] }
     - { role: rails, tags: [rails, info] }
     - { role: vscode, tags: [vscode, setup, info] }
@@ -19,7 +19,7 @@
   roles:
     - { role: install, tags: [debian] }
     - { role: terminal, tags: [debian] }
-    - { role: aliases, tags: [debian] }
+    - { role: functions, tags: [debian] }
     - { role: nginx, tags: [debian, nginx] }
 
 - name: Setup macbook

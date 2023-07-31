@@ -23,7 +23,7 @@ Only runs on targets in the debian group, detailed here in the main setup.yml
   roles:
     - { role: install, tags: debian }
     - { role: terminal, tags: debian }
-    - { role: aliases, tags: debian }
+    - { role: functions, tags: debian }
  <b>- { role: nginx, tags: [debian, nginx] }</b>
 </pre>
 

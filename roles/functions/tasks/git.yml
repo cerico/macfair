@@ -1,4 +1,4 @@
-- name: Copy git aliases
+- name: Copy git functions
   copy:
     src: zsh/git.zsh
     dest: ~{{ macbook_user.stdout }}/.zsh/git.zsh

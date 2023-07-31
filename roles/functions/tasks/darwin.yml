@@ -10,9 +10,9 @@
     dest: ~{{ macbook_user.stdout }}/.zsh/tokens.zsh
     force: no
 
-- name: create trial file for new aliases if one doesn't already exist
+- name: create trial file for new functions if one doesn't already exist
   copy:
-    content: "tinker(){\n  echo try out new aliases here, not in main file\n}"
+    content: "tinker(){\n  echo try out new functions here, not in main file\n}"
     dest: ~{{ macbook_user.stdout }}/.zsh/_trialling
     force: no
 
@@ -52,7 +52,7 @@
   import_tasks: dnsmasq.yml
   when: inventory_hostname != 'github-runner.localhost'
 
-- name: Copy dns aliases
+- name: Copy dns functions
   copy:
     src: zsh/dns.zsh
     dest: ~{{ macbook_user.stdout }}/.zsh/dns.zsh
