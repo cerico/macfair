@@ -42,3 +42,7 @@ jobs:
 
       - name: runs the newcomputer target with vars to bypass prompt
         run: ansible-playbook newcomputer.yml -i hosts -e "target=dox.io37.ch" -e "user=deploy" -e "group=debian"
+
+      - name: source zshrc & run aliases
+        run: source ~/.zshrc && aliases
+        shell: zsh {0}
