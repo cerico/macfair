@@ -1,3 +1,12 @@
+## [0.55.4](https://github.com/cerico/macfair/compare/v0.55.3...v0.55.4) (2023-08-01)
+
+
+### Bug Fixes
+
+* base commit msg length on first line ([0a6bfdb](https://github.com/cerico/macfair/commit/0a6bfdba739e33a89213d244dc2d4614b97cf475))
+
+
+
 ## [0.55.3](https://github.com/cerico/macfair/compare/v0.55.2...v0.55.3) (2023-07-31)
 
 
