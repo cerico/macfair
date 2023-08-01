@@ -18,6 +18,15 @@ prs () { # List open prs
   [[ $1 ]] && gh pr view $1 || gh pr list
 }
 
+allprs () { # List open prs in all projects
+  for i in */; do
+    if [ -d "$i".git ]; then
+      (cd "$i" && prs)
+    fi
+  done
+  [ -d .git ] && prs
+}
+
 _getpr () {
   pr=$(gh pr list | grep `git branch --show-current` | awk -F' ' '{print $1}')
 }
