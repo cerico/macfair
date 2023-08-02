@@ -1,3 +1,12 @@
+## [0.55.5](https://github.com/cerico/macfair/compare/v0.55.4...v0.55.5) (2023-08-02)
+
+
+### Bug Fixes
+
+* update vscode to vscode-language-features ([9cb873a](https://github.com/cerico/macfair/commit/9cb873a0421f0849b1581b15224acd8cf79d2631))
+
+
+
 ## [0.55.4](https://github.com/cerico/macfair/compare/v0.55.3...v0.55.4) (2023-08-01)
 
 
