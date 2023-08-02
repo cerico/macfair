@@ -1,3 +1,12 @@
+# [0.56.0](https://github.com/cerico/macfair/compare/v0.55.5...v0.56.0) (2023-08-02)
+
+
+### Features
+
+* add allprs function ([e8ab1d7](https://github.com/cerico/macfair/commit/e8ab1d79a1b14931684f70c8ebf7d48516c5f62e))
+
+
+
 ## [0.55.5](https://github.com/cerico/macfair/compare/v0.55.4...v0.55.5) (2023-08-02)
 
 
