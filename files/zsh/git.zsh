@@ -41,6 +41,15 @@ viewpr () {
   gh pr view $pr --web
 }
 
+delete_old_branches() {
+  for branch in $(git branch | grep -v 'main'); do
+    if [ -z "$(git log main..$branch)" ]; then
+      echo "Deleting branch $branch"
+      git branch -d $branch
+    fi
+  done
+}
+
 cleanpr () {
   git rebase origin/main
   git reset origin/main
