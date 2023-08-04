@@ -27,6 +27,28 @@ allprs () { # List open prs in all projects
   [ -d .git ] && prs
 }
 
+glog () {
+  [[ $1 ]] && no=$1 || no=500
+  git log --pretty=format:"%ad %s" --date=short | head -$no | _colorize_commit_type
+}
+
+grecents () { # List open prs in all projects
+  [[ $1 ]] && no=$1 || no=2
+  for i in */; do
+    if [ -d "$i".git ]; then
+     (
+        cd "$i"
+        repo_name=$(basename $(git rev-parse --show-toplevel))
+        colored_repo_name=$(ColorCyan $repo_name)
+        echo $colored_repo_name
+        echo "----------------"
+        glog $no
+        echo ""
+      )
+    fi
+  done
+}
+
 _getpr () {
   pr=$(gh pr list | grep `git branch --show-current` | awk -F' ' '{print $1}')
 }
@@ -100,6 +122,10 @@ major () { # Create semver major commit # ➜ major "Replace big breaking thing"
 
 disallowed_commits () {
   git cherry -v main | grep -v -e fix -e feat -e docs
+}
+
+_colorize_commit_type () {
+    sed -r "s/([a-zA-Z0-9]+(\([a-zA-Z0-9]+\))?:)/$(ColorCyan "\1")/"
 }
 
 ghpr () { # Create and validate a PR
