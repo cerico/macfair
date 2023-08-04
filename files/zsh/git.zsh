@@ -50,6 +50,18 @@ delete_old_branches() {
   done
 }
 
+uncommitted() {
+  for branch in $(git branch | grep -v 'main'); do
+    if [ -n "$(git log main..$branch)" ]; then
+      no=$(git rev-list --count main..$branch)
+      echo -n "$(ColorGreen $no)"
+      echo -n "$(git log -1 $branch --oneline --no-walk | head -n5000 | awk '{$1=""; print $0}')"
+      echo -n " $(ColorCyan $branch)"
+      echo ""
+    fi
+  done
+}
+
 cleanpr () {
   git rebase origin/main
   git reset origin/main
