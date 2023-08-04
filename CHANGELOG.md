@@ -1,3 +1,14 @@
+# [0.57.0](https://github.com/cerico/macfair/compare/v0.56.0...v0.57.0) (2023-08-04)
+
+
+### Features
+
+* add delete_old_branches ([5a9666e](https://github.com/cerico/macfair/commit/5a9666e2ab5bbaef479790dc61b8e8aabd26d830))
+* add uncommitted function ([d843fec](https://github.com/cerico/macfair/commit/d843fecb5e5ef08aa613bac28b94d4f6214e57bd))
+* list recent commits across multiple repos ([7070af0](https://github.com/cerico/macfair/commit/7070af03e55400d58288def8b2ecf6271f15ecf0))
+
+
+
 # [0.56.0](https://github.com/cerico/macfair/compare/v0.55.5...v0.56.0) (2023-08-02)
 
 
