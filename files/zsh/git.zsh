@@ -65,7 +65,7 @@ viewpr () {
   gh pr view $pr --web
 }
 
-delete_old_branches() {
+delete_old_branches () {
   for branch in $(git branch | grep -v 'main'); do
     if [ -z "$(git log main..$branch)" ]; then
       echo "Deleting branch $branch"
@@ -74,14 +74,16 @@ delete_old_branches() {
   done
 }
 
-uncommitted() {
-  for branch in $(git branch | grep -v 'main'); do
+unmerged () {
+  [[ $1 ]] && no=$1 || no=500 # List most recent unmerged commit in each branch
+  for branch in $(git branch --sort=-authordate | grep -v 'main'); do
     if [ -n "$(git log main..$branch)" ]; then
       no=$(git rev-list --count main..$branch)
-      echo -n "$(ColorGreen $no)"
-      echo -n "$(git log -1 $branch --oneline --no-walk | head -n5000 | awk '{$1=""; print $0}')"
-      echo -n " $(ColorCyan $branch)"
-      echo ""
+      commit_info=$(git log -1 $branch --pretty=format:"%h %ad %s" --date=format:"%b-%d" --no-walk | awk '{$1=""; print $0}')
+      printf "$no $commit_info $branch\n"
+    fi
+  done | head -$no | awk '{first = $1; date = $2; $1 = $2 = ""; last = $NF; $NF = ""; printf "\033[0;32m%-3s \033[1;0m%-8s \033[0;32m%-52s \033[0;36m%s\n", first, date, $0, last}'
+}
     fi
   done
 }
