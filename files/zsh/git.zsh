@@ -27,7 +27,7 @@ allprs () { # List open prs in all projects
   [ -d .git ] && prs
 }
 
-glog () {
+commits () {
   [[ $1 ]] && no=$1 || no=500
   git log --pretty=format:"%ad %s" --date=short | head -$no | _colorize_commit_type
 }
