@@ -84,8 +84,23 @@ unmerged () {
     fi
   done | head -$no | awk '{first = $1; date = $2; $1 = $2 = ""; last = $NF; $NF = ""; printf "\033[0;32m%-3s \033[1;0m%-8s \033[0;32m%-52s \033[0;36m%s\n", first, date, $0, last}'
 }
+
+unmerged_all () { # List open prs in all projects
+  for i in */; do
+    if [ -d "$i".git ]; then
+      (
+        cd "$i"
+        if (git rev-list --count main..$branch > 0); then
+          repo_name=$(basename $(git rev-parse --show-toplevel))
+          cyan_repo_name=$(ColorCyan $repo_name)
+          echo $cyan_repo_name
+          echo "----------------"
+          unmerged 2
+        fi
+      )
     fi
   done
+  [ -d .git ] && unmerged 5
 }
 
 cleanpr () {
