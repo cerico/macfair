@@ -32,17 +32,19 @@ commits () {
   git log --pretty=format:"%ad %s" --date=short | head -$no | _colorize_commit_type
 }
 
-grecents () { # List open prs in all projects
+statuses () { # List recent commits across multiple repos
   [[ $1 ]] && no=$1 || no=2
   for i in */; do
     if [ -d "$i".git ]; then
      (
         cd "$i"
         repo_name=$(basename $(git rev-parse --show-toplevel))
-        colored_repo_name=$(ColorCyan $repo_name)
-        echo $colored_repo_name
+        current_branch=$(git branch --show-current)
+        cyan_repo_name=$(ColorCyan $repo_name)
+        green_branch=$(ColorGreen $current_branch)
+        echo $cyan_repo_name $green_branch
         echo "----------------"
-        glog $no
+        commits $no
         echo ""
       )
     fi
