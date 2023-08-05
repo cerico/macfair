@@ -1,3 +1,19 @@
+# [0.58.0](https://github.com/cerico/macfair/compare/v0.57.0...v0.58.0) (2023-08-05)
+
+
+### Bug Fixes
+
+* color code output of statuses function ([4f385dc](https://github.com/cerico/macfair/commit/4f385dcba8e6ae5d84d37bec6d69bfd97c165ffe))
+* rename glog to commits ([f6db097](https://github.com/cerico/macfair/commit/f6db09773a4d7ab2bd25f7dabf6b31992b4f7ff5))
+
+
+### Features
+
+* add unmerged_all function ([40c5f67](https://github.com/cerico/macfair/commit/40c5f67a7fbb430fa57c095aeef53121d64e9e3e))
+* improve output of unmerged function ([f7a96b4](https://github.com/cerico/macfair/commit/f7a96b442f9778388eaab031a85f7429287015be))
+
+
+
 # [0.57.0](https://github.com/cerico/macfair/compare/v0.56.0...v0.57.0) (2023-08-04)
 
 
