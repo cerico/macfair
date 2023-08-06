@@ -74,7 +74,11 @@ delete_old_branches () {
   done
 }
 
-unmerged () {
+unmerged () { # List unmerged commits # ➜ unmerged 5
+  if [ ! -d .git ]; then
+    _unmerged_commits_across_repos
+    return
+  fi
   [[ $1 ]] && no=$1 || no=500 # List most recent unmerged commit in each branch
   for branch in $(git branch --sort=-authordate | grep -v 'main'); do
     if [ -n "$(git log main..$branch)" ]; then
@@ -85,7 +89,7 @@ unmerged () {
   done | head -$no | awk '{first = $1; date = $2; $1 = $2 = ""; last = $NF; $NF = ""; printf "\033[0;32m%-3s \033[1;0m%-8s \033[0;32m%-52s \033[0;36m%s\n", first, date, $0, last}'
 }
 
-unmerged_all () { # List open prs in all projects
+_unmerged_commits_across_repos () {
   for i in */; do
     if [ -d "$i".git ]; then
       (
@@ -96,11 +100,11 @@ unmerged_all () { # List open prs in all projects
           echo $cyan_repo_name
           echo "----------------"
           unmerged 2
+          echo ""
         fi
       )
     fi
   done
-  [ -d .git ] && unmerged 5
 }
 
 cleanpr () {
