@@ -1,3 +1,12 @@
+# [0.59.0](https://github.com/cerico/macfair/compare/v0.58.0...v0.59.0) (2023-08-06)
+
+
+### Features
+
+* combined unmerged and unmerged_all ([ce0cf2f](https://github.com/cerico/macfair/commit/ce0cf2fa5739a312c9b80b27d1e355eebf73860c))
+
+
+
 # [0.58.0](https://github.com/cerico/macfair/compare/v0.57.0...v0.58.0) (2023-08-05)
 
 
