@@ -1,3 +1,13 @@
+## [0.59.1](https://github.com/cerico/macfair/compare/v0.59.0...v0.59.1) (2023-08-07)
+
+
+### Bug Fixes
+
+* improve checking of unmerged commits ([7484659](https://github.com/cerico/macfair/commit/74846596da79da5c56c4053b5255f14d51e64377))
+* rename aliases function to functions ([e67deda](https://github.com/cerico/macfair/commit/e67deda4d53a16915fb0639bcebab7a28dbc05f3))
+
+
+
 # [0.59.0](https://github.com/cerico/macfair/compare/v0.58.0...v0.59.0) (2023-08-06)
 
 
