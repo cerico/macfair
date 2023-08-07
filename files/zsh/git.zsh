@@ -94,17 +94,18 @@ _unmerged_commits_across_repos () {
     if [ -d "$i".git ]; then
       (
         cd "$i"
-        if (git rev-list --count main..$branch > 0); then
-          repo_name=$(basename $(git rev-parse --show-toplevel))
-          cyan_repo_name=$(ColorCyan $repo_name)
+        local output=$(unmerged 2)
+        if [[ -n "$output" ]]; then
+          local repo_name=$(basename $(git rev-parse --show-toplevel))
+          local cyan_repo_name=$(ColorCyan $repo_name)
           echo $cyan_repo_name
           echo "----------------"
-          unmerged 2
-          echo ""
+          echo $output
         fi
       )
     fi
   done
+  [ -d .git ] && unmerged 5
 }
 
 cleanpr () {
