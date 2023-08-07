@@ -15,16 +15,19 @@ issues () { # List gh issues
 }
 
 prs () { # List open prs
+  if [ ! -d .git ]; then
+    _allprs
+    return
+  fi
   [[ $1 ]] && gh pr view $1 || gh pr list
 }
 
-allprs () { # List open prs in all projects
+_allprs () {
   for i in */; do
     if [ -d "$i".git ]; then
       (cd "$i" && prs)
     fi
   done
-  [ -d .git ] && prs
 }
 
 commits () { # List recent commits # ➜ commits 5
