@@ -48,8 +48,12 @@
 - name: Copy macfair file (other machines)
   copy:
     src: zsh/macfair.zsh
-    dest:  ~{{ macbook_user.stdout }}/.zsh/macfair.zsh
+    dest: ~{{ macbook_user.stdout }}/.zsh/macfair.zsh
   when: hostvars['localhost']['hostname'].stdout != ansible_hostname
+
+- name: import ci.yml
+  import_tasks: ci.yml
+  when: inventory_hostname == 'github-runner.localhost'
 
 - name: print role name
   set_fact:
