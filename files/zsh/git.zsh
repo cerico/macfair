@@ -27,12 +27,16 @@ allprs () { # List open prs in all projects
   [ -d .git ] && prs
 }
 
-commits () {
+commits () { # List recent commits # ➜ commits 5
+  if [ ! -d .git ]; then
+    _commits_across_repos
+    return
+  fi
   [[ $1 ]] && no=$1 || no=500
-  git log --pretty=format:"%ad %s" --date=short | head -$no | _colorize_commit_type
+  git log --pretty=format:"%h %ad %s" --date=format:"%b-%d" | head -$no |  awk '{$1=""; print $0}' | _colorize_commit_type
 }
 
-statuses () { # List recent commits across multiple repos
+_commits_across_repos () {
   [[ $1 ]] && no=$1 || no=2
   for i in */; do
     if [ -d "$i".git ]; then
