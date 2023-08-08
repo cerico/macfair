@@ -1,3 +1,12 @@
+## [0.59.2](https://github.com/cerico/macfair/compare/v0.59.1...v0.59.2) (2023-08-08)
+
+
+### Bug Fixes
+
+* run functions in test workflow ([2609e3d](https://github.com/cerico/macfair/commit/2609e3d06b3dee825b5f99bc26fc92f6bee5f2ab))
+
+
+
 ## [0.59.1](https://github.com/cerico/macfair/compare/v0.59.0...v0.59.1) (2023-08-07)
 
 
