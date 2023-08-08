@@ -33,7 +33,16 @@ commits () { # List recent commits # ➜ commits 5
     return
   fi
   [[ $1 ]] && no=$1 || no=500
-  git log --pretty=format:"%h %ad %s" --date=format:"%b-%d" | head -$no |  awk '{$1=""; print $0}' | _colorize_commit_type
+  branch="$(git branch --show-current)"
+  if [[ $branch = 'main' ]]; then
+    git log --pretty=format:"%h %ad %s" --date=format:"%b-%d" | head -$no |  awk '{$1=""; print $0}' | _colorize_commit_type
+  else
+    unique_to_branch=$(git rev-list --count main..$branch)
+    git log main.. --pretty=format:"%h %ad %s" --date=format:"%b-%d" | head -$no |  awk -v branch="$branch" '{$1=""; print $0 " ➜ " branch}' | _colorize_commit_type
+    if [[ $(($no-$unique_to_branch)) -gt 0  ]]; then
+      git log main --pretty=format:"%h %ad %s" --date=format:"%b-%d" | head -$(($no-$unique_to_branch)) |  awk -v branch="main" '{$1=""; print $0 " ➜ " branch}' | _colorize_commit_type
+    fi
+  fi
 }
 
 _commits_across_repos () {
@@ -153,7 +162,7 @@ disallowed_commits () {
 }
 
 _colorize_commit_type () {
-    sed -r "s/([a-zA-Z0-9]+(\([a-zA-Z0-9]+\))?:)/$(ColorCyan "\1")/"
+  sed -r -e "s/([a-zA-Z0-9]+(\([a-zA-Z0-9]+\))?:)/$(ColorCyan "\1")/" -e "s/(➜ .*)/$(ColorGreen "\1")/"
 }
 
 ghpr () { # Create and validate a PR
