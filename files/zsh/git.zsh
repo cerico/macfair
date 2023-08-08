@@ -32,12 +32,13 @@ commits () { # List recent commits # ➜ commits 5
     _commits_across_repos
     return
   fi
-  [[ $1 ]] && no=$1 || no=500
   branch="$(git branch --show-current)"
   if [[ $branch = 'main' ]]; then
+    [[ $1 ]] && no=$1 || no=500
     git log --pretty=format:"%h %ad %s" --date=format:"%b-%d" | head -$no |  awk '{$1=""; print $0}' | _colorize_commit_type
   else
     unique_to_branch=$(git rev-list --count main..$branch)
+    [[ $1 ]] && no=$1 || no=$(($unique_to_branch+1))
     git log main.. --pretty=format:"%h %ad %s" --date=format:"%b-%d" | head -$no |  awk -v branch="$branch" '{$1=""; print $0 " ➜ " branch}' | _colorize_commit_type
     if [[ $(($no-$unique_to_branch)) -gt 0  ]]; then
       git log main --pretty=format:"%h %ad %s" --date=format:"%b-%d" | head -$(($no-$unique_to_branch)) |  awk -v branch="main" '{$1=""; print $0 " ➜ " branch}' | _colorize_commit_type
