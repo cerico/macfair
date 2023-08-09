@@ -1,3 +1,14 @@
+# [0.60.0](https://github.com/cerico/macfair/compare/v0.59.2...v0.60.0) (2023-08-09)
+
+
+### Features
+
+* combine commits and statuses ([3c17285](https://github.com/cerico/macfair/commit/3c172850fba883088989a17f2f642b5623127659))
+* fine tune commits function output ([f520229](https://github.com/cerico/macfair/commit/f520229da255486c0959c5c8c8ea40fac0ffe387))
+* update commits function w more branch info ([0bbdb31](https://github.com/cerico/macfair/commit/0bbdb31965d54b4f1dff67a96beb2d3761eac537))
+
+
+
 ## [0.59.2](https://github.com/cerico/macfair/compare/v0.59.1...v0.59.2) (2023-08-08)
 
 
