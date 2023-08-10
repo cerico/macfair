@@ -1,3 +1,12 @@
+# [0.61.0](https://github.com/cerico/macfair/compare/v0.60.0...v0.61.0) (2023-08-10)
+
+
+### Features
+
+* combine prs and all_prs ([0db1562](https://github.com/cerico/macfair/commit/0db1562fbbd0875a7e0d795ce18394411860b86e))
+
+
+
 # [0.60.0](https://github.com/cerico/macfair/compare/v0.59.2...v0.60.0) (2023-08-09)
 
 
