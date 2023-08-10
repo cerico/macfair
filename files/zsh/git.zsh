@@ -100,10 +100,11 @@ unmerged () { # List unmerged commits # ➜ unmerged 5
   for branch in $(git branch --sort=-authordate | grep -v 'main'); do
     if [ -n "$(git log main..$branch)" ]; then
       no=$(git rev-list --count main..$branch)
-      commit_info=$(git log -1 $branch --pretty=format:"%h %ad %s" --date=format:"%b-%d" --no-walk | awk '{$1=""; print $0}')
-      printf "$no $commit_info $branch\n"
+      date=$(git log -1 $branch --pretty=format:"%ar" --no-walk)
+      message=$(git log -1 $branch --pretty=format:"%s" --no-walk)
+      printf "$no $date $message $branch\n"
     fi
-  done | head -$no | awk '{first = $1; date = $2; $1 = $2 = ""; last = $NF; $NF = ""; printf "\033[0;32m%-3s \033[1;0m%-8s \033[0;32m%-52s \033[0;36m%s\n", first, date, $0, last}'
+  done | head -$no | awk '{first = $1; date = $2 " " $3 " " $4; last = $NF; message = substr($0, length($1 $2 $3 $4) + 5, length($0) - length($1 $2 $3 $4 $NF) - 5); printf "\033[0;32m%-3s \033[1;0m%-15s \033[0;32m%-52s \033[0;36m%s\n", first, date, message, last}'
 }
 
 _unmerged_commits_across_repos () {
