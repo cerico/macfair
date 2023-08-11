@@ -1,3 +1,13 @@
+# [0.62.0](https://github.com/cerico/macfair/compare/v0.61.0...v0.62.0) (2023-08-11)
+
+
+### Features
+
+* commits to use relative time ([eb103ce](https://github.com/cerico/macfair/commit/eb103cebcf4b1180e4c0da2b47713e19ddb1c07f))
+* unmerged to use relative time ([66dc747](https://github.com/cerico/macfair/commit/66dc74736c92d7a744bef5e60876873d6f199404))
+
+
+
 # [0.61.0](https://github.com/cerico/macfair/compare/v0.60.0...v0.61.0) (2023-08-10)
 
 
