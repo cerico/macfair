@@ -88,7 +88,7 @@
 - name: source zshenv so we get /usr/local/bin for npm
   shell: source ~/.zshenv
 
-- name: Install vercel, netlify
+- name: Install npm packages
   npm:
     name:  "{{ item }}"
     global: yes
@@ -98,6 +98,7 @@
     - "railway"
     - "ts-node"
     - "typescript"
+    - "browser-sync"
 
 - name: pip installs
   pip:
