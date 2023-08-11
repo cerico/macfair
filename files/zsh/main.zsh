@@ -161,11 +161,9 @@ mcd () {
 }
 
 start () {
-  if [[ $# -eq 0 ]] ; then
-    python3 -m http.server 9000
-  else
-    python3 -m http.server $1
-  fi
+  [[ -n $1 ]] && port=$1 || port=9000
+  ui_port=$((port + 1))
+  browser-sync start --server --files "*.*" --port $port --ui-port $ui_port
 }
 
 awks () {
