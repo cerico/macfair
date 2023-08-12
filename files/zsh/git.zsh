@@ -217,15 +217,24 @@ _colorize_commit_type () {
   sed -r -e "s/([a-zA-Z0-9]+(\([a-zA-Z0-9]+\))?:)/$(ColorCyan "\1")/" -e "s/(➜ .*)/$(ColorGreen "\1")/"
 }
 
+_format_pr_body () {
+  git log main.. --pretty=%B | sed 's/^[a-zA-Z0-9_]*: //'
+}
+
 ghpr () { # Create and validate a PR
   if [[ $(disallowed_commits) ]]
     then
     echo please squash the following commits before submitting PR
     disallowed_commits
+    return
+  fi
+  git push
+  local pr=$(_getpr)
+  local modified_title=$(_format_pr_title $(git branch --show-current))
+  if [ $pr ]; then
+    gh pr edit $pr --body "$(_format_pr_body)"
   else
-    git push
-    _format_pr_title $(git branch --show-current)
-    gh pr create --title "$modified_title" --body ""
+    gh pr create --title "$modified_title" --body "$(_format_pr_body)"
   fi
 }
 
@@ -254,6 +263,7 @@ _format_pr_title () {
   else
     modified_title=$(echo "$1" | awk '{gsub(/-/, " "); print}')
   fi
+  echo $modified_title
 }
 
 update_hooks () { # Updates hooks for current repo
