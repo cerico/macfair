@@ -1,3 +1,13 @@
+# [0.64.0](https://github.com/cerico/macfair/compare/v0.63.0...v0.64.0) (2023-08-13)
+
+
+### Features
+
+* show number of branches ([677afe4](https://github.com/cerico/macfair/commit/677afe4f84768f75cc1bee4734c5894477391030))
+* sort by authordate in gitconfig ([d645805](https://github.com/cerico/macfair/commit/d6458059d18b4f52c4d030808f0d99dc72737a42))
+
+
+
 # [0.63.0](https://github.com/cerico/macfair/compare/v0.62.0...v0.63.0) (2023-08-12)
 
 
