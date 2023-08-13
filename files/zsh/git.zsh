@@ -30,6 +30,11 @@ _allprs () {
   done
 }
 
+branches () {
+  echo $(git branch | wc -l) branches
+  git branch
+}
+
 commits () { # List recent commits # ➜ commits 5
   if [ ! -d .git ]; then
     _commits_across_repos
