@@ -75,6 +75,12 @@
     minute: "0,15,30,45"
     job: ". $HOME/.zshrc; dfh cron"
 
+- name: Setup cron for managing sleep
+  ansible.builtin.cron:
+    name: _manage_sleep cron
+    minute: "22"
+    job: ". $HOME/.zshrc; _manage_sleep"
+
 - name: Setup cron for appcount
   ansible.builtin.cron:
     name: apps cron
