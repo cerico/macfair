@@ -1,3 +1,12 @@
+## [0.64.1](https://github.com/cerico/macfair/compare/v0.64.0...v0.64.1) (2023-08-14)
+
+
+### Bug Fixes
+
+* dont hardcode default branch ([1666282](https://github.com/cerico/macfair/commit/16662829c889ff92c180d9ad7bd9b6c1d46d65d5))
+
+
+
 # [0.64.0](https://github.com/cerico/macfair/compare/v0.63.0...v0.64.0) (2023-08-13)
 
 
