@@ -40,16 +40,17 @@ commits () { # List recent commits # ➜ commits 5
     _commits_across_repos
     return
   fi
-  branch="$(git branch --show-current)"
-  if [[ $branch = 'main' ]]; then
-    [[ $1 ]] && no=$1 || no=$(git rev-list --count main)
+  local branch="$(git branch --show-current)"
+  local default=$(_default_branch)
+  if [[ $branch = $default ]]; then
+    [[ $1 ]] && no=$1 || no=$(git rev-list --count $default)
     git log --pretty=format:"%ar %s" |head -$no | _colorize_commit_type
   else
-    unique_to_branch=$(git rev-list --count main..$branch)
+    unique_to_branch=$(git rev-list --count $default..$branch)
     [[ $1 ]] && no=$1 || no=$(($unique_to_branch+1))
-    git log main.. --pretty=format:"%ar %s" | head -$no |  awk -v branch="$branch" '{print $0 " ➜ " branch}' | _colorize_commit_type
+    git log $default.. --pretty=format:"%ar %s" | head -$no |  awk -v branch="$branch" '{print $0 " ➜ " branch}' | _colorize_commit_type
     if [[ $(($no-$unique_to_branch)) -gt 0  ]]; then
-      git log main --pretty=format:"%ar %s" | head -$(($no-$unique_to_branch)) |  awk -v branch="main" '{print $0 " ➜ " branch}' | _colorize_commit_type
+      git log $default --pretty=format:"%ar %s" | head -$(($no-$unique_to_branch)) |  awk -v branch=$default '{print $0 " ➜ " branch}' | _colorize_commit_type
     fi
   fi
 }
@@ -117,12 +118,22 @@ viewpr () {
 }
 
 delete_old_branches () {
-  for branch in $(git branch | grep -v 'main'); do
-    if [ -z "$(git log main..$branch)" ]; then
+  local default=$(_default_branch)
+  for branch in $(git branch | tr -d "* " | grep -v "^$default$"); do
+    if [ -z "$(git log $default..$branch)" ]; then
       echo "Deleting branch $branch"
       git branch -d $branch
     fi
   done
+}
+
+_default_branch () {
+  if [ ! -f .git/refs/remotes/origin/HEAD ]; then
+    local branch="main"
+  else
+    local branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+  fi
+  echo $branch
 }
 
 unmerged () { # List unmerged commits # ➜ unmerged 5
@@ -130,10 +141,11 @@ unmerged () { # List unmerged commits # ➜ unmerged 5
     _unmerged_commits_across_repos
     return
   fi
+  local default=$(_default_branch)
   [[ $1 ]] && no=$1 || no=500 # List most recent unmerged commit in each branch
-  for branch in $(git branch --sort=-authordate | grep -v 'main'); do
-    if [ -n "$(git log main..$branch)" ]; then
-      no=$(git rev-list --count main..$branch)
+  for branch in $(git branch --sort=-authordate | tr -d "* " | grep -v "^$default$"); do
+    if [ -n "$(git log $default..$branch)" ]; then
+      no=$(git rev-list --count $default..$branch)
       date=$(git log -1 $branch --pretty=format:"%ar" --no-walk)
       message=$(git log -1 $branch --pretty=format:"%s" --no-walk)
       printf "$no $date $message $branch\n"
@@ -197,7 +209,8 @@ major () { # Create semver major commit # ➜ major "Replace big breaking thing"
 }
 
 disallowed_commits () {
-  git cherry -v main | grep -v -e fix -e feat -e docs
+  local default=$(_default_branch)
+  git cherry -v $default | grep -v -e fix -e feat -e docs
 }
 
 _colorize_commit_type () {
