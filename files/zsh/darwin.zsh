@@ -29,6 +29,14 @@ dfh () {
   [[ $1 = "cron" ]] && echo $date $dfh >> ~/.dfh
 }
 
+_manage_sleep () {
+  if [ $(pmset -g batt | grep -Eo '[0-9]+%' | tr -d "%") -gt 30 ]; then
+    sudo pmset -b disablesleep 1
+  else
+    sudo pmset -b disablesleep 0
+  fi
+}
+
 nfy () {
   netlify sites:list | grep url
 }
