@@ -1,3 +1,12 @@
+## [0.64.2](https://github.com/cerico/macfair/compare/v0.64.1...v0.64.2) (2023-08-15)
+
+
+### Bug Fixes
+
+* correct path for functions readme ([40056e6](https://github.com/cerico/macfair/commit/40056e6852957ce148f8cf7f5b41e232bdb125a9))
+
+
+
 ## [0.64.1](https://github.com/cerico/macfair/compare/v0.64.0...v0.64.1) (2023-08-14)
 
 
