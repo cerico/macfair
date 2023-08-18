@@ -1,3 +1,12 @@
+## [0.64.3](https://github.com/cerico/macfair/compare/v0.64.2...v0.64.3) (2023-08-18)
+
+
+### Bug Fixes
+
+* remove icons from global gitignore ([e9a6f77](https://github.com/cerico/macfair/commit/e9a6f77e80ffdf74a02ed386ae2a440f7f880a35))
+
+
+
 ## [0.64.2](https://github.com/cerico/macfair/compare/v0.64.1...v0.64.2) (2023-08-15)
 
 
