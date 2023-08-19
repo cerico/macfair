@@ -206,23 +206,38 @@ isp () {
   geo $1 | jq -r '.data.geo.isp'
 }
 
+_clean_dir_path () {
+  echo $1 | awk '{sub(/\/[^\/]*$/, ""); print}' | awk -F'\\./' '{if ($2 == "") print "."; else print $2}'
+}
+
+_most_recent_in () {
+  [[ $1 ]] && local term=$1 || local term=.
+  [[ -f $term ]] && dir=$(dirname "$term") || dir=$term/..
+
+  if [ $(uname) = 'Darwin' ]; then
+    find $dir -type f -exec stat -f "%Sm" -t "%Y-%m-%d" {} + | sort -r | head -n 1
+  else
+    find $dir -type f -exec stat --format="%y" {} + | sort -r | head -n 1 | cut -d' ' -f1
+  fi
+}
+
 recent () { # Find n most recent directories containing named file # ➜ recent 12 astro.config.mjs
   [[ $1 = [1-9]* ]] && num=$1 || num=10
   [[ $1 = [.[:alpha:]]* ]] && f=$1 || f='.git'
   [[ $2 = [1-9]* ]] && num=$2
   [[ $2 = [.[:alpha:]]* ]] && f=$2
-  arrVar=()
+  tmpfile=$(mktemp)
   echo Finding $(ColorCyan $num) most recent directories containing $(ColorGreen $f)
   echo ---
-  for i in $(find . -name node_modules -prune -o -name ".[a-fh-z]*" -prune -o -name $f -print 2>/dev/null | awk -F "/$f" '{print $1}')
-  do
-    b=$(date -r $(ls -ta $i/* | head -n 1 | sed s/://g) "+%Y-%m-%d")
-    arrVar+=($b" ${i#./}")
+  find . -maxdepth 5  -not -path '*node_modules*' -name $f -print 2>/dev/null | while read -r dir; do
+    local mod_date=$(_most_recent_in $dir)
+    local clean_dir=$(_clean_dir_path $dir)
+    echo "$mod_date $clean_dir" >> "$tmpfile"
   done
-  array=($arrVar)
-  printf '%s\n' "${(o)array[@]}" | sort -r | head -n $num
+  sort -r "$tmpfile" | head -n $num
   echo ""
-  echo $(ColorCyan ${#arrVar[@]}) total
+  echo "$(ColorCyan $(wc -l < "$tmpfile")) total"
+  rm "$tmpfile"
 }
 
 gits () {
