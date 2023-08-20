@@ -1,3 +1,12 @@
+# [0.65.0](https://github.com/cerico/macfair/compare/v0.64.3...v0.65.0) (2023-08-20)
+
+
+### Features
+
+* fill in body of pr automatically ([ba6895d](https://github.com/cerico/macfair/commit/ba6895dea1d02ee97f826ec8862d114b338acf7f))
+
+
+
 ## [0.64.3](https://github.com/cerico/macfair/compare/v0.64.2...v0.64.3) (2023-08-18)
 
 
