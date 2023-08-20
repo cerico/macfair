@@ -206,6 +206,10 @@ isp () {
   geo $1 | jq -r '.data.geo.isp'
 }
 
+_format_dir_path () {
+  echo $1 | awk '{sub(/\/[^\/]*$/, ""); print}' | awk -F'\\./' '{if ($2 == "") print "."; else print $2}'
+}
+
 recent () { # Find n most recent directories containing named file # ➜ recent 12 astro.config.mjs
   [[ $1 = [1-9]* ]] && num=$1 || num=10
   [[ $1 = [.[:alpha:]]* ]] && f=$1 || f='.git'
