@@ -88,16 +88,11 @@ repo () { # View repo settings or set to defaults ➜ repo --defaults
     return
   fi
   REPO_URL=$(git remote -v | grep -o 'git@github.com:[^ ]*' | head -n 1)
-  OWNER=$(echo "$REPO_URL" | cut -d ':' -f 2 | cut -d '/' -f 1)
-  REPO=$(echo "$REPO_URL" | cut -d '/' -f 2 | cut -d '.' -f 1)
+  OWNER=$(echo "$REPO_URL" | cut -d '/' -f 2)
+  REPO=$(echo "$REPO_URL" | cut -d '/' -f 3 | cut -d '.' -f 1)
   if [[ $# -gt 0 || $created ]]; then
-    settings="-F allow_merge_commit=false "
-    settings+="-F allow_squash_merge=false "
-    settings+="-F delete_branch_on_merge=true"
-    gh api repos/$OWNER/$REPO -X PATCH -F $settings | jq
-    echo "Following settings applied:"
-    echo "-------------------------"
-    echo $settings | awk -F '-F ' '{ for (i=2; i<=NF; i++) print $i }' | awk -F '=' '{print $1"="$2}'
+    gh api repos/$OWNER/$REPO -X PATCH -F allow_merge_commit=false -F allow_squash_merge=false -F delete_branch_on_merge=true | jq
+    echo "Repo settings updated"
   else
     gh api repos/$OWNER/$REPO -X GET | jq
   fi
