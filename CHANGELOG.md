@@ -1,3 +1,14 @@
+# [0.66.0](https://github.com/cerico/macfair/compare/v0.65.0...v0.66.0) (2023-08-21)
+
+
+### Features
+
+* add _format_dir_path function ([d24e00b](https://github.com/cerico/macfair/commit/d24e00bea33ef2291d29cf0e7980a61462a2fd01))
+* add _most_recent_in function ([b9ffb2a](https://github.com/cerico/macfair/commit/b9ffb2ae9817f6f4eb21aa4080a0c419122980e4))
+* improve performance of recent ([eca9605](https://github.com/cerico/macfair/commit/eca96058b0c9326c7fdcee2c0faece4955e378bb))
+
+
+
 # [0.65.0](https://github.com/cerico/macfair/compare/v0.64.3...v0.65.0) (2023-08-20)
 
 
