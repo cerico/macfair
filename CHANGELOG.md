@@ -1,3 +1,12 @@
+## [0.66.1](https://github.com/cerico/macfair/compare/v0.66.0...v0.66.1) (2023-08-22)
+
+
+### Bug Fixes
+
+* update repo function to allow dots ([9fe92be](https://github.com/cerico/macfair/commit/9fe92bec46e0655c5f820d8d37fdc6042304e26a))
+
+
+
 # [0.66.0](https://github.com/cerico/macfair/compare/v0.65.0...v0.66.0) (2023-08-21)
 
 
