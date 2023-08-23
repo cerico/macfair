@@ -163,7 +163,8 @@ mcd () {
 start () {
   [[ -n $1 ]] && port=$1 || port=9000
   ui_port=$((port + 1))
-  browser-sync start --server --files "*.*" --port $port --ui-port $ui_port
+  [[ -f index.html ]] && type="--files" || type="--directory"
+  browser-sync start --server $type "*.*" --port $port --ui-port $ui_port
 }
 
 awks () {
