@@ -1,3 +1,17 @@
+# [0.67.0](https://github.com/cerico/macfair/compare/v0.66.1...v0.67.0) (2023-08-23)
+
+
+### Bug Fixes
+
+* check if index.html ([4d0f155](https://github.com/cerico/macfair/commit/4d0f155a42b3aa6c5ef4e40828144c46cd0f8ffb))
+
+
+### Features
+
+* add browser_sync ([c242214](https://github.com/cerico/macfair/commit/c24221431fb38e716f128478eac143c47445caee))
+
+
+
 ## [0.66.1](https://github.com/cerico/macfair/compare/v0.66.0...v0.66.1) (2023-08-22)
 
 
