@@ -1,3 +1,17 @@
+# [0.68.0](https://github.com/cerico/macfair/compare/v0.67.0...v0.68.0) (2023-08-24)
+
+
+### Bug Fixes
+
+* create staging workflow ([10e8464](https://github.com/cerico/macfair/commit/10e84643ede95970685578772dc32ff19c427090))
+
+
+### Features
+
+* add rebase_branches function ([d1943dc](https://github.com/cerico/macfair/commit/d1943dcd36283a3e8fbb266f1b74884eeba8ea55))
+
+
+
 # [0.67.0](https://github.com/cerico/macfair/compare/v0.66.1...v0.67.0) (2023-08-23)
 
 
