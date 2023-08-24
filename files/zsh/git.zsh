@@ -167,6 +167,43 @@ _unmerged_commits_across_repos () {
   [ -d .git ] && unmerged 5
 }
 
+rebase_branches () {
+  local default=$(_default_branch)
+  declare -a failed_rebase_branches
+
+  git checkout $default
+  git fetch
+
+  for branch in $(git for-each-ref refs/heads/ --format '%(refname:short)' | grep -v "^$default$"); do
+
+    common_ancestor=$(git merge-base "$default" "$branch")
+
+    if [ "$common_ancestor" != "$(git rev-parse "$branch")" ]; then
+      echo "Rebasing branch $branch"
+      git checkout "$branch"
+      if ! git rebase $default; then
+        echo "Conflict occurred while rebasing $branch. Aborting rebase."
+        git rebase --abort
+        failed_rebase_branches+=("$branch")
+      fi
+    else
+      echo "Branch $branch is already up-to-date with $default."
+    fi
+  done
+
+  current_branch=$(git rev-parse --abbrev-ref HEAD)
+  if [ "$current_branch" != "$default" ]; then
+    git checkout $default
+  fi
+
+  if [ ${#failed_rebase_branches[@]} -ne 0 ]; then
+    echo "\nThe following branches couldn't be rebased due to conflicts:\n------"
+    for failed_branch in "${failed_rebase_branches[@]}"; do
+      echo "- $failed_branch"
+    done
+  fi
+}
+
 cleanpr () {
   git rebase origin/main
   git reset origin/main
