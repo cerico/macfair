@@ -1,40 +1,22 @@
-name: Version
-permissions:
-  contents: write
+name: Staging Docs
 on:
   push:
-    branches:
+    branches-ignore:
       - main
 
 jobs:
-  changelog:
+  staging-docs:
     runs-on: ubuntu-latest
     env:
-      DEPLOY_URL: macfair.io37.ch
+      STAGING_URL: asda.io37.ch
 
     steps:
       - uses: actions/checkout@v3
 
-      - name: conventional Changelog Action
-        id: changelog
-        uses: TriPSs/conventional-changelog-action@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          release-count: "0"
-
-      - name: Print the changelog
-        run: echo "${{ steps.changelog.outputs.tag }}"
-
-      - name: Print the changelog
-        run: echo "${{ steps.changelog.outputs.version }}"
-
-      - name: Print the changelog
-        run: echo "${{ steps.changelog.outputs.clean_changelog }}" > notes.text
-
-      - name: Create Release
-        run: gh release create ${{ steps.changelog.outputs.tag  }} --notes-file notes.text
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          python-version: "3.x"
 
       - name: make a gitconfig
         run: |
@@ -61,12 +43,20 @@ jobs:
       - name: Build
         run: cd venlo && make build
 
+      - name: Create branch.html
+        run: |
+          cp .github/templates/branch.html venlo/dist/branch.html
+          cp .github/templates/workflow.css venlo/dist/workflow.css
+          sed -i 's|\[REPO_NAME\]|'"$GITHUB_REPOSITORY"'|g' venlo/dist/branch.html
+          sed -i 's|\[BRANCH_NAME\]|'"$(echo $GITHUB_REF | sed 's|refs/heads/||')"'|g' venlo/dist/branch.html
+          sed -i 's|\[DATE\]|'"$(date)"'|g' venlo/dist/branch.html
+
       - name: Rsync
         uses: burnett01/rsync-deployments@4.1
         with:
           switches: -a
           path: venlo/dist/
-          remote_path: "/var/www/html/$DEPLOY_URL"
-          remote_host: $DEPLOY_URL
+          remote_path: "/var/www/html/$STAGING_URL"
+          remote_host: $STAGING_URL
           remote_user: deploy
           remote_key: ${{ secrets.DEPLOY_KEY }}
