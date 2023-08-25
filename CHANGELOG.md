@@ -1,3 +1,12 @@
+## [0.68.1](https://github.com/cerico/macfair/compare/v0.68.0...v0.68.1) (2023-08-25)
+
+
+### Bug Fixes
+
+* apply badge-image class to status badges ([372344d](https://github.com/cerico/macfair/commit/372344d5f4496fd713f5bb0be2c145011425b6c4))
+
+
+
 # [0.68.0](https://github.com/cerico/macfair/compare/v0.67.0...v0.68.0) (2023-08-24)
 
 
