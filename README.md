@@ -1,7 +1,8 @@
 # Macfair
 
-[![Version](https://github.com/cerico/macfair/actions/workflows/publish.yml/badge.svg)](https://github.com/cerico/macfair/actions/workflows/publish.yml)
-
+<a href="https://github.com/cerico/macfair/actions/workflows/publish.yml">
+    <img src="https://github.com/cerico/macfair/actions/workflows/publish.yml/badge.svg" alt="Version" class="badge-image">
+</a>
 
 Sets up your Mac (and any debian targets) from scratch via Ansible. A replacement for dotfiles. With Ansible being idempotent, each command is only run if actually required
 
