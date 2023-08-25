@@ -87,14 +87,12 @@ repo () { # View repo settings or set to defaults ➜ repo --defaults
     echo "repo didn't create"
     return
   fi
-  REPO_URL=$(git remote -v | grep -o 'git@github.com:[^ ]*' | head -n 1)
-  OWNER=$(echo "$REPO_URL" | cut -d '/' -f 2)
-  REPO=$(echo "$REPO_URL" | cut -d '/' -f 3 | cut -d '.' -f 1)
+  local REPO_URL=$(git remote -v | grep -o 'git@github.com:[^ ]*' | head -n 1 | cut -d ':' -f 2 | sed 's/\.git$//')
   if [[ $# -gt 0 || $created ]]; then
-    gh api repos/$OWNER/$REPO -X PATCH -F allow_merge_commit=false -F allow_squash_merge=false -F delete_branch_on_merge=true | jq
+    gh api repos/$REPO_URL -X PATCH -F allow_merge_commit=false -F allow_squash_merge=false -F delete_branch_on_merge=true | jq
     echo "Repo settings updated"
   else
-    gh api repos/$OWNER/$REPO -X GET | jq
+    gh api repos/$REPO_URL -X GET | jq
   fi
 }
 
