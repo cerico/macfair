@@ -106,8 +106,13 @@ closepr () {
 }
 
 viewpr () {
-  [[ $1 ]] && pr=$1 || _getpr
+  if [[ $1 ]] && [[ $1 == "b" ]]; then
+    gh browse -b $(git branch --show-current)
+    return
+  fi
+  [[ -n $1 ]] && pr=$1  || _getpr
   gh pr view $pr --web
+  [[ $? == 1 ]] && gh browse -b $(git branch --show-current)
 }
 
 delete_old_branches () {
