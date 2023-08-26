@@ -1,3 +1,12 @@
+## [0.68.2](https://github.com/cerico/macfair/compare/v0.68.1...v0.68.2) (2023-08-26)
+
+
+### Bug Fixes
+
+* handle REPO_URL correctly ([c888300](https://github.com/cerico/macfair/commit/c8883007a9d9f07e3d2ad1d89dcef99f507225a2))
+
+
+
 ## [0.68.1](https://github.com/cerico/macfair/compare/v0.68.0...v0.68.1) (2023-08-25)
 
 
