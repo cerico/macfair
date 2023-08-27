@@ -7,3 +7,8 @@ group_vars/all/vars.yml
 hosts
 .vscode
 TODO.md
+sites/*yml
+!sites/vars.yml
+sites/makefiles/*
+!sites/makefiles/ping
+sites/files/*.conf
