@@ -1,0 +1,41 @@
+---
+- hosts: localhost
+  tasks:
+    - name: register email
+      command: git config --get user.email
+      register: email
+
+    - debug:
+        var: hostvars['localhost']['email']
+
+- hosts: 'fpl.io37.ch'
+  gather_facts: false
+  vars:
+    url: 'fpl.io37.ch'
+    name: 'fpl.io37.ch'
+    email: "{{ hostvars['localhost']['email'].stdout  }}"
+
+  tasks:
+    - include_vars:
+        dir: "../group_vars/sites"
+      when: hostvars[inventory_hostname]['ansible_user'] is undefined
+
+    - name: 'lookup subdomain ip'
+      shell: nslookup {{ url }} | grep Address | tail -1 | awk -F ' ' '{ print $2 }'
+      register: target_ip
+
+    - name: Copy nginx conf
+      copy:
+        src: fpl.io37.ch.nginx.conf
+        dest: /etc/nginx/conf.d/{{ url }}.conf
+        force: no
+
+    - name: Creates directory
+      file:
+        path: /var/www/html/fpl.io37.ch
+        state: directory
+
+    - name: certify
+      become: true
+      become_user: root
+      shell: "/snap/bin/certbot --nginx -n --agree-tos --email {{ email }} -d {{ url }}"
