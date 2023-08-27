@@ -22,18 +22,18 @@
 
     - name: Add target to inventory file.
       ansible.builtin.lineinfile:
-        path: "{{ playbook_dir }}/hosts"
+        path: "{{ playbook_dir }}/sites/hosts"
         line: "{{ app_name }}"
         insertafter: "\\[sites\\]"
 
     - name: Create default site vars directory if doesnt exist
       file:
         state: directory
-        path: "{{ playbook_dir }}/group_vars/sites"
+        path: "{{ playbook_dir }}/sites/group_vars/sites"
         force: false
 
     - name: Create default site vars if doesnt exit
       copy:
         content: "ansible_user: deploy"
-        dest: "{{ playbook_dir }}/group_vars/sites/default.yml"
+        dest: "{{ playbook_dir }}/sites/group_vars/sites/default.yml"
         force: false

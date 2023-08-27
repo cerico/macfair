@@ -17,7 +17,7 @@
 
   tasks:
     - include_vars:
-        dir: "{{ '../group_vars/sites' }}"
+        dir: "{{ 'group_vars/sites' }}"
       when: hostvars[inventory_hostname]['ansible_user'] is undefined
 
     - name: 'lookup subdomain ip'
