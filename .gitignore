@@ -12,3 +12,5 @@ sites/*yml
 sites/makefiles/*
 !sites/makefiles/ping
 sites/files/*.conf
+sites/group_vars/*
+sites/host_vars/*
