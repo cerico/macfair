@@ -1,3 +1,12 @@
+# [0.69.0](https://github.com/cerico/macfair/compare/v0.68.2...v0.69.0) (2023-08-27)
+
+
+### Features
+
+* update viewpr to show branch if no pr ([94a2106](https://github.com/cerico/macfair/commit/94a2106ae278128a38d0dbabb58cf4eaba2b7cdd))
+
+
+
 ## [0.68.2](https://github.com/cerico/macfair/compare/v0.68.1...v0.68.2) (2023-08-26)
 
 
