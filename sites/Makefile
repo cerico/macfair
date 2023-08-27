@@ -10,3 +10,5 @@ vars:
 	@echo ""
 	@ansible-playbook vars.yml -i ../hosts
 include makefiles/*
+git:
+	@git init
