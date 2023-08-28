@@ -12,3 +12,5 @@ vars:
 include makefiles/*
 git:
 	@git init
+sites:
+	@for i in `ls makefiles`; do echo make $$i; done
