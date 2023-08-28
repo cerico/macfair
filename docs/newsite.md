@@ -1,12 +1,12 @@
 # NEWSITE ROLE
 
-Prepares ngins and yaml files needed for configuration of a new site
+Prepares nginx and yaml files needed for configuration of a new site
 
 ## What it does
 
-* Creates a named nginx.conf file in `sites/files`
-* Creates a named ansbile role for new site in `sites`
-* Adds a named entry to the Makefile in `sites/Makefile`
+- Creates a named nginx.conf file in `sites/files`
+- Creates a named ansbile role for new site in `sites`
+- Adds a named entry to the Makefile in `sites/Makefile`
 
 ## How To Use
 
