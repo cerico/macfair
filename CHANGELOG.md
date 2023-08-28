@@ -1,3 +1,12 @@
+## [1.0.1](https://github.com/cerico/macfair/compare/v1.0.0...v1.0.1) (2023-08-28)
+
+
+### Bug Fixes
+
+* add new line after [sites] in sites/hosts ([0c5ecd1](https://github.com/cerico/macfair/commit/0c5ecd1277e763332336e9aebaf34635a9d68c2f))
+
+
+
 # [1.0.0](https://github.com/cerico/macfair/compare/v0.69.0...v1.0.0) (2023-08-28)
 
 
