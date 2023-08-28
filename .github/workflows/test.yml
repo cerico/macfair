@@ -44,7 +44,7 @@ jobs:
         run: ansible-playbook newcomputer.yml -i hosts -e "target=dox.io37.ch" -e "user=deploy" -e "group=debian"
 
       - name: Run the newsite target with vars to bypass prompt
-        run: ansible-playbook newsite.yml -i hosts -e "app_name="yes.mate"
+        run: ansible-playbook newsite.yml -i hosts -e "app_name=yes.mate"
 
       - name: random step
         run: ls sites
