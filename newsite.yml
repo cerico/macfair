@@ -20,6 +20,12 @@
         dest: "{{ playbook_dir }}/sites/makefiles/{{ app_name }}"
         src: Makefile.j2
 
+    - name: Create site/hosts file if doesnt exist
+      ansible.builtin.copy:
+        content: "[sites]"
+        dest: "{{ playbook_dir }}/sites/hosts"
+        force: false
+
     - name: Add target to inventory file.
       ansible.builtin.lineinfile:
         path: "{{ playbook_dir }}/sites/hosts"
