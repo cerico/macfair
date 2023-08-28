@@ -1,3 +1,29 @@
+# [1.0.0](https://github.com/cerico/macfair/compare/v0.69.0...v1.0.0) (2023-08-28)
+
+
+### Bug Fixes
+
+* add make sites to list available sites ([0b21309](https://github.com/cerico/macfair/commit/0b21309f0fee905cf2430a5d3a19f5cb516b60b1))
+* add target for initializing sites repo ([8644ee8](https://github.com/cerico/macfair/commit/8644ee8214a3de3d74ccb37e5995a0de8e379746))
+* create site/hosts if doesnt exist ([8554b41](https://github.com/cerico/macfair/commit/8554b41760bbaf61c19619040845aad227b07082))
+* make generated sites own repo ([c48f7f4](https://github.com/cerico/macfair/commit/c48f7f45564c4ef831de7ba42fc543e0f948b3ef))
+* remove newsite from sites ([2713062](https://github.com/cerico/macfair/commit/2713062afe4209030ec6f4e4b820ba44a518a5e2))
+* remove previously generated sites files ([0ecf1ad](https://github.com/cerico/macfair/commit/0ecf1ad9ba2e8ca39bd6a0b1110ce6aa94a593ef))
+* run make newsite in test.yml ([b815f5b](https://github.com/cerico/macfair/commit/b815f5b95c90b6610f172198d824d68b559897a3))
+* update readme to reflect sites as own repo ([8b24519](https://github.com/cerico/macfair/commit/8b245190727d14c52c57232be7d6f1ee27268326))
+
+
+### Features
+
+* all paths in newsite self-contained ([1b9024e](https://github.com/cerico/macfair/commit/1b9024ed72947a8fa5695238803559038b849a18))
+
+
+### BREAKING CHANGES
+
+* 
+
+
+
 # [0.69.0](https://github.com/cerico/macfair/compare/v0.68.2...v0.69.0) (2023-08-27)
 
 
