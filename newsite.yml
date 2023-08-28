@@ -22,7 +22,7 @@
 
     - name: Create site/hosts file if doesnt exist
       ansible.builtin.copy:
-        content: "[sites]"
+        content: "[sites]\n"
         dest: "{{ playbook_dir }}/sites/hosts"
         force: false
 
