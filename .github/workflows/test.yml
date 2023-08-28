@@ -43,6 +43,9 @@ jobs:
       - name: runs the newcomputer target with vars to bypass prompt
         run: ansible-playbook newcomputer.yml -i hosts -e "target=dox.io37.ch" -e "user=deploy" -e "group=debian"
 
+      - name: Run the newsite target with vars to bypass prompt
+        run: ansible-playbook newsite.yml -i hosts -e "app_name="yes.mate"
+
       - name: source zshrc & run main functions
         run: source ~/.zshrc && run_all_functions
         shell: zsh {0}
