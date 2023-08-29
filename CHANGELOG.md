@@ -1,3 +1,12 @@
+## [1.0.2](https://github.com/cerico/macfair/compare/v1.0.1...v1.0.2) (2023-08-29)
+
+
+### Bug Fixes
+
+* make 404 page location a variable ([d811612](https://github.com/cerico/macfair/commit/d8116126bf2fd3196446b53636927fe403f1aada))
+
+
+
 ## [1.0.1](https://github.com/cerico/macfair/compare/v1.0.0...v1.0.1) (2023-08-28)
 
 
