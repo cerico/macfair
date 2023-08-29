@@ -56,9 +56,22 @@
   become: true
   become_user: root
 
+- name: Insert map directive into nginx.conf
+  ansible.builtin.lineinfile:
+    path: /etc/nginx/nginx.conf
+    insertafter: "http {"
+    line: |
+      map $host $error_root {
+          default /usr/share/nginx/html;
+      }
+    state: present
+  notify: Restart nginx
+  become: true
+  become_user: root
+
 - name: print role name
   set_fact:
-    parent_role_name:  "{{ role_name }}"
+    parent_role_name: "{{ role_name }}"
 
 - name: add version
   include_role:
