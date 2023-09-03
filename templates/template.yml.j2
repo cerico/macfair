@@ -28,7 +28,6 @@
       copy:
         src: {{ app_name }}.nginx.conf
         dest: /etc/nginx/conf.d/{{ '{{ url }}' }}.conf
-        force: no
 
     - name: Creates directory
       file:
