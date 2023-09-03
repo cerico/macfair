@@ -43,11 +43,15 @@ jobs:
       - name: runs the newcomputer target with vars to bypass prompt
         run: ansible-playbook newcomputer.yml -i hosts -e "target=dox.io37.ch" -e "user=deploy" -e "group=debian"
 
+      - name: use http version of sites repo just for gh action so as not to bother w keys
+        run: |
+          echo 'nginx_repo: "https://github.com/cerico/nginx-files.git"' >> host_vars/localhost.yml
+
       - name: Run the newsite target with vars to bypass prompt
         run: ansible-playbook newsite.yml -i hosts -e "app_name=yes.mate"
 
       - name: Is new entry in sites/Makefile
-        run: cd sites && make
+        run: cd ../sites && make
 
       - name: source zshrc & run main functions
         run: source ~/.zshrc && run_all_functions
