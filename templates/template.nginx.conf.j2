@@ -5,6 +5,7 @@ server {
       alias /var/www/html/favicon.ico;
     }
     root /var/www/html/{{ app_name }};
+    set $error_root /var/www/html/{{ app_name }};
     index index.html;
     include snippets/errors.conf;
     add_header Content-Security-Policy "\
