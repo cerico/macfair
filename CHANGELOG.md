@@ -1,3 +1,17 @@
+# [2.0.0](https://github.com/cerico/macfair/compare/v1.0.2...v2.0.0) (2023-09-03)
+
+
+### Features
+
+* decouple sites directory entirely ([e67b242](https://github.com/cerico/macfair/commit/e67b2422eeb8b2873eda733ef7927be1e7a2a5b9))
+
+
+### BREAKING CHANGES
+
+* 
+
+
+
 ## [1.0.2](https://github.com/cerico/macfair/compare/v1.0.1...v1.0.2) (2023-08-29)
 
 
