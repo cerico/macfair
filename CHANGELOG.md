@@ -1,3 +1,15 @@
+## [2.0.1](https://github.com/cerico/macfair/compare/v2.0.0...v2.0.1) (2023-09-04)
+
+
+### Bug Fixes
+
+* allow updating of nginx files ([f2867d6](https://github.com/cerico/macfair/commit/f2867d661dc8e7b7cb70418fe14c5cb2dffe70dd))
+* handled rewriting of md to html in conf ([f4d7006](https://github.com/cerico/macfair/commit/f4d7006eddd6ff539c2870b41e57d7a3da0ad57c))
+* multi-line nginx security headers ([286e781](https://github.com/cerico/macfair/commit/286e781cd3ffd766e662a604f5bfe2a8a43eb766))
+* set nginx custom error root default ([37c231a](https://github.com/cerico/macfair/commit/37c231aa0b2f61cdc86733eb81a571ea846d504f))
+
+
+
 # [2.0.0](https://github.com/cerico/macfair/compare/v1.0.2...v2.0.0) (2023-09-03)
 
 
