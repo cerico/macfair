@@ -1,3 +1,12 @@
+# [2.1.0](https://github.com/cerico/macfair/compare/v2.0.1...v2.1.0) (2023-09-08)
+
+
+### Features
+
+* add releases function ([c1d9f4e](https://github.com/cerico/macfair/commit/c1d9f4e09d56e9b2847d944c6b97a0edb23d5eb2))
+
+
+
 ## [2.0.1](https://github.com/cerico/macfair/compare/v2.0.0...v2.0.1) (2023-09-04)
 
 
