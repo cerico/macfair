@@ -14,6 +14,10 @@ issues () { # List gh issues
   [[ $1 ]] && gh issue view $1 || gh issue list
 }
 
+releases () {
+  git for-each-ref --sort=taggerdate --format '%(refname:short) %(taggerdate:relative)' refs/tags | sort -V | awk '{tag = $1; date = $2 " " $3 " " $4; printf "\033[0;32m%-7s \033[1;0m%-s\n", tag, date}'
+}
+
 prs () { # List open prs
   if [ ! -d .git ]; then
     _allprs
