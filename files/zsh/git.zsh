@@ -241,28 +241,28 @@ cleanpr () {
 }
 
 wip () { # Create work-in-progress commit # ➜ wip "Initial cities now shading correctly"
-	echo "#wip: $1" > ~/.config/git/commit-msg-template
-	git commit
+  echo "#wip: $1" > ~/.config/git/commit-msg-template
+  git commit
 }
 
 fix () { # Create semver fix commit # ➜ fix "Add missing data for Daegu"
-	echo "#fix: $1" > ~/.config/git/commit-msg-template
-	git commit
+  echo "#fix: $1" > ~/.config/git/commit-msg-template
+  git commit
 }
 
 docs () { # Create semver docs commit # ➜ docs "Add new blog post for new routes"
-        echo "#docs: $1" > ~/.config/git/commit-msg-template
-        git commit
+  echo "#docs: $1" > ~/.config/git/commit-msg-template
+  git commit
 }
 
 minor () { # Create semver minor commit # ➜ minor "Colorize and tab output"
-	echo "#feat: $1" > ~/.config/git/commit-msg-template
-	git commit
+  echo "#feat: $1" > ~/.config/git/commit-msg-template
+  git commit
 }
 
 major () { # Create semver major commit # ➜ major "Replace big breaking thing"
-	echo "#feat!: $1" > ~/.config/git/commit-msg-template
-	git commit
+  echo "#feat: $1\n\nBREAKING CHANGE:" > ~/.config/git/commit-msg-template
+  git commit
 }
 
 disallowed_commits () {
