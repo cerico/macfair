@@ -14,8 +14,26 @@ issues () { # List gh issues
   [[ $1 ]] && gh issue view $1 || gh issue list
 }
 
-releases () {
-  git for-each-ref --sort=taggerdate --format '%(refname:short) %(taggerdate:relative)' refs/tags | sort -V | awk '{tag = $1; date = $2 " " $3 " " $4; printf "\033[0;32m%-7s \033[1;0m%-s\n", tag, date}'
+ _releases_across_repos () {
+  for i in */; do
+    if [ -d "$i".git ]; then
+       (
+        cd "$i"
+        local repo_name=$(basename $(git rev-parse --show-toplevel))
+        local cyan_repo_name=$(ColorCyan $repo_name)
+        echo $cyan_repo_name $(releases 1)
+       )
+    fi
+  done
+ }
+
+releases () { # List releases for repo # ➜ releases 5
+  if [ ! -d .git ]; then
+    _releases_across_repos
+    return
+  fi
+  [[ $1 ]] && no=$1 || no=500
+  git for-each-ref --sort=taggerdate --format '%(refname:short) %(taggerdate:relative)' refs/tags | grep ago | sort -V | tail -n $no |awk '{tag = $1; date = $2 " " $3 " " $4 " " $5 " " $6; printf "\033[0;32m%-7s \033[1;0m%-s\n", tag, date}'
 }
 
 prs () { # List open prs
