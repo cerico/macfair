@@ -1,3 +1,17 @@
+# [2.2.0](https://github.com/cerico/macfair/compare/v2.1.0...v2.2.0) (2023-09-10)
+
+
+### Bug Fixes
+
+* correct format for major function ([f1b7a16](https://github.com/cerico/macfair/commit/f1b7a168bc2a6dcc9759232ca1c86040f4e16809))
+
+
+### Features
+
+* add releases_across_repos ([69e33d4](https://github.com/cerico/macfair/commit/69e33d42787f34afb93da1cab5448eec8c5b9c2a))
+
+
+
 # [2.1.0](https://github.com/cerico/macfair/compare/v2.0.1...v2.1.0) (2023-09-08)
 
 
