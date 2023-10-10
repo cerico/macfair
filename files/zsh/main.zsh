@@ -61,8 +61,13 @@ m () { # Execute nearest Makefile up directory tree
 }
 
 viz () {
-  [[ -n $1 ]] && a=$1.zsh || a=_trialling.zsh
-  vi ~/.zsh/$a
+  [[ ! $1 ]] && vi ~/.zsh/_trialling.zsh && return
+  local result=$(grep -n "^$1.*{" ~/.zsh/*.zsh)
+  local func=$(echo "$result" | awk -F':' '{print $1}')
+  local line=$(echo "$result" | awk -F':' '{print $2}')
+  [[ ! $func ]] && vi ~/.zsh/_trialling.zsh && return
+  echo "$(ColorGreen $1) found in $(ColorCyan $func)"
+  vi +$line $func
 }
 
 cdrepo () {
