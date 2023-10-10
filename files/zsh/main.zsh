@@ -40,6 +40,14 @@ help() {
   node $HOME/.zsh/help.js $1
 }
 
+killp () {
+  [[ ! $1 ]] && return
+  local p=$(lsof -i :$1 | grep LISTEN | awk -F' ' '{print $2}')
+  [[ ! $p ]] && return
+  echo killing $p on $1
+  kill -9 $p
+}
+
 upsearch () { # Search for file traversing up directory tree
   slashes=${PWD//[^\/]/}
   directory="$PWD"
