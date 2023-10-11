@@ -1,3 +1,17 @@
+# [2.3.0](https://github.com/cerico/macfair/compare/v2.2.0...v2.3.0) (2023-10-11)
+
+
+### Bug Fixes
+
+* search for functions more accurately ([eb1bec0](https://github.com/cerico/macfair/commit/eb1bec043df1613abe8d223d2c73a6ad661596a3))
+
+
+### Features
+
+* update viz to go straight to function ([c70b8f5](https://github.com/cerico/macfair/commit/c70b8f52aa460cfd4333229668898cd05ded6718))
+
+
+
 # [2.2.0](https://github.com/cerico/macfair/compare/v2.1.0...v2.2.0) (2023-09-10)
 
 
