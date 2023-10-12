@@ -1,3 +1,12 @@
+# [2.4.0](https://github.com/cerico/macfair/compare/v2.3.0...v2.4.0) (2023-10-12)
+
+
+### Features
+
+* add killp function ([6652b10](https://github.com/cerico/macfair/commit/6652b10b606bac634be97a4c0f3ae31c6775e2e3))
+
+
+
 # [2.3.0](https://github.com/cerico/macfair/compare/v2.2.0...v2.3.0) (2023-10-11)
 
 
