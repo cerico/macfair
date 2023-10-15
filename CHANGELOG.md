@@ -1,3 +1,12 @@
+## [2.4.1](https://github.com/cerico/macfair/compare/v2.4.0...v2.4.1) (2023-10-15)
+
+
+### Bug Fixes
+
+* fix dnsmasq bug ([aaf4db6](https://github.com/cerico/macfair/commit/aaf4db62ecdf9f5674a280aef3f186cfe16e707f))
+
+
+
 # [2.4.0](https://github.com/cerico/macfair/compare/v2.3.0...v2.4.0) (2023-10-12)
 
 
