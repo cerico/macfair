@@ -5,17 +5,16 @@
     insertbefore: EOF
   with_items: "{{ local_domains }}"
 
-- name: get plist_filename
-  ansible.builtin.shell: brew list dnsmasq | grep /homebrew.mxcl.dnsmasq.plist$
-  register: plist_filename
-  changed_when: plist_filename.rc != 0
+- name: Find dnsmasq plist file
+  ansible.builtin.command: find /usr/local/Cellar -name homebrew.mxcl.dnsmasq.plist
+  register: dnsmasq_plist
 
-- name: dump plist_filename
-  ansible.builtin.debug: 
-    var: plist_filename.stdout
+- name: Print dnsmasq plist file path
+  ansible.builtin.debug:
+    var: dnsmasq_plist.stdout_lines
 
 - name: Copy the daemon configuration file into place
-  ansible.builtin.command: "cp {{plist_filename.stdout}} /Library/LaunchDaemons/"
+  ansible.builtin.command: "cp {{dnsmasq_plist.stdout_lines[0] }} /Library/LaunchDaemons/"
   become: true
 
 - name: unload dnsmasq.plist
