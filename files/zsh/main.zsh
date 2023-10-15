@@ -234,10 +234,10 @@ _most_recent_in () {
 }
 
 recent () { # Find n most recent directories containing named file # ➜ recent 12 astro.config.mjs
-  [[ $1 = [1-9]* ]] && num=$1 || num=10
-  [[ $1 = [.[:alpha:]]* ]] && f=$1 || f='.git'
-  [[ $2 = [1-9]* ]] && num=$2
-  [[ $2 = [.[:alpha:]]* ]] && f=$2
+  [[ $1 =~ ^[[:digit:]]+$ ]] && num=$1 || num=10
+  [[ $1 =~ [^[:digit:]]+ ]] && f=$1 || f='.git'
+  [[ $2 =~ ^[[:digit:]]+$ ]] && num=$2
+  [[ $2 =~ [^[:digit:]]+ ]] && f=$2
   local tmpfile=$(mktemp)
   echo Finding $(ColorCyan $num) most recent directories containing $(ColorGreen $f)
   echo ---
