@@ -1,3 +1,12 @@
+## [2.4.2](https://github.com/cerico/macfair/compare/v2.4.1...v2.4.2) (2023-10-31)
+
+
+### Bug Fixes
+
+* fix recent to allow files starting w number ([76e2fc3](https://github.com/cerico/macfair/commit/76e2fc3bd44820871336461dde5e1342fc4926cf))
+
+
+
 ## [2.4.1](https://github.com/cerico/macfair/compare/v2.4.0...v2.4.1) (2023-10-15)
 
 
