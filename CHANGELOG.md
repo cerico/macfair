@@ -1,3 +1,15 @@
+# [2.5.0](https://github.com/cerico/macfair/compare/v2.4.2...v2.5.0) (2023-11-14)
+
+
+### Features
+
+* add whichz function ([838a194](https://github.com/cerico/macfair/commit/838a194635403736686ce3c39f5cb53bb1e945c0))
+* comment the viz functions purpose ([b6f6c65](https://github.com/cerico/macfair/commit/b6f6c651ecb298230b8954f6902e8f4ed44a1133))
+* update addmake and addtomake ([be1cf6e](https://github.com/cerico/macfair/commit/be1cf6ee1c6eb7b87ac85d6d70bf03eed690555a))
+* update functions function ([9dac133](https://github.com/cerico/macfair/commit/9dac133f5db963c32eca93a974f550c11e2fdade))
+
+
+
 ## [2.4.2](https://github.com/cerico/macfair/compare/v2.4.1...v2.4.2) (2023-10-31)
 
 
