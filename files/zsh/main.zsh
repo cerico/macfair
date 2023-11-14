@@ -52,6 +52,12 @@ killp () {
   kill -9 $p
 }
 
+large () { # find files over certain size in Mb # ➜ large 600
+  s=${1:-500}M
+  echo "searching for files over $s in size"
+  sudo find . -type f -size +$s -exec du -h {} \;
+}
+
 upsearch () { # Search for file traversing up directory tree
   slashes=${PWD//[^\/]/}
   directory="$PWD"
