@@ -2,12 +2,16 @@ export MARKPATH=$HOME/.marks
 alias sedi='sed -i "" -e'
 
 functions () {
-  if [[ $1 ]]
+  if [[ $1 ]] && [ -f ~/.zsh/$1.zsh ]
   then
-    [ -f ~/.zsh/$1.zsh ] && f=$1 || f="_trialling"
-    echo $(ColorCyan ${f:u})
+    # [ -f ~/.zsh/$1.zsh ] && local f=$1
+    echo $(ColorCyan ${1:u})
     echo $(ColorCyan -------------)
-    grep '^[[:alpha:]].*{' ~/.zsh/$f.zsh | tr -cd '[:alnum:]# ➜."_\n' | sort | awk -F"#" '{printf "\033[0;38m%-10s\t\033[1;36m%-54s\t\033[0;32m%s\n", $1, $2, $3}'
+    grep '^[[:alpha:]].*{' ~/.zsh/$1.zsh | tr -cd '[:alnum:]# ➜."_\n' | sort | awk -F"#" '{printf "\033[0;38m%-10s\t\033[1;36m%-54s\t\033[0;32m%s\n", $1, $2, $3}'
+   elif grep "^$1.*{" ~/.zsh/*.zsh > /dev/null; then
+     grep "^$1.*{" ~/.zsh/*.zsh | awk -F":" '{print $2}' | tr -cd '[:alnum:]# ➜."_\n' | sort | awk -F"#" '{printf "\033[0;38m%-10s\t\033[1;36m%-54s\t\033[0;32m%s\n", $1, $2, $3}'
+    echo ""
+    whichz $1
   else
   for i in $(ls ~/.zsh/*.zsh | grep -v trialling)
     do
