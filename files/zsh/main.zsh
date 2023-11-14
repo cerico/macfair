@@ -296,11 +296,13 @@ killport () { # Kill process running on port # ➜ killport 2960
 }
 
 addmake () {
-  [[ -f Makefile ]] && return
+  [[ -f Makefile ]] && [ $1 ] && addtomake $1 && return
+  [[ -f Makefile ]] && make && return
   echo "tldr:" > Makefile
   echo "\t@echo Available commands" >> Makefile
-	echo "\t@echo ------------------" >> Makefile
-	echo "\t@grep '^[[:alpha:]][^:[:space:]]*:' Makefile | cut -d ':' -f 1 | sort -u | sed 's/^/make /'" >> Makefile
+        echo "\t@echo ------------------" >> Makefile
+        echo "\t@grep '^[[:alpha:]][^:[:space:]]*:' Makefile | cut -d ':' -f 1 | sort -u | sed 's/^/make /'" >> Makefile
+  make
 }
 
 addtomake () { # Add target to makefile # ➜ addtomake start
@@ -315,6 +317,8 @@ addtomake () { # Add target to makefile # ➜ addtomake start
   fi
   read "recipe?Enter recipe: "
   echo "$target:\n\t$recipe" >> Makefile
+  echo "\nSuccess: Target '$target' added to Makefile\n"
+  make
 }
 
 mi () { # List all Makefile targets or get info in target # ➜ mi start
