@@ -68,7 +68,7 @@ m () { # Execute nearest Makefile up directory tree
   fi
 }
 
-viz () {
+viz () { # edit zsh function # ➜ viz addtomake
   [[ ! $1 ]] && vi ~/.zsh/_trialling.zsh && return
   local result=$(grep -n "^$1[[:space:]]*()[[:space:]]*{" ~/.zsh/*.zsh)
   local func=$(echo "$result" | awk -F':' '{print $1}')
