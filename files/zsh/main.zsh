@@ -78,6 +78,17 @@ viz () {
   vi +$line $func
 }
 
+whichz () {
+  [[ ! $1 ]] && return
+  local result=$(grep -n "^$1.*{" ~/.zsh/*.zsh)
+  local func=$(echo "$result" | awk -F':' '{print $1}')
+  [[ ! $func ]] && return
+  which $1
+  [[ $? != 0 ]] && return
+  echo ""
+  echo "$(ColorGreen $1) found in $(ColorCyan $func)"
+}
+
 cdrepo () {
 	cd `upsearch .git`
 }
