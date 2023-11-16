@@ -1,3 +1,12 @@
+# [2.6.0](https://github.com/cerico/macfair/compare/v2.5.0...v2.6.0) (2023-11-16)
+
+
+### Features
+
+* add large function ([eba9bc3](https://github.com/cerico/macfair/commit/eba9bc39367f8f869c11b82391ab1cfbfc747665))
+
+
+
 # [2.5.0](https://github.com/cerico/macfair/compare/v2.4.2...v2.5.0) (2023-11-14)
 
 
