@@ -347,16 +347,16 @@ addtomake () { # Add target to makefile # ➜ addtomake start
     then
     echo "Error: A file or directory named '$target' already exists." && return 1
   fi
+  [[ ! -f Makefile ]] && addmake
   if grep -q "^$target:" Makefile
     then
     echo "Error: Target '$target' already exists in the Makefile." && return 1
   fi
-  read "recipe?Enter recipe: "
+  [[ -n $2 ]] && recipe=$2 || read "recipe?Enter recipe: "
   echo "$target:\n\t$recipe" >> Makefile
   echo "\nSuccess: Target '$target' added to Makefile\n"
   make
 }
-
 mi () { # List all Makefile targets or get info in target # ➜ mi start
   if [[ ! -f Makefile ]]
     then
