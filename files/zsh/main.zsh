@@ -1,6 +1,16 @@
 export MARKPATH=$HOME/.marks
 alias sedi='sed -i "" -e'
 
+command_not_found_handler () {
+  if [ -f Makefile ] && grep "^$1:" Makefile > /dev/null; then
+    local rule=$(echo $1 | awk -F ":" '{print $1}')
+    make $rule
+    return 0
+  fi
+  echo "zsh: command not found: $1"
+  return 127  # Return an exit status indicating command not found
+}
+
 functions () {
   if [[ $1 ]] && [ -f ~/.zsh/$1.zsh ]
   then
