@@ -1,3 +1,12 @@
+# [2.7.0](https://github.com/cerico/macfair/compare/v2.6.0...v2.7.0) (2023-12-14)
+
+
+### Features
+
+* add command not found handler ([d0d31bb](https://github.com/cerico/macfair/commit/d0d31bb85dfd16d128f812079a73b49f9df7dbdd))
+
+
+
 # [2.6.0](https://github.com/cerico/macfair/compare/v2.5.0...v2.6.0) (2023-11-16)
 
 
