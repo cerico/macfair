@@ -49,3 +49,5 @@ deploy_key:
 	gh secret set DEPLOY_KEY < ~/.ssh/kawajevo/deploy_rsa
 add_package:
 	ansible-playbook addpackage.yml -i hosts
+%:
+	@$(MAKE) tldr
