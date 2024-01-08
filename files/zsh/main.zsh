@@ -334,12 +334,7 @@ killport () { # Kill process running on port # ➜ killport 2960
 addmake () {
   [[ -f Makefile ]] && [ $1 ] && addtomake $1 && return
   [[ -f Makefile ]] && make && return
-  echo "tldr:" > Makefile
-  echo "\t@echo Available commands" >> Makefile
-        echo "\t@echo ------------------" >> Makefile
-        echo "\t@grep '^[[:alpha:]][^:[:space:]]*:' Makefile | cut -d ':' -f 1 | sort -u | sed 's/^/make /'" >> Makefile
-  echo "%:" >> Makefile
-        echo '\t@$(MAKE) tldr' >> Makefile
+  cp ~/.zsh/templates/Makefile .
   make
 }
 
