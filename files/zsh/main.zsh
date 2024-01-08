@@ -338,6 +338,8 @@ addmake () {
   echo "\t@echo Available commands" >> Makefile
         echo "\t@echo ------------------" >> Makefile
         echo "\t@grep '^[[:alpha:]][^:[:space:]]*:' Makefile | cut -d ':' -f 1 | sort -u | sed 's/^/make /'" >> Makefile
+  echo "%:" >> Makefile
+        echo '\t@$(MAKE) tldr' >> Makefile
   make
 }
 
