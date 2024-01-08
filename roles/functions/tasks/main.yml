@@ -39,6 +39,11 @@
     src: zsh/colors.zsh
     dest: ~{{ macbook_user.stdout }}/.zsh/colors.zsh
 
+- name: Copy templates directory
+  copy:
+    src: zsh/templates/
+    dest: ~{{ macbook_user.stdout }}/.zsh/templates/
+
 - name: Copy macfair file (this machine)
   template:
     src: zsh/macfair.zsh.j2
