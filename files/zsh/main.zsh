@@ -205,8 +205,7 @@ mcd () {
 }
 
 start () {
-  [[ -n $1 ]] && port=$1 || port=9000
-  ui_port=$((port + 1))
+  local port=${1:-9000}
   [[ -f index.html ]] && type="--files" || type="--directory"
   browser-sync start --server $type "*.*" --port $port --ui-port $ui_port
 }
