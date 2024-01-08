@@ -1,3 +1,12 @@
+# [2.8.0](https://github.com/cerico/macfair/compare/v2.7.0...v2.8.0) (2024-01-08)
+
+
+### Features
+
+* add catchall default target to makefile ([b08d8e5](https://github.com/cerico/macfair/commit/b08d8e54acae8deb0c6f62fa541421a12d62422d))
+
+
+
 # [2.7.0](https://github.com/cerico/macfair/compare/v2.6.0...v2.7.0) (2023-12-14)
 
 
