@@ -1,3 +1,14 @@
+# [2.9.0](https://github.com/cerico/macfair/compare/v2.8.0...v2.9.0) (2024-01-11)
+
+
+### Features
+
+* search for start in Makefile first ([eac4463](https://github.com/cerico/macfair/commit/eac44630ddb0f872b14a23edd8f7e4dd2b4e8f9e))
+* use local variable for ui_port ([382e400](https://github.com/cerico/macfair/commit/382e40039bb977f8de36d7199d662e650f16ffde))
+* use parameter expansion for port variable ([e6dcb28](https://github.com/cerico/macfair/commit/e6dcb28034a5bff602c607f3d78ef9550231c0e6))
+
+
+
 # [2.8.0](https://github.com/cerico/macfair/compare/v2.7.0...v2.8.0) (2024-01-08)
 
 
