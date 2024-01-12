@@ -1,3 +1,15 @@
+# [2.10.0](https://github.com/cerico/macfair/compare/v2.9.0...v2.10.0) (2024-01-12)
+
+
+### Features
+
+* add catchall target to addmake ([6362663](https://github.com/cerico/macfair/commit/636266398b5eeeed0fe2228fd6b956f01d059b93))
+* combine addmake and addtomake ([8f59af4](https://github.com/cerico/macfair/commit/8f59af4320cc57f4d9cccfe2a0cfa118e671e49c))
+* improve addmake and addtomake ([57cdaa8](https://github.com/cerico/macfair/commit/57cdaa8f91bdc767e7cbdd6f154076fda36943fd))
+* move addtomake's makefile to template ([703a1fd](https://github.com/cerico/macfair/commit/703a1fd863393754b4abdbfcd9e8e879f8eca4e9))
+
+
+
 # [2.9.0](https://github.com/cerico/macfair/compare/v2.8.0...v2.9.0) (2024-01-11)
 
 
