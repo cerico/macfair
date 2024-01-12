@@ -332,28 +332,30 @@ killport () { # Kill process running on port # ➜ killport 2960
 }
 
 addmake () {
-  [[ -f Makefile ]] && [ $1 ] && addtomake $1 && return
-  [[ -f Makefile ]] && make && return
-  cp ~/.zsh/templates/Makefile .
-  make
-}
-
-addtomake () { # Add target to makefile # ➜ addtomake start
-  [[ -n $1 ]] && target=$1 || read "target?Enter target: "
+  if [[ ! -f Makefile ]];
+    then
+    cp ~/.zsh/templates/Makefile .
+  fi
+  if [[ ! $1 ]];
+    then
+    make
+    return
+  fi
+  local target=$1 || read "target?Enter target: "
   if [[ -e $target ]]
     then
     echo "Error: A file or directory named '$target' already exists." && return 1
   fi
-  [[ ! -f Makefile ]] && addmake
   if grep -q "^$target:" Makefile
     then
     echo "Error: Target '$target' already exists in the Makefile." && return 1
   fi
-  [[ -n $2 ]] && recipe=$2 || read "recipe?Enter recipe: "
+  [[ -n $2 ]] && local recipe=$2 || read "recipe?Enter recipe: "
   echo "$target:\n\t$recipe" >> Makefile
   echo "\nSuccess: Target '$target' added to Makefile\n"
   make
 }
+
 mi () { # List all Makefile targets or get info in target # ➜ mi start
   if [[ ! -f Makefile ]]
     then
