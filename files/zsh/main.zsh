@@ -376,3 +376,11 @@ mi () { # List all Makefile targets or get info in target # ➜ mi start
 scripts () {
   [[ -f package.json ]] && jq .scripts package.json || echo "package.json not round. To create run ➜ npm init"
 }
+
+_delete_temp_page () {
+    echo "Stopping web server..."
+    echo "Removing $1"
+    [ -f $1 ] && rm $1
+
+    trap - INT
+}
