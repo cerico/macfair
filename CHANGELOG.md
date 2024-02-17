@@ -1,3 +1,13 @@
+# [2.11.0](https://github.com/cerico/macfair/compare/v2.10.0...v2.11.0) (2024-02-17)
+
+
+### Features
+
+* add _delete_temp_page function ([804adf3](https://github.com/cerico/macfair/commit/804adf3575359557a411e0ef8ad5a3f844d189c9))
+* add pics function ([4fcefbc](https://github.com/cerico/macfair/commit/4fcefbcd241ce3ad6d10f0a4de2e1b796f456db1))
+
+
+
 # [2.10.0](https://github.com/cerico/macfair/compare/v2.9.0...v2.10.0) (2024-01-12)
 
 
