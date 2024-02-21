@@ -386,7 +386,7 @@ _delete_temp_page () {
 }
 
 pics () {
-  local template="$HOME/.zsh/templates/pics.html"
+  local template="$HOME/.zsh/templates/html"
   local page="000.html"
   trap '_delete_temp_page $page' INT
   sed '$d' $template | sed '$d' > $page
