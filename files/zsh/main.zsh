@@ -402,15 +402,17 @@ html () {
   IFS=$'\n'
   local template="$HOME/.zsh/templates/html"
   local page="000.html"
+  local list=(${1:+**/}*.html(N))
   trap '_delete_temp_page $page' INT
   sed '$d' $template | sed '$d' > $page
-  [ $1 ] && list=(**/*.html(N)) || list=(*.html(N))
-  for i in $(ls $list)
+  for i in "${list[@]}"
     do
-    url=$(echo $i | sed s/\ /%20/g)
+    url=$(echo "$i" | sed 's/ /%20/g')
     echo "<div><a href=\"./$url\">$i</a></div>" >> $page
     done
   tail -n 2 $template >> $page
+  _webserver $page
+}
 
 _webserver () {
    browser-sync start --server --startPath "$page" --port 6375 --browser "safari"
