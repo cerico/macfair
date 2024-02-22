@@ -389,14 +389,15 @@ pics () {
   IFS=$'\n'
   local template="$HOME/.zsh/templates/html"
   local page="000.html"
+  local list=(**/*.[jp]*g)
   trap '_delete_temp_page $page' INT
   sed '$d' $template | sed '$d' > $page
-  for i in $(ls **/*.*g)
+  for i in "${list[@]}"
     do
     echo "<img src=\"./$i\">"  >> $page
     done
   tail -n 2 $template >> $page
-  browser-sync start --server --startPath "$page" --port 8580 --browser "safari"
+   _webserver $page
 }
 
 html () {
