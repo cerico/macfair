@@ -411,5 +411,7 @@ html () {
     echo "<div><a href=\"./$url\">$i</a></div>" >> $page
     done
   tail -n 2 $template >> $page
-  browser-sync start --server --startPath "$page" --port 8580 --browser "safari"
+
+_webserver () {
+   browser-sync start --server --startPath "$page" --port 6375 --browser "safari"
 }
