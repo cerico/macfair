@@ -397,3 +397,19 @@ pics () {
   tail -n 2 $template >> $page
   browser-sync start --server --startPath "$page" --port 8580 --browser "safari"
 }
+
+html () {
+  IFS=$'\n'
+  local template="$HOME/.zsh/templates/html"
+  local page="000.html"
+  trap '_delete_temp_page $page' INT
+  sed '$d' $template | sed '$d' > $page
+  [ $1 ] && list=(**/*.html(N)) || list=(*.html(N))
+  for i in $(ls $list)
+    do
+    url=$(echo $i | sed s/\ /%20/g)
+    echo "<div><a href=\"./$url\">$i</a></div>" >> $page
+    done
+  tail -n 2 $template >> $page
+  browser-sync start --server --startPath "$page" --port 8580 --browser "safari"
+}
