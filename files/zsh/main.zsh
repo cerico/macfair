@@ -386,6 +386,7 @@ _delete_temp_page () {
 }
 
 pics () {
+  IFS=$'\n'
   local template="$HOME/.zsh/templates/html"
   local page="000.html"
   trap '_delete_temp_page $page' INT
