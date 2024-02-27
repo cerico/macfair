@@ -1,3 +1,21 @@
+# [2.12.0](https://github.com/cerico/macfair/compare/v2.11.0...v2.12.0) (2024-02-27)
+
+
+### Bug Fixes
+
+* account for spaces in pics function ([01de433](https://github.com/cerico/macfair/commit/01de433997924a665db1aa8be4541a19ef08d17b))
+* improve pics function ([f309471](https://github.com/cerico/macfair/commit/f3094719db87e9c53c290bd13019ab4d6d18496a))
+
+
+### Features
+
+* add html function ([fd87c21](https://github.com/cerico/macfair/commit/fd87c21d0339e579ea4a4cacf7a9423c40895ab0))
+* add html function ([5ffbd09](https://github.com/cerico/macfair/commit/5ffbd09a507ea44f73c757c567685221e04f8046))
+* add temp _webserver functon ([da8fb2a](https://github.com/cerico/macfair/commit/da8fb2a0fde2492dfe59c20e4a53bdbb6cdcbd69))
+* pics.html ➜ generic html in zsh template ([1dcf28a](https://github.com/cerico/macfair/commit/1dcf28addf2ceaa23f996b33a75e7fa78f9c3a76))
+
+
+
 # [2.11.0](https://github.com/cerico/macfair/compare/v2.10.0...v2.11.0) (2024-02-17)
 
 
