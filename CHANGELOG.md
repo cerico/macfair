@@ -1,3 +1,12 @@
+## [2.12.1](https://github.com/cerico/macfair/compare/v2.12.0...v2.12.1) (2024-02-28)
+
+
+### Bug Fixes
+
+* standardize vscode settings for js ([9a9e3c7](https://github.com/cerico/macfair/commit/9a9e3c753142120db94e40acd2524c118fbdac1c))
+
+
+
 # [2.12.0](https://github.com/cerico/macfair/compare/v2.11.0...v2.12.0) (2024-02-27)
 
 
