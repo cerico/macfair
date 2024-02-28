@@ -5,7 +5,6 @@ group_vars/all/vars.yml
 !host_vars/example.yml
 !group_vars/all/example.yml
 hosts
-.vscode
 TODO.md
 sites/*yml
 !sites/vars.yml
