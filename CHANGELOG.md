@@ -1,3 +1,12 @@
+## [2.13.1](https://github.com/cerico/macfair/compare/v2.13.0...v2.13.1) (2024-03-16)
+
+
+### Bug Fixes
+
+* correct template dir in workflows command ([242a967](https://github.com/cerico/macfair/commit/242a967156d9284637e05b364bcb193c49f13c54))
+
+
+
 # [2.13.0](https://github.com/cerico/macfair/compare/v2.12.1...v2.13.0) (2024-03-16)
 
 
