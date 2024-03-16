@@ -15,7 +15,7 @@ workflows () { # Copy template workflow to repo # ➜ workflows test
 
   display_workflows() {
     echo "Available workflows:"
-    for file in "$template_dir"/*.yml; do
+    for file in "$_dir"/*.yml; do
       choice=$(basename "$file" .yml)
       echo "  $choice"
     done
