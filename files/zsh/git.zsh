@@ -10,6 +10,31 @@ issue () { # Create or view gh issue # ➜ issue "update nginx security policy"
   for i in "$@" ; do if [[ "$i" == "-"* ]] && gh issue view "${issue##*/}" --web; done;
 }
 
+workflows () { # Copy template workflow to repo # ➜ workflows test
+  local _dir=~/.zsh/templates/github-actions
+
+  display_workflows() {
+    echo "Available workflows:"
+    for file in "$template_dir"/*.yml; do
+      choice=$(basename "$file" .yml)
+      echo "  $choice"
+    done
+  }
+
+  if [ $# -eq 0 ]; then
+    display_workflows
+    return
+  fi
+
+  mkdir -p .github/workflows
+
+  if [ -f "$_dir/$1.yml" ]; then
+    cp -r $_dir/$1.yml .github/workflows
+  fi
+
+  tree .github/workflows
+}
+
 issues () { # List gh issues
   [[ $1 ]] && gh issue view $1 || gh issue list
 }

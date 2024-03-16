@@ -1,0 +1,24 @@
+name: Test
+on:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: npm install
+        run: npm install
+
+      - name: make test
+        run: make test
+
+      - name: install ts
+        run: npm i -g typescript
+
+      - name: run typescript
+        run: tsc
