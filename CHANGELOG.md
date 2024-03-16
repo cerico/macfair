@@ -1,3 +1,12 @@
+# [2.13.0](https://github.com/cerico/macfair/compare/v2.12.1...v2.13.0) (2024-03-16)
+
+
+### Features
+
+* add workflows command ([1abba20](https://github.com/cerico/macfair/commit/1abba20b79ddd4de52bcbb67abe21262cc6a8b16))
+
+
+
 ## [2.12.1](https://github.com/cerico/macfair/compare/v2.12.0...v2.12.1) (2024-02-28)
 
 
