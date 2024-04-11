@@ -23,13 +23,13 @@
 
 - name: Register ansible location
   become: false
-  shell: command python3 -m site --user-base
+  shell: dirname /Users/brew/Library/Python/*/bin/ansible-playbook | sort -V | tail -n 1
   register: python_location
 
 - name: Add ansible to path.
   lineinfile:
     path: ~/.zshrc
-    line: export PATH="{{ python_location.stdout }}/bin:$PATH"
+    line: export PATH="{{ python_location.stdout }}:$PATH"
 
 - name: register rbenv exists
   stat:
