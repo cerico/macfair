@@ -225,14 +225,18 @@ cpr () {
 }
 
 vsc () { # list or switch vscode themes # ➜ vsc sunlight
-  theme=~/.vscode/themes/$1.json
+  local theme_file="$1"
+  local theme=~/.vscode/themes/$theme_file.json
+  local settings=~/Library/Application\ Support/Code/User/settings.json
   if test -f "$theme"
   then
     mkdir -p .vscode
-    cp $theme .vscode/settings.json
+    sed '$d' "$settings" > .vscode/settings.json
+    tail -n +2 "$theme" >> .vscode/settings.json
+    echo "Settings updated with $theme_file theme and saved to .vscode/settings.json"
   else
-    echo "Available themes"
-    echo "----------------"
+    echo "Available themes:"
+    echo "-----------------"
     ls -G ~/.vscode/themes/ | awk -F'.json' '{print $1}'
   fi
 }

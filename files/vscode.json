@@ -2,18 +2,6 @@
   "[css]": {
     "editor.defaultFormatter": "vscode.css-language-features"
   },
-  "[dart]": {
-    "editor.formatOnSave": true,
-    "editor.formatOnType": true,
-    "editor.rulers": [
-      80
-    ],
-    "editor.selectionHighlight": false,
-    "editor.suggest.snippetsPreventQuickSuggestions": false,
-    "editor.suggestSelection": "first",
-    "editor.tabCompletion": "onlySnippets",
-    "editor.wordBasedSuggestions": "off"
-  },
   "[html]": {
     "editor.defaultFormatter": "vscode.html-language-features"
   },
@@ -32,10 +20,8 @@
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
-  "editor.accessibilitySupport": "off",
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
-  "editor.tabSize": 2,
   "editor.wordWrap": "bounded",
   "editor.wordWrapColumn": 120,
   "files.insertFinalNewline": true,
@@ -43,31 +29,6 @@
   "files.trimTrailingWhitespace": true,
   "javascript.format.semicolons": "remove",
   "javascript.updateImportsOnFileMove.enabled": "always",
-  "npm.keybindingsChangedWarningShown": true,
   "terminal.integrated.defaultProfile.osx": "zsh",
-  "terminal.integrated.env.osx": {
-    "FIG_NEW_SESSION": "1"
-  },
   "typescript.format.semicolons": "remove",
-  "window.zoomLevel": 1,
-  "workbench.colorCustomizations": {
-    "activityBar.activeBackground": "#5a8cc1",
-    "activityBar.background": "#5a8cc1",
-    "activityBar.foreground": "#15202b",
-    "activityBar.inactiveForeground": "#15202b99",
-    "activityBarBadge.background": "#945bc4",
-    "activityBarBadge.foreground": "#e7e7e7",
-    "commandCenter.border": "#15202b99",
-    "sash.hoverBorder": "#5a8cc1",
-    "statusBar.background": "#404b85",
-    "statusBar.foreground": "#f6ead3",
-    "statusBarItem.hoverBackground": "#359268",
-    "statusBarItem.remoteBackground": "#404b85",
-    "statusBarItem.remoteForeground": "#f6ead3",
-    "titleBar.activeBackground": "#404b85",
-    "titleBar.activeForeground": "#f6ead3",
-    "titleBar.inactiveBackground": "#404b8599",
-    "titleBar.inactiveForeground": "#f6ead399"
-  },
-  "workbench.colorTheme": "zombies_ate_my_neighbors",
 }

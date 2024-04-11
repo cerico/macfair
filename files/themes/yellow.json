@@ -29,6 +29,6 @@
     "statusBarItem.remoteForeground": "#15202b"
   },
   "workbench.colorTheme": "zombies_ate_my_neighbors",
-  "peacock.color": "#FF757D",
+  "peacock.color": "#f6ef32",
   "editor.tabSize": 2
 }

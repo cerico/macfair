@@ -44,6 +44,7 @@
     - "ChakrounAnas.turbo-console-log"
     - "humao.rest-client"
     - "wholroyd.jinja"
+  when: ansible_os_family == "Darwin"
 
 - name: copy vscode profile darwin
   copy:
@@ -59,7 +60,7 @@
 
 - name: Create snippets directory
   file:
-    path:  ~{{ macbook_user.stdout }}/Library/Application Support/Code/User/snippets
+    path: ~{{ macbook_user.stdout }}/Library/Application Support/Code/User/snippets
     state: directory
   when: ansible_os_family == "Darwin"
 
@@ -73,7 +74,7 @@
 
 - name: Create themes directory
   file:
-    path:  ~{{ macbook_user.stdout }}/.vscode/themes
+    path: ~{{ macbook_user.stdout }}/.vscode/themes
     state: directory
 
 - name: Copy themes
@@ -85,7 +86,7 @@
 
 - name: print role name
   set_fact:
-    parent_role_name:  "{{ role_name }}"
+    parent_role_name: "{{ role_name }}"
 
 - name: add version
   include_role:
