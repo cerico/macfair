@@ -1,3 +1,17 @@
+# [2.14.0](https://github.com/cerico/macfair/compare/v2.13.1...v2.14.0) (2024-04-11)
+
+
+### Bug Fixes
+
+* update adding ansible to path ([fb65f3a](https://github.com/cerico/macfair/commit/fb65f3a782fc335c960759c97d0519d5f01f5227))
+
+
+### Features
+
+* update vscode theme handling ([ad568ea](https://github.com/cerico/macfair/commit/ad568eabfb8710e69d14435b86b601a47584c77f))
+
+
+
 ## [2.13.1](https://github.com/cerico/macfair/compare/v2.13.0...v2.13.1) (2024-03-16)
 
 
