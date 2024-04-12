@@ -418,3 +418,19 @@ html () {
 _webserver () {
    browser-sync start --server --startPath "$page" --port 6375 --browser "safari"
 }
+
+new () {
+  local template_dir=$HOME/.zsh/templates/
+  [ $2 ] && local title=$2 || local title="index"
+  if [ -z "$1" ] || [ ! -e "$template_dir/$1" ]; then
+    echo "Available templates to copy"
+    ls -a $template_dir  | grep -vE '^(\.|..)$'
+    return
+  fi
+  if [ -d "$template_dir/$1" ]; then
+    test -d $1 && echo "$1 already exists" || cp -r "$template_dir/$1" "$1"
+  else
+    test -f $title.$1 && echo "$title.$1 already exists" || cp $template_dir/$1 $title.$1
+  fi
+  tree
+}
