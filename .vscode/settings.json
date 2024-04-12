@@ -2,18 +2,6 @@
   "[css]": {
     "editor.defaultFormatter": "vscode.css-language-features"
   },
-  "[dart]": {
-    "editor.formatOnSave": true,
-    "editor.formatOnType": true,
-    "editor.rulers": [
-      80
-    ],
-    "editor.selectionHighlight": false,
-    "editor.suggest.snippetsPreventQuickSuggestions": false,
-    "editor.suggestSelection": "first",
-    "editor.tabCompletion": "onlySnippets",
-    "editor.wordBasedSuggestions": "off"
-  },
   "[html]": {
     "editor.defaultFormatter": "vscode.html-language-features"
   },
@@ -32,10 +20,8 @@
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
-  "editor.accessibilitySupport": "off",
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
-  "editor.tabSize": 2,
   "editor.wordWrap": "bounded",
   "editor.wordWrapColumn": 120,
   "files.insertFinalNewline": true,
@@ -43,12 +29,39 @@
   "files.trimTrailingWhitespace": true,
   "javascript.format.semicolons": "remove",
   "javascript.updateImportsOnFileMove.enabled": "always",
-  "npm.keybindingsChangedWarningShown": true,
   "terminal.integrated.defaultProfile.osx": "zsh",
-  "terminal.integrated.env.osx": {
-    "FIG_NEW_SESSION": "1"
-  },
   "typescript.format.semicolons": "remove",
-  "window.zoomLevel": 1,
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#3e3b9b",
+    "activityBar.activeBorder": "#078000",
+    "activityBar.background": "#3e3b9b",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#170909",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "statusBar.background": "#2f2d76",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#3e3b9b",
+    "titleBar.activeBackground": "#2f2d76",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#2f2d7699",
+    "titleBar.inactiveForeground": "#e7e7e799",
+    "editorLineNumber.foreground": "#999999",
+    "editorLineNumber.activeForeground": "#555555",
+    "tab.inactiveForeground": "#c58185",
+    "tab.activeForeground": "#faf0d4",
+    "sideBar.foreground": "#c58185",
+    "list.activeSelectionBackground": "#c58185",
+    "list.activeSelectionForeground": "#000",
+    "list.hoverBackground": "#6e484b",
+    "list.hoverForeground": "#faf0d4",
+    "gitDecoration.modifiedResourceForeground": "#faf0d4",
+    "sash.hoverBorder": "#3e3b9b",
+    "statusBarItem.remoteBackground": "#2f2d76",
+    "statusBarItem.remoteForeground": "#e7e7e7",
+    "commandCenter.border": "#e7e7e799"
+  },
   "workbench.colorTheme": "zombies_ate_my_neighbors",
+  "peacock.color": "#2F2D76",
+  "editor.tabSize": 2
 }
