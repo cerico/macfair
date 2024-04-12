@@ -205,11 +205,6 @@ mcd () {
 }
 
 start () {
-  if [[ -f Makefile ]] && grep -q '^start:' Makefile;
-    then
-    make start
-    return
-  fi
   local port=${1:-9000}
   local ui_port=$((port + 1))
   [[ -f index.html ]] && type="--files" || type="--directory"
