@@ -93,9 +93,13 @@ viz () { # edit zsh function # ➜ viz addtomake
   local result=$(grep -n "^$1[[:space:]]*()[[:space:]]*{" ~/.zsh/*.zsh)
   local func=$(echo "$result" | awk -F':' '{print $1}')
   local line=$(echo "$result" | awk -F':' '{print $2}')
-  [[ ! $func ]] && vi ~/.zsh/_trialling.zsh && return
-  echo "$(ColorGreen $1) found in $(ColorCyan $func)"
-  vi +$line $func
+  if [[ $func ]]; then
+    echo "$(ColorGreen $1) found in $(ColorCyan $func)"
+    vi +$line $func
+    return
+  fi
+  local file=$(ls ~/.zsh/$1.zsh)
+  [[ $file ]] && vi ~/.zsh/$1.zsh || vi ~/.zsh/_trialling.zsh
 }
 
 whichz () {
