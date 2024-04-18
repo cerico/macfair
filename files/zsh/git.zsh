@@ -10,6 +10,17 @@ issue () { # Create or view gh issue # ➜ issue "update nginx security policy"
   for i in "$@" ; do if [[ "$i" == "-"* ]] && gh issue view "${issue##*/}" --web; done;
 }
 
+secrets () {
+  while IFS= read -r line; do
+    key=$(echo "$line" | cut -d '=' -f 1)
+    value=$(echo "$line" | cut -d '=' -f 2-)
+
+    gh secret set $key -b"$value"
+
+    sleep 1
+  done < .env
+}
+
 workflows () { # Copy template workflow to repo # ➜ workflows test
   local _dir=~/.zsh/templates/github-actions
 
