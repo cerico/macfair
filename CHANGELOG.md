@@ -1,3 +1,12 @@
+# [2.16.0](https://github.com/cerico/macfair/compare/v2.15.0...v2.16.0) (2024-04-18)
+
+
+### Features
+
+* add astro to default vscode settings ([711230c](https://github.com/cerico/macfair/commit/711230c11d62ca4e5d886ad2762b269c3c2f48a5))
+
+
+
 # [2.15.0](https://github.com/cerico/macfair/compare/v2.14.0...v2.15.0) (2024-04-18)
 
 
