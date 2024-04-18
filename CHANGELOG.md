@@ -1,3 +1,12 @@
+# [2.15.0](https://github.com/cerico/macfair/compare/v2.14.0...v2.15.0) (2024-04-18)
+
+
+### Features
+
+* update viz function ([0f720d0](https://github.com/cerico/macfair/commit/0f720d0ccab352e8f0853ea43b4131ae7553e921))
+
+
+
 # [2.14.0](https://github.com/cerico/macfair/compare/v2.13.1...v2.14.0) (2024-04-11)
 
 
