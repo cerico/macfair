@@ -1,3 +1,12 @@
+# [2.17.0](https://github.com/cerico/macfair/compare/v2.16.0...v2.17.0) (2024-04-21)
+
+
+### Features
+
+* add secrets function for git ([20e08ad](https://github.com/cerico/macfair/commit/20e08adf72f07dc96f819d82e8bd2d04edc939a0))
+
+
+
 # [2.16.0](https://github.com/cerico/macfair/compare/v2.15.0...v2.16.0) (2024-04-18)
 
 
