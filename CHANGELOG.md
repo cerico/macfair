@@ -1,3 +1,17 @@
+# [2.18.0](https://github.com/cerico/macfair/compare/v2.17.0...v2.18.0) (2024-05-04)
+
+
+### Bug Fixes
+
+* find brew location in github action ([998a072](https://github.com/cerico/macfair/commit/998a072c8163202c1d2d6b8ca95edb3417299592))
+
+
+### Features
+
+* add env and venv ([bae5d56](https://github.com/cerico/macfair/commit/bae5d560b9fb949e76b58903f03f6a85b2f87f43))
+
+
+
 # [2.17.0](https://github.com/cerico/macfair/compare/v2.16.0...v2.17.0) (2024-04-21)
 
 
