@@ -5,3 +5,9 @@ if [ "$branch" = "main" ] && [ "$commits" != "" ]; then
   echo "Commit on main branch is blocked, there are already existing commits."
   exit 1
 fi
+
+if [ ! -f .gitignore ]
+  then
+  cp -r ~/.config/git/ignore .gitignore
+  git add .gitignore
+fi
