@@ -427,3 +427,17 @@ html () {
 _webserver () {
    browser-sync start --server --startPath "$page" --port 6375 --browser "safari"
 }
+
+env () {
+  if [ $1 ]
+    then
+    echo "Required in env...\n"
+    grep -r 'import\.meta\.env\.' src | grep -o '\.[^.]*$' | awk -F'[^_a-zA-Z]+' '{print $2"="}'
+  else
+    cat .env
+  fi
+}
+
+venv () {
+  vi .env
+}
