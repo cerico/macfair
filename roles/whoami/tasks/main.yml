@@ -22,9 +22,16 @@
 
 - debug: var=git_name.stdout
 
+- name: get the brew location
+  become: false
+  ansible.builtin.command: which brew
+  register: brew_location
+
+- debug: var=brew_location.stdout
+
 - name: get the brew users name
   become: false
-  ansible.builtin.command: stat -f "%Su" /usr/local/bin/brew
+  ansible.builtin.command: stat -f "%Su" {{ brew_location.stdout }}
   register: brew_user
   when: ansible_os_family == "Darwin"
 
@@ -33,7 +40,7 @@
 
 - name: print role name
   set_fact:
-    parent_role_name:  "{{ role_name }}"
+    parent_role_name: "{{ role_name }}"
 
 - name: add version
   include_role:
