@@ -429,12 +429,13 @@ _webserver () {
 }
 
 env () {
-  if [ $1 ]
+  if [ $1 ] && [ -f src ]
     then
     echo "Required in env...\n"
     grep -r 'import\.meta\.env\.' src | grep -o '\.[^.]*$' | awk -F'[^_a-zA-Z]+' '{print $2"="}'
+    grep -r 'process\.env\.' src | grep -o '\.[^.]*$' | awk -F'[^_a-zA-Z]+' '{print $2"="}'
   else
-    cat .env
+    [ -f .env ] && cat .env || touch .env && cat .env
   fi
 }
 
