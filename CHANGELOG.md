@@ -1,3 +1,12 @@
+# [2.19.0](https://github.com/cerico/macfair/compare/v2.18.0...v2.19.0) (2024-05-07)
+
+
+### Features
+
+* ensure .gitignore present before committing ([3e9d885](https://github.com/cerico/macfair/commit/3e9d885ee97e399e009dc5f64271389bd88ff9a2))
+
+
+
 # [2.18.0](https://github.com/cerico/macfair/compare/v2.17.0...v2.18.0) (2024-05-04)
 
 
