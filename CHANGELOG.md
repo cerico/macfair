@@ -1,3 +1,17 @@
+# [2.20.0](https://github.com/cerico/macfair/compare/v2.19.0...v2.20.0) (2024-05-07)
+
+
+### Bug Fixes
+
+* improve env function ([2ed2de4](https://github.com/cerico/macfair/commit/2ed2de4fdd1faf87587a42944c6b8edb1ecc8e8a))
+
+
+### Features
+
+* add peacock function ([ea120ca](https://github.com/cerico/macfair/commit/ea120cab876a5dc2cd38d73fcddbe35d63cd0343))
+
+
+
 # [2.19.0](https://github.com/cerico/macfair/compare/v2.18.0...v2.19.0) (2024-05-07)
 
 
