@@ -1,3 +1,12 @@
+# [2.21.0](https://github.com/cerico/macfair/compare/v2.20.0...v2.21.0) (2024-05-10)
+
+
+### Features
+
+* add pre-commit hook for readme ([e0a2449](https://github.com/cerico/macfair/commit/e0a244959b81bc477d05c12a1f02a22a8a5addd1))
+
+
+
 # [2.20.0](https://github.com/cerico/macfair/compare/v2.19.0...v2.20.0) (2024-05-07)
 
 
