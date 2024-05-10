@@ -12,9 +12,15 @@ if [ ! -f .gitignore ]
   git add .gitignore
 fi
 
+if [ ! -f Makefile ]
+  then
+  cp -r ~/.zsh/templates/Makefile .
+  git add Makefile
+fi
+
 if [ ! -f README.md ]
   then
-  cp -r ~/.zsh/templates/README.md README.md
+  cp -r ~/.zsh/templates/README.md .
   git add README.md
 fi
 
