@@ -11,3 +11,17 @@ if [ ! -f .gitignore ]
   cp -r ~/.config/git/ignore .gitignore
   git add .gitignore
 fi
+
+if [ ! -f README.md ]
+  then
+  cp -r ~/.zsh/templates/README.md README.md
+  git add README.md
+fi
+
+if [ ! -f .vscode/setings.json ]
+  then
+  mkdir -p .vscode
+  cp -r ~/Library/Application\ Support/Code/User/settings.json .vscode/settings.json
+  git add .vscode/settings.json
+fi
+
