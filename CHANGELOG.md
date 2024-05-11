@@ -1,3 +1,12 @@
+# [2.22.0](https://github.com/cerico/macfair/compare/v2.21.0...v2.22.0) (2024-05-11)
+
+
+### Features
+
+* add pre-commit hook for Makefile ([6ede017](https://github.com/cerico/macfair/commit/6ede017bb22943e54a14c855630666d01548b50e))
+
+
+
 # [2.21.0](https://github.com/cerico/macfair/compare/v2.20.0...v2.21.0) (2024-05-10)
 
 
