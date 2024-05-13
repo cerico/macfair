@@ -1,3 +1,12 @@
+# [2.23.0](https://github.com/cerico/macfair/compare/v2.22.0...v2.23.0) (2024-05-13)
+
+
+### Features
+
+* add gtop function ([bba72b9](https://github.com/cerico/macfair/commit/bba72b9e1aeca0dbb0be39803fbd97b718777987))
+
+
+
 # [2.22.0](https://github.com/cerico/macfair/compare/v2.21.0...v2.22.0) (2024-05-11)
 
 
