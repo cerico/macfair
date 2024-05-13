@@ -374,3 +374,7 @@ addnewlines () { # Add newlines where missing
     echo >> $i
   done
 }
+
+gtop () {
+  cd $(git rev-parse --show-toplevel)
+}
