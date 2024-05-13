@@ -32,4 +32,7 @@
   "terminal.integrated.defaultProfile.osx": "zsh",
   "typescript.format.semicolons": "remove",
   "svelte.enable-ts-plugin": true,
+  "workbench.colorTheme": "zombies_ate_my_neighbors",
+  "peacock.color": "#FF757D",
+  "editor.tabSize": 2
 }
