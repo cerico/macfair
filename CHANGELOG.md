@@ -1,3 +1,15 @@
+# [2.24.0](https://github.com/cerico/macfair/compare/v2.23.0...v2.24.0) (2024-05-20)
+
+
+### Features
+
+* add alias for git last ([0a7d17a](https://github.com/cerico/macfair/commit/0a7d17a29d17e4122f3803c5b8e7f4c403e2320d))
+* add vscode origsettings to globalignore ([e063e73](https://github.com/cerico/macfair/commit/e063e73d7269e522e07ef7baeda6c74699950f98))
+* specify global gitignore location ([c04310b](https://github.com/cerico/macfair/commit/c04310b735b80d659b1f823beac568e85527a24b))
+* update peacock function to backup settings ([58de6ed](https://github.com/cerico/macfair/commit/58de6edace46ea29b3330d227b3920ae37093708))
+
+
+
 # [2.23.0](https://github.com/cerico/macfair/compare/v2.22.0...v2.23.0) (2024-05-13)
 
 
