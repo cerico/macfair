@@ -6,6 +6,14 @@ if [ "$branch" = "main" ] && [ "$commits" != "" ]; then
   exit 1
 fi
 
+if [ -f .vscode/origsettings.json ]
+  then
+  cp .vscode/origsettings.json .vscode/settings.json
+  rm .vscode/origsettings.json
+  git restore --staged .vscode/settings.json
+  echo reverted temporary changes to .vscode/settings.json
+fi
+
 if [ ! -f .gitignore ]
   then
   cp -r ~/.config/git/ignore .gitignore
@@ -30,4 +38,3 @@ if [ ! -f .vscode/setings.json ]
   cp -r ~/Library/Application\ Support/Code/User/settings.json .vscode/settings.json
   git add .vscode/settings.json
 fi
-
