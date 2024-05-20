@@ -76,3 +76,4 @@ node_modules/
 dist/
 .eslintcache
 
+.vscode/origsettings.json
