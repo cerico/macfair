@@ -32,7 +32,7 @@ if [ ! -f README.md ]
   git add README.md
 fi
 
-if [ ! -f .vscode/setings.json ]
+if [ ! -f .vscode/settings.json ]
   then
   mkdir -p .vscode
   cp -r ~/Library/Application\ Support/Code/User/settings.json .vscode/settings.json

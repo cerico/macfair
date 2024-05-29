@@ -1,0 +1,6 @@
+REPO_NAME=$(basename $(pwd))
+
+if command -v dokku &> /dev/null
+then
+  DOKKU_ROOT="/home/dokku" dokku git-hook $REPO_NAME
+fi
