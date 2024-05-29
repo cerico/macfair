@@ -12,7 +12,6 @@
     - { role: functions, tags: [functions, install, setup, info] }
     - { role: terminal, tags: [terminal, setup, info] }
     - { role: rails, tags: [rails, info] }
-    - { role: vscode, tags: [vscode, setup, info] }
 
 - name: Setup debian machines
   hosts: [debian]
@@ -25,6 +24,7 @@
 - name: Setup macbook
   hosts: macbook
   roles:
+    - { role: vscode, tags: [vscode, setup, info] }
     - { role: desktop, tags: [desktop, setup, info] }
 
 - name: After everything
