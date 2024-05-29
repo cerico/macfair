@@ -26,6 +26,7 @@
   become: false
   ansible.builtin.command: which brew
   register: brew_location
+  when: ansible_os_family == "Darwin"
 
 - debug: var=brew_location.stdout
 
