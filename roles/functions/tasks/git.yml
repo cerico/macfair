@@ -24,6 +24,12 @@
     dest: ~{{ macbook_user.stdout }}/.config/git/hooks/pre-commit
     mode: a+x
 
+- name: Copy global post-receive hook
+  copy:
+    src: git/post-receive
+    dest: ~{{ macbook_user.stdout }}/.config/git/hooks/post-receive
+    mode: a+x
+
 - name: Copy global commit-msg hook
   copy:
     src: git/commit-msg
