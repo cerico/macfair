@@ -339,6 +339,11 @@ killport () { # Kill process running on port # ➜ killport 2960
   echo "nothing running on $1"
 }
 
+checkport () {
+  [ ! $1 ] && return
+  lsof -i :$1
+}
+
 addmake () {
   if [[ ! -f Makefile ]];
     then
