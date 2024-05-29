@@ -1,3 +1,5 @@
+export PATH="/Applications/Docker.app/Contents/Resources/bin:$PATH"
+
 unalias brew 2>/dev/null
 brewser=$(stat -f "%Su" $(which brew))
 alias brew='sudo -Hu '$brewser' brew'
