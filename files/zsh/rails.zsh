@@ -17,6 +17,6 @@ railshist () {
   echo 'puts Readline::HISTORY.entries.each { |c| puts c }' | spring rails c | grep $1
 }
 
-railsn () {
-  make -f ~/Work/ansible/finisterre/Makefile rails -C ~/Work/ansible/finisterre LOCATION=`pwd`
+rn () {
+  rails new "$1" --database=postgresql "${@:2}"
 }
