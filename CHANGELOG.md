@@ -1,3 +1,24 @@
+# [2.25.0](https://github.com/cerico/macfair/compare/v2.24.0...v2.25.0) (2024-05-29)
+
+
+### Bug Fixes
+
+* only look for brew location when darwin ([fb5f921](https://github.com/cerico/macfair/commit/fb5f921f411fe82a8b9bb0d69dd0ac321478d22f))
+
+
+### Features
+
+* add ansible_become_passto vars file ([c08664b](https://github.com/cerico/macfair/commit/c08664b5ce9836665c7e7fd36c8ec1f159e1ac08))
+* add checkport function ([b0283a6](https://github.com/cerico/macfair/commit/b0283a670f6acd3736ff67a9ca044a56773c164f))
+* add docker to darwin path ([e8ebfab](https://github.com/cerico/macfair/commit/e8ebfabaa41cc495fb6f06ddbc60458010640707))
+* add python3-pip to debian install list ([b2b7797](https://github.com/cerico/macfair/commit/b2b7797485d391673ad4e973d9bf83266f589bd7))
+* move vscode role to darwin only ([62faedf](https://github.com/cerico/macfair/commit/62faedf453624b7e2f7d6e76e03eba2697b1b736))
+* update basic html template ([923c99e](https://github.com/cerico/macfair/commit/923c99e8a29c4eeb3b1606ef28f1992cce5192b5))
+* update global ruby to 3.2.4 ([f81519c](https://github.com/cerico/macfair/commit/f81519c70e58b79a5a7184b9a0f98941986bab96))
+* update rn to postgres default ([6649820](https://github.com/cerico/macfair/commit/6649820b7b525e079376deba215e45176ab0d361))
+
+
+
 # [2.24.0](https://github.com/cerico/macfair/compare/v2.23.0...v2.24.0) (2024-05-20)
 
 
