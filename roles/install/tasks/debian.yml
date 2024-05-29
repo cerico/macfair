@@ -35,7 +35,7 @@
       - gh
       - jq
       - nginx
-      - firefox-esr
+      - python3-pip
       - snapd
       - figlet
     state: present
@@ -95,22 +95,22 @@
   become_user: root
   ansible.builtin.lineinfile:
     path: /etc/hosts
-    search_string: '127.0.0.1'
+    search_string: "127.0.0.1"
     line: 127.0.0.1 {{ inventory_hostname }}
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
 
 - name: Replace a localhost entry searching for a literal string to avoid escaping
   become: true
   become_user: root
   ansible.builtin.lineinfile:
     path: /etc/cloud/templates/hosts.debian.tmpl
-    search_string: '127.0.0.1'
+    search_string: "127.0.0.1"
     line: 127.0.0.1 {{ inventory_hostname }}
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
 
 - name: Set a hostname
   become: true
