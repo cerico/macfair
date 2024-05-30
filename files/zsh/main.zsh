@@ -43,7 +43,11 @@ trim () {
 }
 
 aud () {
-  yt-dlp -xiwc $1
+  yt-dlp -xiwc -o "%(title)s.%(ext)s" "$1"
+}
+
+vid () {
+  yt-dlp -o "%(title)s.%(ext)s" "$1"
 }
 
 help() {
