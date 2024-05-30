@@ -1,3 +1,12 @@
+# [2.26.0](https://github.com/cerico/macfair/compare/v2.25.0...v2.26.0) (2024-05-30)
+
+
+### Features
+
+* add post-receive hook for dokku ([172be4c](https://github.com/cerico/macfair/commit/172be4c3679db00304b1d03d9345f58d3790f904))
+
+
+
 # [2.25.0](https://github.com/cerico/macfair/compare/v2.24.0...v2.25.0) (2024-05-29)
 
 
