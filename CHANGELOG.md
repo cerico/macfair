@@ -1,3 +1,12 @@
+# [2.27.0](https://github.com/cerico/macfair/compare/v2.26.0...v2.27.0) (2024-06-01)
+
+
+### Features
+
+* update aud and add vid function ([47ad1ad](https://github.com/cerico/macfair/commit/47ad1adf2f1c882f180be45829f9c9ef0a92717d))
+
+
+
 # [2.26.0](https://github.com/cerico/macfair/compare/v2.25.0...v2.26.0) (2024-05-30)
 
 
