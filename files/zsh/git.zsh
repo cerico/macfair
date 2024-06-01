@@ -23,6 +23,7 @@ secrets () {
 
 workflows () { # Copy template workflow to repo # ➜ workflows test
   local _dir=~/.zsh/templates/github-actions
+  local app_name=$(basename $(pwd))
 
   display_workflows() {
     echo "Available workflows:"
@@ -41,6 +42,7 @@ workflows () { # Copy template workflow to repo # ➜ workflows test
 
   if [ -f "$_dir/$1.yml" ]; then
     cp -r $_dir/$1.yml .github/workflows
+    sed -i "" -e "s/replace_with_app_name/${app_name}/g" ".github/workflows/$1.yml"
   fi
 
   tree .github/workflows

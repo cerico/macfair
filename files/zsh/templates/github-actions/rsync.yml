@@ -1,0 +1,32 @@
+name: Rsync Deploy
+
+env:
+  url: replace_with_app_name"
+
+on:
+  push:
+    branches: [main]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install JS Packages
+        run: make install
+
+      - name: Build site
+        run: make build
+
+      - name: Rsync application
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -a
+          path: /dist
+          remote_path: /var/www/html/{{ url }}
+          remote_host: { { url } }
+          remote_user: deploy
+          remote_key: ${{ secrets.DEPLOY_KEY }}
