@@ -1,3 +1,12 @@
+# [2.28.0](https://github.com/cerico/macfair/compare/v2.27.0...v2.28.0) (2024-06-02)
+
+
+### Features
+
+* add dokku and rsync workflow templates ([28d2604](https://github.com/cerico/macfair/commit/28d2604ee146dbe2964800b23090ce2eb0af87ec))
+
+
+
 # [2.27.0](https://github.com/cerico/macfair/compare/v2.26.0...v2.27.0) (2024-06-01)
 
 
