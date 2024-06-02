@@ -22,6 +22,7 @@ secrets () {
 }
 
 workflows () { # Copy template workflow to repo # ➜ workflows test
+  cd $(git rev-parse --show-toplevel)
   local _dir=~/.zsh/templates/github-actions
   local app_name=$(basename $(pwd))
 
@@ -379,4 +380,41 @@ addnewlines () { # Add newlines where missing
 
 gtop () {
   cd $(git rev-parse --show-toplevel)
+}
+
+ginit () {
+  git init
+  if [ ! -f package.json ]
+    then
+    npm init -y
+  fi
+  if [ ! -d .github ]
+    then
+    mkdir -p .github/workflows
+    cp ~/.zsh/templates/github-actions/test.yml .github/workflows
+    cp ~/.zsh/templates/github-actions/release.yml .github/workflows
+    git add .github
+  fi
+  if [ ! -f Makefile ]
+    then
+    cp -r  ~/.zsh/templates/Makefile .
+    git add Makefile
+  fi
+  if [ ! -f .gitignore ]
+    then
+    cp -r ~/.config/git/ignore .gitignore
+    git add .gitignore
+  fi
+  if [ ! -f README.md ]
+    then
+    cp -r ~/.zsh/templates/README.md .
+    git add README.md
+  fi
+  if [ ! -f .vscode/settings.json ]
+    then
+    mkdir -p .vscode
+    cp -r ~/Library/Application\ Support/Code/User/settings.json .vscode/settings.json
+  fi
+  g add .
+  g commit -m "feat: initialized repo"
 }
