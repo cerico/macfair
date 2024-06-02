@@ -21,4 +21,4 @@ jobs:
         run: npm i -g typescript
 
       - name: run typescript
-        run: tsc
+        run: make typescript
