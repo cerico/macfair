@@ -135,26 +135,29 @@ _commits_across_repos () {
   done
 }
 
-repo () { # View repo settings or set to defaults ➜ repo --defaults
+repo () { # create repo with settings
   if [ ! -d .git ]; then
     echo "current directory is not a git repository. Run git init to create one"
     return
   fi
-  if [ $(git remote | wc -l) -eq 0 ]; then
-    gh repo create
-    local created=true
+  local repo_name=$(basename $(pwd))
+  local visibility="private"
+  local username=$(git config --global user.name)
+
+  if [[ -z "$repo_name" || -z "$visibility" || -z "$username" ]]; then
+    return 1
   fi
-  if [ $(git remote | wc -l) -eq 0 ]; then
-    echo "repo didn't create"
-    return
-  fi
-  local REPO_URL=$(git remote -v | grep -o 'git@github.com:[^ ]*' | head -n 1 | cut -d ':' -f 2 | sed 's/\.git$//')
-  if [[ $# -gt 0 || $created ]]; then
-    gh api repos/$REPO_URL -X PATCH -F allow_merge_commit=false -F allow_squash_merge=false -F delete_branch_on_merge=true | jq
-    echo "Repo settings updated"
-  else
-    gh api repos/$REPO_URL -X GET | jq
-  fi
+
+  gh repo create "$repo_name" --"$visibility"
+  git remote add origin git@github.com:$username/$repo_name.git
+  git push origin main
+
+  gh api -X PATCH "repos/$username/$repo_name" \
+    -F allow_merge_commit=false \
+    -F allow_squash_merge=false \
+    -F delete_branch_on_merge=true
+
+  gh api repos/$username/$repo_name -X GET | jq
 }
 
 _getpr () {
