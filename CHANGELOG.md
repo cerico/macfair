@@ -1,3 +1,18 @@
+# [2.29.0](https://github.com/cerico/macfair/compare/v2.28.0...v2.29.0) (2024-06-03)
+
+
+### Bug Fixes
+
+* make typescript in workflow to placeholder ([1cd26aa](https://github.com/cerico/macfair/commit/1cd26aa1ed25d324b20a7d918004da6f5c6b11d2))
+
+
+### Features
+
+* add ginit function to include basics ([19582a7](https://github.com/cerico/macfair/commit/19582a79d8c3068c01266b93883d77bbc9dfc927))
+* update repo command to create repo ([b1c0384](https://github.com/cerico/macfair/commit/b1c0384d8f3e018c9677010ed11702679af102da))
+
+
+
 # [2.28.0](https://github.com/cerico/macfair/compare/v2.27.0...v2.28.0) (2024-06-02)
 
 
