@@ -44,6 +44,17 @@
     src: zsh/templates/
     dest: ~{{ macbook_user.stdout }}/.zsh/templates/
 
+- name: Copy zsh gitignore
+  copy:
+    src: zsh/.gitignore
+    dest: ~{{ macbook_user.stdout }}/.zsh/.gitignore
+
+- name: Copy zshrc for informational purposes
+  copy:
+    src: ~{{ macbook_user.stdout }}/.zshrc
+    dest: ~{{ macbook_user.stdout }}/.zsh/.zshrc
+  when: ansible_connection == "local"
+
 - name: Copy macfair file (this machine)
   template:
     src: zsh/macfair.zsh.j2
