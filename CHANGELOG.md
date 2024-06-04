@@ -1,3 +1,13 @@
+# [2.30.0](https://github.com/cerico/macfair/compare/v2.29.0...v2.30.0) (2024-06-04)
+
+
+### Features
+
+* add gitignore to created zsh functions dir ([c968941](https://github.com/cerico/macfair/commit/c9689412bb29ee22b93948c8edda3ef70e994933))
+* add parameter expansion to repo func ([45c58ef](https://github.com/cerico/macfair/commit/45c58ef59d0305230912714eaad4bcf7c57fa3ba))
+
+
+
 # [2.29.0](https://github.com/cerico/macfair/compare/v2.28.0...v2.29.0) (2024-06-03)
 
 
