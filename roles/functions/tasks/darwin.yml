@@ -13,7 +13,7 @@
 - name: create trial file for new functions if one doesn't already exist
   copy:
     content: "tinker(){\n  echo try out new functions here, not in main file\n}"
-    dest: ~{{ macbook_user.stdout }}/.zsh/_trialling
+    dest: ~{{ macbook_user.stdout }}/.zsh/_trialling.zsh
     force: no
 
 - name: copy js help file
