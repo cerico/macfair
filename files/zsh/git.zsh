@@ -140,7 +140,7 @@ repo () { # create repo with settings
     echo "current directory is not a git repository. Run git init to create one"
     return
   fi
-  local repo_name=$(basename $(pwd))
+  local repo_name=${1:-$(basename $(pwd))}
   local visibility="private"
   local username=$(git config --global user.name)
 
