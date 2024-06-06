@@ -7,6 +7,10 @@ command_not_found_handler () {
     make $rule
     return 0
   fi
+  if [[ -f package.json ]] && jq .scripts package.json | grep -q "\"$1\":"; then
+    npm run $1
+    return 0
+  fi
   echo "zsh: command not found: $1"
   return 127  # Return an exit status indicating command not found
 }
