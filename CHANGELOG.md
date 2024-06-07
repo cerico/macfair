@@ -1,3 +1,17 @@
+# [2.31.0](https://github.com/cerico/macfair/compare/v2.30.0...v2.31.0) (2024-06-07)
+
+
+### Bug Fixes
+
+* use grep -q instead of pipe dev null ([d305555](https://github.com/cerico/macfair/commit/d3055556284c446c0a4d125ee5dc25583dc942d2))
+
+
+### Features
+
+* update command not found handler ([14cedb6](https://github.com/cerico/macfair/commit/14cedb68e1389ff117eecb300470e50f57928d43))
+
+
+
 # [2.30.0](https://github.com/cerico/macfair/compare/v2.29.0...v2.30.0) (2024-06-04)
 
 
