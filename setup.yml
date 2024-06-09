@@ -26,6 +26,7 @@
   roles:
     - { role: vscode, tags: [vscode, setup, info] }
     - { role: desktop, tags: [desktop, setup, info] }
+    - { role: keepalive, tags: [keepalive, functions, setup, info] }
 
 - name: After everything
   hosts: localhost

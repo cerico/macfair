@@ -34,6 +34,8 @@ vscode:
 	ansible-playbook setup.yml -i hosts --tags "vscode"
 functions:
 	ansible-playbook setup.yml -i hosts --tags "functions"
+keepalive:
+	ansible-playbook setup.yml -i hosts --tags "keepalive"
 desktop:
 	ansible-playbook setup.yml -i hosts --tags "desktop"
 slim:
