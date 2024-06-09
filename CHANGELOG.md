@@ -1,3 +1,12 @@
+# [2.32.0](https://github.com/cerico/macfair/compare/v2.31.0...v2.32.0) (2024-06-09)
+
+
+### Features
+
+* install rebornix.ruby vscode extension ([1c90ffd](https://github.com/cerico/macfair/commit/1c90ffdd42128ceced6ebf4ddc73cf187642bf38))
+
+
+
 # [2.31.0](https://github.com/cerico/macfair/compare/v2.30.0...v2.31.0) (2024-06-07)
 
 
