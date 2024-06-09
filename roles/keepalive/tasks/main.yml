@@ -1,0 +1,50 @@
+---
+- name: Create keepalive directory
+  file:
+    path: "{{ ansible_env.HOME }}/work/crons/keepalive"
+    state: directory
+    mode: "0755"
+
+- name: Copy necessary files to keepalive directory
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ ansible_env.HOME }}/work/crons/keepalive/{{ item.dest }}"
+  with_items:
+    - { src: "keepalive/index.mjs", dest: "index.mjs" }
+    - { src: "keepalive/pages.mjs", dest: "pages.mjs" }
+    - { src: "keepalive/gitignore", dest: ".gitignore" }
+    - { src: "keepalive/Makefile", dest: "Makefile" }
+    - { src: "keepalive/README.md", dest: "README.md" }
+
+- name: Initialize Node.js project
+  command: npm init -y
+  args:
+    chdir: "{{ ansible_env.HOME }}/work/crons/keepalive"
+  register: npm_init
+  changed_when: "'package.json' in npm_init.stdout"
+
+- name: Install Puppeteer
+  command: npm install puppeteer
+  args:
+    chdir: "{{ ansible_env.HOME }}/work/crons/keepalive"
+  register: npm_install
+  changed_when: "'node_modules' in npm_install.stdout"
+
+- name: Ensure index.mjs has execute permissions
+  file:
+    path: "{{ ansible_env.HOME }}/work/crons/keepalive/index.mjs"
+    mode: "0755"
+
+- name: Get ndoe location
+  ansible.builtin.command: which node
+  register: node_location
+
+- name: Print version
+  debug: var=node_location.stdout
+
+- name: Setup cron for keepalive
+  ansible.builtin.cron:
+    name: keepalive
+    hour: "11"
+    minute: "38"
+    job: ". $HOME/.zshrc; {{ node_location.stdout }} $HOME/work/crons/keepalive/index.mjs"
