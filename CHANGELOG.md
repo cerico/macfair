@@ -1,3 +1,12 @@
+# [2.33.0](https://github.com/cerico/macfair/compare/v2.32.0...v2.33.0) (2024-06-10)
+
+
+### Features
+
+* added keepalive application ([44fcfec](https://github.com/cerico/macfair/commit/44fcfecffd4376adac84576370de84acb77cbd24))
+
+
+
 # [2.32.0](https://github.com/cerico/macfair/compare/v2.31.0...v2.32.0) (2024-06-09)
 
 
