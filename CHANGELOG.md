@@ -1,3 +1,12 @@
+# [2.34.0](https://github.com/cerico/macfair/compare/v2.33.0...v2.34.0) (2024-06-11)
+
+
+### Features
+
+* add dokku functions to zsh ([33e58b7](https://github.com/cerico/macfair/commit/33e58b71a07093bfd4350a58f039e0fefa0a892b))
+
+
+
 # [2.33.0](https://github.com/cerico/macfair/compare/v2.32.0...v2.33.0) (2024-06-10)
 
 
