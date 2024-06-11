@@ -4,6 +4,11 @@
     src: zsh/debian.zsh
     dest: ~{{ macbook_user.stdout }}/.zsh/debian.zsh
 
+- name: Copy dokku
+  copy:
+    src: zsh/dokku.zsh
+    dest: ~{{ macbook_user.stdout }}/.zsh/dokku.zsh
+
 - name: Register ansible location
   become: false
   shell: command python3 -m site --user-base
