@@ -1,3 +1,12 @@
+## [2.35.1](https://github.com/cerico/macfair/compare/v2.35.0...v2.35.1) (2024-06-12)
+
+
+### Bug Fixes
+
+* use placeholder for dokku url ([87d7e8b](https://github.com/cerico/macfair/commit/87d7e8b59c2f47f4023f0a021a2f666f685bc1ab))
+
+
+
 # [2.35.0](https://github.com/cerico/macfair/compare/v2.34.0...v2.35.0) (2024-06-12)
 
 
