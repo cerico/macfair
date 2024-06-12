@@ -149,8 +149,6 @@ repo () { # create repo with settings
   fi
 
   gh repo create "$repo_name" --"$visibility"
-  git remote add origin git@github.com:$username/$repo_name.git
-  git push origin main
 
   gh api -X PATCH "repos/$username/$repo_name" \
     -F allow_merge_commit=false \
@@ -158,6 +156,9 @@ repo () { # create repo with settings
     -F delete_branch_on_merge=true
 
   gh api repos/$username/$repo_name -X GET | jq
+  set_secret
+  git remote add origin git@github.com:$username/$repo_name.git
+  git push origin main
 }
 
 _getpr () {
