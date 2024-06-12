@@ -6,6 +6,13 @@ if [ "$branch" = "main" ] && [ "$commits" != "" ]; then
   exit 1
 fi
 
+if [ -f package-lock.json ] && [ -f yarn.lock ]
+  then
+  echo "Error: Both package-lock.json and yarn.lock are present in the commit."
+  echo "Please remove one of them before committing."
+  exit 1
+fi
+
 if [ -f .vscode/origsettings.json ]
   then
   cp .vscode/origsettings.json .vscode/settings.json
