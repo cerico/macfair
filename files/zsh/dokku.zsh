@@ -16,6 +16,8 @@ newapp() {
   dokku letsencrypt:set $1 email $email
   dokku letsencrypt:enable $1
   dokku letsencrypt:auto-renew
+  dokku buildpacks:add $1  https://github.com/heroku/heroku-buildpack-nodejs.git
+  dokku buildpacks:add $1  https://github.com/heroku/heroku-buildpack-ruby.git
 }
 
 bump() {
