@@ -1,3 +1,18 @@
+# [2.35.0](https://github.com/cerico/macfair/compare/v2.34.0...v2.35.0) (2024-06-12)
+
+
+### Bug Fixes
+
+* prevent commits if yarn and npm both present ([8cbfaab](https://github.com/cerico/macfair/commit/8cbfaabc5cf02880539007d9ea155c4a91ab6fdd))
+
+
+### Features
+
+* add buildpacks for dokku to newap ([2d03f0a](https://github.com/cerico/macfair/commit/2d03f0a86b656380aac5d56f2c3e8960610f4ff8))
+* add set_secret to repo functio ([22d9fc5](https://github.com/cerico/macfair/commit/22d9fc5d0dabaf888a43c9687bae380fa9363888))
+
+
+
 # [2.34.0](https://github.com/cerico/macfair/compare/v2.33.0...v2.34.0) (2024-06-11)
 
 
