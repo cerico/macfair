@@ -23,8 +23,15 @@
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.indentSize": 2,
+  "editor.insertSpaces": true,
+  "workbench.colorTheme": "zombies_ate_my_neighbors",
   "editor.wordWrap": "bounded",
   "editor.wordWrapColumn": 120,
   "files.insertFinalNewline": true,
