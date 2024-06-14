@@ -1,3 +1,12 @@
+# [2.36.0](https://github.com/cerico/macfair/compare/v2.35.1...v2.36.0) (2024-06-14)
+
+
+### Features
+
+* update vscode settings for typescriptreact ([7eab7d3](https://github.com/cerico/macfair/commit/7eab7d3788d20f04d938c8d13acf6972f32bea52))
+
+
+
 ## [2.35.1](https://github.com/cerico/macfair/compare/v2.35.0...v2.35.1) (2024-06-12)
 
 
