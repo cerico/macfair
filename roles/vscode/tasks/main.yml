@@ -45,6 +45,9 @@
     - "ChakrounAnas.turbo-console-log"
     - "humao.rest-client"
     - "wholroyd.jinja"
+    - "wholroyd.jinja"
+    - "dsznajder.es7-react-js-snippets"
+    - "planbcoding.vscode-react-refactor"
   when: ansible_os_family == "Darwin"
 
 - name: copy vscode profile darwin
