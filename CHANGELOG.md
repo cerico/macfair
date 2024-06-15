@@ -1,3 +1,12 @@
+# [2.37.0](https://github.com/cerico/macfair/compare/v2.36.0...v2.37.0) (2024-06-15)
+
+
+### Features
+
+* update git park to last non wip commit ([69b6e54](https://github.com/cerico/macfair/commit/69b6e549a6c10d1a1cd1c0d3dc1ac32be7283a4b))
+
+
+
 # [2.36.0](https://github.com/cerico/macfair/compare/v2.35.1...v2.36.0) (2024-06-14)
 
 
