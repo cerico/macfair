@@ -21,8 +21,7 @@
         branches = ! git branch --no-merge main --format='%(HEAD)%(color:yellow)%(refname:short)|%(color:bold green)%(committerdate:relative)|%(color:blue)%(subject)|%(color:reset)' --color=always | column -ts'|' | head -n 10
         full = ! git branch --format='%(HEAD)%(color:yellow)%(refname:short)|%(color:bold green)%(committerdate:relative)|%(color:blue)%(subject)|%(color:reset)' --color=always | column -ts'|'
         park = ! git add . && git commit -m \"wip: parking this here for now\"
-        unpark = !git reset $(git rev-list --grep='^wip:' --invert-grep -n 1 HEAD)
-        unparkall = !git reset  $(git rev-parse main)
+        unpark = !git reset  $(git rev-parse main)
         last = show HEAD
 [push]
         autoSetupRemote = true
