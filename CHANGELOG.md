@@ -1,3 +1,18 @@
+# [2.38.0](https://github.com/cerico/macfair/compare/v2.37.0...v2.38.0) (2024-06-16)
+
+
+### Bug Fixes
+
+* remove dupe rebornix reference ([2588e5b](https://github.com/cerico/macfair/commit/2588e5be8bd3c415c3d030f5316f9849d57a0cd3))
+
+
+### Features
+
+* update git unpark to last non wip commit ([518ab32](https://github.com/cerico/macfair/commit/518ab32e9c5b0e3b2e119004bbda305c8443a197))
+* update vscode for rails ([665dbdc](https://github.com/cerico/macfair/commit/665dbdc47189786a8f960e0cc36b493c3ec0eb07))
+
+
+
 # [2.37.0](https://github.com/cerico/macfair/compare/v2.36.0...v2.37.0) (2024-06-15)
 
 
