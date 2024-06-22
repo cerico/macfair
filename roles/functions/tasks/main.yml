@@ -39,6 +39,11 @@
     src: zsh/colors.zsh
     dest: ~{{ macbook_user.stdout }}/.zsh/colors.zsh
 
+- name: Copy volz file
+  copy:
+    src: zsh/volz.sh
+    dest: ~{{ macbook_user.stdout }}/.zsh/volz.zsh
+
 - name: Copy templates directory
   copy:
     src: zsh/templates/
