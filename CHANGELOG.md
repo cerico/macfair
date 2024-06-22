@@ -1,3 +1,12 @@
+# [2.39.0](https://github.com/cerico/macfair/compare/v2.38.0...v2.39.0) (2024-06-22)
+
+
+### Features
+
+* add volz function to scaffold applications ([0c4a65c](https://github.com/cerico/macfair/commit/0c4a65c61585e44c722fac59a30250c4bca05d4e))
+
+
+
 # [2.38.0](https://github.com/cerico/macfair/compare/v2.37.0...v2.38.0) (2024-06-16)
 
 
