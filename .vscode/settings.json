@@ -34,5 +34,24 @@
   "svelte.enable-ts-plugin": true,
   "workbench.colorTheme": "zombies_ate_my_neighbors",
   "peacock.color": "#FF757D",
-  "editor.tabSize": 2
+  "editor.tabSize": 2,
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#ffa8ad",
+    "activityBar.background": "#ffa8ad",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#078000",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "commandCenter.border": "#15202b99",
+    "sash.hoverBorder": "#ffa8ad",
+    "statusBar.background": "#ff757d",
+    "statusBar.foreground": "#15202b",
+    "statusBarItem.hoverBackground": "#ff424d",
+    "statusBarItem.remoteBackground": "#ff757d",
+    "statusBarItem.remoteForeground": "#15202b",
+    "titleBar.activeBackground": "#ff757d",
+    "titleBar.activeForeground": "#15202b",
+    "titleBar.inactiveBackground": "#ff757d99",
+    "titleBar.inactiveForeground": "#15202b99"
+  }
 }
