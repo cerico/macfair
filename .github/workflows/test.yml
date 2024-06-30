@@ -9,46 +9,60 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.x"
 
-      - name: Install Ansible
-        run: pip install ansible
+      - name: Install dependencies
+        run: |
+          python3 -m venv ~/.pyvenv-ansible
+          source ~/.pyvenv-ansible/bin/activate
+          pip install ansible
 
-      - name: Check Ansible path
-        run: echo 'export PATH="$(python3 -m site --user-base)/bin:$PATH"' >> $GITHUB_ENV
-
-      - name: Installs ansible and pip
-        run: ansible-galaxy collection install -r requirements.yml
+      - name: Install ansible requirements
+        run: |
+          source ~/.pyvenv-ansible/bin/activate
+          ansible-galaxy collection install -r requirements.yml
 
       - name: makes this target
-        run: ansible-playbook thiscomputer.yml -i hosts -e "hostname=github-runner"
+        run: |
+          source ~/.pyvenv-ansible/bin/activate
+          ansible-playbook thiscomputer.yml -i hosts -e "hostname=github-runner"
 
       - name: Runs the debug target
-        run: make debug
+        run: |
+          source ~/.pyvenv-ansible/bin/activate
+          make debug
 
       - name: runs the terminal target
-        run: make terminal
+        run: |
+          source ~/.pyvenv-ansible/bin/activate
+          make terminal
 
       - name: runs the functions target
-        run: make functions
+        run: |
+          source ~/.pyvenv-ansible/bin/activate
+          make functions
 
       - name: cat zshrc
         run: cat ~/.macfair/version
 
       - name: runs the newcomputer target with vars to bypass prompt
-        run: ansible-playbook newcomputer.yml -i hosts -e "target=dox.io37.ch" -e "user=deploy" -e "group=debian"
+        run: |
+          source ~/.pyvenv-ansible/bin/activate
+          ansible-playbook newcomputer.yml -i hosts -e "target=dox.io37.ch" -e "user=deploy" -e "group=debian"
 
       - name: use http version of sites repo just for gh action so as not to bother w keys
         run: |
           echo 'nginx_repo: "https://github.com/cerico/nginx-files.git"' >> host_vars/localhost.yml
 
       - name: Run the newsite target with vars to bypass prompt
-        run: ansible-playbook newsite.yml -i hosts -e "app_name=yes.mate"
+        run: |
+          source ~/.pyvenv-ansible/bin/activate
+          ansible-playbook newsite.yml -i hosts -e "app_name=yes.mate"
 
       - name: Is new entry in sites/Makefile
         run: cd ../sites && make
