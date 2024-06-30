@@ -1,6 +1,13 @@
 ANSIBLE_PLAYBOOK := $$HOME/.pyvenv-ansible/bin/ansible-playbook
 ANSIBLE_GALAXY := $$HOME/.pyvenv-ansible/bin/ansible-galaxy
 tldr:
+	@echo TLDR Quickstart
+	@echo ---------------
+	@echo "make ansible ➜ installs and sets up ansible"
+	@echo "make thiscomputer ➜ Prepares this machine"
+	@echo "make setup ➜ Runs all available rules"
+	@echo "make commands  ➜ Lists all available rules"
+commands:
 	@echo Available commands
 	@echo ------------------
 	@grep '^[[:alpha:]][^:[:space:]]*:' Makefile | cut -d ':' -f 1 | sort -u | sed 's/^/make /'
@@ -53,4 +60,4 @@ deploy_key:
 add_package:
 	$(ANSIBLE_PLAYBOOK) addpackage.yml -i hosts
 %:
-	@$(MAKE) tldr
+	@$(MAKE) commands

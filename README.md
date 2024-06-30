@@ -11,7 +11,7 @@ Sets up your Mac (and any debian targets) from scratch via Ansible. A replacemen
 To set up and run all the roles, run the following
 
 ```
-make update
+make ansible
 make thiscomputer
 make setup
 ```
@@ -19,7 +19,7 @@ make setup
 Or to set up specific roles, run individually eg
 
 ```
-make update
+make ansible
 make thiscomputer
 make install
 make terminal
@@ -28,7 +28,7 @@ make rails
 
 # Roles
 
-* [make update](docs/update.md)
+* [make ansible](docs/ansible.md)
 * [make thiscomputer](docs/thiscomputer.md)
 * [make newcomputer](docs/newcomputer.md)
 * [make rootkeys](docs/rootkeys.md)
