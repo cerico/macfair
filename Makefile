@@ -1,55 +1,56 @@
+ANSIBLE_PLAYBOOK := $$HOME/.pyvenv-ansible/bin/ansible-playbook
+ANSIBLE_GALAXY := $$HOME/.pyvenv-ansible/bin/ansible-galaxy
 tldr:
 	@echo Available commands
 	@echo ------------------
 	@grep '^[[:alpha:]][^:[:space:]]*:' Makefile | cut -d ':' -f 1 | sort -u | sed 's/^/make /'
-fix:
-	echo 'export PATH="'$$(python3 -m site --user-base)'/bin:$$PATH"' >> ~/.zshrc
-update:
-	python3 -m pip install --upgrade pip
-	python3 -m pip install --user ansible
-	ansible-galaxy collection install -r requirements.yml
+ansible:
+	python3 -m venv ~/.pyvenv-ansible
+	source ~/.pyvenv-ansible/bin/activate && python3 -m pip install --upgrade pip
+	source ~/.pyvenv-ansible/bin/activate && python3 -m pip install ansible
+	$(ANSIBLE_GALAXY) collection install -r requirements.yml
 thiscomputer:
-	ansible-playbook thiscomputer.yml --ask-become-pass -e "hostname=`hostname`"
+	$(ANSIBLE_PLAYBOOK) thiscomputer.yml --ask-become-pass -e "hostname=`hostname`"
 userkeys:
-	ansible-playbook keys/keys.yml -i hosts
+	$(ANSIBLE_PLAYBOOK) keys/keys.yml -i hosts
 rootkeys:
-	ansible-playbook keys/root.yml -i hosts  -e "ansible_user=root"
+	$(ANSIBLE_PLAYBOOK) keys/root.yml -i hosts  -e "ansible_user=root"
 remote_login:
-	ansible-playbook remote_login.yml -i hosts -e "ansible_user=root"
+	$(ANSIBLE_PLAYBOOK) remote_login.yml -i hosts -e "ansible_user=root"
 help:
 	cat README.md
 setup:
-	ansible-playbook setup.yml -i hosts --tags "setup"
+	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "setup"
 terminal:
-	ansible-playbook setup.yml -i hosts --tags "terminal"
+	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "terminal"
 install:
-	ansible-playbook setup.yml -i hosts --tags "install"
+	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "install"
 debian:
-	ansible-playbook setup.yml -i hosts --tags "debian"
+	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "debian"
 nginx:
-	ansible-playbook setup.yml -i hosts --tags "nginx"
+	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "nginx"
 rails:
-	ansible-playbook setup.yml -i hosts --tags "rails"
+	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "rails"
 vscode:
-	ansible-playbook setup.yml -i hosts --tags "vscode"
+	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "vscode"
 functions:
-	ansible-playbook setup.yml -i hosts --tags "functions"
+	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "functions"
 keepalive:
-	ansible-playbook setup.yml -i hosts --tags "keepalive"
+	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "keepalive"
 desktop:
-	ansible-playbook setup.yml -i hosts --tags "desktop"
+	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "desktop"
 slim:
 	@echo setting up cutdown version with no rails or elasticsearch
-	ansible-playbook setup.yml -i hosts --skip-tags rails,elastic
+	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --skip-tags rails,elastic
 debug:
-	ansible-playbook setup.yml -i hosts --tags "whoami" -vv
+	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "whoami" -vv
 newsite:
-	ansible-playbook newsite.yml -i hosts
+	$(ANSIBLE_PLAYBOOK) newsite.yml -i hosts
 newcomputer:
-	ansible-playbook newcomputer.yml -i hosts
+	$(ANSIBLE_PLAYBOOK) newcomputer.yml -i hosts
 deploy_key:
 	gh secret set DEPLOY_KEY < ~/.ssh/kawajevo/deploy_rsa
 add_package:
-	ansible-playbook addpackage.yml -i hosts
+	$(ANSIBLE_PLAYBOOK) addpackage.yml -i hosts
 %:
 	@$(MAKE) tldr
