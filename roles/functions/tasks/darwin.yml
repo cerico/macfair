@@ -21,15 +21,10 @@
     src: help.js
     dest: ~{{ macbook_user.stdout }}/.zsh/help.js
 
-- name: Register ansible location
-  become: false
-  shell: dirname /Users/brew/Library/Python/*/bin/ansible-playbook | sort -V | tail -n 1
-  register: python_location
-
 - name: Add ansible to path.
   lineinfile:
     path: ~/.zshrc
-    line: export PATH="{{ python_location.stdout }}:$PATH"
+    line: export PATH="/.pyvenv-ansible/bin:$PATH"
 
 - name: register rbenv exists
   stat:
