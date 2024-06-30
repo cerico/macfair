@@ -11,5 +11,5 @@ Install ansible, pip, and the contents of the requirements.yml via ansible-galax
 ## How To Use
 
 ```bash
-$ make update
+$ make ansible
 ```
