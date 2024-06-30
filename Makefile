@@ -1,5 +1,5 @@
-ANSIBLE_PLAYBOOK := $$HOME/.pyenv-ansible/bin/ansible-playbook
-ANSIBLE_GALAXY := $$HOME/.pyenv-ansible/bin/ansible-galaxy
+ANSIBLE_PLAYBOOK := $$HOME/.pyvenv-ansible/bin/ansible-playbook
+ANSIBLE_GALAXY := $$HOME/.pyvenv-ansible/bin/ansible-galaxy
 tldr:
 	@echo Available commands
 	@echo ------------------
