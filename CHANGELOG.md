@@ -1,3 +1,12 @@
+## [2.39.1](https://github.com/cerico/macfair/compare/v2.39.0...v2.39.1) (2024-06-30)
+
+
+### Bug Fixes
+
+* switch to pyvenv for ansible installation ([cfbdca3](https://github.com/cerico/macfair/commit/cfbdca3f046e6c9b0df5a1a50623d98919e6281d))
+
+
+
 # [2.39.0](https://github.com/cerico/macfair/compare/v2.38.0...v2.39.0) (2024-06-22)
 
 
