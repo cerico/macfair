@@ -355,7 +355,7 @@ checkport () {
 addmake () {
   if [[ ! -f Makefile ]];
     then
-    cp ~/.zsh/templates/Makefile .
+    cp ~/.templates/Makefile .
   fi
   if [[ ! $1 ]];
     then

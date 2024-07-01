@@ -29,13 +29,13 @@ fi
 
 if [ ! -f Makefile ]
   then
-  cp -r ~/.zsh/templates/Makefile .
+  cp -r ~/.templates/Makefile .
   git add Makefile
 fi
 
 if [ ! -f README.md ]
   then
-  cp -r ~/.zsh/templates/README.md .
+  cp -r ~/.templates/README.md .
   git add README.md
 fi
 
