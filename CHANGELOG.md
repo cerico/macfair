@@ -1,3 +1,12 @@
+# [2.40.0](https://github.com/cerico/macfair/compare/v2.39.1...v2.40.0) (2024-07-01)
+
+
+### Features
+
+* update documentation for tldr quickstart ([e26c547](https://github.com/cerico/macfair/commit/e26c54782bb6379bd666f4f75c8ecedd3309f33d))
+
+
+
 ## [2.39.1](https://github.com/cerico/macfair/compare/v2.39.0...v2.39.1) (2024-06-30)
 
 
