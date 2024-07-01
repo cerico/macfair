@@ -23,7 +23,7 @@ secrets () {
 
 workflows () { # Copy template workflow to repo # ➜ workflows test
   cd $(git rev-parse --show-toplevel)
-  local _dir=~/.zsh/templates/github-actions
+  local _dir=~/.templates/github-actions
   local app_name=$(basename $(pwd))
 
   display_workflows() {
@@ -395,13 +395,13 @@ ginit () {
   if [ ! -d .github ]
     then
     mkdir -p .github/workflows
-    cp ~/.zsh/templates/github-actions/test.yml .github/workflows
-    cp ~/.zsh/templates/github-actions/release.yml .github/workflows
+    cp ~/.templates/github-actions/test.yml .github/workflows
+    cp ~/.templates/github-actions/release.yml .github/workflows
     git add .github
   fi
   if [ ! -f Makefile ]
     then
-    cp -r  ~/.zsh/templates/Makefile .
+    cp -r  ~/.templates/Makefile .
     git add Makefile
   fi
   if [ ! -f .gitignore ]
@@ -411,7 +411,7 @@ ginit () {
   fi
   if [ ! -f README.md ]
     then
-    cp -r ~/.zsh/templates/README.md .
+    cp -r ~/.templates/README.md .
     git add README.md
   fi
   if [ ! -f .vscode/settings.json ]

@@ -67,7 +67,7 @@ _list_scaffolds () {
 
 _setupgit () {
   mkdir -p .github/workflows
-  cp ~/.zsh/templates/github-actions/release.yml .github/workflows
+  cp ~/.templates/github-actions/release.yml .github/workflows
   git init
   git add .
   git commit -m "feat: initialized repo"
@@ -92,7 +92,7 @@ _html () {
     return
   fi
   mkdir $1 && cd $1
-  cp ~/.zsh/templates/html index.html
+  cp ~/.templates/html index.html
   _cssjs
   _setupgit
 }

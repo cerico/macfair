@@ -46,8 +46,8 @@
 
 - name: Copy templates directory
   copy:
-    src: zsh/templates/
-    dest: ~{{ macbook_user.stdout }}/.zsh/templates/
+    src: templates/
+    dest: ~{{ macbook_user.stdout }}/.templates/
 
 - name: Copy zsh gitignore
   copy:
