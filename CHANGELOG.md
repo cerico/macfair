@@ -1,3 +1,12 @@
+# [2.41.0](https://github.com/cerico/macfair/compare/v2.40.0...v2.41.0) (2024-07-02)
+
+
+### Features
+
+* move templates out of zsh ii ([7f81523](https://github.com/cerico/macfair/commit/7f81523d6f2ce1216cfa38b9e55010ffb9234457))
+
+
+
 # [2.40.0](https://github.com/cerico/macfair/compare/v2.39.1...v2.40.0) (2024-07-01)
 
 
