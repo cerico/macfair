@@ -8,9 +8,9 @@
   hosts: [macbook, debian]
   roles:
     - { role: whoami, tags: [always] }
-    - { role: install, tags: [install, setup, info] }
-    - { role: functions, tags: [functions, install, setup, info] }
-    - { role: terminal, tags: [terminal, setup, info] }
+    - { role: install, tags: [install, all, info] }
+    - { role: functions, tags: [functions, install, all, info] }
+    - { role: terminal, tags: [terminal, all, info] }
 
 - name: Setup debian machines
   hosts: [debian]
@@ -23,11 +23,11 @@
 - name: Setup macbook
   hosts: macbook
   roles:
-    - { role: vscode, tags: [vscode, setup, info] }
-    - { role: desktop, tags: [desktop, setup, info] }
-    - { role: keepalive, tags: [keepalive, functions, setup, info] }
-    - { role: rails, tags: [rails, setup, info] }
-    - { role: elixir, tags: [elixir, setup, info] }
+    - { role: vscode, tags: [vscode, all, info] }
+    - { role: desktop, tags: [desktop, all, info] }
+    - { role: keepalive, tags: [keepalive, functions, all, info] }
+    - { role: rails, tags: [rails, all, info] }
+    - { role: elixir, tags: [elixir, all, info] }
 
 - name: After everything
   hosts: localhost

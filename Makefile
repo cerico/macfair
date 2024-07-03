@@ -5,7 +5,7 @@ tldr:
 	@echo ---------------
 	@echo "make ansible ➜ installs and sets up ansible"
 	@echo "make thiscomputer ➜ Prepares this machine"
-	@echo "make setup ➜ Runs all available rules"
+	@echo "make all ➜ Runs all available rules"
 	@echo "make commands  ➜ Lists all available rules"
 commands:
 	@echo Available commands
@@ -26,8 +26,8 @@ remote_login:
 	$(ANSIBLE_PLAYBOOK) remote_login.yml -i hosts -e "ansible_user=root"
 help:
 	cat README.md
-setup:
-	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "setup"
+all:
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "all"
 terminal:
 	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "terminal"
 install:
