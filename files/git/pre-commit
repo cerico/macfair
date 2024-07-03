@@ -6,42 +6,38 @@ if [ "$branch" = "main" ] && [ "$commits" != "" ]; then
   exit 1
 fi
 
-if [ -f package-lock.json ] && [ -f yarn.lock ]
-  then
+if [ -f package-lock.json ] && [ -f yarn.lock ]; then
   echo "Error: Both package-lock.json and yarn.lock are present in the commit."
   echo "Please remove one of them before committing."
   exit 1
 fi
 
-if [ -f .vscode/origsettings.json ]
-  then
+if [ -f .vscode/origsettings.json ]; then
   cp .vscode/origsettings.json .vscode/settings.json
   rm .vscode/origsettings.json
   git restore --staged .vscode/settings.json
   echo reverted temporary changes to .vscode/settings.json
 fi
 
-if [ ! -f .gitignore ]
-  then
+if [ ! -f .gitignore ]; then
   cp -r ~/.config/git/ignore .gitignore
   git add .gitignore
 fi
 
-if [ ! -f Makefile ]
-  then
+if [ ! -f Makefile ]; then
   cp -r ~/.templates/Makefile .
   git add Makefile
 fi
 
-if [ ! -f README.md ]
-  then
+if [ ! -f README.md ]; then
   cp -r ~/.templates/README.md .
   git add README.md
 fi
 
-if [ ! -f .vscode/settings.json ]
-  then
+if [ ! -f .vscode/settings.json ]; then
   mkdir -p .vscode
   cp -r ~/Library/Application\ Support/Code/User/settings.json .vscode/settings.json
-  git add .vscode/settings.json
+  if ! grep -q "^.vscode" .gitignore; then
+    git add .vscode/settings.json
+  fi
 fi
