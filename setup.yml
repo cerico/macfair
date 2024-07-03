@@ -11,7 +11,8 @@
     - { role: install, tags: [install, setup, info] }
     - { role: functions, tags: [functions, install, setup, info] }
     - { role: terminal, tags: [terminal, setup, info] }
-    - { role: rails, tags: [rails, info] }
+    - { role: rails, tags: [rails, setup, info] }
+
 
 - name: Setup debian machines
   hosts: [debian]
@@ -27,6 +28,7 @@
     - { role: vscode, tags: [vscode, setup, info] }
     - { role: desktop, tags: [desktop, setup, info] }
     - { role: keepalive, tags: [keepalive, functions, setup, info] }
+    - { role: elixir, tags: [elixir, setup, info] }
 
 - name: After everything
   hosts: localhost

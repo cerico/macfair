@@ -38,6 +38,8 @@ nginx:
 	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "nginx"
 rails:
 	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "rails"
+elixir:
+	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "elixir"
 vscode:
 	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "vscode"
 functions:

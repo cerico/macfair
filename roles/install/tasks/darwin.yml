@@ -48,7 +48,8 @@
       "htop",
       "tmux",
       "postgresql",
-      "redis"
+      "redis",
+      "elixir"
     ]
     state: present
 
