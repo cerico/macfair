@@ -1,3 +1,12 @@
+## [2.41.1](https://github.com/cerico/macfair/compare/v2.41.0...v2.41.1) (2024-07-03)
+
+
+### Bug Fixes
+
+* dont auto add vscode to git ([76e4358](https://github.com/cerico/macfair/commit/76e4358659019c524e894917d296db69d66ef199))
+
+
+
 # [2.41.0](https://github.com/cerico/macfair/compare/v2.40.0...v2.41.0) (2024-07-02)
 
 
