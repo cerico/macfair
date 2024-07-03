@@ -27,32 +27,32 @@ remote_login:
 help:
 	cat README.md
 setup:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "setup"
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "setup"
 terminal:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "terminal"
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "terminal"
 install:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "install"
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "install"
 debian:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "debian"
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "debian"
 nginx:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "nginx"
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "nginx"
 rails:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "rails"
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "rails"
 elixir:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "elixir"
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "elixir"
 vscode:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "vscode"
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "vscode"
 functions:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "functions"
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "functions"
 keepalive:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "keepalive"
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "keepalive"
 desktop:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "desktop"
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "desktop"
 slim:
 	@echo setting up cutdown version with no rails or elasticsearch
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --skip-tags rails,elastic
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --skip-tags rails,elastic
 debug:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "whoami" -vv
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "whoami" -vv
 newsite:
 	$(ANSIBLE_PLAYBOOK) newsite.yml -i hosts
 newcomputer:
