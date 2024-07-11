@@ -1,3 +1,13 @@
+# [2.42.0](https://github.com/cerico/macfair/compare/v2.41.1...v2.42.0) (2024-07-11)
+
+
+### Features
+
+* add new version of unpark ([8f67b32](https://github.com/cerico/macfair/commit/8f67b32e69f57b196339e0925ad7570a5562a295))
+* rename git unpark to unparkall ([76f3518](https://github.com/cerico/macfair/commit/76f35181ccc127a8ad59b0bbb462992c442d2821))
+
+
+
 ## [2.41.1](https://github.com/cerico/macfair/compare/v2.41.0...v2.41.1) (2024-07-03)
 
 
