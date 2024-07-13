@@ -5,7 +5,7 @@ tldr:
 	@echo ---------------
 	@echo "make ansible ➜ installs and sets up ansible"
 	@echo "make thiscomputer ➜ Prepares this machine"
-	@echo "make setup ➜ Runs all available rules"
+	@echo "make all ➜ Runs all available rules"
 	@echo "make commands  ➜ Lists all available rules"
 commands:
 	@echo Available commands
@@ -26,31 +26,33 @@ remote_login:
 	$(ANSIBLE_PLAYBOOK) remote_login.yml -i hosts -e "ansible_user=root"
 help:
 	cat README.md
-setup:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "setup"
+all:
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "all"
 terminal:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "terminal"
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "terminal"
 install:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "install"
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "install"
 debian:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "debian"
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "debian"
 nginx:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "nginx"
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "nginx"
 rails:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "rails"
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "rails"
+elixir:
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "elixir"
 vscode:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "vscode"
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "vscode"
 functions:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "functions"
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "functions"
 keepalive:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "keepalive"
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "keepalive"
 desktop:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "desktop"
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "desktop"
 slim:
 	@echo setting up cutdown version with no rails or elasticsearch
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --skip-tags rails,elastic
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --skip-tags rails,elastic
 debug:
-	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "whoami" -vv
+	$(ANSIBLE_PLAYBOOK) main.yml -i hosts --tags "whoami" -vv
 newsite:
 	$(ANSIBLE_PLAYBOOK) newsite.yml -i hosts
 newcomputer:

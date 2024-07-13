@@ -1,0 +1,19 @@
+---
+- name: Ensure Elixir is installed
+  package:
+    name: elixir
+    state: present
+
+- name: Install Hex
+  command: /usr/local/bin/mix local.hex --force
+  environment:
+    PATH: "{{ ansible_env.PATH }}:/usr/local/bin"  # Adjust the path if needed
+  args:
+    creates: "/usr/local/bin/mix"
+
+- name: Install Phoenix archive
+  command: /usr/local/bin/mix  archive.install hex phx_new --force
+  environment:
+    PATH: "{{ ansible_env.PATH }}:/usr/local/bin"  # Adjust the path if needed
+  args:
+    creates: "/usr/local/bin/phx.new"
