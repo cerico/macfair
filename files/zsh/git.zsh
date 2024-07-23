@@ -156,8 +156,8 @@ repo () { # create repo with settings
     -F delete_branch_on_merge=true
 
   gh api repos/$username/$repo_name -X GET | jq
-  set_secret
   git remote add origin git@github.com:$username/$repo_name.git
+  gh secret set SSH_PRIVATE_KEY < $SSH_KEY_PATH
   git push origin main
 }
 
