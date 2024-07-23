@@ -1,3 +1,12 @@
+## [2.42.1](https://github.com/cerico/macfair/compare/v2.42.0...v2.42.1) (2024-07-23)
+
+
+### Bug Fixes
+
+* correct adding of ssh key to new repo ([5399824](https://github.com/cerico/macfair/commit/53998245f87f1b0516a12a7326088ef92b44a74c))
+
+
+
 # [2.42.0](https://github.com/cerico/macfair/compare/v2.41.1...v2.42.0) (2024-07-11)
 
 
