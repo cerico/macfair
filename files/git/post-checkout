@@ -1,0 +1,6 @@
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+# Check if the current branch is 'main' and pull the latest changes
+if [ "$current_branch" = "main" ]; then
+  git pull origin main
+fi
