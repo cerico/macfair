@@ -1,3 +1,17 @@
+# [2.43.0](https://github.com/cerico/macfair/compare/v2.42.1...v2.43.0) (2024-07-27)
+
+
+### Bug Fixes
+
+* allow commit messages up to 80 chars ([b3d46bb](https://github.com/cerico/macfair/commit/b3d46bb5c6114bf401ff5e633616b520d69279a4))
+
+
+### Features
+
+* add post-checkout hook to autopull on main ([20085a2](https://github.com/cerico/macfair/commit/20085a24202c02be7145bd28c413828719191672))
+
+
+
 ## [2.42.1](https://github.com/cerico/macfair/compare/v2.42.0...v2.42.1) (2024-07-23)
 
 
