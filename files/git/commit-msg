@@ -1,8 +1,8 @@
 #!/usr/bin/env zsh
-declare -r msg=$(< $1);
+declare -r msg=$(<$1)
 title=${msg%%$'\n'*}
 [[ ${#title} -lt 20 ]] && echo 'Please enter a more informative commit message' && exit 1
-[[ ${#title} -gt 50 ]] && echo 'Please keep commit summary below 51 characters' && exit 1
+[[ ${#title} -gt 80 ]] && echo 'Please keep commit summary below 80 characters' && exit 1
 [[ $msg == wip:[[:space:]]* ]] && exit 0
 [[ $msg == fix:[[:space:]]* ]] && exit 0
 [[ $msg == feat:[[:space:]]* ]] && exit 0
