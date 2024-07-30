@@ -49,6 +49,15 @@ mvi () {
   vi $newdir/$newfile
 }
 
+sshs () {
+  if [[ $1 ]]
+    then
+    awk -v host="$1" '/^Host / && $2 == host {found=1} found; /^$/ {found=0}' ~/.ssh/config
+  else
+    awk '/^Host / {print $2}' ~/.ssh/config | grep -v "*"
+  fi
+}
+
 alphnum () {
 	tr -cd '[:alnum:]\n'
 }
