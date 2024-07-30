@@ -38,6 +38,17 @@ functions () {
   fi
 }
 
+mvi () {
+  local input=$1
+  local newdir=${input%/*}
+  local newfile=${input##*/}
+  if [[ $newdir = $newfile ]]; then
+    return
+  fi
+  mkdir -p $newdir
+  vi $newdir/$newfile
+}
+
 alphnum () {
 	tr -cd '[:alnum:]\n'
 }
