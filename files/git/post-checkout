@@ -1,6 +1,10 @@
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 
+function remote_exists {
+  [[ -n $(git remote) ]] && return 0 || return 127 
+}
+
 # Check if the current branch is 'main' and pull the latest changes
-if [ "$current_branch" = "main" ]; then
+if [ "$current_branch" = "main" ] && remote_exists; then
   git pull origin main
 fi
