@@ -348,6 +348,8 @@ gn () {
 
 card () {
   [[ ! $1 ]] && return
+  [[ -z "$(git status --porcelain)" ]] && git checkout main || return
+  git pull origin main
   _format_pr_title $1
   issue=$(gh issue create -t $modified_title -b "")
   num=$(echo $issue | awk -F'/' 'END{print $NF}')
