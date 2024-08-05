@@ -336,6 +336,8 @@ ghpr () { # Create and validate a PR
   else
     gh pr create --title "$modified_title" --body "$(_format_pr_body)"
   fi
+
+  [[ $1 = "v" ]] && viewpr
 }
 
 card () {
