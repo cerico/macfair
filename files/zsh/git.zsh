@@ -340,6 +340,12 @@ ghpr () { # Create and validate a PR
   [[ $1 = "v" ]] && viewpr
 }
 
+gn () {
+  [[ -z "$(git status --porcelain)" ]] && git checkout main || return
+  git pull origin main
+  [[ $1 ]] && git checkout -b $1
+}
+
 card () {
   [[ ! $1 ]] && return
   _format_pr_title $1
