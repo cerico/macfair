@@ -38,6 +38,26 @@ functions () {
   fi
 }
 
+mvi () {
+  local input=$1
+  local newdir=${input%/*}
+  local newfile=${input##*/}
+  if [[ $newdir = $newfile ]]; then
+    return
+  fi
+  mkdir -p $newdir
+  vi $newdir/$newfile
+}
+
+sshs () {
+  if [[ $1 ]]
+    then
+    awk -v host="$1" '/^Host / && $2 == host {found=1} found; /^$/ {found=0}' ~/.ssh/config
+  else
+    awk '/^Host / {print $2}' ~/.ssh/config | grep -v "*"
+  fi
+}
+
 alphnum () {
 	tr -cd '[:alnum:]\n'
 }

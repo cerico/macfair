@@ -336,10 +336,20 @@ ghpr () { # Create and validate a PR
   else
     gh pr create --title "$modified_title" --body "$(_format_pr_body)"
   fi
+
+  [[ $1 = "v" ]] && viewpr
+}
+
+gn () {
+  [[ -z "$(git status --porcelain)" ]] && git checkout main || return
+  git pull origin main
+  [[ $1 ]] && git checkout -b $1
 }
 
 card () {
   [[ ! $1 ]] && return
+  [[ -z "$(git status --porcelain)" ]] && git checkout main || return
+  git pull origin main
   _format_pr_title $1
   issue=$(gh issue create -t $modified_title -b "")
   num=$(echo $issue | awk -F'/' 'END{print $NF}')
