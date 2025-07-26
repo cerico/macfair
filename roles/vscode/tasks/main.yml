@@ -2,13 +2,10 @@
 - name: install VSCode packages
   shell: "code --install-extension {{ item }}"
   with_items:
-    - "astro-build.astro-vscode"
     - "GitHub.copilot"
     - "GitHub.vscode-pull-request-github"
     - "kruemelkatze.vscode-dashboard"
     - "vsls-contrib.gistfs"
-    - "pranaygp.vscode-css-peek"
-    - "styled-components.vscode-styled-components"
     - "abalejr.forest-focus"
     - "aregghazaryan.glass-ui"
     - "gerane.Theme-zombiesatemyneighbors"
@@ -25,7 +22,6 @@
     - "raashida.fixthecode-vs"
     - "rebornix.ruby"
     - "sveggiani.vscode-field-lights"
-    - "syler.sass-indented"
     - "taniarascia.new-moon-vscode"
     - "teabyii.ayu"
     - "tristanremy.mirage"

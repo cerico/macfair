@@ -241,6 +241,44 @@ chpwd() {
   [[ -f .terminal-profile ]] && cpr "$(cat .terminal-profile)"
 }
 
+rak () {
+	local name="$1"
+	local marker_file="/tmp/iterm_window_$name"
+	local default_dir
+	case "$name" in
+		("coffee") default_dir="$HOME/rak/01-coffee"  ;;
+		("liege") default_dir="$HOME/rak/04-liege"  ;;
+		("daegu") default_dir="$HOME/rak/02-daegu"  ;;
+		("celje") default_dir="$HOME/rak/03-celje"  ;;
+		(*) default_dir="$HOME/rak"  ;;
+	esac
+	if [[ -f "$marker_file" ]]
+	then
+		local window_id=$(cat "$marker_file")
+		if osascript -e "tell application \"iTerm\" to select (first window whose id is $window_id)" 2> /dev/null
+		then
+			echo "Switched to existing $name window"
+			return
+		else
+			rm "$marker_file"
+		fi
+	fi
+	echo "Creating new $name window in $default_dir"
+	local new_window_id=$(osascript -e "
+      tell application \"iTerm\"
+          create window with default profile
+          tell current session of current window
+              write text \"cd '$default_dir' && clear\"
+          end tell
+          tell current session of current window
+              write text \"title '$name' && clear\"
+          end tell
+          return id of current window
+      end tell")
+	echo "$new_window_id" > "$marker_file"
+	echo "Created window $name (ID: $new_window_id) in $default_dir"
+}
+
 vsc () { # list or switch vscode themes # ➜ vsc sunlight
   local theme_file="$1"
   local theme=~/.vscode/themes/$theme_file.json
