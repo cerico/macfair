@@ -1,3 +1,12 @@
+# [2.45.0](https://github.com/cerico/macfair/compare/v2.44.0...v2.45.0) (2025-07-26)
+
+
+### Features
+
+* add rak function ([c3ca28e](https://github.com/cerico/macfair/commit/c3ca28e2a53b82c7050e459f2b6bbacd333892b3))
+
+
+
 # [2.44.0](https://github.com/cerico/macfair/compare/v2.43.0...v2.44.0) (2025-07-26)
 
 
