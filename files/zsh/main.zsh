@@ -234,6 +234,11 @@ awks () {
 
 cpr () {
   echo -e "\033]50;SetProfile=$1\a"
+  echo $1 > "$(pwd)/.terminal-profile"
+}
+
+chpwd() {
+  [[ -f .terminal-profile ]] && cpr "$(cat .terminal-profile)"
 }
 
 vsc () { # list or switch vscode themes # ➜ vsc sunlight

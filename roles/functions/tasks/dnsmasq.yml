@@ -1,12 +1,12 @@
 - name: Add yay domain to dnsmasq.conf
   lineinfile:
-    path: "/usr/local/etc/dnsmasq.conf"
+    path: "/opt/homebrew/etc/dnsmasq.conf"
     line:  "address=/.{{ item.domain }}/{{ item.ip }}"
     insertbefore: EOF
   with_items: "{{ local_domains }}"
 
 - name: Find dnsmasq plist file
-  ansible.builtin.command: find /usr/local/Cellar -name homebrew.mxcl.dnsmasq.plist
+  ansible.builtin.command: find /opt/homebrew/Cellar -name homebrew.mxcl.dnsmasq.plist
   register: dnsmasq_plist
 
 - name: Print dnsmasq plist file path

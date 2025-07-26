@@ -1,55 +1,45 @@
 ---
-- name: install homebrew taps
-  become: true
-  become_user: "{{ brew_user.stdout }}"
-  homebrew_tap:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - "homebrew/core"
-    - "homebrew/services"
-    - "homebrew/cask"
-
 - name: install core packages
   become: true
   become_user: "{{ brew_user.stdout }}"
   homebrew:
-    name: [
-      "youtube-dl",
-      "gh",
-      "jq",
-      "wget",
-      "dnsmasq",
-      "gcc",
-      "openssl",
-      "cmake",
-      "git",
-      "git-lfs",
-      "moreutils",
-      "findutils",
-      "gnupg",
-      "grep",
-      "screen",
-      "pigz",
-      "tree",
-      "ffmpeg",
-      "shared-mime-info",
-      "nginx",
-      "graphviz",
-      "node@{{ node_version }}",
-      "yarn",
-      "zsh",
-      "zsh-completions",
-      "zsh-autosuggestions",
-      "zsh-syntax-highlighting",
-      "direnv",
-      "watch",
-      "nmap",
-      "htop",
-      "tmux",
-      "postgresql",
-      "redis"
-    ]
+    name:
+      [
+        "yt-dlp",
+        "gh",
+        "jq",
+        "wget",
+        "dnsmasq",
+        "gcc",
+        "openssl",
+        "cmake",
+        "git",
+        "git-lfs",
+        "moreutils",
+        "findutils",
+        "gnupg",
+        "grep",
+        "screen",
+        "pigz",
+        "tree",
+        "ffmpeg",
+        "shared-mime-info",
+        "nginx",
+        "graphviz",
+        "node@{{ node_version }}",
+        "yarn",
+        "zsh",
+        "zsh-completions",
+        "zsh-autosuggestions",
+        "zsh-syntax-highlighting",
+        "direnv",
+        "watch",
+        "nmap",
+        "htop",
+        "tmux",
+        "postgresql",
+        "redis",
+      ]
     state: present
 
 - name: Create directory for installed caskapps
@@ -65,7 +55,6 @@
     name: "{{ item }}"
     state: present
   with_items:
-    - "hpedrorodrigues/tools/dockutil"
     - "vlc"
     - "firefox"
     - "alfred"
@@ -90,7 +79,7 @@
 
 - name: Install npm packages
   npm:
-    name:  "{{ item }}"
+    name: "{{ item }}"
     global: yes
   with_items:
     - "vercel"
@@ -109,4 +98,4 @@
     - "yq"
 
 - name: link node
-  shell: /usr/local/bin/brew link --overwrite node@{{ node_version }}
+  shell: /opt/homebrew/bin/brew link --overwrite node@{{ node_version }}
