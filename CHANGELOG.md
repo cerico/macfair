@@ -1,3 +1,12 @@
+# [2.44.0](https://github.com/cerico/macfair/compare/v2.43.0...v2.44.0) (2025-07-26)
+
+
+### Features
+
+* update macfair for silicon ([83b0943](https://github.com/cerico/macfair/commit/83b0943fb48d793e371d1dc87370300f1572021a))
+
+
+
 # [2.43.0](https://github.com/cerico/macfair/compare/v2.42.1...v2.43.0) (2024-07-27)
 
 
