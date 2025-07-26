@@ -10,7 +10,6 @@
 build/
 cdk.out/
 cdk.context.json
-
 # Packages #
 ############
 # it's better to unpack these files and commit the raw source
@@ -77,3 +76,8 @@ dist/
 .eslintcache
 
 .vscode/origsettings.json
+
+CLAUDE.md
+.claude
+.cursorrules
+.terminal-profile
