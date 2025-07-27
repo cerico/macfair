@@ -1,6 +1,75 @@
 export MARKPATH=$HOME/.marks
 alias sedi='sed -i "" -e'
 
+precmd() { # Set iTerm window title to show directory and git branch
+  # Get the current directory name
+  local dir="${PWD##*/}"
+
+  # Get the current git branch
+  local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+
+  # If we are in a git repo, show "dir ➜ branch"
+  if [[ -n $branch ]]; then
+    echo -ne "\033]2;${dir} ➜ ${branch}\007"
+  else
+    # Otherwise, just show the directory
+    echo -ne "\033]2;${dir}\007"
+  fi
+}
+
+# Auto-set tab title based on running command
+function preexec_iterm_tab_title() {
+  # Get the command being run
+  local cmd="${1%% *}"
+
+  # Set tab title based on common commands
+  case "$cmd" in
+    make|m)
+      # For make, show "make target"
+      local target=$(echo "$1" | awk '{print $2}')
+      if [[ -n $target ]]; then
+        echo -ne "\033]1;make ${target}\007"
+      else
+        echo -ne "\033]1;make\007"
+      fi
+      ;;
+    npm|yarn|pnpm)
+      # For npm/yarn/pnpm, show the full command
+      echo -ne "\033]1;${1}\007"
+      ;;
+    git|g)
+      echo -ne "\033]1;git\007"
+      ;;
+    ssh)
+      echo -ne "\033]1;ssh\007"
+      ;;
+    vim|nvim|vi|code|c)
+      echo -ne "\033]1;editor\007"
+      ;;
+    rails|ruby)
+      if [[ "$1" =~ "server" ]] || [[ "$1" =~ "s" ]]; then
+        echo -ne "\033]1;server\007"
+      elif [[ "$1" =~ "console" ]] || [[ "$1" =~ "c" ]]; then
+        echo -ne "\033]1;console\007"
+      else
+        echo -ne "\033]1;rails\007"
+      fi
+      ;;
+    *)
+      # For any other command, just show the command name
+      echo -ne "\033]1;${cmd}\007"
+      ;;
+  esac
+}
+
+# Add to oh-my-zsh's preexec functions array
+# Check if the array exists first (it might not on first load)
+if [[ -z $preexec_functions ]]; then
+  preexec_functions=(preexec_iterm_tab_title)
+else
+  preexec_functions+=(preexec_iterm_tab_title)
+fi
+
 command_not_found_handler () {
   if [ -f Makefile ] && grep -q "^$1:" Makefile; then
     local rule=$(echo $1 | awk -F ":" '{print $1}')
