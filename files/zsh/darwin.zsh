@@ -39,23 +39,58 @@ themes() {
   grep Name ~/Library/Application\ Support/iTerm2/DynamicProfiles/iterm.json | awk -F' ' '{print $3}' | awk -F'"' '{print $2}'
 }
 
-wallpaper () {
+wallpaper () { # Set wallpaper for current space or switch to space and set # ➜ wallpaper blue 2
    if [[ $# -eq 0 ]] ; then
 		 echo "Available wallpapers:"
 		 ls $HOME/wallpapers | grep .png | awk -F "." '{ print $1 }'
+		 echo ""
+		 echo "Usage: wallpaper <name> [space_number]"
+		 echo "Example: wallpaper blue 2"
 		 return
 	 fi
 	if [[ -f $HOME/wallpapers/$1.png ]] ; then
-    osascript -e 'set desktopImage to POSIX file "'$HOME/wallpapers/$1.png'"
-    tell application "Finder"
-      set desktop picture to desktopImage
-    end tell'
+		if [[ $2 ]] ; then
+			# Switch to space and set wallpaper
+			sw $2
+			sleep 0.5
+			osascript -e 'tell application "System Events" to tell every desktop to set picture to POSIX file "'$HOME/wallpapers/$1.png'"'
+			echo "Set $1 wallpaper for space $2"
+		else
+			# Set wallpaper for current space
+			osascript -e 'tell application "System Events" to tell every desktop to set picture to POSIX file "'$HOME/wallpapers/$1.png'"'
+			echo "Set $1 wallpaper for current space"
+		fi
 		return
 	fi
 	echo "Wallpaper not found"
 	echo "Available wallpapers:"
 	ls $HOME/wallpapers | grep .png | awk -F "." '{ print $1 }'
 }
+
+wallpapers () { # Set different wallpapers for all spaces automatically # ➜ wallpapers
+	local space_count=$(defaults read com.apple.spaces SpacesDisplayConfiguration | grep -A 1000 '"Space Properties"' | grep -c 'name = "')
+	local wallpaper_list=($(ls $HOME/wallpapers/*.png | xargs -n1 basename | sed 's/\.png$//' | sort))
+	
+	if [[ ${#wallpaper_list[@]} -eq 0 ]]; then
+		echo "No wallpapers found in $HOME/wallpapers/"
+		return 1
+	fi
+	
+	echo "Found $space_count spaces and ${#wallpaper_list[@]} wallpapers: ${wallpaper_list[*]}"
+	
+	for (( i=1; i<=space_count; i++ )); do
+		local wallpaper_index=$(( (i-1) % ${#wallpaper_list[@]} + 1 ))
+		local wallpaper_name=${wallpaper_list[$wallpaper_index]}
+		
+		echo "Setting space $i to $wallpaper_name"
+		sw $i
+		sleep 0.7
+		osascript -e 'tell application "System Events" to tell every desktop to set picture to POSIX file "'$HOME/wallpapers/$wallpaper_name.png'"'
+	done
+	
+	echo "Done! Wallpaper pattern: ${wallpaper_list[*]}"
+}
+
 
 AdminQuestion () {
 	echo -ne "

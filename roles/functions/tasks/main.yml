@@ -8,10 +8,12 @@
     path: "~{{ macbook_user.stdout }}/.zsh"
     state: directory
 
-- name: Copy main functions file
+- name: Copy all zsh function files
   copy:
-    src: zsh/main.zsh
-    dest: ~{{ macbook_user.stdout }}/.zsh/main.zsh
+    src: "{{ item }}"
+    dest: "~{{ macbook_user.stdout }}/.zsh/"
+  with_fileglob:
+    - zsh/*.zsh
 
 - name: configure terminal for mac
   import_tasks: darwin.yml
@@ -23,26 +25,6 @@
 
 - name: include git
   import_tasks: git.yml
-
-- name: Copy godaddy file
-  copy:
-    src: zsh/godaddy.zsh
-    dest: ~{{ macbook_user.stdout }}/.zsh/godaddy.zsh
-
-- name: Copy supabase file
-  copy:
-    src: zsh/supabase.zsh
-    dest: ~{{ macbook_user.stdout }}/.zsh/supabase.zsh
-
-- name: Copy colors file
-  copy:
-    src: zsh/colors.zsh
-    dest: ~{{ macbook_user.stdout }}/.zsh/colors.zsh
-
-- name: Copy volz file
-  copy:
-    src: zsh/volz.sh
-    dest: ~{{ macbook_user.stdout }}/.zsh/volz.zsh
 
 - name: Copy templates directory
   copy:

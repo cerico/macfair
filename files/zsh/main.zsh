@@ -15,6 +15,10 @@ command_not_found_handler () {
   return 127  # Return an exit status indicating command not found
 }
 
+up () {
+  cd ..
+}
+
 functions () {
   if [[ $1 ]] && [ -f ~/.zsh/$1.zsh ]
   then
@@ -237,47 +241,49 @@ cpr () {
   echo $1 > "$(pwd)/.terminal-profile"
 }
 
+tab_title() {
+  print -Pn "\e]1;${1}\a"  # Set only tab title, preserve window title
+}
+
+# Custom preexec using zsh hooks - sets tab title to command name
+my_preexec() {
+  local cmd="${1%% *}"
+  cmd="${cmd##*/}"
+  tab_title "$cmd"
+}
+
+# Add the hook
+autoload -Uz add-zsh-hook
+add-zsh-hook preexec my_preexec
+
+# Set initial window title when shell starts
+if [[ -z "$_window_title_set" ]]; then
+  print -Pn "\e]2;$(basename "$PWD")\a"
+  _window_title_set=1
+fi
+
+# Override cd to set window title
+cd() {
+  builtin cd "$@" && {
+    print -Pn "\e]2;$(basename "$PWD")\a"
+  }
+}
+
+sw () {
+    if [[ -n $1 ]]
+    then
+        local key_code=$((17 + $1))
+        osascript -e "tell application \"System Events\" to key code $key_code using {control down}"
+    else
+        echo "Usage: sw [1|2|3|...]"
+    fi
+}
+
 chpwd() {
+  # Only handle terminal profile, never window title
   [[ -f .terminal-profile ]] && cpr "$(cat .terminal-profile)"
 }
 
-rak () {
-	local name="$1"
-	local marker_file="/tmp/iterm_window_$name"
-	local default_dir
-	case "$name" in
-		("coffee") default_dir="$HOME/rak/01-coffee"  ;;
-		("liege") default_dir="$HOME/rak/04-liege"  ;;
-		("daegu") default_dir="$HOME/rak/02-daegu"  ;;
-		("celje") default_dir="$HOME/rak/03-celje"  ;;
-		(*) default_dir="$HOME/rak"  ;;
-	esac
-	if [[ -f "$marker_file" ]]
-	then
-		local window_id=$(cat "$marker_file")
-		if osascript -e "tell application \"iTerm\" to select (first window whose id is $window_id)" 2> /dev/null
-		then
-			echo "Switched to existing $name window"
-			return
-		else
-			rm "$marker_file"
-		fi
-	fi
-	echo "Creating new $name window in $default_dir"
-	local new_window_id=$(osascript -e "
-      tell application \"iTerm\"
-          create window with default profile
-          tell current session of current window
-              write text \"cd '$default_dir' && clear\"
-          end tell
-          tell current session of current window
-              write text \"title '$name' && clear\"
-          end tell
-          return id of current window
-      end tell")
-	echo "$new_window_id" > "$marker_file"
-	echo "Created window $name (ID: $new_window_id) in $default_dir"
-}
 
 vsc () { # list or switch vscode themes # ➜ vsc sunlight
   local theme_file="$1"
@@ -497,4 +503,12 @@ env () {
 
 venv () {
   vi .env
+}
+
+treeg () { # tree with grep filter # ➜ treeg node_modules
+  tree . | grep $1
+}
+
+findg () { # find with grep filter # ➜ findg package.json
+  find . | grep $1
 }
