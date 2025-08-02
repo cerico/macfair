@@ -4,15 +4,47 @@
     path: "~{{ macbook_user.stdout }}/wallpapers"
     state: directory
 
-- name: Copy wallpapers
+- name: Synchronize wallpapers directory
+  synchronize:
+    src: wallpapers/
+    dest: "~{{ macbook_user.stdout }}/wallpapers/"
+    delete: yes
+    recursive: yes
+  when: ansible_connection == "local"
+
+- name: Copy wallpapers (for remote hosts)
   copy:
     src: "{{ item }}"
     dest: ~/wallpapers
   with_fileglob:
     - wallpapers/*
+  when: ansible_connection != "local"
 
-- name: wallpaper
-  shell: osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/Users/{{ macbook_user.stdout }}/wallpapers/pink.png"'
+- name: Get list of wallpapers
+  find:
+    paths: "/Users/{{ macbook_user.stdout }}/wallpapers"
+    patterns: "*.png"
+  register: wallpaper_files
+
+- name: Set first wallpaper as default
+  shell: |
+    wallpaper_file=$(ls /Users/{{ macbook_user.stdout }}/wallpapers/*.png | sort | head -1 | xargs basename)
+    osascript -e 'tell application "System Events" to tell every desktop to set picture to POSIX file "/Users/{{ macbook_user.stdout }}/wallpapers/'$wallpaper_file'"'
+  when: wallpaper_files.files | length > 0
+
+- name: Set wallpapers for all spaces using wallpapers function
+  shell: |
+    source ~/.zshrc
+    wallpapers
+  args:
+    executable: /bin/zsh
+  ignore_errors: true
+  register: wallpapers_result
+
+- name: Show wallpapers result
+  debug:
+    msg: "{{ wallpapers_result.stdout_lines | default(['Wallpapers function not available yet']) }}"
+  when: wallpapers_result is defined
 
 - name: Remove superfluous from dock
   shell: /usr/local/bin/dockutil --remove '{{ item }}' | cat

@@ -1,5 +1,7 @@
 export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
-eval "$(rbenv init - zsh)"
+if command -v rbenv >/dev/null 2>&1; then
+  eval "$(rbenv init - zsh)"
+fi
 
 logify () {
   cpr logging
