@@ -1,3 +1,13 @@
+# [2.46.0](https://github.com/cerico/macfair/compare/v2.45.0...v2.46.0) (2025-08-02)
+
+
+### Features
+
+* add autotz cron, remove batt and dfh crons ([7de09ac](https://github.com/cerico/macfair/commit/7de09ac946bb6f636213d286d11ff8dd26755419))
+* enhance window arrangement and wallpaper management ([dcdf9e1](https://github.com/cerico/macfair/commit/dcdf9e112d1c08fd9a192b54edef194e9fbf329c))
+
+
+
 # [2.45.0](https://github.com/cerico/macfair/compare/v2.44.0...v2.45.0) (2025-07-26)
 
 
