@@ -247,14 +247,57 @@ tab_title() {
 
 # Custom preexec using zsh hooks - sets tab title to command name
 my_preexec() {
+  local full_cmd="$1"
   local cmd="${1%% *}"
   cmd="${cmd##*/}"
+
+  # Special handling for make commands
+  if [[ "$cmd" == "make" ]]; then
+    # Extract the target name
+    if [[ "$full_cmd" =~ ^make[[:space:]]+([^[:space:]]+) ]]; then
+      local target="${match[1]}"
+      export _CURRENT_MAKE_TARGET="${target}"
+
+      # Try to extract port from environment
+      local port=""
+
+      # Check common env vars for port info
+      if [[ -n "$NEXTAUTH_URL" ]]; then
+        # Extract port from URLs like http://localhost:9998
+        port=$(echo "$NEXTAUTH_URL" | sed -n 's/.*:\([0-9]\{4,5\}\).*/\1/p')
+      elif [[ -n "$PORT" ]]; then
+        port="$PORT"
+      elif [[ -f .env ]]; then
+        # Try to load port from .env file
+        local nextauth_url=$(grep "^NEXTAUTH_URL=" .env | cut -d'=' -f2- | tr -d '"' | tr -d "'")
+        if [[ -n "$nextauth_url" ]]; then
+          port=$(echo "$nextauth_url" | sed -n 's/.*:\([0-9]\{4,5\}\).*/\1/p')
+        else
+          port=$(grep "^PORT=" .env | cut -d'=' -f2- | tr -d '"' | tr -d "'")
+        fi
+      fi
+
+      if [[ -n "$port" ]]; then
+        tab_title "make:${target}:${port}"
+      else
+        tab_title "make:${target}"
+      fi
+      return
+    fi
+  else
+    # Clear make target if running something else
+    unset _CURRENT_MAKE_TARGET
+  fi
+
   tab_title "$cmd"
 }
 
 # Add the hook
 autoload -Uz add-zsh-hook
 add-zsh-hook preexec my_preexec
+
+# Initialize tab title on shell start
+tab_title "zsh"
 
 # Set initial window title when shell starts
 if [[ -z "$_window_title_set" ]]; then
