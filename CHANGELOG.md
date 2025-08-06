@@ -1,3 +1,12 @@
+# [2.47.0](https://github.com/cerico/macfair/compare/v2.46.0...v2.47.0) (2025-08-06)
+
+
+### Features
+
+* fix timezone switching cron ([9ed7faf](https://github.com/cerico/macfair/commit/9ed7faf49591899edc043a00df6e4c83218ea323))
+
+
+
 # [2.46.0](https://github.com/cerico/macfair/compare/v2.45.0...v2.46.0) (2025-08-02)
 
 
