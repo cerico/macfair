@@ -61,9 +61,10 @@
 - name: Setup cron for autotz
   ansible.builtin.cron:
     name: autotz cron
-    hour: "5,8,20"
-    minute: "0"
-    job: ". $HOME/.zshrc; autotz"
+    hour: "5,7,20"
+    minute: "07"
+    user: "{{ macbook_user.stdout }}"
+    job: '/bin/zsh -c "source $HOME/.zsh/timezone.zsh; autotz"'
 
 - name: Setup cron for appcount
   ansible.builtin.cron:
