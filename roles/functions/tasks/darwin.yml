@@ -72,3 +72,11 @@
     hour: "16"
     minute: "31"
     job: ". $HOME/.zshrc; apps cron"
+
+- name: Setup cron for orb reset
+  ansible.builtin.cron:
+    name: orb reset cron
+    weekday: "6"
+    hour: "7"
+    minute: "0"
+    job: ". $HOME/.zshrc; orb reset"
