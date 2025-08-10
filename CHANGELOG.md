@@ -1,3 +1,13 @@
+# [2.48.0](https://github.com/cerico/macfair/compare/v2.47.0...v2.48.0) (2025-08-10)
+
+
+### Features
+
+* add feature to reset orb once a week to free up space ([807fc4d](https://github.com/cerico/macfair/commit/807fc4db981aa2315ad853dc4091862776fcb69b))
+* handle friday evenings with autotz ([44ea829](https://github.com/cerico/macfair/commit/44ea82945f3df84f95a40e316852b981d3602e73))
+
+
+
 # [2.47.0](https://github.com/cerico/macfair/compare/v2.46.0...v2.47.0) (2025-08-06)
 
 
