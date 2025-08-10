@@ -1,11 +1,12 @@
 # Timezone switching based on day of week
 autotz() {
   local current_day=$(/bin/date +%u)  # 1=Monday, 7=Sunday
+  local current_hour=$(/bin/date +%H)
   local current_tz=$(sudo /usr/sbin/systemsetup -gettimezone 2>/dev/null | awk '{print $3}')
 
   # Weekend: Saturday (6) and Sunday (7) = Europe/Sarajevo
   # Weekdays: Monday-Friday (1-5) = Europe/London
-  if [[ $current_day -eq 6 || $current_day -eq 7 ]]; then
+  if (( current_day > 5 || (current_day == 5 && current_hour >= 18) )); then
     local target_tz="Europe/Sarajevo"
   else
     local target_tz="Europe/London"
