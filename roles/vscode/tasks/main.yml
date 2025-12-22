@@ -31,6 +31,9 @@
     - "dart-code.flutter"
     - "ChakrounAnas.turbo-console-log"
     - "wholroyd.jinja"
+    - "wholroyd.jinja"
+    - "dsznajder.es7-react-js-snippets"
+    - "planbcoding.vscode-react-refactor"
   when: ansible_os_family == "Darwin"
 
 - name: copy vscode profile darwin
