@@ -1,4 +1,10 @@
 ---
+- name: get installed VSCode extensions
+  shell: code --list-extensions
+  register: vscode_installed
+  changed_when: false
+  when: ansible_os_family == "Darwin"
+
 - name: install VSCode packages
   shell: "code --install-extension {{ item }}"
   with_items:
@@ -8,19 +14,13 @@
     - "vsls-contrib.gistfs"
     - "gerane.Theme-zombiesatemyneighbors"
     - "jmsv.JavaScriptSnippetsStandard"
-    - "tinkertrain.theme-panda"
     - "johnpapa.vscode-peacock"
-    - "juhakokkonen.py-light"
     - "unifiedjs.vscode-mdx"
     - "github.github-vscode-theme"
-    - "lintangwisesa.arduino"
     - "lninl.theme-hbuilderx-soft-green-light"
-    - "luqimin.tiny-light"
     - "misogi.ruby-rubocop"
     - "raashida.fixthecode-vs"
     - "rebornix.ruby"
-    - "sveggiani.vscode-field-lights"
-    - "teabyii.ayu"
     - "tristanremy.mirage"
     - "wingrunr21.vscode-ruby"
     - "wraith13.unsaved-files-vscode"
@@ -31,7 +31,9 @@
     - "dart-code.flutter"
     - "ChakrounAnas.turbo-console-log"
     - "wholroyd.jinja"
-  when: ansible_os_family == "Darwin"
+  when:
+    - ansible_os_family == "Darwin"
+    - item not in vscode_installed.stdout_lines
 
 - name: copy vscode profile darwin
   copy:

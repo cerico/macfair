@@ -13,3 +13,4 @@ sites/makefiles/*
 sites/files/*.conf
 sites/group_vars/*
 sites/host_vars/*
+tmp/*

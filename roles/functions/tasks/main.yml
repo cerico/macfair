@@ -58,6 +58,18 @@
   import_tasks: ci.yml
   when: inventory_hostname == 'github-runner.localhost'
 
+- name: Create claude directory
+  file:
+    path: "~{{ macbook_user.stdout }}/.claude"
+    state: directory
+  when: ansible_os_family == "Darwin"
+
+- name: Copy CLAUDE.md
+  copy:
+    src: claude/config.md
+    dest: ~{{ macbook_user.stdout }}/.claude/CLAUDE.md
+  when: ansible_os_family == "Darwin"
+
 - name: print role name
   set_fact:
     parent_role_name: "{{ role_name }}"

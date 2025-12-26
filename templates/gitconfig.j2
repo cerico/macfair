@@ -17,6 +17,7 @@
         br = checkout -b
         main = ! git checkout main && git pull
         remot = remote -v
+        amend = commit --amend --no-edit
         changed = whatchanged --format=format:'%C(bold blue)%h %C(bold green)(%ar) %C(blue)%an %C(bold yellow)%d %C(red) %s'
         branches = ! git branch --no-merge main --format='%(HEAD)%(color:yellow)%(refname:short)|%(color:bold green)%(committerdate:relative)|%(color:blue)%(subject)|%(color:reset)' --color=always | column -ts'|' | head -n 10
         full = ! git branch --format='%(HEAD)%(color:yellow)%(refname:short)|%(color:bold green)%(committerdate:relative)|%(color:blue)%(subject)|%(color:reset)' --color=always | column -ts'|'

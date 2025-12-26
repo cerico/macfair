@@ -27,7 +27,7 @@
         "nginx",
         "graphviz",
         "node@{{ node_version }}",
-        "yarn",
+        "pnpm",
         "zsh",
         "zsh-completions",
         "zsh-autosuggestions",
@@ -39,6 +39,19 @@
         "tmux",
         "postgresql",
         "redis",
+        "lima",
+        "glow",
+        "n",
+        "repomix",
+        "podman",
+        "autossh",
+        "act",
+        "dopplerhq/cli/doppler",
+        "stripe/stripe-cli/stripe",
+        "wireguard-tools",
+        "python",
+        "ripgrep",
+        "neonctl",
       ]
     state: present
 
@@ -68,6 +81,7 @@
     - "brave-browser"
     - "google-chrome"
     - "chromium"
+    - "rar"
 
 - name: Copy zshenv
   copy:
@@ -88,6 +102,7 @@
     - "ts-node"
     - "typescript"
     - "browser-sync"
+    - "surge"
 
 - name: pip installs
   pip:
@@ -99,3 +114,4 @@
 
 - name: link node
   shell: /opt/homebrew/bin/brew link --overwrite node@{{ node_version }}
+

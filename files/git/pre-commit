@@ -33,11 +33,3 @@ if [ ! -f README.md ]; then
   cp -r ~/.templates/README.md .
   git add README.md
 fi
-
-if [ ! -f .vscode/settings.json ]; then
-  mkdir -p .vscode
-  cp -r ~/Library/Application\ Support/Code/User/settings.json .vscode/settings.json
-  if ! grep -q "^.vscode" .gitignore; then
-    git add .vscode/settings.json
-  fi
-fi
