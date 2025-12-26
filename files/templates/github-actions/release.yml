@@ -9,28 +9,86 @@ on:
 jobs:
   changelog:
     runs-on: ubuntu-latest
-
+    outputs:
+      tag: ${{ steps.changelog.outputs.tag }}
     steps:
       - uses: actions/checkout@v4
 
       - name: conventional Changelog Action
         id: changelog
-        uses: TriPSs/conventional-changelog-action@v3
+        uses: TriPSs/conventional-changelog-action@v5
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           release-count: "0"
-          version-file: "package.json, package-lock.json"
-
-      - name: Print the changelog
-        run: echo "${{ steps.changelog.outputs.tag }}"
-
-      - name: Print the changelog
-        run: echo "${{ steps.changelog.outputs.version }}"
-
-      - name: Print the changelog
-        run: echo "${{ steps.changelog.outputs.clean_changelog }}" > notes.text
+          version-file: "package.json"
+          git-user-name: 'github-actions[bot]'
+          git-user-email: '41898282+github-actions[bot]@users.noreply.github.com'
 
       - name: Create Release
-        run: gh release create ${{ steps.changelog.outputs.tag  }} --notes-file notes.text
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: ${{ steps.changelog.outputs.tag }}
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.changelog.outputs.tag }}
+          name: ${{ steps.changelog.outputs.tag }}
+          body: ${{ steps.changelog.outputs.clean_changelog }}
+          draft: false
+          prerelease: false
+
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      vercel: ${{ steps.preflight.outputs.vercel }}
+    steps:
+      - name: Check for Vercel secrets
+        id: preflight
+        run: |
+          if [ -n "${{ secrets.VERCEL_TOKEN }}" ] && [ -n "${{ secrets.VERCEL_ORG_ID }}" ] && [ -n "${{ secrets.VERCEL_PROJECT_ID }}" ]; then
+            echo "vercel=true" >> $GITHUB_OUTPUT
+          else
+            echo "vercel=false" >> $GITHUB_OUTPUT
+          fi
+
+  deploy:
+    needs: [changelog, preflight]
+    if: ${{ needs.preflight.outputs.vercel == 'true' }}
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for tag
+        id: check-tag
+        run: |
+          TAG="${{ needs.changelog.outputs.tag }}"
+          if [ -z "$TAG" ]; then
+            TAG=$(git tag --points-at HEAD | grep '^v' | head -n1)
+          fi
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm
+        if: ${{ steps.check-tag.outputs.tag }}
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        if: ${{ steps.check-tag.outputs.tag }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install Vercel CLI
+        if: ${{ steps.check-tag.outputs.tag }}
+        run: npm install -g vercel@latest
+
+      - name: Deploy to Production
+        if: ${{ steps.check-tag.outputs.tag }}
+        run: |
+          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}

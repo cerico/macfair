@@ -22,7 +22,7 @@ secrets () {
 }
 
 workflows () { # Copy template workflow to repo # ➜ workflows test
-  cd $(git rev-parse --show-toplevel)
+  [[ ! -d .git ]] && git rev-parse --git-dir > /dev/null 2>&1 && cd $(git rev-parse --show-toplevel)
   local _dir=~/.templates/github-actions
   local app_name=$(basename $(pwd))
 
@@ -135,30 +135,43 @@ _commits_across_repos () {
   done
 }
 
-repo () { # create repo with settings
-  if [ ! -d .git ]; then
-    echo "current directory is not a git repository. Run git init to create one"
-    return
+repo() {
+  local repo
+
+  # Check if we're already in a GitHub repo
+  if repo=$(gh repo view --json nameWithOwner -q .nameWithOwner 2>/dev/null); then
+    echo "Updating settings for $repo..."
+  else
+    # Not in a repo, create one
+    local owner="${1:-long-grass}"
+    local name="$(basename "$PWD")"
+    repo="$owner/$name"
+
+    if ! gh api "users/$owner" &>/dev/null && ! gh api "orgs/$owner" &>/dev/null; then
+      echo "Error: '$owner' does not exist or you don't have access"
+      return 1
+    fi
+
+    if ! gh repo create "$repo" --source=. --private --remote=origin --push; then
+      echo "Error: Failed to create repository"
+      return 1
+    fi
+
+    echo "Created $repo"
   fi
-  local repo_name=${1:-$(basename $(pwd))}
-  local visibility="private"
-  local username=$(git config --global user.name)
 
-  if [[ -z "$repo_name" || -z "$visibility" || -z "$username" ]]; then
-    return 1
-  fi
+  # Enable dependabot alerts
+  gh api -X PUT "/repos/$repo/vulnerability-alerts" --silent
 
-  gh repo create "$repo_name" --"$visibility"
+  # Allow squash and rebase, disable merge commits, auto-delete branches
+  gh api -X PATCH "/repos/$repo" \
+    -f allow_merge_commit=false \
+    -f allow_squash_merge=false \
+    -f allow_rebase_merge=true \
+    -f delete_branch_on_merge=true \
+    --silent
 
-  gh api -X PATCH "repos/$username/$repo_name" \
-    -F allow_merge_commit=false \
-    -F allow_squash_merge=false \
-    -F delete_branch_on_merge=true
-
-  gh api repos/$username/$repo_name -X GET | jq
-  git remote add origin git@github.com:$username/$repo_name.git
-  gh secret set SSH_PRIVATE_KEY < $SSH_KEY_PATH
-  git push origin main
+  echo "Dependabot enabled"
 }
 
 _getpr () {
@@ -391,6 +404,8 @@ ginit () {
   if [ ! -f package.json ]
     then
     npm init -y
+    npm pkg set scripts.dev="echo \"Error: no dev script specified\" && exit 1"
+    npm pkg set scripts.build="echo \"Error: no build script specified\" && exit 1"
   fi
   if [ ! -d .github ]
     then
@@ -401,8 +416,9 @@ ginit () {
   fi
   if [ ! -f Makefile ]
     then
+    cp -r  ~/.templates/makefiles .
     cp -r  ~/.templates/Makefile .
-    git add Makefile
+    git add Makefile makefiles
   fi
   if [ ! -f .gitignore ]
     then
@@ -421,4 +437,25 @@ ginit () {
   fi
   g add .
   g commit -m "feat: initialized repo"
+}
+
+highest() { # Find highest numbered branch with prefix # ➜ highest rk
+  if [ -z "$1" ]; then
+    echo "Usage: highest <prefix>"
+    return 1
+  fi
+  local prefix="$1"
+  git log --all --oneline | grep -i "${prefix}-" | \
+    sed -E "s/.*${prefix}-([0-9]+).*/\1/I" | \
+    sort -rn | head -1
+}
+
+grk() { # Create branch with auto-incrementing number # ➜ grk my-feature
+  if [ -z "$1" ]; then
+    echo "Usage: grk <branch-description>"
+    return 1
+  fi
+  local next_number=$(($(highest rk) + 1))
+  local branch_name="rk-${next_number}-${1}"
+  git br "${branch_name}"
 }

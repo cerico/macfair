@@ -61,3 +61,4 @@ add_package:
 	$(ANSIBLE_PLAYBOOK) addpackage.yml -i hosts
 %:
 	@$(MAKE) commands
+include makefiles/*.mk

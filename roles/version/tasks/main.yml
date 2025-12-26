@@ -11,6 +11,11 @@
     dest: ~{{ macbook_user.stdout }}/.macfair/version
     force: no
 
+- name: store macfair location
+  copy:
+    content: "{{ playbook_dir }}"
+    dest: ~{{ macbook_user.stdout }}/.macfair/location
+
 - name: add version to file
   lineinfile:
     path: "~{{ macbook_user.stdout }}/.macfair/version"

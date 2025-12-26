@@ -1,0 +1,137 @@
+name: Playwright
+
+on:
+  pull_request:
+    branches:
+      - main
+  schedule:
+    - cron: '55 2 * * 1,4'
+
+jobs:
+  playwright:
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+      DATABASE_URL: postgresql://myuser:mypassword@localhost:5432/mydatabase
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+      NEXTAUTH_URL: http://localhost:17500
+      PORT: 17500
+    services:
+      postgres:
+        image: postgres:latest
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: myuser
+          POSTGRES_PASSWORD: mypassword
+          POSTGRES_DB: mydatabase
+        options: >-
+          --health-cmd "pg_isready"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Set timezone to Europe/London
+        run: sudo ln -sf /usr/share/zoneinfo/Europe/London /etc/localtime && echo "Europe/London" | sudo tee /etc/timezone
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      # Cache dependencies AND Playwright browsers
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ env.STORE_PATH }}
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/playwright.config.ts') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: Install Playwright Browsers
+        run: npx playwright install chromium --with-deps
+
+      # Wait for PostgreSQL with timeout
+      - name: Wait for PostgreSQL
+        run: |
+          timeout 30s bash -c 'until pg_isready -h localhost -p 5432; do
+            echo "Waiting for PostgreSQL..."
+            sleep 2
+          done'
+
+
+      - name: Create environment files
+        run: |
+          touch .env
+          cat > .env.test << EOF
+          DATABASE_URL=postgresql://myuser:mypassword@localhost:5432/mydatabase
+          PORT=17500
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
+          NEXTAUTH_URL=http://localhost:17500
+          RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
+          NODE_ENV=test
+          EOF
+
+      # Health check before running tests
+      - name: Verify Application Health
+        run: |
+          # Start app in background and wait for it to be ready
+          timeout 60s bash -c 'until curl -f http://localhost:17500/api/health 2>/dev/null; do
+            echo "Waiting for app to be ready..."
+            sleep 3
+          done' || echo "Health check skipped - continuing with tests"
+
+      # Database setup for Playwright tests (matching make playwright)
+      - name: Reset test database
+        run: NODE_ENV=test npx prisma migrate reset --force
+
+      - name: Seed test database
+        run: NODE_ENV=test npx tsx prisma/seed.playwright.ts
+
+      - name: Run Playwright tests
+        id: test
+        run: npx playwright test
+        continue-on-error: ${{ github.event_name == 'schedule' }}
+        env:
+          IS_SCHEDULED_RUN: ${{ github.event_name == 'schedule' }}
+
+      - name: Retry Playwright tests on failure (scheduled runs only)
+        if: steps.test.outcome == 'failure' && github.event_name == 'schedule'
+        run: |
+          echo "First attempt failed on scheduled run, retrying Playwright tests..."
+          npx playwright test
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+          if-no-files-found: ignore

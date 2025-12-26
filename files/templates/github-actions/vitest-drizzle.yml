@@ -1,0 +1,105 @@
+name: Vitest
+
+on:
+  pull_request:
+    branches:
+      - main
+  schedule:
+    - cron: '55 2 * * 1,4'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+      DATABASE_URL: postgresql://myuser:mypassword@localhost:5432/mydatabase
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+      NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+    services:
+      postgres:
+        image: postgres:latest
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: myuser
+          POSTGRES_PASSWORD: mypassword
+          POSTGRES_DB: mydatabase
+        options: >-
+          --health-cmd "pg_isready"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Set timezone to Europe/London
+        run: sudo ln -sf /usr/share/zoneinfo/Europe/London /etc/localtime && echo "Europe/London" | sudo tee /etc/timezone
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Caching node_modules to improve performance
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Wait for PostgreSQL to be ready
+      - name: Wait for PostgreSQL
+        run: |
+          until pg_isready -h localhost -p 5432; do
+            echo "Waiting for PostgreSQL..."
+            sleep 1
+          done
+
+      - name: Set up database schema
+        run: npx drizzle-kit push
+
+      - name: Build Application
+        run: pnpm next build
+
+      - name: Create environment files
+        run: |
+          touch .env
+          cat > .env.test << EOF
+          DATABASE_URL=postgresql://myuser:mypassword@localhost:5432/mydatabase
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
+          NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}
+          RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
+          NODE_ENV=test
+          EOF
+
+      - name: Run Unit Tests
+        id: test
+        run: make vitest
+        continue-on-error: ${{ github.event_name == 'schedule' }}
+        env:
+          IS_SCHEDULED_RUN: ${{ github.event_name == 'schedule' }}
+
+      - name: Retry Unit Tests on failure (scheduled runs only)
+        if: steps.test.outcome == 'failure' && github.event_name == 'schedule'
+        run: |
+          echo "First attempt failed on scheduled run, retrying tests..."
+          make vitest

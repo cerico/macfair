@@ -58,14 +58,6 @@
     env: yes
     job: /bin/zsh
 
-- name: Setup cron for autotz
-  ansible.builtin.cron:
-    name: autotz cron
-    hour: "*"
-    minute: "07"
-    user: "{{ macbook_user.stdout }}"
-    job: '/bin/zsh -c "source $HOME/.zsh/timezone.zsh; autotz"'
-
 - name: Setup cron for appcount
   ansible.builtin.cron:
     name: apps cron

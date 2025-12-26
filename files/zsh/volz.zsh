@@ -47,7 +47,7 @@ _rails () {
   rails new "$1" --database=postgresql -j esbuild "${@:2}"
   cd "$1"
   bundle install
-  yarn
+  pnpm install
   rails db:create
   rails db:migrate
   _setupgit
@@ -103,7 +103,7 @@ _astreact () {
     _list_scaffolds astro
     return
   fi
-  yarn create astro "$1" --typescript strict --template minimal --git --install --skip-houston
+  pnpm create astro "$1" --typescript strict --template minimal --git --install --skip-houston
   cd "$1"
   npx astro add react -y
   _setupgit
@@ -115,8 +115,8 @@ _solid () {
     _list_scaffolds solid
     return
   fi
-  yarn create solid --project-name $1 --solid-start
+  pnpm create solid --project-name $1 --solid-start
   cd $1
-  yarn
+  pnpm install
   _setupgit
 }

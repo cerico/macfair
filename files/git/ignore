@@ -22,6 +22,8 @@ cdk.context.json
 *.rar
 *.tar
 *.zip
+.playwright-mcp
+.next
 
 # Logs and databases #
 ######################

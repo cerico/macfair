@@ -1,5 +1,8 @@
 export MARKPATH=$HOME/.marks
 alias sedi='sed -i "" -e'
+alias j=jump
+alias s=start
+alias v=vpn
 
 command_not_found_handler () {
   if [ -f Makefile ] && grep -q "^$1:" Makefile; then
@@ -154,16 +157,16 @@ back() {
 }
 
 install() {
-  if [ -f "package-lock.json" ]
+  if [ -f "pnpm-lock.yaml" ]
+    then
+    echo "installing via pnpm"
+    pnpm install
+  elif [ -f "package-lock.json" ]
     then
     echo "installing via npm"
     npm i
-  elif  [ -f "yarn.lock" ]
-    then
-    echo "installing via yarn"
-    yarn
   else
-    echo "no yarn or npm found"
+    echo "no pnpm or npm lockfile found"
   fi
 }
 
@@ -280,7 +283,12 @@ sw () {
 }
 
 chpwd() {
-  # Only handle terminal profile, never window title
+  [[ ! -d .git ]] && return
+  current_branch=$(git rev-parse --abbrev-ref HEAD)
+  if [ "$current_branch" = "main" ]; then
+    echo "🕵️ Checking for new commits 🔎"
+    git pull origin main
+  fi
   [[ -f .terminal-profile ]] && cpr "$(cat .terminal-profile)"
 }
 
@@ -385,15 +393,25 @@ apps () {
 }
 
 killport () { # Kill process running on port # ➜ killport 2960
-  [ ! $1 ] && return
-  process=$(lsof -i :$1 | grep LISTEN | awk -F' ' '{print $2}')
-  if [[ $process ]]
-    then
-    echo "killing process $process on $1"
-    kill -9 $process
-    return
+  local port=$1
+  if [[ -z "$port" ]]; then
+    if [[ ! -f .env ]]; then
+      echo "Error: No port specified and .env file not found"
+      return 1
+    fi
+    port=$(grep -E '^PORT=' .env | cut -d'=' -f2)
+    if [[ -z "$port" ]]; then
+      echo "Error: PORT not found in .env file"
+      return 1
+    fi
   fi
-  echo "nothing running on $1"
+  local process=$(lsof -i :$port 2>/dev/null | grep LISTEN | awk '{print $2}')
+  if [[ -n "$process" ]]; then
+    echo "Killing process $process on port $port"
+    kill -9 $process
+  else
+    echo "Nothing running on port $port"
+  fi
 }
 
 checkport () {
@@ -427,20 +445,27 @@ addmake () {
 }
 
 mi () { # List all Makefile targets or get info in target # ➜ mi start
-  if [[ ! -f Makefile ]]
-    then
+  if [[ ! -f Makefile ]]; then
     echo "Error: No Makefile found in the current directory. Add with ➜ addmake" && return 1
   fi
-  if [[ -n $1 ]]
-    then
+  if [[ -n $1 ]]; then
     local command=$1
-    local output=$(awk -v cmd="$command" '$1 == cmd ":" {p=1} p; /^\t/{p=0}' Makefile)
+    local output=$(awk -v cmd="$command" '
+    $1 == cmd ":" {found=1; print; next}
+    found && /^[^\t]/ {exit}
+    found {print}
+    ' Makefile)
     [[ -n "$output" ]] && echo "$output" || echo "Target not found. Add with ➜ addtomake $command"
   else
     echo "Available commands:"
     echo "-------------------"
     grep '^[[:alpha:]][^:[:space:]]*:' Makefile | cut -d ':' -f 1 | sort -u | sed 's/^/make /'
   fi
+}
+
+window() {
+  local port=$(jq -r '.scripts.dev' package.json 2>/dev/null | grep -o '\-\-port [0-9]*' | awk '{print $2}')
+  echo -ne "\033]0;$(basename "$PWD")${port:+: $port}\007"
 }
 
 scripts () {
@@ -502,13 +527,55 @@ env () {
 }
 
 venv () {
-  vi .env
+  [ $1 ] && vi .env.$1 || vi .env
 }
 
 treeg () { # tree with grep filter # ➜ treeg node_modules
   tree . | grep $1
 }
 
+claudewright () {
+  claude mcp add playwright npx @playwright/mcp@latest
+}
+
+vpn () { # Toggle wireguard VPN # ➜ vpn up
+  local config=${2:-vps}
+  [[ $1 = "up" || $1 = "down" ]] && sudo wg-quick $1 $config
+}
+
+re () { # Open markdown files with glow # ➜ re todo
+  local doc="README.md"
+  local normal=`echo "${1%.md}.md"`
+  local upper=`echo $normal | tr '[:lower:]' '[:upper:]'`
+  if [[ -f "$normal" ]]; then
+    doc="$normal"
+  elif [[ -f "$upper" ]]; then
+    doc="$upper"
+  elif [[ -f "docs/$normal" ]]; then
+    doc="docs/$normal"
+  elif [[ -f "docs/$upper" ]]; then
+    doc="docs/$upper"
+  fi
+  [[ $2 ]] && open -a MarkText $doc || glow $doc
+}
+
 findg () { # find with grep filter # ➜ findg package.json
   find . | grep $1
+}
+
+sshs () { # List available SSH hosts # ➜ sshs
+  grep '^Host ' ~/.ssh/config | awk '{print $2}' | grep -v '\*'
+}
+
+makefile () { # List or copy makefile templates # ➜ makefile git
+  local _dir=~/.templates/makefiles
+  [[ ! -f Makefile ]] && cp ~/.templates/Makefile . && echo "Copied Makefile"
+  mkdir -p makefiles
+  [[ ! -f makefiles/internal.mk ]] && cp ~/.templates/makefiles/internal.mk makefiles && echo "Copied internal.mk to makefiles/"
+  [[ ! -f makefiles/info.mk ]] && cp ~/.templates/makefiles/info.mk makefiles && echo "Copied info.mk to makefiles/"
+  [[ -z $1 ]] && echo "Available makefiles:" && ls "$_dir" | sed 's/\.mk$//' && return
+  [[ ! -f "$_dir/$1.mk" ]] && echo "Not found: $1.mk" && return 1
+  mkdir -p makefiles
+  cp "$_dir/$1.mk" makefiles/
+  echo "Copied $1.mk to makefiles/"
 }
