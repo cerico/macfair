@@ -1,3 +1,12 @@
+# [2.49.0](https://github.com/cerico/macfair/compare/v2.48.0...v2.49.0) (2025-12-26)
+
+
+### Features
+
+* general update of functions and roles ([40a1e71](https://github.com/cerico/macfair/commit/40a1e7135faf3fda04028d1fee2f146cb8e08862))
+
+
+
 # [2.48.0](https://github.com/cerico/macfair/compare/v2.47.0...v2.48.0) (2025-08-10)
 
 
