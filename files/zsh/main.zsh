@@ -369,6 +369,10 @@ makefiles () {
   [[ $1 ]] && recent $1 Makefile || recent 10 Makefile
 }
 
+markdowns () {
+  [[ $1 ]] && recent $1 "*.md" || recent 10 "*.md"
+}
+
 astros () {
   [[ $1 ]] && recent $1 astro.config.mjs || recent 10 astro.config.mjs
 }

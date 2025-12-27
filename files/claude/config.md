@@ -33,6 +33,9 @@
 - Strict mode, avoid `any`
 - Use barrel exports (index files) for clean imports
 - Use `@/` path alias instead of relative imports
+- Import from specific subdirectories, not root barrel (e.g., `@/components/skeletons` not `@/components`)
+- Alias imports when path provides context (e.g., `import { UserSkeleton as Skeleton } from '@/components/skeletons'`)
+- Extract inline JSX to small components at top of file when not significant enough for own file
 - Zod for validation
 - React Hook Form for forms
 - Sonner for toast notifications
@@ -44,6 +47,8 @@
 # CSS/Styling
 
 - Tailwind CSS
+- Use theme-aware color tokens (e.g., `text-muted-foreground`, `bg-muted`) not hardcoded colors (`text-gray-500`)
+- Class strings: inline if single use, const at top of file if repeated, shared `constants/styles.ts` if across files
 
 # Directory Structure
 
