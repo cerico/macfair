@@ -1,6 +1,7 @@
 # General
 
 - Be terse, not flowery
+- Avoid overusing parentheses in copy
 - Check for existing functions/patterns before writing new ones
 - Be extremely sparing with comments
 - Files must end with a newline
@@ -41,7 +42,8 @@
 - Sonner for toast notifications
 - Prefer Zustand over Context unless good reason
 - i18n for multi-language support
-- Store dates in UTC, display in user's timezone
+- Store dates in UTC, display in `facilityTimezone` from `NEXT_PUBLIC_FACILITY_TIMEZONE` env
+- Date formatting via date-fns-tz in `utils/date.ts`: prefer `formatShortOrdinal`, also `formatShortOrdinalWithYear`, `formatLongOrdinal`, `formatShort`, `formatTime`
 - Prefer pagination over infinite scroll
 
 # CSS/Styling
