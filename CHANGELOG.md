@@ -1,3 +1,12 @@
+# [2.50.0](https://github.com/cerico/macfair/compare/v2.49.0...v2.50.0) (2025-12-27)
+
+
+### Features
+
+* add markdowns wrapper for recent ([44cf81f](https://github.com/cerico/macfair/commit/44cf81f80aba52679d96d066ef181935a9204f40))
+
+
+
 # [2.49.0](https://github.com/cerico/macfair/compare/v2.48.0...v2.49.0) (2025-12-26)
 
 
