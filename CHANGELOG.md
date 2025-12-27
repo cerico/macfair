@@ -1,3 +1,12 @@
+# [2.51.0](https://github.com/cerico/macfair/compare/v2.50.0...v2.51.0) (2025-12-27)
+
+
+### Features
+
+* add db functions to zsh ([4790d76](https://github.com/cerico/macfair/commit/4790d76246a6ddfd1720f3df8782d479ad81ff10))
+
+
+
 # [2.50.0](https://github.com/cerico/macfair/compare/v2.49.0...v2.50.0) (2025-12-27)
 
 
