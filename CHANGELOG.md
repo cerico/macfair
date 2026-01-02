@@ -1,3 +1,12 @@
+# [2.53.0](https://github.com/cerico/macfair/compare/v2.52.2...v2.53.0) (2026-01-02)
+
+
+### Features
+
+* git fetch main and rebase in post checkout ([9df801d](https://github.com/cerico/macfair/commit/9df801dbdb34c42059721c86e1db1a2d193a98d3))
+
+
+
 ## [2.52.2](https://github.com/cerico/macfair/compare/v2.52.1...v2.52.2) (2026-01-02)
 
 
