@@ -1,3 +1,41 @@
+GIT_FETCH_THROTTLE_SECONDS=${GIT_FETCH_THROTTLE_SECONDS:-300}
+
+_git_sync() {
+  [[ ! -d .git ]] && return
+  local current_branch=$(git rev-parse --abbrev-ref HEAD)
+  local default=$(_default_branch)
+
+  if [[ "$current_branch" = "$default" ]]; then
+    echo "🕵️ Checking for new commits 🔎"
+    git pull origin "$default"
+    return
+  fi
+
+  local repo_root=$(git rev-parse --show-toplevel 2>/dev/null)
+  [[ -z "$repo_root" ]] && return
+  local cache_dir="${TMPDIR:-/tmp}/git-fetch-throttle"
+  local cache_file="$cache_dir/$(echo "$repo_root" | shasum -a 256 | cut -d' ' -f1)"
+  local now=$(date +%s)
+  local should_fetch=true
+
+  mkdir -p "$cache_dir" 2>/dev/null
+
+  if [[ -f "$cache_file" ]]; then
+    local last_fetch=$(cat "$cache_file" 2>/dev/null)
+    [[ $((now - last_fetch)) -lt $GIT_FETCH_THROTTLE_SECONDS ]] && should_fetch=false
+  fi
+
+  local fetch_failed=false
+  if [[ "$should_fetch" = true ]]; then
+    git fetch origin "$default" -q 2>/dev/null && echo "$now" > "$cache_file" || fetch_failed=true
+  fi
+
+  local behind=$(git rev-list --count HEAD..origin/"$default" 2>/dev/null)
+  if [[ "${behind:-0}" -gt 0 ]]; then
+    [[ "$fetch_failed" = true ]] && echo "⚠️  $behind commits behind $default (stale)" || echo "⚠️  $behind commits behind $default"
+  fi
+}
+
 repos () { # List all repos # ➜ repos public
   [[ -n $1 ]] && gh repo list --visibility $1 || gh repo list
 }
@@ -204,12 +242,8 @@ delete_old_branches () {
 }
 
 _default_branch () {
-  if [ ! -f .git/refs/remotes/origin/HEAD ]; then
-    local branch="main"
-  else
-    local branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
-  fi
-  echo $branch
+  local branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
+  echo ${branch:-main}
 }
 
 unmerged () { # List unmerged commits # ➜ unmerged 5
