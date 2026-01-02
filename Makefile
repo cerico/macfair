@@ -42,6 +42,8 @@ vscode:
 	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "vscode"
 functions:
 	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "functions"
+claude:
+	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "claude"
 keepalive:
 	$(ANSIBLE_PLAYBOOK) setup.yml -i hosts --tags "keepalive"
 desktop:

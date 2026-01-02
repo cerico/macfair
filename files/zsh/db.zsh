@@ -3,8 +3,14 @@ _dbexists() {
   psql -d postgres -tc "SELECT 1 FROM pg_database WHERE datname = '$name'" | grep -q 1
 }
 
-dblist () { # List all PostgreSQL databases # ➜ dblist
-  psql -d postgres -tc "SELECT datname FROM pg_database WHERE datistemplate = false ORDER BY datname"
+_userexists() {
+  local name="${1//\'/\'\'}"
+  psql -d postgres -tc "SELECT 1 FROM pg_user WHERE usename = '$name'" | grep -q 1
+}
+
+dblist () { # List all PostgreSQL databases # ➜ dblist [filter]
+  local result=$(psql -d postgres -tc "SELECT datname FROM pg_database WHERE datistemplate = false ORDER BY datname")
+  [[ -n "$1" ]] && echo "$result" | grep -i "$1" || echo "$result"
 }
 
 dbconnect () { # Connect to a database # ➜ dbconnect myapp
@@ -27,10 +33,68 @@ dbinfo () { # Show info about a database # ➜ dbinfo myapp
   "
 }
 
-dbcreate () { # Create a database # ➜ dbcreate myapp
+dbcreate () { # Create database with user, test db, and .env files # ➜ dbcreate
   local name="${1:-$(basename "$(pwd)")}"
+  local testname="${name}-test"
+
   _dbexists "$name" && { echo "Database '$name' already exists"; return 1; }
-  createdb "$name" && echo "Created: $name"
+
+  local password=$(openssl rand -base64 32 | tr -d '=+/' | head -c 32)
+
+  if ! _userexists "$name"; then
+    psql -d postgres -c "CREATE USER \"$name\" WITH PASSWORD '$password' CREATEDB;" || return 1
+    echo "Created user: $name"
+  else
+    psql -d postgres -c "ALTER USER \"$name\" WITH PASSWORD '$password';" || return 1
+    echo "Updated password for user: $name"
+  fi
+
+  createdb -O "$name" "$name" || return 1
+  echo "Created database: $name"
+
+  createdb -O "$name" "$testname" || return 1
+  echo "Created database: $testname"
+
+  local url="DATABASE_URL=postgresql://${name}:${password}@localhost:5432/${name}"
+  local testurl="DATABASE_URL=postgresql://${name}:${password}@localhost:5432/${testname}"
+
+  if [[ -f .env ]]; then
+    grep -q '^DATABASE_URL=' .env && sed -i '' '/^DATABASE_URL=/d' .env
+  fi
+  echo "$url" >> .env
+  echo "Updated .env"
+
+  if [[ -f .env.test ]]; then
+    grep -q '^DATABASE_URL=' .env.test && sed -i '' '/^DATABASE_URL=/d' .env.test
+  fi
+  echo "$testurl" >> .env.test
+  echo "Updated .env.test"
+}
+
+dbpassword () { # Reset password for database user and update .env files # ➜ dbpassword
+  local name="${1:-$(basename "$(pwd)")}"
+
+  _userexists "$name" || { echo "User '$name' does not exist"; return 1; }
+
+  local password=$(openssl rand -base64 32 | tr -d '=+/' | head -c 32)
+
+  psql -d postgres -c "ALTER USER \"$name\" WITH PASSWORD '$password';" || return 1
+  echo "Updated password for user: $name"
+
+  local url="DATABASE_URL=postgresql://${name}:${password}@localhost:5432/${name}"
+  local testurl="DATABASE_URL=postgresql://${name}:${password}@localhost:5432/${name}-test"
+
+  if [[ -f .env ]]; then
+    grep -q '^DATABASE_URL=' .env && sed -i '' '/^DATABASE_URL=/d' .env
+  fi
+  echo "$url" >> .env
+  echo "Updated .env"
+
+  if [[ -f .env.test ]]; then
+    grep -q '^DATABASE_URL=' .env.test && sed -i '' '/^DATABASE_URL=/d' .env.test
+  fi
+  echo "$testurl" >> .env.test
+  echo "Updated .env.test"
 }
 
 dbdrop () { # Drop a database # ➜ dbdrop myapp
