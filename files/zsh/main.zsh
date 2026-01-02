@@ -283,12 +283,7 @@ sw () {
 }
 
 chpwd() {
-  [[ ! -d .git ]] && return
-  current_branch=$(git rev-parse --abbrev-ref HEAD)
-  if [ "$current_branch" = "main" ]; then
-    echo "🕵️ Checking for new commits 🔎"
-    git pull origin main
-  fi
+  _git_sync
   [[ -f .terminal-profile ]] && cpr "$(cat .terminal-profile)"
 }
 

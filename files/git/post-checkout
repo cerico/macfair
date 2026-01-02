@@ -1,8 +1,14 @@
 current_branch=$(git rev-parse --abbrev-ref HEAD)
+default_branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
+default_branch=${default_branch:-main}
 
-if [ "$current_branch" = "main" ]; then
-  git pull origin main
+if [ "$current_branch" = "$default_branch" ]; then
+  git pull origin "$default_branch"
 else
-  behind=$(git rev-list --count HEAD..origin/main 2>/dev/null)
-  [[ "${behind:-0}" -gt 0 ]] && echo "⚠️  $behind commits behind main"
+  if git fetch origin "$default_branch" -q 2>/dev/null; then
+    behind=$(git rev-list --count HEAD..origin/"$default_branch" 2>/dev/null)
+    [[ "${behind:-0}" -gt 0 ]] && echo "⚠️  $behind commits behind $default_branch"
+  else
+    echo "⚠️  Failed to fetch from origin/$default_branch (behind count may be stale)" >&2
+  fi
 fi
