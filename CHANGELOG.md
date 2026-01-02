@@ -1,3 +1,12 @@
+## [2.52.2](https://github.com/cerico/macfair/compare/v2.52.1...v2.52.2) (2026-01-02)
+
+
+### Bug Fixes
+
+* dont attempt to reclone ohmyzsh ([ab4e593](https://github.com/cerico/macfair/commit/ab4e5936e209d738a9d1b9d5b7b2425a11f7f137))
+
+
+
 ## [2.52.1](https://github.com/cerico/macfair/compare/v2.52.0...v2.52.1) (2026-01-02)
 
 
