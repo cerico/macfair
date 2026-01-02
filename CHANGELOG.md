@@ -1,3 +1,12 @@
+## [2.52.1](https://github.com/cerico/macfair/compare/v2.52.0...v2.52.1) (2026-01-02)
+
+
+### Bug Fixes
+
+* handle missing origin/main in post-checkout hook ([028c076](https://github.com/cerico/macfair/commit/028c076d450cf1152cfaa2f2d7300524c1ba8798))
+
+
+
 # [2.52.0](https://github.com/cerico/macfair/compare/v2.51.0...v2.52.0) (2026-01-02)
 
 
