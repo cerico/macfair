@@ -1,3 +1,12 @@
+# [2.52.0](https://github.com/cerico/macfair/compare/v2.51.0...v2.52.0) (2026-01-02)
+
+
+### Features
+
+* add db functions, claude skills, post-checkout hook ([2a86cc2](https://github.com/cerico/macfair/commit/2a86cc2d973705948cecf696a6938a3a5ef23c09))
+
+
+
 # [2.51.0](https://github.com/cerico/macfair/compare/v2.50.0...v2.51.0) (2025-12-27)
 
 
