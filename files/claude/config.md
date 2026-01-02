@@ -1,5 +1,6 @@
 # General
 
+- Do not edit ~/.claude/CLAUDE.md directly - edit ~/macfair/files/claude/config.md instead
 - Be terse, not flowery
 - Avoid overusing parentheses in copy
 - Check for existing functions/patterns before writing new ones
@@ -7,6 +8,7 @@
 - Files must end with a newline
 - Empty lines must be completely empty (no whitespace)
 - Care about errors and accessibility (a11y)
+- Use the actual current date from context - don't hallucinate it being a year ago
 
 # Git
 
@@ -20,13 +22,21 @@
 
 - Prefer `[[ ]] &&` format over `if then fi` blocks
 
+# Ansible
+
+- Use `path_join` filter for paths, not string concatenation
+
 # Package Management
 
 - pnpm
 
 # Makefile
 
-- Always use Makefile for commands
+- Before running commands, check Makefile for existing targets first
+- If no Makefile exists, create one
+- When running a command that could be reused, add it to the Makefile
+- Prefer modular structure: main `Makefile` includes `makefiles/*.mk` files
+- Use common sense for placement: project-wide in main Makefile, domain-specific in `.mk` modules
 
 # JavaScript/TypeScript
 
@@ -44,7 +54,12 @@
 - i18n for multi-language support
 - Store dates in UTC, display in `facilityTimezone` from `NEXT_PUBLIC_FACILITY_TIMEZONE` env
 - Date formatting via date-fns-tz in `utils/date.ts`: prefer `formatShortOrdinal`, also `formatShortOrdinalWithYear`, `formatLongOrdinal`, `formatShort`, `formatTime`
+- Use `formatInTimeZone` from date-fns-tz, not `format` from date-fns - avoids timezone bugs
 - Prefer pagination over infinite scroll
+- API tokens in `constants/tokens.ts`: `export const FOO_TOKEN = process.env.NEXT_PUBLIC_FOO_TOKEN`
+- Use `Props` not `ComponentNameProps` for local component interfaces
+- Pass validated values as props rather than importing potentially undefined constants
+- Use context-specific prop names (e.g., `mapboxToken` not `accessToken`)
 
 # CSS/Styling
 
@@ -63,6 +78,7 @@
 - Create loading.tsx and error.tsx for routes
 - Prefer skeletons over spinners
 - Return flat structures from APIs, only necessary fields
+- Use `dynamic(() => import('./component'), { ssr: false })` for browser-only libraries (maps, charts, editors)
 
 # Astro
 

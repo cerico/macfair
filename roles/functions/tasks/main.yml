@@ -63,12 +63,21 @@
     path: "~{{ macbook_user.stdout }}/.claude"
     state: directory
   when: ansible_os_family == "Darwin"
+  tags: claude
 
 - name: Copy CLAUDE.md
   copy:
     src: claude/config.md
     dest: ~{{ macbook_user.stdout }}/.claude/CLAUDE.md
   when: ansible_os_family == "Darwin"
+  tags: claude
+
+- name: Copy Claude skills
+  copy:
+    src: claude/skills/
+    dest: ~{{ macbook_user.stdout }}/.claude/skills/
+  when: ansible_os_family == "Darwin"
+  tags: claude
 
 - name: print role name
   set_fact:
