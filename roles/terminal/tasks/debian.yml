@@ -8,8 +8,9 @@
 
 - name: Cloning oh-my-zsh
   git:
-    repo=https://github.com/robbyrussell/oh-my-zsh
-    dest=~{{ macbook_user.stdout }}/.oh-my-zsh
+    repo: https://github.com/ohmyzsh/ohmyzsh
+    dest: ~{{ macbook_user.stdout }}/.oh-my-zsh
+    update: no
 
 - name: Copy zsh theme
   copy:
