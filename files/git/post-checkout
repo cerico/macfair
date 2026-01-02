@@ -4,5 +4,5 @@ if [ "$current_branch" = "main" ]; then
   git pull origin main
 else
   behind=$(git rev-list --count HEAD..origin/main 2>/dev/null)
-  [ "$behind" -gt 0 ] && echo "⚠️  $behind commits behind main"
+  [[ "${behind:-0}" -gt 0 ]] && echo "⚠️  $behind commits behind main"
 fi
