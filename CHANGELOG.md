@@ -1,3 +1,12 @@
+# [2.54.0](https://github.com/cerico/macfair/compare/v2.53.0...v2.54.0) (2026-01-04)
+
+
+### Features
+
+* tell claude not to run tests without asking ([dbfc673](https://github.com/cerico/macfair/commit/dbfc673e9c59862a0bf1cd5729e9df4dcbb202e9))
+
+
+
 # [2.53.0](https://github.com/cerico/macfair/compare/v2.52.2...v2.53.0) (2026-01-02)
 
 
