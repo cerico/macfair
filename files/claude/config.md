@@ -103,3 +103,7 @@
 
 - Don't run tests or type checks automatically - ask the user to run them and report back
 - Write tests proactively when adding features
+
+# Code Reviews
+
+- When asked to review code or a PR, provide a grade A-F and score out of 100
