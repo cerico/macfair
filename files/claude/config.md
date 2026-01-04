@@ -1,6 +1,9 @@
 # General
 
+- Prefer idempotent operations - safe to run multiple times with same result
 - Do not edit ~/.claude/CLAUDE.md directly - edit ~/macfair/files/claude/config.md instead
+- Prefer proper fixes over quick fixes - investigate root causes rather than masking symptoms
+- When presenting multiple options, grade each A-F with score out of 100, weighted towards proper professional solutions
 - Be terse, not flowery
 - Avoid overusing parentheses in copy
 - Check for existing functions/patterns before writing new ones
@@ -98,4 +101,5 @@
 
 # Testing
 
+- Don't run tests or type checks automatically - ask the user to run them and report back
 - Write tests proactively when adding features
