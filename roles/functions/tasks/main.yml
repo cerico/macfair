@@ -79,6 +79,20 @@
   when: ansible_os_family == "Darwin"
   tags: claude
 
+- name: Create gemini directory
+  file:
+    path: "~{{ macbook_user.stdout }}/.gemini"
+    state: directory
+  when: ansible_os_family == "Darwin"
+  tags: claude
+
+- name: Copy GEMINI.md
+  copy:
+    src: claude/config.md
+    dest: ~{{ macbook_user.stdout }}/.gemini/GEMINI.md
+  when: ansible_os_family == "Darwin"
+  tags: claude
+
 - name: print role name
   set_fact:
     parent_role_name: "{{ role_name }}"
