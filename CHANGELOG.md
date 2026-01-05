@@ -1,3 +1,12 @@
+## [2.54.1](https://github.com/cerico/macfair/compare/v2.54.0...v2.54.1) (2026-01-05)
+
+
+### Bug Fixes
+
+* update github actions versions ([0e71a49](https://github.com/cerico/macfair/commit/0e71a49e565a6bfb50f87e2e6f095876123aefdb))
+
+
+
 # [2.54.0](https://github.com/cerico/macfair/compare/v2.53.0...v2.54.0) (2026-01-04)
 
 
