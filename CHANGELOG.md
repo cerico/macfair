@@ -1,3 +1,12 @@
+# [2.55.0](https://github.com/cerico/macfair/compare/v2.54.1...v2.55.0) (2026-01-07)
+
+
+### Features
+
+* add uv and semgrep ([9b7d196](https://github.com/cerico/macfair/commit/9b7d19625287d6425a78adaedfb5de6dcbe4d201))
+
+
+
 ## [2.54.1](https://github.com/cerico/macfair/compare/v2.54.0...v2.54.1) (2026-01-05)
 
 
