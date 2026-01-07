@@ -58,38 +58,8 @@
   import_tasks: ci.yml
   when: inventory_hostname == 'github-runner.localhost'
 
-- name: Create claude directory
-  file:
-    path: "~{{ macbook_user.stdout }}/.claude"
-    state: directory
-  when: ansible_os_family == "Darwin"
-  tags: claude
-
-- name: Copy CLAUDE.md
-  copy:
-    src: claude/config.md
-    dest: ~{{ macbook_user.stdout }}/.claude/CLAUDE.md
-  when: ansible_os_family == "Darwin"
-  tags: claude
-
-- name: Copy Claude skills
-  copy:
-    src: claude/skills/
-    dest: ~{{ macbook_user.stdout }}/.claude/skills/
-  when: ansible_os_family == "Darwin"
-  tags: claude
-
-- name: Create gemini directory
-  file:
-    path: "~{{ macbook_user.stdout }}/.gemini"
-    state: directory
-  when: ansible_os_family == "Darwin"
-  tags: claude
-
-- name: Copy GEMINI.md
-  copy:
-    src: claude/config.md
-    dest: ~{{ macbook_user.stdout }}/.gemini/GEMINI.md
+- name: configure claude
+  import_tasks: claude.yml
   when: ansible_os_family == "Darwin"
   tags: claude
 
