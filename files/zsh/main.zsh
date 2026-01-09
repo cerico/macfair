@@ -537,6 +537,8 @@ claudewright () {
   claude mcp add playwright npx @playwright/mcp@latest
 }
 
+alias claudep='claude --permission-mode plan'
+
 vpn () { # Toggle wireguard VPN # ➜ vpn up
   local config=${2:-vps}
   [[ $1 = "up" || $1 = "down" ]] && sudo wg-quick $1 $config

@@ -12,6 +12,7 @@
 - Empty lines must be completely empty (no whitespace)
 - Care about errors and accessibility (a11y)
 - Use the actual current date from context - don't hallucinate it being a year ago
+- Express uncertainty honestly rather than guessing confidently
 
 # Git
 
@@ -103,6 +104,7 @@
 
 - Don't run tests or type checks automatically - ask the user to run them and report back
 - Write tests proactively when adding features
+- Never mark a task complete if tests are failing - fix them first
 
 # Code Reviews
 
