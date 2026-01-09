@@ -1,3 +1,12 @@
+## [2.55.1](https://github.com/cerico/macfair/compare/v2.55.0...v2.55.1) (2026-01-09)
+
+
+### Bug Fixes
+
+* conditional core installs on older macs ([93b9769](https://github.com/cerico/macfair/commit/93b9769d22ad0889bfd38b1e23863abca7214825))
+
+
+
 # [2.55.0](https://github.com/cerico/macfair/compare/v2.54.1...v2.55.0) (2026-01-07)
 
 
