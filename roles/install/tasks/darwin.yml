@@ -14,7 +14,6 @@
         "openssl",
         "cmake",
         "git",
-        "git-lfs",
         "moreutils",
         "findutils",
         "gnupg",
@@ -54,8 +53,17 @@
         "neonctl",
         "uv",
         "semgrep",
-      ]
+        ]
     state: present
+
+- name: install packages requiring macOS 11+
+  become: true
+  become_user: "{{ brew_user.stdout }}"
+  homebrew:
+    name:
+      - "git-lfs"
+    state: present
+  when: ansible_distribution_version is version('11.0', '>=')
 
 - name: Create directory for installed caskapps
   file:
