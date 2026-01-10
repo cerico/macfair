@@ -10,6 +10,7 @@
 - Be extremely sparing with comments
 - Files must end with a newline
 - Empty lines must be completely empty (no whitespace)
+- Avoid hyphens in filenames unless strictly necessary (prefer underscores or camelCase)
 - Care about errors and accessibility (a11y)
 - Use the actual current date from context - don't hallucinate it being a year ago
 - Express uncertainty honestly rather than guessing confidently
