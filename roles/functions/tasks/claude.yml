@@ -25,30 +25,36 @@
     dest: ~{{ macbook_user.stdout }}/.gemini/GEMINI.md
 
 - name: Get list of installed MCP servers
-  ansible.builtin.shell: npx @anthropic-ai/claude-code mcp list 2>/dev/null || echo ""
+  ansible.builtin.shell: claude mcp list 2>/dev/null || echo ""
+  environment:
+    PATH: "/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
   register: mcp_list
   changed_when: false
 
 - name: Add Prisma MCP server
-  ansible.builtin.shell: npx @anthropic-ai/claude-code mcp add -s user prisma -- npx prisma mcp
-  register: prisma_mcp
+  ansible.builtin.shell: claude mcp add -s user prisma -- npx prisma mcp
+  environment:
+    PATH: "/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
   when: "'prisma' not in mcp_list.stdout"
   ignore_errors: true
 
 - name: Add Semgrep MCP server
-  ansible.builtin.shell: npx @anthropic-ai/claude-code mcp add -s user semgrep -- semgrep mcp
-  register: semgrep_mcp
+  ansible.builtin.shell: claude mcp add -s user semgrep -- semgrep mcp
+  environment:
+    PATH: "/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
   when: "'semgrep' not in mcp_list.stdout"
   ignore_errors: true
 
 - name: Add Sentry MCP server
-  ansible.builtin.shell: npx @anthropic-ai/claude-code mcp add -s user --transport http sentry https://mcp.sentry.dev/mcp
-  register: sentry_mcp
+  ansible.builtin.shell: claude mcp add -s user --transport http sentry https://mcp.sentry.dev/mcp
+  environment:
+    PATH: "/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
   when: "'sentry' not in mcp_list.stdout"
   ignore_errors: true
 
 - name: Add Linear MCP server
-  ansible.builtin.shell: npx @anthropic-ai/claude-code mcp add -s user linear --transport sse https://mcp.linear.app/sse
-  register: linear_mcp
+  ansible.builtin.shell: claude mcp add -s user linear --transport sse https://mcp.linear.app/sse
+  environment:
+    PATH: "/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
   when: "'linear' not in mcp_list.stdout"
   ignore_errors: true
