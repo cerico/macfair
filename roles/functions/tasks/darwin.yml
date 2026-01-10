@@ -1,8 +1,10 @@
 ---
-- name: Copy darwin
+- name: Copy darwin-specific zsh files
   copy:
-    src: zsh/darwin.zsh
-    dest: ~{{ macbook_user.stdout }}/.zsh/darwin.zsh
+    src: "{{ item }}"
+    dest: "~{{ macbook_user.stdout }}/.zsh/"
+  with_fileglob:
+    - zsh/darwin/*.zsh
 
 - name: create empty tokens file only if one doesnt already exist
   copy:

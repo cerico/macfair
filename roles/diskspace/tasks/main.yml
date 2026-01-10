@@ -1,0 +1,27 @@
+---
+- name: Create diskspace directory
+  file:
+    path: "{{ ansible_env.HOME }}/work/crons/diskspace"
+    state: directory
+    mode: "0755"
+
+- name: Copy diskspace scripts
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ ansible_env.HOME }}/work/crons/diskspace/{{ item.dest }}"
+    mode: "0755"
+  with_items:
+    - { src: "diskspace/guardian.sh", dest: "guardian.sh" }
+    - { src: "diskspace/monitor.sh", dest: "monitor.sh" }
+
+- name: Setup diskspace guardian cron (hourly)
+  ansible.builtin.cron:
+    name: diskspace guardian
+    minute: "0"
+    job: ". $HOME/.zshrc && {{ ansible_env.HOME }}/work/crons/diskspace/guardian.sh"
+
+- name: Setup diskspace monitor cron (hourly at :30)
+  ansible.builtin.cron:
+    name: diskspace monitor
+    minute: "30"
+    job: ". $HOME/.zshrc && {{ ansible_env.HOME }}/work/crons/diskspace/monitor.sh"
