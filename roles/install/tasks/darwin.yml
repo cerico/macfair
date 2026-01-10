@@ -122,6 +122,15 @@
     - "passlib"
     - "yq"
 
+- name: Check if Claude Code is installed
+  stat:
+    path: "~{{ macbook_user.stdout }}/.local/bin/claude"
+  register: claude_installed
+
+- name: Install Claude Code
+  shell: curl -fsSL https://claude.ai/install.sh | bash
+  when: not claude_installed.stat.exists
+
 - name: link node
   shell: /opt/homebrew/bin/brew link --overwrite node@{{ node_version }}
 
