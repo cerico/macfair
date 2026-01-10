@@ -1,3 +1,12 @@
+## [2.55.2](https://github.com/cerico/macfair/compare/v2.55.1...v2.55.2) (2026-01-10)
+
+
+### Bug Fixes
+
+* install claude natively instead of using npx ([d02b30e](https://github.com/cerico/macfair/commit/d02b30e8f439a85d9d59a5e61198d8497497671e))
+
+
+
 ## [2.55.1](https://github.com/cerico/macfair/compare/v2.55.0...v2.55.1) (2026-01-09)
 
 
