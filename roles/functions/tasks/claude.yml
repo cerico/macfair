@@ -9,6 +9,11 @@
     src: claude/config.md
     dest: ~{{ macbook_user.stdout }}/.claude/CLAUDE.md
 
+- name: Copy Claude settings
+  copy:
+    src: claude/settings.json
+    dest: ~{{ macbook_user.stdout }}/.claude/settings.json
+
 - name: Copy Claude skills
   copy:
     src: claude/skills/

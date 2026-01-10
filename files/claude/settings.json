@@ -1,0 +1,13 @@
+{
+  "alwaysThinkingEnabled": true,
+  "enabledPlugins": {
+    "voicemode@mbailey": true
+  },
+  "permissions": {
+    "allow": [
+      "mcp__voicemode__*",
+      "mcp__plugin_voicemode_voicemode__*"
+    ],
+    "deny": []
+  }
+}

@@ -538,6 +538,8 @@ claudewright () {
 }
 
 alias claudep='claude --permission-mode plan'
+alias claudev='claude --append-system-prompt "Always respond using the mcp__voicemode__converse tool to speak your responses aloud."'
+alias claudevp='claude --permission-mode plan --append-system-prompt "Always respond using the mcp__voicemode__converse tool to speak your responses aloud."'
 
 vpn () { # Toggle wireguard VPN # ➜ vpn up
   local config=${2:-vps}
