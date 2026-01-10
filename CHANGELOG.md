@@ -1,3 +1,12 @@
+# [2.57.0](https://github.com/cerico/macfair/compare/v2.56.0...v2.57.0) (2026-01-10)
+
+
+### Features
+
+* allow claude voicemode by default ([63d8c6d](https://github.com/cerico/macfair/commit/63d8c6d4fc1953b17badda54b49d3235d1e48a0f))
+
+
+
 # [2.56.0](https://github.com/cerico/macfair/compare/v2.55.2...v2.56.0) (2026-01-10)
 
 
