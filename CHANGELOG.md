@@ -1,3 +1,12 @@
+# [2.56.0](https://github.com/cerico/macfair/compare/v2.55.2...v2.56.0) (2026-01-10)
+
+
+### Features
+
+* add diskspace cleanup role and cron ([40befe9](https://github.com/cerico/macfair/commit/40befe983ac647f9b0d5f29da623edbd400733f5))
+
+
+
 ## [2.55.2](https://github.com/cerico/macfair/compare/v2.55.1...v2.55.2) (2026-01-10)
 
 
