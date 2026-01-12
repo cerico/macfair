@@ -1,3 +1,12 @@
+# [2.58.0](https://github.com/cerico/macfair/compare/v2.57.0...v2.58.0) (2026-01-12)
+
+
+### Features
+
+* add claude skills, voicemode and statusline ([90e1081](https://github.com/cerico/macfair/commit/90e1081f19038b2a657494db6218de697d4f554a))
+
+
+
 # [2.57.0](https://github.com/cerico/macfair/compare/v2.56.0...v2.57.0) (2026-01-10)
 
 
