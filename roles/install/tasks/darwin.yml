@@ -53,6 +53,7 @@
         "neonctl",
         "uv",
         "semgrep",
+        "shellcheck",
         ]
     state: present
 

@@ -14,6 +14,12 @@
     src: claude/settings.json
     dest: ~{{ macbook_user.stdout }}/.claude/settings.json
 
+- name: Copy statusline script
+  copy:
+    src: claude/statusline.sh
+    dest: ~{{ macbook_user.stdout }}/.claude/statusline.sh
+    mode: '0755'
+
 - name: Copy Claude skills
   copy:
     src: claude/skills/
@@ -62,4 +68,12 @@
   environment:
     PATH: "/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
   when: "'linear' not in mcp_list.stdout"
+  ignore_errors: true
+
+- name: Install Kokoro TTS via voicemode
+  ansible.builtin.shell: claude /voicemode:install kokoro
+  environment:
+    PATH: "/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
+  args:
+    creates: "{{ ansible_env.HOME }}/.voicemode/services/kokoro"
   ignore_errors: true

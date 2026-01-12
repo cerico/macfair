@@ -34,6 +34,7 @@
 # Package Management
 
 - pnpm
+- Don't run `brew install` directly - add to ansible role and let user run `make install`
 
 # Makefile
 

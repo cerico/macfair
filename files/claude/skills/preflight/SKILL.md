@@ -21,6 +21,12 @@ Run this before creating a PR to catch common issues in changed files.
 - [ ] No `any` types - find proper type or use `unknown`
 - [ ] No `@ts-ignore` or `@ts-expect-error` without explanation
 - [ ] Local interfaces use `Props` not `ComponentNameProps`
+- [ ] Type check passes (use `make types` if available, else `pnpm tsc --noEmit`)
+
+```bash
+# Check if 'types' target is available in make output
+make 2>/dev/null | grep -q 'types' && make types || pnpm tsc --noEmit
+```
 
 ### React Patterns
 
@@ -56,6 +62,38 @@ Run this before creating a PR to catch common issues in changed files.
 - [ ] Use `@/` path alias (no `../../../` climbs)
 - [ ] Barrel exports updated when adding new files
 
+### Dead Code
+
+- [ ] No unused imports
+- [ ] No unused variables or parameters
+- [ ] No unused functions or components
+- [ ] No commented-out code blocks (delete or restore)
+- [ ] No unreachable code after return/throw
+
+### Security
+
+- [ ] No hardcoded secrets or API keys
+- [ ] No `dangerouslySetInnerHTML` without sanitization
+- [ ] No raw SQL queries (use parameterized/Prisma)
+- [ ] No sensitive data in console.log or error messages
+- [ ] User input validated before use
+
+### Git Hygiene
+
+- [ ] No merge conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`)
+- [ ] No `.only` or `.skip` left in test files
+- [ ] No `debugger` statements
+- [ ] No `.env.local` or other local config committed
+- [ ] No large binary files that shouldn't be in git
+
+### Performance
+
+- [ ] Large objects/arrays use `useMemo` if recreated each render
+- [ ] Images have explicit `width` and `height` (prevents layout shift)
+- [ ] No synchronous heavy operations in render path
+- [ ] Lists over 100 items paginated or virtualized
+- [ ] No `useEffect` without dependency array
+
 ### Styling
 
 - [ ] Theme-aware colors (`text-muted-foreground`) not hardcoded (`text-gray-500`)
@@ -84,6 +122,8 @@ Run this before creating a PR to catch common issues in changed files.
 ```markdown
 ## Preflight Report
 
+> Note: Not running test suites (vitest/playwright) - assuming you've run them or will before pushing. CI is the backstop.
+
 ### TypeScript (2 issues)
 - app/users/page.tsx:15 - `any` type used, consider `User[]`
 - components/modal.tsx:8 - uses `UserModalProps` instead of `Props`
@@ -108,5 +148,6 @@ Run this before creating a PR to catch common issues in changed files.
 
 Report issues but don't block. Developer decides what to fix. Some checks are style preferences, others are bugs waiting to happen.
 
-**Should fix:** `any` types, missing error boundaries, N+1 queries, timezone bugs
+**Must fix:** Security issues, merge conflict markers, hardcoded secrets, `.only`/`.skip` in tests
+**Should fix:** `any` types, missing error boundaries, N+1 queries, timezone bugs, unused code, performance issues
 **Nice to fix:** Naming conventions, import style, semicolons
