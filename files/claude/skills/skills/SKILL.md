@@ -23,9 +23,21 @@ Quick reference for available skills.
 
 | Skill | When to use | Example prompt |
 |-------|-------------|----------------|
+| `refactor` | Review your branch, grade, refactor until 90+ | "run refactor" |
+| `review-pr` | Review someone's PR or final-check your own | "review PR 123" |
 | `preflight` | Before PR, catch common issues | "run preflight" |
 | `test-review` | Check test quality and coverage | "review my tests" |
+| `debug` | Something's broken, trace the cause | "debug this error" |
 | `zod-extract` | Find inline schemas to centralize | "find inline zod schemas" |
+| `outdated` | Check for major version upgrades | "check outdated packages" |
+
+## Navigation
+
+| Skill | When to use | Example prompt |
+|-------|-------------|----------------|
+| `next` | Not sure what to do, get suggestions | "what's next" |
+| `todo` | Work through TODO.md tasks | "work on todo" |
+| `skills` | See all available skills | "list skills" |
 
 ## Design
 
@@ -36,6 +48,9 @@ Quick reference for available skills.
 ## Quick Decision Guide
 
 ```
+Not sure what to do?
+└── /next
+
 Need to build something?
 ├── Full app with database → audreygen
 ├── New feature in existing app → scaffold-route
@@ -45,10 +60,19 @@ Need to build something?
 ├── Data visualization → visx
 └── Quick reference page → infopage
 
-Need to review something?
-├── Before PR → preflight
+Need to review/improve code?
+├── Your branch, improve until 90+ → refactor
+├── Someone else's PR → review-pr
+├── Quick issue scan before PR → preflight
 ├── Test quality → test-review
-└── Schema organization → zod-extract
+└── Centralize Zod schemas → zod-extract
+
+Something broken?
+└── debug
+
+Maintenance?
+├── Major version upgrades → outdated
+└── Work through tasks → todo
 
 Need design direction?
 ├── Consistent app UI → your standard patterns

@@ -1,5 +1,10 @@
 {
   "alwaysThinkingEnabled": true,
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh",
+    "padding": 0
+  },
   "enabledPlugins": {
     "voicemode@mbailey": true
   },
