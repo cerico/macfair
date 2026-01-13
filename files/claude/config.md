@@ -22,6 +22,10 @@
 - Never commit sensitive information
 - Commits must use semantic versioning prefixes (fix, feat, docs, etc.)
 - Branch naming: run git log to check existing pattern
+- When amending commits: always use `--reset-author` to update date to now (easier rebasing)
+- One commit per branch - squash before pushing
+- For commits, use `/commit` workflow
+- After commit, run `/review-pr` before pushing
 
 # Shell/Bash
 
@@ -104,9 +108,10 @@
 
 # Testing
 
-- Don't run tests or type checks automatically - ask the user to run them and report back
 - Write tests proactively when adding features
 - Never mark a task complete if tests are failing - fix them first
+- When writing significant code: run tests via subagent to preserve context, return only failures
+- For quick changes: ask user to run tests and report back
 
 # Code Reviews
 

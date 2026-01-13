@@ -27,6 +27,7 @@
         "graphviz",
         "node@{{ node_version }}",
         "pnpm",
+        "bun",
         "zsh",
         "zsh-completions",
         "zsh-autosuggestions",

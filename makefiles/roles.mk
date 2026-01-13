@@ -1,7 +1,7 @@
 # Ansible tag targets - auto-generated from ANSIBLE_TAGS list
 # To add a new target, just add the tag name to ANSIBLE_TAGS
 
-ANSIBLE_TAGS := terminal install debian nginx rails vscode functions claude keepalive diskspace desktop
+ANSIBLE_TAGS := terminal install debian nginx rails vscode functions claude keepalive diskspace desktop ruben
 
 define ansible_tag
 .PHONY: $(1)

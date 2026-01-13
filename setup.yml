@@ -28,6 +28,7 @@
     - { role: desktop, tags: [desktop, setup, info] }
     - { role: keepalive, tags: [keepalive, functions, setup, info] }
     - { role: diskspace, tags: [diskspace, functions, setup, info] }
+    - { role: ruben, tags: [ruben] }
 
 - name: After everything
   hosts: localhost
