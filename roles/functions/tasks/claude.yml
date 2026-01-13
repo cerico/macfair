@@ -4,6 +4,11 @@
     path: "~{{ macbook_user.stdout }}/.claude"
     state: directory
 
+- name: Create MEMORY/State directory for location persistence
+  file:
+    path: "~{{ macbook_user.stdout }}/.claude/MEMORY/State"
+    state: directory
+
 - name: Copy CLAUDE.md
   copy:
     src: claude/config.md
@@ -24,6 +29,17 @@
   copy:
     src: claude/skills/
     dest: ~{{ macbook_user.stdout }}/.claude/skills/
+
+- name: Copy Claude hooks
+  copy:
+    src: claude/hooks/
+    dest: ~{{ macbook_user.stdout }}/.claude/hooks/
+    mode: '0755'
+
+- name: Copy Claude commands
+  copy:
+    src: claude/commands/
+    dest: ~{{ macbook_user.stdout }}/.claude/commands/
 
 - name: Create gemini directory
   file:
@@ -56,18 +72,20 @@
   when: "'semgrep' not in mcp_list.stdout"
   ignore_errors: true
 
-- name: Add Sentry MCP server
-  ansible.builtin.shell: claude mcp add -s user --transport http sentry https://mcp.sentry.dev/mcp
+- name: Add voicemode marketplace
+  ansible.builtin.shell: claude plugin marketplace add https://github.com/mbailey/claude-plugins
   environment:
     PATH: "/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
-  when: "'sentry' not in mcp_list.stdout"
+  args:
+    creates: "{{ ansible_env.HOME }}/.claude/plugins/marketplaces/mbailey"
   ignore_errors: true
 
-- name: Add Linear MCP server
-  ansible.builtin.shell: claude mcp add -s user linear --transport sse https://mcp.linear.app/sse
+- name: Install voicemode plugin
+  ansible.builtin.shell: claude plugin install voicemode@mbailey
   environment:
     PATH: "/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
-  when: "'linear' not in mcp_list.stdout"
+  args:
+    creates: "{{ ansible_env.HOME }}/.claude/plugins/cache/mbailey/voicemode"
   ignore_errors: true
 
 - name: Install Kokoro TTS via voicemode

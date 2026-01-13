@@ -6,6 +6,11 @@
   with_fileglob:
     - zsh/darwin/*.zsh
 
+- name: Copy MCP functions
+  copy:
+    src: zsh/mcp.zsh
+    dest: "~{{ macbook_user.stdout }}/.zsh/mcp.zsh"
+
 - name: create empty tokens file only if one doesnt already exist
   copy:
     content: ""

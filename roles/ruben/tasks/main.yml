@@ -1,0 +1,33 @@
+---
+- name: Create ruben experimental namespace
+  file:
+    path: "~{{ macbook_user.stdout }}/.claude/ruben/{{ item }}"
+    state: directory
+    mode: 0755
+  loop:
+    - memory/diary
+    - memory/reflections
+    - commands
+    - hooks
+  tags: ruben
+
+- name: Install diary command to ruben namespace
+  copy:
+    src: commands/diary.md
+    dest: "~{{ macbook_user.stdout }}/.claude/ruben/commands/"
+    mode: 0644
+  tags: ruben
+
+- name: Install ruben hooks
+  copy:
+    src: hooks/pre-compact-diary.sh
+    dest: "~{{ macbook_user.stdout }}/.claude/ruben/hooks/"
+    mode: 0755
+  tags: ruben
+
+- name: Install reflect command to main commands directory
+  copy:
+    src: commands/reflect.md
+    dest: "~{{ macbook_user.stdout }}/.claude/commands/reflect.md"
+    mode: 0644
+  tags: ruben

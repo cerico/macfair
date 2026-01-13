@@ -7,6 +7,8 @@ input=$(cat)
 # ANSI color codes
 CYAN='\033[1;36m'
 GREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+ORANGE='\033[38;5;208m'
 RED='\033[0;31m'
 MAGENTA='\033[1;35m'
 DIM='\033[2m'
@@ -22,36 +24,52 @@ DISK_FREE=$(df -h . 2>/dev/null | awk 'NR==2 {print $4}')
 # Parse JSON input from Claude Code
 if command -v jq &> /dev/null && [ -n "$input" ]; then
     MODEL=$(echo "$input" | jq -r '.model.display_name // empty')
-
-    # Get token data directly from context_window
-    TOTAL_TOKENS=$(echo "$input" | jq -r '.context_window.total_input_tokens // 0')
     CONTEXT_LIMIT=$(echo "$input" | jq -r '.context_window.context_window_size // 200000')
 
-    # Calculate percentage and build display
-    if [ "$TOTAL_TOKENS" -gt 0 ]; then
-        PCT=$(echo "scale=0; $TOTAL_TOKENS * 100 / $CONTEXT_LIMIT" | bc)
+    # Get current context usage from Claude Code 2.0.70+ (not cumulative totals)
+    INPUT_TOKENS=$(echo "$input" | jq -r '.context_window.current_usage.input_tokens // 0')
+    CACHE_CREATE=$(echo "$input" | jq -r '.context_window.current_usage.cache_creation_input_tokens // 0')
+    CACHE_READ=$(echo "$input" | jq -r '.context_window.current_usage.cache_read_input_tokens // 0')
 
-        # Cap at 100% for display
+    TOTAL_TOKENS=$((INPUT_TOKENS + CACHE_CREATE + CACHE_READ))
+
+    # Validate CONTEXT_LIMIT is a positive integer before division
+    if [[ "$CONTEXT_LIMIT" =~ ^[0-9]+$ ]] && [[ "$CONTEXT_LIMIT" -gt 0 ]]; then
+        # Calculate percentage against full context limit
+        PCT=$((TOTAL_TOKENS * 100 / CONTEXT_LIMIT))
+
+        # Cap display at 100%
         DISPLAY_PCT=$PCT
-        [ "$DISPLAY_PCT" -gt 100 ] && DISPLAY_PCT=100
+        [[ $DISPLAY_PCT -gt 100 ]] && DISPLAY_PCT=100
 
-        # Build progress bar (10 chars) using Unicode blocks
-        FILLED=$(echo "scale=0; $DISPLAY_PCT / 10" | bc)
+        # Build progress bar (10 chars)
+        FILLED=$((DISPLAY_PCT / 10))
         EMPTY=$((10 - FILLED))
         BAR=""
         for ((i=0; i<FILLED; i++)); do BAR+="█"; done
         for ((i=0; i<EMPTY; i++)); do BAR+="░"; done
 
-        # Format token counts
+        # Color based on absolute token thresholds (accounting for ~36K baseline overhead)
+        if [ "$TOTAL_TOKENS" -le 80000 ]; then
+            BAR_COLOR="$GREEN"
+        elif [ "$TOTAL_TOKENS" -le 120000 ]; then
+            BAR_COLOR="$YELLOW"
+        elif [ "$TOTAL_TOKENS" -le 160000 ]; then
+            BAR_COLOR="$ORANGE"
+        else
+            BAR_COLOR="$RED"
+        fi
+
+        # Format token count
         if [ "$TOTAL_TOKENS" -ge 1000 ]; then
-            TOK_DISPLAY=$(echo "scale=1; $TOTAL_TOKENS / 1000" | bc | sed 's/\.0$//')K
+            TOK_DISPLAY=$(printf "%.0f" "$((TOTAL_TOKENS / 1000))")K
         else
             TOK_DISPLAY=$TOTAL_TOKENS
         fi
 
-        LIMIT_DISPLAY=$(echo "scale=0; $CONTEXT_LIMIT / 1000" | bc)K
+        LIMIT_DISPLAY=$((CONTEXT_LIMIT / 1000))K
 
-        TOKEN_DISPLAY="${BAR} | ${PCT}% | ${TOK_DISPLAY} / ${LIMIT_DISPLAY}"
+        TOKEN_DISPLAY="${BAR_COLOR}${BAR}${RESET} ${BAR_COLOR}${PCT}%${RESET} ${DIM}${TOK_DISPLAY}/${LIMIT_DISPLAY}${RESET}"
     fi
 fi
 
