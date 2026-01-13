@@ -1,3 +1,12 @@
+# [2.59.0](https://github.com/cerico/macfair/compare/v2.58.0...v2.59.0) (2026-01-13)
+
+
+### Features
+
+* add Claude Code hooks with location state and diary system ([8a7fd0b](https://github.com/cerico/macfair/commit/8a7fd0b20500ee597005344604860eea9f13b991))
+
+
+
 # [2.58.0](https://github.com/cerico/macfair/compare/v2.57.0...v2.58.0) (2026-01-12)
 
 
