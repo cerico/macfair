@@ -1,7 +1,15 @@
+# Claude Configuration
+
+All Claude config lives in `~/macfair/files/claude/`:
+- `config.md` → `~/.claude/CLAUDE.md`
+- `settings.json` → `~/.claude/settings.json`
+- `hooks/`, `commands/`, `skills/` → `~/.claude/`
+
+Never edit `~/.claude/` directly. Edit macfair, then tell user to run `make claude`.
+
 # General
 
 - Prefer idempotent operations - safe to run multiple times with same result
-- Do not edit ~/.claude/CLAUDE.md directly - edit ~/macfair/files/claude/config.md instead
 - Prefer proper fixes over quick fixes - investigate root causes rather than masking symptoms
 - When presenting multiple options, grade each A-F with score out of 100, weighted towards proper professional solutions
 - Be terse, not flowery
