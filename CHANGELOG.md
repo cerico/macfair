@@ -1,3 +1,12 @@
+# [2.60.0](https://github.com/cerico/macfair/compare/v2.59.0...v2.60.0) (2026-01-14)
+
+
+### Features
+
+* add doctor hook for daily package version checks ([f21ce6d](https://github.com/cerico/macfair/commit/f21ce6d9d541ecafe9f634822d40011b963efcf4))
+
+
+
 # [2.59.0](https://github.com/cerico/macfair/compare/v2.58.0...v2.59.0) (2026-01-13)
 
 
