@@ -78,6 +78,17 @@ make 2>/dev/null | grep -q 'types' && make types || pnpm tsc --noEmit
 - [ ] No sensitive data in console.log or error messages
 - [ ] User input validated before use
 
+### Dependency Vulnerabilities
+
+Quick audit check (not full analysis - use `/audit` for that):
+
+```bash
+pnpm audit 2>/dev/null | head -20
+```
+
+- [ ] No critical/high vulnerabilities in **direct** dependencies
+- Transitive/dev-only vulnerabilities: note but don't block (run `/audit` for full analysis)
+
 ### Git Hygiene
 
 - [ ] No merge conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`)

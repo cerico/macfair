@@ -62,8 +62,9 @@ Before reviewing code, understand intent:
 
 #### Testing
 - [ ] Tests added for new functionality?
-- [ ] Existing tests still pass?
 - [ ] Edge cases covered?
+
+> **Note:** Don't run test suites - CI handles that. Review that tests exist and cover the new logic.
 
 #### Security
 - [ ] No secrets in code
@@ -74,6 +75,11 @@ Before reviewing code, understand intent:
 - [ ] No N+1 queries
 - [ ] No unnecessary data fetching
 - [ ] Large lists paginated or virtualized
+
+#### Data Flow (cross-file bugs)
+- [ ] **Decimal precision**: If a value is formatted (e.g., `toFixed(2)`) for display, is the same rounded value used in calculations that must match? Trace values from DB → API → UI
+- [ ] **Type consistency**: Do API endpoints return the same types for the same fields across different code paths? (e.g., string vs Prisma Decimal for `total`)
+- [ ] **Sorting/comparison**: Are numeric values stored as strings? If so, do table columns use numeric `sortingFn` instead of default string comparison?
 
 ### 4. Provide Feedback
 
@@ -129,6 +135,50 @@ Severity guide:
 {If approving: "Good to merge after addressing [blockers/suggestions]"}
 {If requesting changes: "Please address blockers before re-review"}
 ```
+
+## Deep Checks (do these for non-trivial PRs)
+
+### Data Flow Tracing
+
+For any PR that touches calculations, API responses, or display formatting:
+
+1. **Find the source**: Where does the value originate? (DB field, calculation, user input)
+2. **Trace transformations**: List every place the value is transformed (parsed, formatted, rounded)
+3. **Check consumers**: Do all consumers expect the same format/precision?
+
+Example red flags:
+```typescript
+// API endpoint
+monthlyRate: invoice.letting.monthlyRate?.toFixed(2)  // rounded here
+
+// Calculation function
+baseCost = new Decimal(letting.monthlyRate).mul(months)  // but raw value used here
+```
+
+### Type Boundary Checks
+
+When an endpoint returns data from multiple sources (e.g., different invoice types):
+
+1. **Check each code path**: Does `fieldX` return the same type in all branches?
+2. **Check serialization**: Prisma Decimal vs string vs number - what arrives at the client?
+3. **Check consumers**: Does the UI handle all possible types?
+
+```typescript
+// Red flag: mixed types
+return {
+  total: isLetting ? calculatedTotal : invoice.total  // string vs Decimal
+}
+```
+
+### Table Sorting Audit
+
+For any PR adding/modifying table columns with numeric data:
+
+1. **Check accessor**: Is it `accessorKey` (raw value) or `accessorFn` (transformed)?
+2. **Check sortingFn**: Missing = string comparison. Numeric columns need:
+   ```typescript
+   sortingFn: (a, b) => parseFloat(a.getValue('total')) - parseFloat(b.getValue('total'))
+   ```
 
 ## Good Review Practices
 
