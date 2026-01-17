@@ -1,6 +1,4 @@
-export MARKPATH=$HOME/.marks
 alias sedi='sed -i "" -e'
-alias j=jump
 alias s=start
 alias v=vpn
 
@@ -16,10 +14,6 @@ command_not_found_handler () {
   fi
   echo "zsh: command not found: $1"
   return 127  # Return an exit status indicating command not found
-}
-
-up () {
-  cd ..
 }
 
 functions () {
@@ -128,10 +122,6 @@ whichz () {
   echo "$(ColorGreen $1) found in $(ColorCyan $func)"
 }
 
-cdrepo () {
-	cd `upsearch .git`
-}
-
 todo () {
 	if [ -f "TODO.md" ]
 	then
@@ -150,10 +140,6 @@ isym () { # Make symbolic link in any order # ➜ isym cats dogs
 	else
 		ln -s $2 $1
 	fi
-}
-
-back() {
-  cd -
 }
 
 install() {
@@ -189,40 +175,6 @@ ds () {
   du -sm * | sort -n
 }
 
-jump () {
-    cd -P "$MARKPATH/$1" 2>/dev/null || echo "No such mark: $1"
-}
-
-mark () {
-    mkdir -p "$MARKPATH"; ln -s "$(pwd)" "$MARKPATH/$1"
-}
-
-unmark () {
-    rm -if "$MARKPATH/$1"
-}
-marks () {
-    ls -l "$MARKPATH" | tail -n +2 | sed 's/  / /g' | cut -d' ' -f9- | awk -F ' -> ' '{printf "%-10s -> %s\n", $1, $2}'
-}
-
-unmarkall () {
-  for i in `marks  | awk -F" " '{print $2}'`
-  do
-  unmark $i
-  done
-}
-
-_completemarks () {
-  reply=($(ls $MARKPATH))
-}
-
-compctl -K _completemarks jump
-compctl -K _completemarks unmark
-
-mcd () {
-  mkdir -p "$1"
-  cd "$1"
-}
-
 start () {
   if [[ -f Makefile ]] && grep -q '^start:' Makefile;
     then
@@ -237,11 +189,6 @@ start () {
 
 awks () {
   echo awk -F\' \' \'{print \$2}\'
-}
-
-cpr () {
-  echo -e "\033]50;SetProfile=$1\a"
-  echo $1 > "$(pwd)/.terminal-profile"
 }
 
 tab_title() {
@@ -259,19 +206,6 @@ my_preexec() {
 autoload -Uz add-zsh-hook
 add-zsh-hook preexec my_preexec
 
-# Set initial window title when shell starts
-if [[ -z "$_window_title_set" ]]; then
-  print -Pn "\e]2;$(basename "$PWD")\a"
-  _window_title_set=1
-fi
-
-# Override cd to set window title
-cd() {
-  builtin cd "$@" && {
-    print -Pn "\e]2;$(basename "$PWD")\a"
-  }
-}
-
 sw () {
     if [[ -n $1 ]]
     then
@@ -281,12 +215,6 @@ sw () {
         echo "Usage: sw [1|2|3|...]"
     fi
 }
-
-chpwd() {
-  _git_sync
-  [[ -f .terminal-profile ]] && cpr "$(cat .terminal-profile)"
-}
-
 
 vsc () { # list or switch vscode themes # ➜ vsc sunlight
   local theme_file="$1"
@@ -533,14 +461,6 @@ treeg () { # tree with grep filter # ➜ treeg node_modules
   tree . | grep $1
 }
 
-claudewright () {
-  claude mcp add playwright npx @playwright/mcp@latest
-}
-
-alias claudep='claude --permission-mode plan'
-alias claudev='claude --append-system-prompt "Always respond using the mcp__voicemode__converse tool to speak your responses aloud."'
-alias claudevp='claude --permission-mode plan --append-system-prompt "Always respond using the mcp__voicemode__converse tool to speak your responses aloud."'
-
 vpn () { # Toggle wireguard VPN # ➜ vpn up
   local config=${2:-vps}
   [[ $1 = "up" || $1 = "down" ]] && sudo wg-quick $1 $config
@@ -566,8 +486,14 @@ findg () { # find with grep filter # ➜ findg package.json
   find . | grep $1
 }
 
-sshs () { # List available SSH hosts # ➜ sshs
-  grep '^Host ' ~/.ssh/config | awk '{print $2}' | grep -v '\*'
+sshs () { # List or show SSH hosts # ➜ sshs | sshs pi | sshs -e
+  if [[ "$1" == "-e" ]]; then
+    ${EDITOR:-vi} ~/.ssh/config
+  elif [[ -z "$1" ]]; then
+    grep '^Host ' ~/.ssh/config | awk '{print $2}' | grep -v '\*'
+  else
+    awk -v h="$1" '/^Host /{p=($2==h)} p' ~/.ssh/config
+  fi
 }
 
 makefile () { # List or copy makefile templates # ➜ makefile git

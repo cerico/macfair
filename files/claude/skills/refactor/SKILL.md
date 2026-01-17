@@ -21,7 +21,17 @@ Get the full diff for context:
 git diff main
 ```
 
-### 2. Review and Grade
+### 2. Run Vitest
+
+Run Vitest in CI mode before grading:
+
+```bash
+pnpm vitest run --reporter=verbose
+```
+
+If tests fail, factor that into the grade (deduct from Test Coverage score). Don't run Playwright - ask the user to run those manually if needed.
+
+### 3. Review and Grade
 
 Review the code changes for:
 
@@ -41,7 +51,7 @@ Review the code changes for:
 
 Assign a letter grade (A-F) and a score out of 100.
 
-### 3. Branch Logic
+### 4. Branch Logic
 
 #### If score >= 90
 
@@ -88,7 +98,7 @@ Assign a letter grade (A-F) and a score out of 100.
 ```
 ## Code Review: {branch-name}
 
-> Note: Not running test suites (vitest/playwright) - assuming you've run them or will before pushing. CI is the backstop.
+> **Tests:** Vitest ran in CI mode. Playwright skipped - run manually if needed.
 
 **Grade: {grade}** ({score}/100)
 
