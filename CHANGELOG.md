@@ -1,3 +1,12 @@
+# [2.61.0](https://github.com/cerico/macfair/compare/v2.60.0...v2.61.0) (2026-01-17)
+
+
+### Features
+
+* add ralph autonomous loops and directory history ([a828ce3](https://github.com/cerico/macfair/commit/a828ce3a829aeb1515e18eab7e775fd1f603c303))
+
+
+
 # [2.60.0](https://github.com/cerico/macfair/compare/v2.59.0...v2.60.0) (2026-01-14)
 
 
