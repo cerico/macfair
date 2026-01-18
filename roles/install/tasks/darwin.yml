@@ -94,6 +94,8 @@
     - "google-chrome"
     - "chromium"
     - "rar"
+    - "karabiner-elements"
+    - "opensuperwhisper"
 
 - name: Copy zshenv
   copy:

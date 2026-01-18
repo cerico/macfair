@@ -13,7 +13,15 @@
       "mcp__voicemode__*",
       "mcp__plugin_voicemode_voicemode__*"
     ],
-    "deny": []
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(**/.npmrc)",
+      "Read(**/tokens.zsh)",
+      "Read(**/keys.zsh)",
+      "Read(**/*.pem)",
+      "Read(**/.ssh/*)"
+    ]
   },
   "hooks": {
     "SessionStart": [

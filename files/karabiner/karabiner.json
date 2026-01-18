@@ -1,0 +1,51 @@
+{
+  "profiles": [
+    {
+      "name": "Default",
+      "selected": true,
+      "virtual_hid_keyboard": {
+        "keyboard_type_v2": "ansi"
+      },
+      "complex_modifications": {
+        "rules": [
+          {
+            "description": "§ to Ctrl+Shift+Space (claude-stt trigger)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "non_us_backslash",
+                  "modifiers": { "optional": ["any"] }
+                },
+                "to": [
+                  {
+                    "key_code": "spacebar",
+                    "modifiers": ["control", "shift"]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "Fn to Ctrl+Shift+Space (claude-stt trigger)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "fn",
+                  "modifiers": { "optional": ["any"] }
+                },
+                "to": [
+                  {
+                    "key_code": "spacebar",
+                    "modifiers": ["control", "shift"]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
