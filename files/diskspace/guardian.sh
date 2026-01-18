@@ -14,8 +14,6 @@ rm -rf ~/.cache/uv ~/Library/Caches/pip 2>/dev/null
 npm cache clean --force 2>/dev/null
 rm -rf ~/Library/Caches/lima ~/Library/Caches/com.todesktop* 2>/dev/null
 podman system prune -af 2>/dev/null
-podman machine stop 2>/dev/null
-podman machine rm -f 2>/dev/null
 rm -rf ~/Library/Caches/sh.tight.voice-code 2>/dev/null
 brew cleanup --prune=all 2>/dev/null
 go clean -cache 2>/dev/null

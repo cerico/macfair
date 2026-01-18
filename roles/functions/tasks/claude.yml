@@ -100,3 +100,89 @@
   args:
     creates: "{{ ansible_env.HOME }}/.voicemode/services/kokoro"
   ignore_errors: true
+
+- name: Add claude-stt marketplace
+  ansible.builtin.shell: claude plugin marketplace add jarrodwatts/claude-stt
+  environment:
+    PATH: "/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
+  args:
+    creates: "{{ ansible_env.HOME }}/.claude/plugins/marketplaces/jarrodwatts-claude-stt"
+  ignore_errors: true
+
+- name: Install claude-stt plugin
+  ansible.builtin.shell: claude plugin install claude-stt
+  environment:
+    PATH: "/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
+  args:
+    creates: "{{ ansible_env.HOME }}/.claude/plugins/cache/jarrodwatts-claude-stt/claude-stt"
+  ignore_errors: true
+
+- name: Find all claude-stt plugin version directories
+  ansible.builtin.find:
+    paths: "{{ ansible_env.HOME }}/.claude/plugins/cache/jarrodwatts-claude-stt/claude-stt/"
+    file_type: directory
+  register: claude_stt_versions
+  ignore_errors: true
+
+- name: Run claude-stt setup for each version
+  ansible.builtin.shell: |
+    cd {{ item.path }}
+    uv run --directory . python -m claude_stt.setup --skip-hotkey-test --no-start
+  environment:
+    PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
+    CLAUDE_PLUGIN_ROOT: "{{ item.path }}"
+  args:
+    creates: "{{ item.path }}/.venv"
+  loop: "{{ claude_stt_versions.files | default([]) }}"
+  when: claude_stt_versions.files is defined
+  ignore_errors: true
+
+- name: Patch claude-stt hooks to use uv (all versions)
+  ansible.builtin.copy:
+    dest: "{{ item.path }}/hooks/hooks.json"
+    content: |
+      {
+        "hooks": {
+          "SessionStart": [
+            {
+              "hooks": [
+                {
+                  "type": "command",
+                  "command": "cd ${CLAUDE_PLUGIN_ROOT} && uv run python -m claude_stt.daemon start --background 2>/dev/null",
+                  "timeout": 5000
+                }
+              ]
+            }
+          ]
+        }
+      }
+  loop: "{{ claude_stt_versions.files | default([]) }}"
+  when: claude_stt_versions.files is defined
+
+- name: claude-stt permissions reminder
+  ansible.builtin.debug:
+    msg: |
+      ╔══════════════════════════════════════════════════════════════════╗
+      ║  claude-stt requires macOS permissions (one-time setup):         ║
+      ║                                                                  ║
+      ║  System Settings → Privacy & Security → Accessibility            ║
+      ║    → Enable your terminal (iTerm/Terminal)                       ║
+      ║                                                                  ║
+      ║  System Settings → Privacy & Security → Input Monitoring         ║
+      ║    → Enable your terminal (iTerm/Terminal)                       ║
+      ║                                                                  ║
+      ║  After granting permissions, restart Claude Code.                ║
+      ║  Press § to start/stop voice recording.                          ║
+      ╚══════════════════════════════════════════════════════════════════╝
+  when: claude_stt_versions.files is defined and claude_stt_versions.files | length > 0
+
+- name: Create Karabiner config directory
+  file:
+    path: "{{ ansible_env.HOME }}/.config/karabiner"
+    state: directory
+
+- name: Copy Karabiner config
+  copy:
+    src: karabiner/karabiner.json
+    dest: "{{ ansible_env.HOME }}/.config/karabiner/karabiner.json"
+    force: no

@@ -33,10 +33,14 @@ if command -v jq &> /dev/null && [ -n "$input" ]; then
 
     TOTAL_TOKENS=$((INPUT_TOKENS + CACHE_CREATE + CACHE_READ))
 
+    # Effective compaction limit (~155K based on experimental observation)
+    # Claude auto-compacts at ~155K, not the theoretical 200K context window
+    COMPACTION_LIMIT=155000
+
     # Validate CONTEXT_LIMIT is a positive integer before division
     if [[ "$CONTEXT_LIMIT" =~ ^[0-9]+$ ]] && [[ "$CONTEXT_LIMIT" -gt 0 ]]; then
-        # Calculate percentage against full context limit
-        PCT=$((TOTAL_TOKENS * 100 / CONTEXT_LIMIT))
+        # Calculate percentage against effective compaction limit
+        PCT=$((TOTAL_TOKENS * 100 / COMPACTION_LIMIT))
 
         # Cap display at 100%
         DISPLAY_PCT=$PCT
@@ -49,15 +53,17 @@ if command -v jq &> /dev/null && [ -n "$input" ]; then
         for ((i=0; i<FILLED; i++)); do BAR+="█"; done
         for ((i=0; i<EMPTY; i++)); do BAR+="░"; done
 
-        # Color based on absolute token thresholds (accounting for ~36K baseline overhead)
-        if [ "$TOTAL_TOKENS" -le 80000 ]; then
+        # Color based on absolute token thresholds (scaled to 155K compaction limit)
+        # Green: <40%, Yellow: <60%, Orange: <90%, Red: >=90% (compaction imminent)
+        if [ "$TOTAL_TOKENS" -le 62000 ]; then
             BAR_COLOR="$GREEN"
-        elif [ "$TOTAL_TOKENS" -le 120000 ]; then
+        elif [ "$TOTAL_TOKENS" -le 93000 ]; then
             BAR_COLOR="$YELLOW"
-        elif [ "$TOTAL_TOKENS" -le 160000 ]; then
+        elif [ "$TOTAL_TOKENS" -le 139500 ]; then
             BAR_COLOR="$ORANGE"
         else
             BAR_COLOR="$RED"
+            COMPACTION_IMMINENT=true
         fi
 
         # Format token count
@@ -67,10 +73,18 @@ if command -v jq &> /dev/null && [ -n "$input" ]; then
             TOK_DISPLAY=$TOTAL_TOKENS
         fi
 
-        LIMIT_DISPLAY=$((CONTEXT_LIMIT / 1000))K
+        LIMIT_DISPLAY=$((COMPACTION_LIMIT / 1000))K
 
         TOKEN_DISPLAY="${BAR_COLOR}${BAR}${RESET} ${BAR_COLOR}${PCT}%${RESET} ${DIM}${TOK_DISPLAY}/${LIMIT_DISPLAY}${RESET}"
     fi
+fi
+
+# Override all colors to red when compaction is imminent
+if [ "$COMPACTION_IMMINENT" = true ]; then
+    CYAN="$RED"
+    GREEN="$RED"
+    MAGENTA="$RED"
+    DIM="$RED"
 fi
 
 # Build output - model & tokens first, then user/dir/branch
