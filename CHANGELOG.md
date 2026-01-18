@@ -1,3 +1,12 @@
+# [2.62.0](https://github.com/cerico/macfair/compare/v2.61.0...v2.62.0) (2026-01-18)
+
+
+### Features
+
+* add claude-stt voice input and improve claude statusline ([bf0b4f8](https://github.com/cerico/macfair/commit/bf0b4f89640fc64924fbd10adb10d7e1b1727fb4))
+
+
+
 # [2.61.0](https://github.com/cerico/macfair/compare/v2.60.0...v2.61.0) (2026-01-17)
 
 
