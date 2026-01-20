@@ -1,3 +1,12 @@
+# [2.63.0](https://github.com/cerico/macfair/compare/v2.62.0...v2.63.0) (2026-01-20)
+
+
+### Features
+
+* add GSD workflow, Playwright MCP, and shell improvements ([2c0609c](https://github.com/cerico/macfair/commit/2c0609caf514c5d6f8442b92ef46d2020654ca04))
+
+
+
 # [2.62.0](https://github.com/cerico/macfair/compare/v2.61.0...v2.62.0) (2026-01-18)
 
 
