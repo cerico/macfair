@@ -27,9 +27,9 @@ _claude_unlock() {
 _claude_run() {
   _claude_lock || return 1
   command claude "$@"
-  local status=$?
+  local ret=$?
   _claude_unlock
-  return $status
+  return $ret
 }
 
 claude() { _claude_run "$@"; }

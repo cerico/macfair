@@ -55,11 +55,11 @@ if command -v jq &> /dev/null && [ -n "$input" ]; then
 
         # Color based on absolute token thresholds (scaled to 155K compaction limit)
         # Green: <40%, Yellow: <60%, Orange: <90%, Red: >=90% (compaction imminent)
-        if [ "$TOTAL_TOKENS" -le 62000 ]; then
+        if [ "$TOTAL_TOKENS" -le 60000 ]; then
             BAR_COLOR="$GREEN"
-        elif [ "$TOTAL_TOKENS" -le 93000 ]; then
+        elif [ "$TOTAL_TOKENS" -le 95000 ]; then
             BAR_COLOR="$YELLOW"
-        elif [ "$TOTAL_TOKENS" -le 139500 ]; then
+        elif [ "$TOTAL_TOKENS" -le 140000 ]; then
             BAR_COLOR="$ORANGE"
         else
             BAR_COLOR="$RED"

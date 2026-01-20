@@ -77,6 +77,13 @@
   when: "'semgrep' not in mcp_list.stdout"
   ignore_errors: true
 
+- name: Add Playwright MCP server
+  ansible.builtin.shell: claude mcp add -s user playwright -- npx @playwright/mcp@latest
+  environment:
+    PATH: "/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
+  when: "'playwright' not in mcp_list.stdout"
+  ignore_errors: true
+
 - name: Add voicemode marketplace
   ansible.builtin.shell: claude plugin marketplace add https://github.com/mbailey/claude-plugins
   environment:
@@ -186,3 +193,8 @@
     src: karabiner/karabiner.json
     dest: "{{ ansible_env.HOME }}/.config/karabiner/karabiner.json"
     force: no
+
+- name: Install/update GSD (always runs for latest)
+  ansible.builtin.command: npx get-shit-done-cc@latest --global
+  environment:
+    PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
