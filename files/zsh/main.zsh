@@ -457,10 +457,6 @@ venv () {
   [ $1 ] && vi .env.$1 || vi .env
 }
 
-treeg () { # tree with grep filter # ➜ treeg node_modules
-  tree . | grep $1
-}
-
 vpn () { # Toggle wireguard VPN # ➜ vpn up
   local config=${2:-vps}
   [[ $1 = "up" || $1 = "down" ]] && sudo wg-quick $1 $config
@@ -507,4 +503,24 @@ makefile () { # List or copy makefile templates # ➜ makefile git
   mkdir -p makefiles
   cp "$_dir/$1.mk" makefiles/
   echo "Copied $1.mk to makefiles/"
+}
+
+catn () { # cat with line numbers, optionally starting at line N # ➜ catn file.ts 42
+  cat -n "$1" | tail -n +${2:-1}
+}
+
+vimn () { # Open vim at specific line # ➜ vimn file.ts 42
+  vi +${2:-1} "$1"
+}
+
+treeg () { # Tree, optionally filtered by grep # ➜ treeg component
+  if [[ -z $1 ]]; then
+    tree .
+  else
+    tree . | grep -- "$1"
+  fi
+}
+
+treel () { # Tree with depth limit # ➜ treel 2
+  tree -L ${1:-2}
 }

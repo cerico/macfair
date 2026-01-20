@@ -12,3 +12,5 @@ else
     echo "⚠️  Failed to fetch from origin/$default_branch (behind count may be stale)" >&2
   fi
 fi
+
+exit 0

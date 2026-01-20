@@ -60,6 +60,12 @@ Never edit `~/.claude/` directly. Edit macfair, then tell user to run `make clau
 
 - No semicolons
 - Strict mode, avoid `any`
+- Prefer inferred/existing types over manual definitions:
+  - `typeof data[number]` for array item types from queries
+  - Prisma/Drizzle generated types (`User`, `Upload`)
+  - `z.infer<typeof schema>` for Zod schemas
+  - tRPC `RouterOutputs['router']['procedure']` for endpoint return types
+  - Only define types when no source of truth exists
 - Use barrel exports (index files) for clean imports
 - Use `@/` path alias instead of relative imports
 - Import from specific subdirectories, not root barrel (e.g., `@/components/skeletons` not `@/components`)

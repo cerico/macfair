@@ -79,10 +79,18 @@ const ATTACK_PATTERNS = {
     message: 'WARNING: Environment/credential access detected'
   },
 
-  // Tier 6: Git dangerous operations - Warn
+  // Tier 6: Git push - Block (commit only, user pushes)
+  gitPush: {
+    patterns: [
+      /git\s+push/i,                               // Any git push
+    ],
+    action: 'block',
+    message: 'BLOCKED: git push not allowed - commit only, user pushes'
+  },
+
+  // Tier 7: Git dangerous operations - Warn
   gitDangerous: {
     patterns: [
-      /git\s+push.*(-f|--force)/i,                 // Force push
       /git\s+reset\s+--hard/i,                     // Hard reset
       /git\s+clean\s+-fd/i,                        // Clean untracked
       /git\s+checkout\s+--\s+\./i,                 // Discard all changes

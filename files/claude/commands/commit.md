@@ -36,15 +36,22 @@
 5. **Commit message format:**
    - **Prefix:** `feat:` or `fix:` (semantic versioning)
    - **Head:** Concise, picks most relevant change if multiple things
-   - **Body:** Only if necessary (multiple things, or needs more detail)
+   - **Body:** Flat list of bullet points, one per change
+     - Each line self-contained (no grouped sections with headers)
+     - Order by importance (most significant changes first)
+     - No parenthetical asides — either say it or don't
+     - Skip body if only one trivial change
    - **Never** attribute code to Claude
 
 6. **Example (amending existing commit):**
    ```bash
    git commit --amend --reset-author -m "$(cat <<'EOF'
-   feat: add user authentication with JWT
+   feat: add user authentication and session management
 
-   Implements login/logout endpoints and token validation middleware.
+   - Add JWT token validation middleware
+   - Implement login/logout API endpoints
+   - Add session expiry handling
+   - Fix password hashing for special characters
    EOF
    )"
    ```

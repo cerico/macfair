@@ -11,7 +11,13 @@
   "permissions": {
     "allow": [
       "mcp__voicemode__*",
-      "mcp__plugin_voicemode_voicemode__*"
+      "mcp__plugin_voicemode_voicemode__*",
+      "WebFetch(domain:*)",
+      "WebSearch",
+      "Read(*)",
+      "Glob(*)",
+      "Grep(*)",
+      "Skill(skill:review-pr)"
     ],
     "deny": [
       "Read(**/.env)",

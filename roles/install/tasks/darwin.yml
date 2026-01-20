@@ -96,6 +96,7 @@
     - "rar"
     - "karabiner-elements"
     - "opensuperwhisper"
+    - "steipete/tap/repobar"
 
 - name: Copy zshenv
   copy:

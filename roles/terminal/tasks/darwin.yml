@@ -36,3 +36,15 @@
     src: iterm.json.j2
     dest: ~{{ macbook_user.stdout }}/Library/Application Support/iTerm2/DynamicProfiles/iterm.json
   when: iterm_path.stat.exists
+
+- name: Create pnpm-audit directory
+  file:
+    path: "{{ ansible_env.HOME }}/work/crons/pnpm-audit"
+    state: directory
+    mode: "0755"
+
+- name: Copy pnpm-audit script
+  copy:
+    src: pnpm-audit/daily-pnpm-audit.sh
+    dest: "{{ ansible_env.HOME }}/work/crons/pnpm-audit/daily-pnpm-audit.sh"
+    mode: "0755"
