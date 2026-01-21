@@ -1,3 +1,5 @@
+alias db='functions db'
+
 _dbexists() {
   local name="${1//\'/\'\'}"
   psql -d postgres -tc "SELECT 1 FROM pg_database WHERE datname = '$name'" | grep -q 1
