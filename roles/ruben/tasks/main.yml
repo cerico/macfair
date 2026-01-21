@@ -11,10 +11,10 @@
     - hooks
   tags: ruben
 
-- name: Install diary command to ruben namespace
+- name: Install diary command to main commands directory
   copy:
     src: commands/diary.md
-    dest: "~{{ macbook_user.stdout }}/.claude/ruben/commands/"
+    dest: "~{{ macbook_user.stdout }}/.claude/commands/"
     mode: 0644
   tags: ruben
 

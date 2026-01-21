@@ -12,6 +12,9 @@
     "allow": [
       "mcp__voicemode__*",
       "mcp__plugin_voicemode_voicemode__*",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_take_screenshot",
       "WebFetch(domain:*)",
       "WebSearch",
       "Read(*)",

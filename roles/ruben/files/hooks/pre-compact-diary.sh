@@ -8,7 +8,7 @@ if [[ ! -d ~/.claude/ruben/memory/diary ]]; then
   exit 0
 fi
 
-DIARY_CMD=~/.claude/ruben/commands/diary.md
+DIARY_CMD=~/.claude/commands/diary.md
 [[ ! -f "$DIARY_CMD" ]] && echo "Diary command not found: $DIARY_CMD" && exit 0
 
 echo ""

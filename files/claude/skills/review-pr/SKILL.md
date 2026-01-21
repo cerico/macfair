@@ -208,6 +208,48 @@ could you add a comment explaining the edge case it handles?"
 Don't block PRs over formatting if you have automated linting.
 Focus on logic, architecture, and correctness.
 
+## After Review: Check for Learnings
+
+After completing the review, assess whether this PR involved significant learnings worth capturing in a diary entry.
+
+### Indicators of Diary-Worthy Learnings
+
+**Create diary entry if the PR involved:**
+- Multiple approaches tried before finding the right solution
+- User corrections on implementation approach
+- Discovery that a common pattern/component doesn't work for a use case
+- Non-obvious architectural decisions with reasoning
+- Mistakes/antipatterns that should be avoided in future
+- New patterns or approaches worth documenting
+
+**Skip diary entry for:**
+- Routine feature implementations following existing patterns
+- Simple bug fixes with obvious solutions
+- Straightforward refactoring
+- Standard CRUD operations
+- Typo fixes, formatting changes
+
+### Prompt User
+
+If learnings detected, add this to the end of your review:
+
+```markdown
+---
+
+### 📔 Capture Learnings?
+
+This PR involved:
+- {brief list of learnings, e.g., "Tried 3 different modal approaches"}
+- {e.g., "Discovered Dialog component constrains lightbox layouts"}
+- {e.g., "User corrected approach multiple times"}
+
+Create a diary entry to remember these learnings for future sessions?
+
+Reply 'yes' to create a diary entry, or 'no' to skip.
+```
+
+If user says yes, invoke `/diary` to create a structured entry documenting what was learned.
+
 ## Notes
 
 - Review the PR, not the person
