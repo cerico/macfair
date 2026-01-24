@@ -1,3 +1,12 @@
+# [2.65.0](https://github.com/cerico/macfair/compare/v2.64.0...v2.65.0) (2026-01-24)
+
+
+### Features
+
+* expand Claude permissions and add Playwright guidance ([209761a](https://github.com/cerico/macfair/commit/209761a77dd80a4f7e65b4ca0609d605fdb4da22))
+
+
+
 # [2.64.0](https://github.com/cerico/macfair/compare/v2.63.0...v2.64.0) (2026-01-21)
 
 
