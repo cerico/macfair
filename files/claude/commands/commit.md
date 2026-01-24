@@ -32,6 +32,7 @@
    - If this is amending: use `git commit --amend --reset-author` (updates date to now)
    - If new commit: use `git commit`
    - Use heredoc for multiline messages
+   - **Print the commit message to the user before running the commit command** so they can see it in the Claude window
 
 5. **Commit message format:**
    - **Prefix:** `feat:` or `fix:` (semantic versioning)

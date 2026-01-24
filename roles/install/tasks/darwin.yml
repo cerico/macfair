@@ -118,6 +118,7 @@
     - "typescript"
     - "browser-sync"
     - "surge"
+    - "agent-browser"
 
 - name: pip installs
   pip:

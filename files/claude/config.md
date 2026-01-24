@@ -127,6 +127,13 @@ Never edit `~/.claude/` directly. Edit macfair, then tell user to run `make clau
 - When writing significant code: run tests via subagent to preserve context, return only failures
 - For quick changes: ask user to run tests and report back
 
+# Playwright MCP
+
+When using Playwright MCP for browser automation and testing:
+- **Cloudflare/CAPTCHA checks** - Ask user: "There's a human verification check. Can you complete it?"
+- **Email verification codes** - Ask user for the code sent to their email, then enter it via MCP
+- User handles these two friction points; Playwright handles everything else
+
 # Code Reviews
 
 - When asked to review code or a PR, provide a grade A-F and score out of 100

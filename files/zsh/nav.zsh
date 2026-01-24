@@ -70,7 +70,11 @@ compctl -K _completemarks unmark
 
 # Terminal profile per directory
 
-cpr() { # Set terminal profile for directory # ➜ cpr dark
+cpr() { # Set terminal profile for directory # ➜ cpr coffee
+  if [[ -z "$1" ]]; then
+    grep '"Name"' ~/Library/Application\ Support/iTerm2/DynamicProfiles/*.json(N) 2>/dev/null | sed 's/.*"Name" *: *"\([^"]*\)".*/\1/'
+    return
+  fi
   echo -e "\033]50;SetProfile=$1\a"
   echo $1 > "$PWD/.terminal-profile"
 }
