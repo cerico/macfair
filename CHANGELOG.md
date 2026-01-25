@@ -1,3 +1,12 @@
+# [2.66.0](https://github.com/cerico/macfair/compare/v2.65.0...v2.66.0) (2026-01-25)
+
+
+### Features
+
+* add hub tracking and code review skill ([b92e346](https://github.com/cerico/macfair/commit/b92e3463982a106c1916e0d3296912f1385765cd))
+
+
+
 # [2.65.0](https://github.com/cerico/macfair/compare/v2.64.0...v2.65.0) (2026-01-24)
 
 
