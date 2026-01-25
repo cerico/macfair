@@ -3,12 +3,24 @@
 // Name the file after your assistant (e.g., celeste.ts, claude.ts)
 
 import { basename, join } from 'path'
-import { existsSync, readFileSync } from 'fs'
+import { existsSync, readFileSync, writeFileSync } from 'fs'
 import { homedir } from 'os'
 
 interface LocationState {
   city: string
   date: string
+}
+
+interface HubEntry {
+  name: string
+  path: string
+  progress?: string
+  status?: string
+  last_accessed: number
+}
+
+interface HubRegistry {
+  hubs: HubEntry[]
 }
 
 function getAssistantName(): string {
@@ -49,6 +61,45 @@ function getLocationState(): LocationState | null {
   } catch (error) {
     return null
   }
+}
+
+function getHubForCurrentDir(): HubEntry | null {
+  const homeDir = process.env.HOME || process.env.USERPROFILE || homedir()
+  const registryFile = join(homeDir, '.claude', 'hubs', 'registry.json')
+
+  if (!existsSync(registryFile)) {
+    return null
+  }
+
+  let registry: HubRegistry
+  try {
+    const content = readFileSync(registryFile, 'utf-8')
+    registry = JSON.parse(content)
+  } catch {
+    return null
+  }
+
+  // Validate registry shape before accessing
+  if (!registry || !Array.isArray(registry.hubs)) {
+    return null
+  }
+
+  const cwd = process.cwd()
+  const hub = registry.hubs.find(h => h.path === cwd && h.status !== 'archived')
+
+  if (!hub) {
+    return null
+  }
+
+  // Update last_accessed and write back
+  hub.last_accessed = Math.floor(Date.now() / 1000)
+  try {
+    writeFileSync(registryFile, JSON.stringify(registry, null, 2))
+  } catch {
+    // Write failed, but still return the hub - don't corrupt state
+  }
+
+  return hub
 }
 
 function getLocation(tz: string): { location: string; confirmed: boolean } {
@@ -116,6 +167,10 @@ async function main() {
     const { date, time, day } = getLocalDateTime(tz)
     const name = getAssistantName()
 
+    // Check if current directory is a hub
+    const hub = getHubForCurrentDir()
+    const hubLine = hub ? `\nHUB: ${hub.name}${hub.progress ? ` (${hub.progress})` : ''}` : ''
+
     const output = `<system-reminder>
 Session Context (Auto-loaded)
 
@@ -124,12 +179,12 @@ TIME: ${time}
 DAY: ${day}
 LOCATION: ${location}
 LOCATION_CONFIRMED: ${confirmed}
-TIMEZONE: ${tz}
+TIMEZONE: ${tz}${hubLine}
 
 This context is now active for this session.${confirmed ? '' : '\n\nLOCATION NOT CONFIRMED: Ask "Where are you today?" and update ~/.claude/MEMORY/State/location.json with: {"city": "TheirAnswer", "date": "' + getTodayDate() + '"}'}
 </system-reminder>
 
-${name} ready. ${day}, ${time} in ${location}.`
+${name} ready. ${day}, ${time} in ${location}.${hub ? ` [${hub.name}${hub.progress ? `: ${hub.progress}` : ''}]` : ''}`
 
     console.log(output)
 

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 # Status line: user | directory | branch | model | tokens
 
 # Read JSON from stdin (passed by Claude Code)
@@ -21,8 +22,15 @@ BRANCH=$(git branch --show-current 2>/dev/null)
 DIRTY=$(git status --porcelain 2>/dev/null)
 DISK_FREE=$(df -h . 2>/dev/null | awk 'NR==2 {print $4}')
 
+# Claude process info
+CLAUDE_PID=$PPID
+
+# Memory pressure and load (direct, ~4ms total)
+MEM_FREE_PCT=$(memory_pressure 2>&1 | sed -n 's/.*free percentage: \([0-9]*\)%.*/\1/p')
+LOAD_AVG=$(sysctl -n vm.loadavg | awk '{print $2}')
+
 # Parse JSON input from Claude Code
-if command -v jq &> /dev/null && [ -n "$input" ]; then
+if command -v jq &> /dev/null && [[ -n "$input" ]]; then
     MODEL=$(echo "$input" | jq -r '.model.display_name // empty')
     CONTEXT_LIMIT=$(echo "$input" | jq -r '.context_window.context_window_size // 200000')
 
@@ -55,11 +63,11 @@ if command -v jq &> /dev/null && [ -n "$input" ]; then
 
         # Color based on absolute token thresholds (scaled to 155K compaction limit)
         # Green: <40%, Yellow: <60%, Orange: <90%, Red: >=90% (compaction imminent)
-        if [ "$TOTAL_TOKENS" -le 60000 ]; then
+        if [[ "$TOTAL_TOKENS" -le 60000 ]]; then
             BAR_COLOR="$GREEN"
-        elif [ "$TOTAL_TOKENS" -le 95000 ]; then
+        elif [[ "$TOTAL_TOKENS" -le 95000 ]]; then
             BAR_COLOR="$YELLOW"
-        elif [ "$TOTAL_TOKENS" -le 140000 ]; then
+        elif [[ "$TOTAL_TOKENS" -le 140000 ]]; then
             BAR_COLOR="$ORANGE"
         else
             BAR_COLOR="$RED"
@@ -67,7 +75,7 @@ if command -v jq &> /dev/null && [ -n "$input" ]; then
         fi
 
         # Format token count
-        if [ "$TOTAL_TOKENS" -ge 1000 ]; then
+        if [[ "$TOTAL_TOKENS" -ge 1000 ]]; then
             TOK_DISPLAY=$(printf "%.0f" "$((TOTAL_TOKENS / 1000))")K
         else
             TOK_DISPLAY=$TOTAL_TOKENS
@@ -80,7 +88,7 @@ if command -v jq &> /dev/null && [ -n "$input" ]; then
 fi
 
 # Override all colors to red when compaction is imminent
-if [ "$COMPACTION_IMMINENT" = true ]; then
+if [[ "${COMPACTION_IMMINENT:-}" == "true" ]]; then
     CYAN="$RED"
     GREEN="$RED"
     MAGENTA="$RED"
@@ -91,26 +99,32 @@ fi
 OUTPUT=""
 
 # Add model
-if [ -n "$MODEL" ]; then
+if [[ -n "${MODEL:-}" ]]; then
     OUTPUT="${MAGENTA}${MODEL}${RESET}"
 fi
 
+# Add PID
+if [[ -n "${CLAUDE_PID:-}" ]]; then
+    [[ -n "$OUTPUT" ]] && OUTPUT="$OUTPUT | "
+    OUTPUT="$OUTPUT${DIM}${CLAUDE_PID}${RESET}"
+fi
+
 # Add tokens
-if [ -n "$TOKEN_DISPLAY" ]; then
-    [ -n "$OUTPUT" ] && OUTPUT="$OUTPUT | "
+if [[ -n "${TOKEN_DISPLAY:-}" ]]; then
+    [[ -n "$OUTPUT" ]] && OUTPUT="$OUTPUT | "
     OUTPUT="$OUTPUT${DIM}${TOKEN_DISPLAY}${RESET}"
 fi
 
 # Add user
-[ -n "$OUTPUT" ] && OUTPUT="$OUTPUT | "
+[[ -n "$OUTPUT" ]] && OUTPUT="$OUTPUT | "
 OUTPUT="$OUTPUT${CYAN}${USER}${RESET}"
 
 # Add directory
 OUTPUT="$OUTPUT | ${GREEN}${DIR}${RESET}"
 
 # Add git branch with status indicator
-if [ -n "$BRANCH" ]; then
-    if [ -n "$DIRTY" ]; then
+if [[ -n "${BRANCH:-}" ]]; then
+    if [[ -n "${DIRTY:-}" ]]; then
         OUTPUT="$OUTPUT | ${RED}${BRANCH} ✗${RESET}"
     else
         OUTPUT="$OUTPUT | ${GREEN}${BRANCH} ✓${RESET}"
@@ -118,8 +132,27 @@ if [ -n "$BRANCH" ]; then
 fi
 
 # Add disk free
-if [ -n "$DISK_FREE" ]; then
+if [[ -n "${DISK_FREE:-}" ]]; then
     OUTPUT="$OUTPUT | ${DIM}${DISK_FREE}${RESET}"
+fi
+
+# Add memory pressure (green >=50%, yellow 30-50%, red <30%)
+if [[ -n "${MEM_FREE_PCT:-}" && "$MEM_FREE_PCT" =~ ^[0-9]+$ ]]; then
+    if [[ "$MEM_FREE_PCT" -lt 30 ]]; then
+        OUTPUT="$OUTPUT | ${RED}${MEM_FREE_PCT}%${RESET}"
+    elif [[ "$MEM_FREE_PCT" -lt 50 ]]; then
+        OUTPUT="$OUTPUT | ${YELLOW}${MEM_FREE_PCT}%${RESET}"
+    else
+        OUTPUT="$OUTPUT | ${DIM}${MEM_FREE_PCT}%${RESET}"
+    fi
+fi
+
+# Add load average if high (>=10)
+if [[ -n "${LOAD_AVG:-}" ]]; then
+    LOAD_INT=${LOAD_AVG%.*}
+    if [[ "$LOAD_INT" =~ ^[0-9]+$ && "$LOAD_INT" -ge 10 ]]; then
+        OUTPUT="$OUTPUT | ${RED}LOAD AVERAGE ${LOAD_AVG}${RESET}"
+    fi
 fi
 
 echo -e "$OUTPUT"

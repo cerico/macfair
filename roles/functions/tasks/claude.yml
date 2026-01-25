@@ -9,6 +9,17 @@
     path: "~{{ macbook_user.stdout }}/.claude/MEMORY/State"
     state: directory
 
+- name: Create hubs directory for learning hub tracking
+  file:
+    path: "~{{ macbook_user.stdout }}/.claude/hubs"
+    state: directory
+
+- name: Initialize hubs registry if not exists
+  copy:
+    content: '{"hubs":[]}'
+    dest: "~{{ macbook_user.stdout }}/.claude/hubs/registry.json"
+    force: no
+
 - name: Copy CLAUDE.md
   copy:
     src: claude/config.md
@@ -198,3 +209,4 @@
   ansible.builtin.command: npx get-shit-done-cc@latest --global
   environment:
     PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
+
