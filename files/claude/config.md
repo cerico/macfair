@@ -33,7 +33,7 @@ Never edit `~/.claude/` directly. Edit macfair, then tell user to run `make clau
 - When amending commits: always use `--reset-author` to update date to now (easier rebasing)
 - One commit per branch - squash before pushing
 - For commits, use `/commit` workflow
-- After commit, run `/review-pr` before pushing
+- After commit, run `/review` before pushing
 
 # Shell/Bash
 
@@ -84,6 +84,17 @@ Never edit `~/.claude/` directly. Edit macfair, then tell user to run `make clau
 - Use `Props` not `ComponentNameProps` for local component interfaces
 - Pass validated values as props rather than importing potentially undefined constants
 - Use context-specific prop names (e.g., `mapboxToken` not `accessToken`)
+
+# React
+
+- Avoid useEffect unless strictly necessary:
+  - NOT for derived state (compute directly or use useMemo)
+  - NOT for data fetching (use React Query/tRPC/server components)
+  - NOT for subscriptions when a hook exists (use `useMediaQuery` not useEffect + matchMedia)
+  - YES for syncing with external systems (DOM, third-party libraries)
+  - YES for cleanup (event listeners, timers, WebSocket connections)
+- When useEffect is needed, always include cleanup function
+- Prefer server components for data fetching in Next.js App Router
 
 # CSS/Styling
 
@@ -136,4 +147,9 @@ When using Playwright MCP for browser automation and testing:
 
 # Code Reviews
 
-- When asked to review code or a PR, provide a grade A-F and score out of 100
+- Use `/review` skill with level 1-4:
+  - `/review 1` - Quick sanity check (blockers only)
+  - `/review 2` - Standard review with grade (default)
+  - `/review 3` - Deep analysis (loads all check modules)
+  - `/review 4` - Reference only (shows what's not covered)
+- Always provide a grade A-F and score out of 100
