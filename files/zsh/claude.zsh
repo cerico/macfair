@@ -41,23 +41,55 @@ claudewright() {
   claude mcp add playwright npx @playwright/mcp@latest
 }
 
-# Show all Claude processes with status
-claudeps() {
-  echo "PID\t%CPU\tMEM\tSTATE\tSTARTED\tDIR"
-  echo "---\t----\t---\t-----\t-------\t---"
-  ps -eo pid=,tty=,%cpu=,%mem=,state=,lstart=,comm= | grep -E "claude$" | while read pid tty cpu mem state lstart1 lstart2 lstart3 lstart4 lstart5 comm; do
-    # Format: "Mon Jan 25 10:57:00 2025" -> "Jan 25 10:57"
+# List Claude sessions, or jump to one by index (active first, orphans last)
+claudes() {
+  local idx="${1:-}"
+  local ps_data=$(ps -eo tty=,pid=,%cpu=,%mem=,state=,lstart=,comm= | grep -E "claude$")
+  local active=$(echo "$ps_data" | awk '$1 != "??"')
+  local orphans=$(echo "$ps_data" | awk '$1 == "??"')
+  local sorted="${active}${orphans:+$'\n'$orphans}"
+  [[ -z "$sorted" ]] && { echo "No sessions"; [[ -n "$idx" ]] && return 1 || return 0; }
+
+  if [[ -n "$idx" ]]; then
+    local ttys=($(echo "$sorted" | awk '{print $1}'))
+    local count=${#ttys[@]}
+    if [[ ! "$idx" =~ ^[0-9]+$ ]] || [[ "$idx" -lt 1 ]] || [[ "$idx" -gt $count ]]; then
+      echo "No session at index $idx ($count available)"
+      return 1
+    fi
+    local tty="${ttys[$idx]}"
+    [[ "$tty" == "??" ]] && { echo "Session $idx is orphaned. Use 'claudekill' to clean up."; return 1; }
+    osascript <<EOF
+tell application "iTerm2"
+  repeat with w in windows
+    repeat with t in tabs of w
+      repeat with s in sessions of t
+        if tty of s ends with "$tty" then
+          select t
+          tell w to select
+          activate
+          return
+        end if
+      end repeat
+    end repeat
+  end repeat
+end tell
+EOF
+    return
+  fi
+
+  echo "#\tPID\tTTY\t%CPU\tMEM\tSTATE\tSTARTED\tDIR"
+  echo "-\t---\t---\t----\t---\t-----\t-------\t---"
+  local i=0
+  echo "$sorted" | while read tty pid cpu mem state lstart1 lstart2 lstart3 lstart4 lstart5 comm; do
+    ((i++))
     local started="${lstart2} ${lstart3} ${lstart4:0:5}"
-    # Determine status from TTY and state
-    # S = sleeping, R = running, S+ = foreground sleep
     local proc_state="$state"
     [[ "$tty" == "??" ]] && proc_state="ORPHAN"
-    # Get working directory (shorten home to ~)
     local cwd=$(lsof -a -p "$pid" -d cwd -Fn 2>/dev/null | grep ^n | cut -c2- | sed "s|^${HOME}|~|")
     [[ -z "$cwd" ]] && cwd="-"
-    # Truncate long paths
     [[ ${#cwd} -gt 20 ]] && cwd="…${cwd: -19}"
-    echo "${pid}\t${cpu}\t${mem}%\t${proc_state}\t${started}\t${cwd}"
+    echo "${i}\t${pid}\t${tty}\t${cpu}\t${mem}%\t${proc_state}\t${started}\t${cwd}"
   done | column -t -s $'\t'
 }
 
