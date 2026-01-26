@@ -1,3 +1,12 @@
+# [2.67.0](https://github.com/cerico/macfair/compare/v2.66.0...v2.67.0) (2026-01-26)
+
+
+### Features
+
+* add hub function to initialize directories as hubs ([68aa3c7](https://github.com/cerico/macfair/commit/68aa3c7992d9ca2cd5a5f5c27175c086569bc3b6))
+
+
+
 # [2.66.0](https://github.com/cerico/macfair/compare/v2.65.0...v2.66.0) (2026-01-25)
 
 
