@@ -4,6 +4,70 @@
 HUBS_DIR="$HOME/.claude/hubs"
 HUBS_REGISTRY="$HUBS_DIR/registry.json"
 
+# Initialize current directory as a hub
+hub() {
+  [[ -d "$HUBS_DIR" ]] || mkdir -p "$HUBS_DIR"
+  [[ -f "$HUBS_REGISTRY" ]] || echo '{"hubs":[]}' > "$HUBS_REGISTRY"
+
+  local current_path="$(pwd)"
+  local name="${1:-$(basename "$current_path")}"
+
+  # Check if already a hub
+  local existing
+  existing=$(/opt/homebrew/bin/jq -r --arg p "$current_path" '.hubs[] | select(.path == $p) | .name' "$HUBS_REGISTRY" 2>/dev/null)
+
+  if [[ -n "$existing" ]]; then
+    echo "Already a hub: $existing"
+    return 0
+  fi
+
+  # Create CLAUDE.md stub if doesn't exist
+  if [[ ! -f "CLAUDE.md" ]]; then
+    cat > CLAUDE.md << 'EOF'
+# Hub: Fresh
+
+This is a new hub. On first session, Claude should:
+
+1. **Discover** - Look at directory structure, files, context
+2. **Identify type** - Learning path? Project? Research? Creative?
+3. **Ask questions** - What's the goal? Current state? Target outcome?
+4. **Scaffold** - Create appropriate state.json structure and update this CLAUDE.md
+
+## Discovery Prompts
+
+- What exists here already?
+- What does the user want to achieve?
+- What's the timeframe?
+- How should progress be tracked?
+
+After discovery, replace this file with hub-specific instructions.
+EOF
+    echo "Created CLAUDE.md stub"
+  fi
+
+  # Create state.json skeleton if doesn't exist
+  if [[ ! -f "state.json" ]]; then
+    cat > state.json << 'EOF'
+{
+  "type": "pending_discovery",
+  "created": null,
+  "sessions": []
+}
+EOF
+    echo "Created state.json skeleton"
+  fi
+
+  # Register in hub registry
+  local now
+  now=$(date +%s)
+  /opt/homebrew/bin/jq --arg name "$name" --arg path "$current_path" --arg now "$now" \
+    '.hubs += [{"name": $name, "path": $path, "status": "active", "last_accessed": ($now | tonumber), "progress": "", "next_action": "Run discovery", "note": ""}]' \
+    "$HUBS_REGISTRY" > /tmp/reg.json && mv /tmp/reg.json "$HUBS_REGISTRY"
+
+  echo "Registered hub: $name"
+  echo "Start Claude session to run discovery"
+}
+
 hubs() {
   local c_blue=$'\e[34m'
   local c_yellow=$'\e[33m'
@@ -22,7 +86,7 @@ hubs() {
   fi
 
   local data
-  data=$(/opt/homebrew/bin/jq -r '.hubs[] | [.name, (.progress // ""), (.last_accessed // 0), (.next_action // ""), (.note // ""), (.path // ""), (.status // "active")] | @tsv' "$HUBS_REGISTRY" 2>/dev/null)
+  data=$(/opt/homebrew/bin/jq -r '.hubs[] | "\(.name)|\(.progress // "")|\(.last_accessed // 0)|\(.next_action // "")|\(.note // "")|\(.path // "")|\(.status // "active")"' "$HUBS_REGISTRY" 2>/dev/null)
 
   local now index active_count
   now=$(date +%s)
@@ -33,7 +97,7 @@ hubs() {
 
   # First pass: count active hubs and maybe cd if target specified
   if [[ -n "$target_num" && "$target_num" =~ ^[0-9]+$ ]]; then
-    while IFS=$'\t' read -r name progress last_accessed next_action note hub_path hub_status; do
+    while IFS='|' read -r name progress last_accessed next_action note hub_path hub_status; do
       [[ -z "$name" ]] && continue
       [[ "$hub_status" == "archived" ]] && continue
       active_count=$((active_count + 1))
@@ -44,7 +108,7 @@ hubs() {
   fi
 
   # List all hubs
-  while IFS=$'\t' read -r name progress last_accessed next_action note hub_path hub_status; do
+  while IFS='|' read -r name progress last_accessed next_action note hub_path hub_status; do
     [[ -z "$name" ]] && continue
     [[ "$hub_status" == "archived" ]] && continue
     index=$((index + 1))
@@ -74,13 +138,12 @@ hubs() {
     fi
 
     local info=""
-    [[ -n "$progress" ]] && info="$progress"
-    [[ -n "$next_action" ]] && info="${info:+$info  }$next_action"
+    [[ -n "$next_action" ]] && info="$next_action"
     [[ -n "$note" ]] && info="${info:+$info  }\"$note\""
 
     local display_path=""
     [[ -n "$hub_path" ]] && display_path="${hub_path/#$HOME/~}"
 
-    printf "%d. %-13s %s%-18s%s %s%s %s%s%s\n" "$index" "$time_ago" "$c_blue" "$name" "$c_clear" "$info" "$warn" "$c_yellow" "$display_path" "$c_clear"
+    printf "%d. %-13s %s%-12s%s %-24s%s %s%-24s%s %s\n" "$index" "$time_ago" "$c_blue" "$name" "$c_clear" "$info" "$warn" "$c_yellow" "$display_path" "$c_clear" "$progress"
   done <<< "$data"
 }

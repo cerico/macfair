@@ -13,7 +13,7 @@ Check for common shell scripting issues.
 - Hardcoded paths that break cross-platform
 - Using `echo` for user data (use `printf` instead)
 - Missing `--` to separate options from arguments
-- Fragile delimiters in structured data (e.g., `|` instead of `\t`)
+- Using jq @tsv with zsh (empty fields break read parsing)
 
 ## Examples
 
@@ -95,15 +95,15 @@ fi
 ```
 
 ```bash
-# BAD - fragile delimiter (breaks if fields contain |)
-data=$(jq -r '.items[] | "\(.name)|\(.note)"' file.json)
-while IFS='|' read -r name note; do
-  echo "$name: $note"
-done <<< "$data"
-
-# GOOD - use tab separator (fields rarely contain tabs)
+# BAD - @tsv breaks zsh's read with empty fields
 data=$(jq -r '.items[] | [.name, .note] | @tsv' file.json)
 while IFS=$'\t' read -r name note; do
+  echo "$name: $note"  # empty fields cause column shift in zsh
+done <<< "$data"
+
+# GOOD - pipe delimiter handles empty fields correctly
+data=$(jq -r '.items[] | "\(.name)|\(.note // "")"' file.json)
+while IFS='|' read -r name note; do
   echo "$name: $note"
 done <<< "$data"
 ```
