@@ -1,3 +1,12 @@
+# [2.68.0](https://github.com/cerico/macfair/compare/v2.67.0...v2.68.0) (2026-01-26)
+
+
+### Features
+
+* add claudes function to list and jump to Claude sessions ([ce1efc2](https://github.com/cerico/macfair/commit/ce1efc25e076b811f7d894c181b7baff6374f80d))
+
+
+
 # [2.67.0](https://github.com/cerico/macfair/compare/v2.66.0...v2.67.0) (2026-01-26)
 
 
