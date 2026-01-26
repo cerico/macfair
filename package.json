@@ -1,6 +1,6 @@
 {
   "name": "macfair",
-  "version": "2.68.0",
+  "version": "2.69.0",
   "description": "Build macbook and/or debian machine",
   "main": "index.js",
   "scripts": {

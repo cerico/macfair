@@ -1,3 +1,12 @@
+# [2.69.0](https://github.com/cerico/macfair/compare/v2.68.0...v2.69.0) (2026-01-26)
+
+
+### Features
+
+* add terminal dashboard with session and hub tracking ([e5bf0e3](https://github.com/cerico/macfair/commit/e5bf0e3e94f02df9991e74e06e3799d2022a6cb3))
+
+
+
 # [2.68.0](https://github.com/cerico/macfair/compare/v2.67.0...v2.68.0) (2026-01-26)
 
 
