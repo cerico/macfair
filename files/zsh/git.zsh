@@ -34,6 +34,9 @@ _git_sync() {
   if [[ "${behind:-0}" -gt 0 ]]; then
     [[ "$fetch_failed" = true ]] && echo "⚠️  $behind commits behind $default (stale)" || echo "⚠️  $behind commits behind $default"
   fi
+
+  [[ -n "$GIT_HOOK" ]] && _tab_untracked || _tab_uncommitted
+  _tab_commits
 }
 
 repos () { # List all repos # ➜ repos public
