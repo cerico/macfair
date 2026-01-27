@@ -1,3 +1,12 @@
+# [2.70.0](https://github.com/cerico/macfair/compare/v2.69.0...v2.70.0) (2026-01-27)
+
+
+### Features
+
+* add status display to git checkout and cd ([6ccd3f1](https://github.com/cerico/macfair/commit/6ccd3f19ee56ce463829ec0d4fbbfd41cc8b4206))
+
+
+
 # [2.69.0](https://github.com/cerico/macfair/compare/v2.68.0...v2.69.0) (2026-01-26)
 
 
