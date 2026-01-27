@@ -131,14 +131,19 @@ dashboard() {
   echo ""
 }
 
-_tab_uncommitted() {
+_tab_git_files() {
+  local filter="$1" label="$2"
   local files=$(git status --short 2>/dev/null)
+  [[ -n "$filter" ]] && files=$(echo "$files" | grep "$filter")
   [[ -z "$files" ]] && return
 
   local count=$(echo "$files" | wc -l | tr -d ' ')
-  echo -e "\e[32m${count} files uncommitted\e[0m"
+  echo -e "\e[33m${count} ${label}\e[0m"
   echo "$files"
 }
+
+_tab_uncommitted() { _tab_git_files "" "files uncommitted"; }
+_tab_untracked() { _tab_git_files '^??' "untracked"; }
 
 _tab_commits() {
   local default=$(_default_branch 2>/dev/null)
@@ -168,14 +173,14 @@ _tab_todos() {
 }
 
 tabin() {
-  [[ -f .terminal-profile ]] && cpr "$(cat .terminal-profile)"
+  [[ -f .terminal-profile ]] && type cpr &>/dev/null && cpr "$(cat .terminal-profile)"
   _tab_uncommitted
   _tab_commits
   _tab_todos
 }
 
-# Auto-run on new iTerm sessions
-if [[ -n "$ITERM_SESSION_ID" ]]; then
+# Auto-run on new iTerm sessions (skip if sourced from git hook)
+if [[ -z "$GIT_HOOK" && -n "$ITERM_SESSION_ID" ]]; then
   if _is_new_window; then
     dashboard
   elif [[ -d .git ]]; then
