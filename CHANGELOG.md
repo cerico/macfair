@@ -1,3 +1,12 @@
+# [2.71.0](https://github.com/cerico/macfair/compare/v2.70.0...v2.71.0) (2026-01-28)
+
+
+### Features
+
+* enhance terminal dashboard with git status and shared formatting ([5654b60](https://github.com/cerico/macfair/commit/5654b60a8f682fb134e09535a7da4c570997a749))
+
+
+
 # [2.70.0](https://github.com/cerico/macfair/compare/v2.69.0...v2.70.0) (2026-01-27)
 
 
