@@ -11,7 +11,7 @@ _userexists() {
 }
 
 dblist () { # List all PostgreSQL databases # ➜ dblist [filter]
-  local result=$(psql -d postgres -tc "SELECT datname FROM pg_database WHERE datistemplate = false ORDER BY datname")
+  local result=$(psql -d postgres -tc "SELECT datname FROM pg_database WHERE datistemplate = false ORDER BY oid DESC")
   [[ -n "$1" ]] && echo "$result" | grep -i "$1" || echo "$result"
 }
 
