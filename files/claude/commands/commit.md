@@ -57,8 +57,5 @@
    )"
    ```
 
-7. **After commit, run PR review:**
-   ```bash
-   # Automatically review the changes
-   ```
-   Then invoke `/review-pr` to get feedback before pushing.
+7. **After commit, run review:**
+   Then invoke `/review 2` to get feedback before pushing.
