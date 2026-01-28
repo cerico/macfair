@@ -4,20 +4,45 @@
 HUBS_DIR="$HOME/.claude/hubs"
 HUBS_REGISTRY="$HUBS_DIR/registry.json"
 
+# Remove current directory from registry
+hub_rm() {
+  [[ -f "$HUBS_REGISTRY" ]] || { echo "No registry"; return 1; }
+
+  local current_path="$(pwd)"
+  local existing
+  existing=$(/opt/homebrew/bin/jq -r --arg p "$current_path" '.hubs[] | select(.path == $p) | .name' "$HUBS_REGISTRY" 2>/dev/null)
+
+  if [[ -z "$existing" ]]; then
+    echo "Not registered: $current_path"
+    return 1
+  fi
+
+  local tmp_file=$(mktemp)
+  /opt/homebrew/bin/jq --arg p "$current_path" '.hubs = [.hubs[] | select(.path != $p)]' \
+    "$HUBS_REGISTRY" > "$tmp_file" && mv "$tmp_file" "$HUBS_REGISTRY"
+
+  echo "Removed: $existing"
+}
+
 # Initialize current directory as a hub
 hub() {
+  local cmd="$1"
+
+  # Handle subcommands
+  [[ "$cmd" == "rm" || "$cmd" == "remove" ]] && { hub_rm; return; }
+
   [[ -d "$HUBS_DIR" ]] || mkdir -p "$HUBS_DIR"
   [[ -f "$HUBS_REGISTRY" ]] || echo '{"hubs":[]}' > "$HUBS_REGISTRY"
 
   local current_path="$(pwd)"
   local name="${1:-$(basename "$current_path")}"
 
-  # Check if already a hub
+  # Check if already registered
   local existing
   existing=$(/opt/homebrew/bin/jq -r --arg p "$current_path" '.hubs[] | select(.path == $p) | .name' "$HUBS_REGISTRY" 2>/dev/null)
 
   if [[ -n "$existing" ]]; then
-    echo "Already a hub: $existing"
+    echo "Already registered: $existing"
     return 0
   fi
 
@@ -31,7 +56,7 @@ This is a new hub. On first session, Claude should:
 1. **Discover** - Look at directory structure, files, context
 2. **Identify type** - Learning path? Project? Research? Creative?
 3. **Ask questions** - What's the goal? Current state? Target outcome?
-4. **Scaffold** - Create appropriate state.json structure and update this CLAUDE.md
+4. **Scaffold** - Update registry and this CLAUDE.md with hub-specific instructions
 
 ## Discovery Prompts
 
@@ -45,24 +70,13 @@ EOF
     echo "Created CLAUDE.md stub"
   fi
 
-  # Create state.json skeleton if doesn't exist
-  if [[ ! -f "state.json" ]]; then
-    cat > state.json << 'EOF'
-{
-  "type": "pending_discovery",
-  "created": null,
-  "sessions": []
-}
-EOF
-    echo "Created state.json skeleton"
-  fi
-
-  # Register in hub registry
-  local now
+  # Register in hub registry with type: hub
+  local now tmp_file
   now=$(date +%s)
+  tmp_file=$(mktemp)
   /opt/homebrew/bin/jq --arg name "$name" --arg path "$current_path" --arg now "$now" \
-    '.hubs += [{"name": $name, "path": $path, "status": "active", "last_accessed": ($now | tonumber), "progress": "", "next_action": "Run discovery", "note": ""}]' \
-    "$HUBS_REGISTRY" > /tmp/reg.json && mv /tmp/reg.json "$HUBS_REGISTRY"
+    '.hubs += [{"name": $name, "path": $path, "type": "hub", "status": "active", "last_accessed": ($now | tonumber), "progress": "", "next_action": "Run discovery", "note": ""}]' \
+    "$HUBS_REGISTRY" > "$tmp_file" && mv "$tmp_file" "$HUBS_REGISTRY"
 
   echo "Registered hub: $name"
   echo "Start Claude session to run discovery"
@@ -86,7 +100,7 @@ hubs() {
   fi
 
   local data
-  data=$(/opt/homebrew/bin/jq -r '.hubs[] | "\(.name)|\(.progress // "")|\(.last_accessed // 0)|\(.next_action // "")|\(.note // "")|\(.path // "")|\(.status // "active")"' "$HUBS_REGISTRY" 2>/dev/null)
+  data=$(/opt/homebrew/bin/jq -r '.hubs[] | select(.type != "gsd") | "\(.name)|\(.progress // "")|\(.last_accessed // 0)|\(.next_action // "")|\(.note // "")|\(.path // "")|\(.status // "active")"' "$HUBS_REGISTRY" 2>/dev/null)
 
   local now index active_count
   now=$(date +%s)

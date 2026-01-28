@@ -52,58 +52,17 @@ _dashboard_claudes() {
 }
 
 _dashboard_hubs() {
-  [[ ! -f "$HUBS_REGISTRY" ]] && return
-
-  local hub_count
-  hub_count=$(/opt/homebrew/bin/jq '.hubs | length' "$HUBS_REGISTRY" 2>/dev/null)
-  [[ "$hub_count" == "0" || -z "$hub_count" ]] && return
-
-  local data
-  data=$(/opt/homebrew/bin/jq -r '.hubs[] | "\(.name)|\(.progress // "")|\(.last_accessed // 0)|\(.next_action // "")|\(.status // "active")"' "$HUBS_REGISTRY" 2>/dev/null)
-
-  local has_active=false
-  while IFS='|' read -r name progress last_accessed next_action hub_status; do
-    [[ -z "$name" ]] && continue
-    [[ "$hub_status" == "archived" ]] && continue
-    has_active=true
-    break
-  done <<< "$data"
-  [[ "$has_active" == "false" ]] && return
-
+  local output=$(hubs 2>/dev/null)
+  [[ -z "$output" || "$output" == "No hubs" ]] && return
   _dashboard_header "Hubs" "" "hubs"
-  local now index
-  now=$(date +%s)
-  index=0
+  echo "$output"
+}
 
-  while IFS='|' read -r name progress last_accessed next_action hub_status; do
-    [[ -z "$name" ]] && continue
-    [[ "$hub_status" == "archived" ]] && continue
-    index=$((index + 1))
-
-    local time_ago="never"
-    local warn=""
-
-    if [[ "$last_accessed" != "0" && -n "$last_accessed" ]]; then
-      local diff=$(( now - last_accessed ))
-      local days=$(( diff / 86400 ))
-      local hours=$(( diff / 3600 ))
-
-      if [[ $hours -lt 24 ]]; then
-        [[ $hours -eq 0 ]] && time_ago="<1h" || time_ago="${hours}h ago"
-      elif [[ $days -eq 1 ]]; then
-        time_ago="1 day"
-      else
-        time_ago="${days} days"
-      fi
-
-      [[ $days -gt 14 ]] && warn=" ⚠️"
-    fi
-
-    local info=""
-    [[ -n "$next_action" ]] && info=" → $next_action"
-
-    printf "%d. \e[34m%-12s\e[0m %-10s%s%s\n" "$index" "$name" "$time_ago" "$info" "$warn"
-  done <<< "$data"
+_dashboard_gsd() {
+  local output=$(gsds 2>/dev/null)
+  [[ -z "$output" || "$output" == *"No GSD projects"* || "$output" == *"No projects"* ]] && return
+  _dashboard_header "GSD Projects" "" "gsd"
+  echo "$output"
 }
 
 _dashboard_repos() {
@@ -125,6 +84,7 @@ _is_new_window() {
 
 dashboard() {
   _dashboard_repos
+  _dashboard_gsd
   _dashboard_hubs
   _dashboard_claudes
   _dashboard_system
@@ -132,7 +92,6 @@ dashboard() {
 }
 
 alias dash=dashboard
-alias info=dashboard
 alias welcome=dashboard
 
 _tab_git_files() {
