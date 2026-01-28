@@ -1,3 +1,12 @@
+# [2.72.0](https://github.com/cerico/macfair/compare/v2.71.0...v2.72.0) (2026-01-28)
+
+
+### Features
+
+* add gsd project tracking and nico design system skill ([1acb558](https://github.com/cerico/macfair/commit/1acb558bde5cae3caca5c9c19a0c7b2ca9a942a4))
+
+
+
 # [2.71.0](https://github.com/cerico/macfair/compare/v2.70.0...v2.71.0) (2026-01-28)
 
 
