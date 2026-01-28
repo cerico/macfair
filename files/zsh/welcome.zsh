@@ -5,12 +5,16 @@
 _dashboard_header() {
   local title="$1"
   local first="${2:-}"
+  local hint="${3:-}"
   [[ -z "$first" ]] && echo ""
-  echo -e "\e[1;34m$title\e[0m"
+  if [[ -n "$hint" ]]; then
+    printf "\e[1;34m%s\e[0m %s\e[2m➜ %s\e[0m\n" "$title" "" "$hint"
+  else
+    echo -e "\e[1;34m$title\e[0m"
+  fi
 }
 
 _dashboard_system() {
-  local time=$(date "+%H:%M")
   local disk=$(df -h / 2>/dev/null | awk 'NR==2 {print $4}')
   local mem_pct=$(memory_pressure 2>&1 | sed -n 's/.*free percentage: \([0-9]*\)%.*/\1/p')
 
@@ -20,8 +24,8 @@ _dashboard_system() {
     [[ "$mem_pct" -lt 50 && "$mem_pct" -ge 30 ]] && mem_color=$'\e[33m'
   fi
 
-  _dashboard_header "System"
-  echo -e "${time}  ${disk} free  ${mem_color}${mem_pct:-?}% mem\e[0m"
+  _dashboard_header "System" "" "memory_pressure"
+  echo -e "${disk} free  ${mem_color}${mem_pct:-?}% mem\e[0m"
 }
 
 _dashboard_claudes() {
@@ -33,7 +37,7 @@ _dashboard_claudes() {
   local sorted="${active}${orphans:+$'\n'$orphans}"
   [[ -z "$sorted" ]] && return
 
-  _dashboard_header "Claude Sessions"
+  _dashboard_header "Claude Sessions" "" "claudes"
   echo "#  PID    TTY    CPU   MEM   STATE   DIR"
   local i=0
   echo "$sorted" | while read tty pid cpu mem state lstart1 lstart2 lstart3 lstart4 lstart5 comm; do
@@ -66,7 +70,7 @@ _dashboard_hubs() {
   done <<< "$data"
   [[ "$has_active" == "false" ]] && return
 
-  _dashboard_header "Hubs"
+  _dashboard_header "Hubs" "" "hubs"
   local now index
   now=$(date +%s)
   index=0
@@ -105,16 +109,12 @@ _dashboard_hubs() {
 _dashboard_repos() {
   [[ ! -f "$DIR_HISTORY_FILE" ]] && return
 
-  local repos=$(head -5 "$DIR_HISTORY_FILE" 2>/dev/null)
-  [[ -z "$repos" ]] && return
+  _dashboard_header "Recent Repos" first "dh"
+  printf "%60s %7s %7s\n" "" "commits" "changed"
 
-  _dashboard_header "Recent Repos" first
-  local i=0
-  echo "$repos" | while read repo; do
-    ((i++))
-    local display="${repo/#$HOME/~}"
-    [[ ${#display} -gt 45 ]] && display="…${display: -44}"
-    printf "%d. %s\n" "$i" "$display"
+  head -8 "$DIR_HISTORY_FILE" 2>/dev/null | while read -r repo; do
+    [[ -z "$repo" ]] && continue
+    _format_repo_line "$repo"
   done
 }
 
@@ -130,6 +130,10 @@ dashboard() {
   _dashboard_system
   echo ""
 }
+
+alias dash=dashboard
+alias info=dashboard
+alias welcome=dashboard
 
 _tab_git_files() {
   local filter="$1" label="$2"

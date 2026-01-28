@@ -245,7 +245,9 @@ delete_old_branches () {
 }
 
 _default_branch () {
-  local branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
+  local branch=$(git rev-parse --abbrev-ref origin/HEAD 2>/dev/null | sed 's@^origin/@@')
+  [[ -z "$branch" || "$branch" == "HEAD" ]] && branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
+  [[ -z "$branch" ]] && branch=$(git branch -l main master 2>/dev/null | head -1 | tr -d '* ')
   echo ${branch:-main}
 }
 
