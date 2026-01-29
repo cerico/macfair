@@ -110,7 +110,12 @@ info() {
     fi
   fi
 
-  [[ "$found" == "false" ]] && echo -e "\nNot a registered project"
+  # Unregistered git repo on default branch: show recent commits
+  if [[ "$found" == "false" && -d .git ]]; then
+    local default=$(_default_branch 2>/dev/null)
+    local branch=$(git branch --show-current 2>/dev/null)
+    [[ "$branch" == "$default" ]] && { echo ""; commits 6; }
+  fi
 }
 
 # List all GSD projects with live state from STATE.md
