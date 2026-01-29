@@ -61,7 +61,7 @@ _dashboard_hubs() {
 _dashboard_gsd() {
   local output=$(gsds 2>/dev/null)
   [[ -z "$output" || "$output" == *"No GSD projects"* || "$output" == *"No projects"* ]] && return
-  _dashboard_header "GSD Projects" "" "gsd"
+  _dashboard_header "Projects" "" "projects"
   echo "$output"
 }
 
@@ -145,6 +145,7 @@ tabin() {
 # Auto-run on new iTerm sessions (skip if sourced from git hook)
 if [[ -z "$GIT_HOOK" && -n "$ITERM_SESSION_ID" ]]; then
   if _is_new_window; then
+    return  # remove to auto-run dashboard
     dashboard
   elif [[ -d .git ]]; then
     tabin
