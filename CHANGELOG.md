@@ -1,3 +1,12 @@
+# [2.76.0](https://github.com/cerico/macfair/compare/v2.75.0...v2.76.0) (2026-01-29)
+
+
+### Features
+
+* remap cmd slash to cmd tilde for window switching ([01e166e](https://github.com/cerico/macfair/commit/01e166e96cef12e7fe36ce06b09d12ca436e0a05))
+
+
+
 # [2.75.0](https://github.com/cerico/macfair/compare/v2.74.0...v2.75.0) (2026-01-29)
 
 
