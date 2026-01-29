@@ -12,7 +12,13 @@ _userexists() {
 
 dblist () { # List all PostgreSQL databases # ➜ dblist [filter]
   local result=$(psql -d postgres -tc "SELECT datname FROM pg_database WHERE datistemplate = false ORDER BY oid DESC")
-  [[ -n "$1" ]] && echo "$result" | grep -i "$1" || echo "$result"
+  if [[ -n "$1" ]]; then
+    echo "$result" | grep -i "$1"
+  else
+    local total=$(echo "$result" | wc -l | tr -d ' ')
+    echo "$result" | head -20
+    (( total > 20 )) && echo "\ntotal \e[34m$total\e[0m"
+  fi
 }
 
 dbconnect () { # Connect to a database # ➜ dbconnect myapp

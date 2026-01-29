@@ -3,6 +3,7 @@
 
 # Reclaim from git-svn plugin
 unalias gsd 2>/dev/null
+alias projects=gsd
 
 HUBS_DIR="$HOME/.claude/hubs"
 HUBS_REGISTRY="$HUBS_DIR/registry.json"
