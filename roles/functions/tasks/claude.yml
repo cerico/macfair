@@ -208,7 +208,7 @@
   copy:
     src: karabiner/karabiner.json
     dest: "{{ ansible_env.HOME }}/.config/karabiner/karabiner.json"
-    force: no
+    force: yes
 
 - name: Install/update GSD (always runs for latest)
   ansible.builtin.command: npx get-shit-done-cc@latest --global
