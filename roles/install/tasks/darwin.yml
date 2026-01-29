@@ -55,6 +55,7 @@
         "uv",
         "semgrep",
         "shellcheck",
+        "librsvg",
         ]
     state: present
 

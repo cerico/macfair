@@ -110,3 +110,8 @@ claudekill() {
   echo ""
   [[ "$REPLY" == "y" ]] && echo "$orphans" | xargs kill -9 && echo "Killed"
 }
+
+skills() { printf '%s\n' ~/.claude/skills/*(N:t); }
+commands() { printf '%s\n' ~/.claude/commands/*(N:t:r); }
+hooks() { printf '%s\n' ~/.claude/hooks/*(N:t:r); }
+agents() { printf '%s\n' ~/.claude/agents/*(N:t:r); }
