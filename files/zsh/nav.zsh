@@ -2,6 +2,7 @@
 
 export MARKPATH=$HOME/.marks
 export DIR_HISTORY_FILE="$HOME/.dir_history"
+MARK_LIMIT=20
 
 alias j=jump
 
@@ -44,7 +45,11 @@ jump() {
 }
 
 mark() {
-  mkdir -p "$MARKPATH"; ln -s "$PWD" "$MARKPATH/$1"
+  [[ -z "$1" ]] && echo "Usage: mark <name>" && return 1
+  mkdir -p "$MARKPATH"
+  local files=($MARKPATH/*(N)); local count=$#files
+  (( count >= MARK_LIMIT )) && echo "$MARK_LIMIT marks max. Remove one first: marks" && return 1
+  ln -s "$PWD" "$MARKPATH/$1"
 }
 
 unmark() {

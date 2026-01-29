@@ -18,8 +18,8 @@ RESET='\033[0m'
 # Basic info
 USER=$(whoami)
 DIR=$(pwd | sed "s|^${HOME}|~|")
-BRANCH=$(git branch --show-current 2>/dev/null)
-DIRTY=$(git status --porcelain 2>/dev/null)
+BRANCH=$(git branch --show-current 2>/dev/null || true)
+DIRTY=$(git status --porcelain 2>/dev/null || true)
 DISK_FREE=$(df -h . 2>/dev/null | awk 'NR==2 {print $4}')
 
 # Claude process info

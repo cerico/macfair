@@ -57,6 +57,11 @@
     src: claude/commands/
     dest: ~{{ macbook_user.stdout }}/.claude/commands/
 
+- name: Copy Claude agents
+  copy:
+    src: claude/agents/
+    dest: ~{{ macbook_user.stdout }}/.claude/agents/
+
 - name: Create gemini directory
   file:
     path: "~{{ macbook_user.stdout }}/.gemini"
