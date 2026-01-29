@@ -1,3 +1,12 @@
+# [2.75.0](https://github.com/cerico/macfair/compare/v2.74.0...v2.75.0) (2026-01-29)
+
+
+### Features
+
+* add learn skill, infographic skill, and Claude agents ([1e56a86](https://github.com/cerico/macfair/commit/1e56a86dab3b6c8182a7f63d36346285404a25f1))
+
+
+
 # [2.74.0](https://github.com/cerico/macfair/compare/v2.73.0...v2.74.0) (2026-01-29)
 
 
