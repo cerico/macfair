@@ -1,3 +1,12 @@
+# [2.74.0](https://github.com/cerico/macfair/compare/v2.73.0...v2.74.0) (2026-01-29)
+
+
+### Features
+
+* show recent commits for unregistered repos on default branch ([0c68caf](https://github.com/cerico/macfair/commit/0c68caff8af1ea01409de4109f5a707eb4d6b92d))
+
+
+
 # [2.73.0](https://github.com/cerico/macfair/compare/v2.72.0...v2.73.0) (2026-01-29)
 
 
