@@ -1,3 +1,12 @@
+# [2.73.0](https://github.com/cerico/macfair/compare/v2.72.0...v2.73.0) (2026-01-29)
+
+
+### Features
+
+* rename GSD to Projects and tweak shell utilities ([acd4d42](https://github.com/cerico/macfair/commit/acd4d420044585c9142e03fb8a51838b78ad260c))
+
+
+
 # [2.72.0](https://github.com/cerico/macfair/compare/v2.71.0...v2.72.0) (2026-01-28)
 
 
