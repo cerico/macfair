@@ -18,7 +18,7 @@ gsd_register() {
 
   # Check if already registered
   local existing
-  existing=$(/opt/homebrew/bin/jq -r --arg p "$current_path" '.hubs[] | select(.path == $p) | .name' "$HUBS_REGISTRY" 2>/dev/null)
+  existing=$(jq -r --arg p "$current_path" '.hubs[] | select(.path == $p) | .name' "$HUBS_REGISTRY" 2>/dev/null)
 
   if [[ -n "$existing" ]]; then
     echo "Already registered: $existing"
@@ -29,9 +29,11 @@ gsd_register() {
   local now tmp_file
   now=$(date +%s)
   tmp_file=$(mktemp)
-  /opt/homebrew/bin/jq --arg name "$name" --arg path "$current_path" --arg now "$now" \
+  jq --arg name "$name" --arg path "$current_path" --arg now "$now" \
     '.hubs += [{"name": $name, "path": $path, "type": "gsd", "status": "active", "last_accessed": ($now | tonumber)}]' \
-    "$HUBS_REGISTRY" > "$tmp_file" && mv "$tmp_file" "$HUBS_REGISTRY"
+    "$HUBS_REGISTRY" > "$tmp_file"
+  [[ -s "$tmp_file" ]] && jq -e . "$tmp_file" >/dev/null 2>&1 \
+    && mv "$tmp_file" "$HUBS_REGISTRY" || { rm -f "$tmp_file"; echo "Failed to update registry"; return 1; }
 
   echo "Registered GSD project: $name"
 }
@@ -42,7 +44,7 @@ gsd_rm() {
 
   local current_path="$(pwd)"
   local existing
-  existing=$(/opt/homebrew/bin/jq -r --arg p "$current_path" '.hubs[] | select(.path == $p) | .name' "$HUBS_REGISTRY" 2>/dev/null)
+  existing=$(jq -r --arg p "$current_path" '.hubs[] | select(.path == $p and .type == "gsd") | .name' "$HUBS_REGISTRY" 2>/dev/null)
 
   if [[ -z "$existing" ]]; then
     echo "Not registered: $current_path"
@@ -50,8 +52,10 @@ gsd_rm() {
   fi
 
   local tmp_file=$(mktemp)
-  /opt/homebrew/bin/jq --arg p "$current_path" '.hubs = [.hubs[] | select(.path != $p)]' \
-    "$HUBS_REGISTRY" > "$tmp_file" && mv "$tmp_file" "$HUBS_REGISTRY"
+  jq --arg p "$current_path" '.hubs = [.hubs[] | select(.path != $p or .type != "gsd")]' \
+    "$HUBS_REGISTRY" > "$tmp_file"
+  [[ -s "$tmp_file" ]] && jq -e . "$tmp_file" >/dev/null 2>&1 \
+    && mv "$tmp_file" "$HUBS_REGISTRY" || { rm -f "$tmp_file"; echo "Failed to update registry"; return 1; }
 
   echo "Removed: $existing"
 }
@@ -95,7 +99,7 @@ info() {
 
   # Check for hub (if not already GSD)
   if [[ "$found" == "false" && -f "$HUBS_REGISTRY" ]]; then
-    local hub_data=$(/opt/homebrew/bin/jq -r --arg p "$current_path" '.hubs[] | select(.path == $p and .type != "gsd") | "\(.name)|\(.progress // "")|\(.next_action // "")|\(.note // "")"' "$HUBS_REGISTRY" 2>/dev/null)
+    local hub_data=$(jq -r --arg p "$current_path" '.hubs[] | select(.path == $p and .type != "gsd") | "\(.name)|\(.progress // "")|\(.next_action // "")|\(.note // "")"' "$HUBS_REGISTRY" 2>/dev/null)
 
     if [[ -n "$hub_data" ]]; then
       local name progress next_action note
@@ -128,7 +132,7 @@ gsds() {
   [[ -f "$HUBS_REGISTRY" ]] || { echo "No hubs registry"; return 1; }
 
   local hub_data index=0 found_any=false now
-  hub_data=$(/opt/homebrew/bin/jq -r '.hubs | map(select(.status != "archived")) | sort_by(-.last_accessed) | .[] | "\(.name)|\(.path)|\(.last_accessed // 0)|\(.type // "")"' "$HUBS_REGISTRY" 2>/dev/null)
+  hub_data=$(jq -r '.hubs | map(select(.status != "archived")) | sort_by(-.last_accessed) | .[] | "\(.name)|\(.path)|\(.last_accessed // 0)|\(.type // "")"' "$HUBS_REGISTRY" 2>/dev/null)
   now=$(date +%s)
 
   [[ -z "$hub_data" ]] && { echo "No projects"; return; }
@@ -300,8 +304,7 @@ EOF
       ;;
 
     *)
-      echo "Unknown command: $cmd"
-      echo "Run 'gsd help' for usage."
+      echo "Unknown command: $cmd. Run 'gsd help' for usage."
       return 1
       ;;
   esac

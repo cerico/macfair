@@ -63,6 +63,24 @@ function getLocationState(): LocationState | null {
   }
 }
 
+function getGsdProject(): string | null {
+  const cwd = process.cwd()
+  const stateFile = join(cwd, '.planning', 'STATE.md')
+  const projectFile = join(cwd, '.planning', 'PROJECT.md')
+
+  if (!existsSync(projectFile)) {
+    return existsSync(stateFile) ? 'GSD Project' : null
+  }
+
+  try {
+    const content = readFileSync(projectFile, 'utf-8')
+    const match = content.match(/^#\s+(.+)/m)
+    if (match) return match[1].trim()
+  } catch { /* file read failed, fall through */ }
+
+  return 'GSD Project'
+}
+
 function getHubForCurrentDir(): HubEntry | null {
   const homeDir = process.env.HOME || process.env.USERPROFILE || homedir()
   const registryFile = join(homeDir, '.claude', 'hubs', 'registry.json')
@@ -171,6 +189,10 @@ async function main() {
     const hub = getHubForCurrentDir()
     const hubLine = hub ? `\nHUB: ${hub.name}${hub.progress ? ` (${hub.progress})` : ''}` : ''
 
+    // Check if current directory is a GSD project
+    const gsdProject = getGsdProject()
+    const gsdBlock = gsdProject ? `\n\nGSD_PROJECT: ${gsdProject}\nGSD_ACTION: Automatically run /gsd:resume-work now to restore context.\nIf in plan mode, exit plan mode first, then run /gsd:resume-work.` : ''
+
     const output = `<system-reminder>
 Session Context (Auto-loaded)
 
@@ -181,7 +203,7 @@ LOCATION: ${location}
 LOCATION_CONFIRMED: ${confirmed}
 TIMEZONE: ${tz}${hubLine}
 
-This context is now active for this session.${confirmed ? '' : '\n\nLOCATION NOT CONFIRMED: Ask "Where are you today?" and update ~/.claude/MEMORY/State/location.json with: {"city": "TheirAnswer", "date": "' + getTodayDate() + '"}'}
+This context is now active for this session.${gsdBlock}
 </system-reminder>
 
 ${name} ready. ${day}, ${time} in ${location}.${hub ? ` [${hub.name}${hub.progress ? `: ${hub.progress}` : ''}]` : ''}`
