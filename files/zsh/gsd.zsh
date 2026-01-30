@@ -71,10 +71,21 @@ info() {
   local found=false
 
   # Git info first (if in a git repo)
+  local default="" branch=""
   if [[ -d .git || $(git rev-parse --git-dir 2>/dev/null) ]]; then
+    default=$(_default_branch 2>/dev/null)
+    branch=$(git branch --show-current 2>/dev/null)
     type _tab_uncommitted &>/dev/null && _tab_uncommitted
     type _tab_commits &>/dev/null && _tab_commits
     type _tab_todos &>/dev/null && _tab_todos
+
+    # Main branch extras: issues, PRs, unmerged, releases
+    if [[ "$branch" == "$default" ]]; then
+      type _tab_issues &>/dev/null && _tab_issues
+      type _tab_prs &>/dev/null && _tab_prs
+      type _tab_unmerged &>/dev/null && _tab_unmerged
+      type _tab_releases &>/dev/null && _tab_releases
+    fi
   fi
 
   # Check for GSD project
@@ -88,12 +99,13 @@ info() {
     local last_activity=$(grep -m1 "^Last activity:" "$state_file" | sed 's/Last activity: *//')
 
     echo ""
-    echo "${c_blue}${name}${c_clear} (GSD)"
+    echo "${c_blue}${name}:${c_clear} ${c_green}Progress${c_clear}"
     [[ -n "$focus" ]] && echo "Focus: ${c_green}${focus}${c_clear}"
     [[ -n "$phase" ]] && echo "Phase: $phase"
     [[ -n "$gsd_status" ]] && echo "Status: $gsd_status"
     [[ -n "$progress" ]] && echo "$progress"
     [[ -n "$last_activity" ]] && echo "${c_yellow}Last: ${last_activity}${c_clear}"
+    echo ""
     found=true
   fi
 
@@ -116,9 +128,7 @@ info() {
 
   # Unregistered git repo on default branch: show recent commits
   if [[ "$found" == "false" && -d .git ]]; then
-    local default=$(_default_branch 2>/dev/null)
-    local branch=$(git branch --show-current 2>/dev/null)
-    [[ "$branch" == "$default" ]] && { echo ""; commits 6; }
+    [[ "$branch" == "$default" ]] && { echo ""; echo -e "\e[1;34mCommits\e[0m"; commits 6; }
   fi
 }
 

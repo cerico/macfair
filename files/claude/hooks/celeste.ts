@@ -4,6 +4,7 @@
 
 import { basename, join } from 'path'
 import { existsSync, readFileSync, writeFileSync } from 'fs'
+import { execSync } from 'child_process'
 import { homedir } from 'os'
 
 interface LocationState {
@@ -193,6 +194,16 @@ async function main() {
     const gsdProject = getGsdProject()
     const gsdBlock = gsdProject ? `\n\nGSD_PROJECT: ${gsdProject}\nGSD_ACTION: Automatically run /gsd:resume-work now to restore context.\nIf in plan mode, exit plan mode first, then run /gsd:resume-work.` : ''
 
+    // Check if on main/master branch
+    let branchWarning = ''
+    try {
+      const branch = execSync('git branch --show-current 2>/dev/null', { encoding: 'utf-8' }).trim()
+      const defaultBranch = execSync('git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null', { encoding: 'utf-8' }).trim().replace('refs/remotes/origin/', '')
+      if (branch && branch === defaultBranch) {
+        branchWarning = `\n\nMAIN_BRANCH_WARNING: You are on the ${branch} branch. Do NOT make code changes or commits here. Ask the user to switch to a feature branch first.`
+      }
+    } catch { /* not a git repo or no remote */ }
+
     const output = `<system-reminder>
 Session Context (Auto-loaded)
 
@@ -203,7 +214,7 @@ LOCATION: ${location}
 LOCATION_CONFIRMED: ${confirmed}
 TIMEZONE: ${tz}${hubLine}
 
-This context is now active for this session.${gsdBlock}
+This context is now active for this session.${gsdBlock}${branchWarning}
 </system-reminder>
 
 ${name} ready. ${day}, ${time} in ${location}.${hub ? ` [${hub.name}${hub.progress ? `: ${hub.progress}` : ''}]` : ''}`

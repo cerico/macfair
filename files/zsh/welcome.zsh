@@ -135,6 +135,42 @@ _tab_todos() {
   done
 }
 
+_tab_issues() {
+  local data=$(gh issue list --state open --json number,title --jq '["\(length)"] + [.[0:5][] | "#\(.number)\t\(.title)"] | join("\n")' 2>/dev/null)
+  [[ -z "$data" ]] && return
+  local count=$(echo "$data" | head -1)
+  [[ "$count" == "0" ]] && return
+  echo ""
+  echo -e "\e[1;34m${count} open issues\e[0m \e[0;32m➜ issues\e[0m"
+  echo "$data" | tail -n +2
+}
+
+_tab_prs() {
+  local data=$(gh pr list --state open --json number,title --jq '["\(length)"] + [.[0:5][] | "#\(.number)\t\(.title)"] | join("\n")' 2>/dev/null)
+  [[ -z "$data" ]] && return
+  local count=$(echo "$data" | head -1)
+  [[ "$count" == "0" ]] && return
+  echo ""
+  echo -e "\e[1;34m${count} open PRs\e[0m \e[0;32m➜ prs\e[0m"
+  echo "$data" | tail -n +2
+}
+
+_tab_unmerged() {
+  local output=$(unmerged 5 2>/dev/null)
+  [[ -z "$output" ]] && return
+  echo ""
+  echo -e "\e[1;34mUnmerged branches\e[0m \e[0;32m➜ unmerged\e[0m"
+  echo "$output"
+}
+
+_tab_releases() {
+  local output=$(releases 3 2>/dev/null)
+  [[ -z "$output" ]] && return
+  echo ""
+  echo -e "\e[1;34mRecent releases\e[0m \e[0;32m➜ releases\e[0m"
+  echo "$output"
+}
+
 tabin() {
   [[ -f .terminal-profile ]] && type cpr &>/dev/null && cpr "$(cat .terminal-profile)"
   _tab_uncommitted
