@@ -1,3 +1,12 @@
+# [2.78.0](https://github.com/cerico/macfair/compare/v2.77.0...v2.78.0) (2026-01-30)
+
+
+### Features
+
+* add main branch context to session hook and info tabs ([2e1085d](https://github.com/cerico/macfair/commit/2e1085d7c7ac566231ce90b67fa9f245530c6794))
+
+
+
 # [2.77.0](https://github.com/cerico/macfair/compare/v2.76.0...v2.77.0) (2026-01-30)
 
 
