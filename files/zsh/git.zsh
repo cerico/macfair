@@ -113,7 +113,7 @@ releases () { # List releases for repo # ➜ releases 5
     return
   fi
   [[ $1 ]] && no=$1 || no=500
-  git for-each-ref --sort=taggerdate --format '%(refname:short) %(taggerdate:relative)' refs/tags | grep ago | sort -V | tail -n $no |awk '{tag = $1; date = $2 " " $3 " " $4 " " $5 " " $6; printf "\033[0;32m%-7s \033[1;0m%-s\n", tag, date}'
+  git for-each-ref --sort=taggerdate --format '%(refname:short) %(taggerdate:relative)' refs/tags | grep ago | sort -Vr | head -n $no | awk '{tag = $1; date = $2 " " $3 " " $4 " " $5 " " $6; printf "\033[0;32m%-7s \033[1;0m%-s\n", tag, date}'
 }
 
 prs () { # List open prs
