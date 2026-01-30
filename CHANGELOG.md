@@ -1,3 +1,12 @@
+## [2.78.1](https://github.com/cerico/macfair/compare/v2.78.0...v2.78.1) (2026-01-30)
+
+
+### Bug Fixes
+
+* fetch tags on gco main ([8cd41e1](https://github.com/cerico/macfair/commit/8cd41e188fed5cfb7402de348aeae867df1591e8))
+
+
+
 # [2.78.0](https://github.com/cerico/macfair/compare/v2.77.0...v2.78.0) (2026-01-30)
 
 
