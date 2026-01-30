@@ -1,3 +1,12 @@
+# [2.77.0](https://github.com/cerico/macfair/compare/v2.76.0...v2.77.0) (2026-01-30)
+
+
+### Features
+
+* show gsd project context in session hook ([dbd1b04](https://github.com/cerico/macfair/commit/dbd1b04fa70b53e17a02fb2576c0e050b6ba75c4))
+
+
+
 # [2.76.0](https://github.com/cerico/macfair/compare/v2.75.0...v2.76.0) (2026-01-29)
 
 
