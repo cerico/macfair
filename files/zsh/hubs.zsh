@@ -4,49 +4,86 @@
 HUBS_DIR="$HOME/.claude/hubs"
 HUBS_REGISTRY="$HUBS_DIR/registry.json"
 
-# Remove current directory from registry
-hub_rm() {
-  [[ -f "$HUBS_REGISTRY" ]] || { echo "No registry"; return 1; }
-
-  local current_path="$(pwd)"
-  local existing
-  existing=$(/opt/homebrew/bin/jq -r --arg p "$current_path" '.hubs[] | select(.path == $p) | .name' "$HUBS_REGISTRY" 2>/dev/null)
-
-  if [[ -z "$existing" ]]; then
-    echo "Not registered: $current_path"
-    return 1
-  fi
-
-  local tmp_file=$(mktemp)
-  /opt/homebrew/bin/jq --arg p "$current_path" '.hubs = [.hubs[] | select(.path != $p)]' \
-    "$HUBS_REGISTRY" > "$tmp_file" && mv "$tmp_file" "$HUBS_REGISTRY"
-
-  echo "Removed: $existing"
-}
-
-# Initialize current directory as a hub
 hub() {
   local cmd="$1"
 
-  # Handle subcommands
-  [[ "$cmd" == "rm" || "$cmd" == "remove" ]] && { hub_rm; return; }
+  # No args: show usage
+  if [[ -z "$cmd" ]]; then
+    echo "Usage: hub <command>"
+    echo "  hub list         List all hubs"
+    echo "  hub create [name] Register current directory as a hub"
+    echo "  hub rm           Remove current directory from registry"
+    echo "  hub rm <name>    Remove hub by name"
+    echo "  hub <number>     Navigate to hub by index"
+    echo "  hub <name>       Navigate to hub by name"
+    return
+  fi
 
+  # Numeric: navigate to hub
+  if [[ "$cmd" =~ ^[0-9]+$ ]]; then
+    _hub_nav "$cmd"
+    return
+  fi
+
+  # Subcommands
+  case "$cmd" in
+    list|ls) hubs ;;
+    create) _hub_create "${@:2}" ;;
+    rm|remove) _hub_rm "${@:2}" ;;
+    *) _hub_nav_name "$cmd" ;;
+  esac
+}
+
+_hub_nav() {
+  local target="$1"
+  [[ -f "$HUBS_REGISTRY" ]] || { echo "No registry"; return 1; }
+
+  local data
+  data=$(jq -r '.hubs[] | select(.type != "gsd") | select(.status != "archived") | .path' "$HUBS_REGISTRY" 2>/dev/null)
+
+  local index=0
+  while IFS= read -r hub_path; do
+    [[ -z "$hub_path" ]] && continue
+    index=$((index + 1))
+    if [[ "$index" -eq "$target" && -d "$hub_path" ]]; then
+      cd "$hub_path" && return
+    fi
+  done <<< "$data"
+
+  echo "No hub at index $target"
+  return 1
+}
+
+_hub_nav_name() {
+  local name="$1"
+  [[ -f "$HUBS_REGISTRY" ]] || { echo "No registry"; return 1; }
+
+  local hub_path
+  hub_path=$(jq -r --arg n "$name" '.hubs[] | select(.type != "gsd") | select(.status != "archived") | select(.name | ascii_downcase == ($n | ascii_downcase)) | .path' "$HUBS_REGISTRY" 2>/dev/null)
+
+  if [[ -n "$hub_path" && -d "$hub_path" ]]; then
+    cd "$hub_path" && return
+  fi
+
+  echo "No hub matching: $name"
+  return 1
+}
+
+_hub_create() {
   [[ -d "$HUBS_DIR" ]] || mkdir -p "$HUBS_DIR"
   [[ -f "$HUBS_REGISTRY" ]] || echo '{"hubs":[]}' > "$HUBS_REGISTRY"
 
   local current_path="$(pwd)"
   local name="${1:-$(basename "$current_path")}"
 
-  # Check if already registered
   local existing
-  existing=$(/opt/homebrew/bin/jq -r --arg p "$current_path" '.hubs[] | select(.path == $p) | .name' "$HUBS_REGISTRY" 2>/dev/null)
+  existing=$(jq -r --arg p "$current_path" '.hubs[] | select(.path == $p) | .name' "$HUBS_REGISTRY" 2>/dev/null)
 
   if [[ -n "$existing" ]]; then
     echo "Already registered: $existing"
     return 0
   fi
 
-  # Create CLAUDE.md stub if doesn't exist
   if [[ ! -f "CLAUDE.md" ]]; then
     cat > CLAUDE.md << 'EOF'
 # Hub: Fresh
@@ -70,29 +107,66 @@ EOF
     echo "Created CLAUDE.md stub"
   fi
 
-  # Register in hub registry with type: hub
   local now tmp_file
   now=$(date +%s)
   tmp_file=$(mktemp)
-  /opt/homebrew/bin/jq --arg name "$name" --arg path "$current_path" --arg now "$now" \
+  jq --arg name "$name" --arg path "$current_path" --arg now "$now" \
     '.hubs += [{"name": $name, "path": $path, "type": "hub", "status": "active", "last_accessed": ($now | tonumber), "progress": "", "next_action": "Run discovery", "note": ""}]' \
-    "$HUBS_REGISTRY" > "$tmp_file" && mv "$tmp_file" "$HUBS_REGISTRY"
+    "$HUBS_REGISTRY" > "$tmp_file"
+  [[ -s "$tmp_file" ]] && jq -e . "$tmp_file" >/dev/null 2>&1 \
+    && mv "$tmp_file" "$HUBS_REGISTRY" || { rm -f "$tmp_file"; echo "Failed to update registry"; return 1; }
 
   echo "Registered hub: $name"
   echo "Start Claude session to run discovery"
+}
+
+_hub_rm() {
+  [[ -f "$HUBS_REGISTRY" ]] || { echo "No registry"; return 1; }
+
+  local name="$1"
+
+  if [[ -n "$name" ]]; then
+    # Remove by name
+    local found
+    found=$(jq -r --arg n "$name" '.hubs[] | select(.name == $n and .type != "gsd") | .name' "$HUBS_REGISTRY" 2>/dev/null)
+    if [[ -z "$found" ]]; then
+      echo "Not found: $name"
+      return 1
+    fi
+    local tmp_file=$(mktemp)
+    jq --arg n "$name" '.hubs = [.hubs[] | select(.name != $n or .type == "gsd")]' \
+      "$HUBS_REGISTRY" > "$tmp_file"
+    [[ -s "$tmp_file" ]] && jq -e . "$tmp_file" >/dev/null 2>&1 \
+      && mv "$tmp_file" "$HUBS_REGISTRY" || { rm -f "$tmp_file"; echo "Failed to update registry"; return 1; }
+    echo "Removed: $name"
+  else
+    # Remove by current path
+    local current_path="$(pwd)"
+    local existing
+    existing=$(jq -r --arg p "$current_path" '.hubs[] | select(.path == $p and .type != "gsd") | .name' "$HUBS_REGISTRY" 2>/dev/null)
+    if [[ -z "$existing" ]]; then
+      echo "Not registered: $current_path"
+      return 1
+    fi
+    local tmp_file=$(mktemp)
+    jq --arg p "$current_path" '.hubs = [.hubs[] | select(.path != $p or .type == "gsd")]' \
+      "$HUBS_REGISTRY" > "$tmp_file"
+    [[ -s "$tmp_file" ]] && jq -e . "$tmp_file" >/dev/null 2>&1 \
+      && mv "$tmp_file" "$HUBS_REGISTRY" || { rm -f "$tmp_file"; echo "Failed to update registry"; return 1; }
+    echo "Removed: $existing"
+  fi
 }
 
 hubs() {
   local c_blue=$'\e[34m'
   local c_yellow=$'\e[33m'
   local c_clear=$'\e[0m'
-  local target_num="$1"
 
   [[ -d "$HUBS_DIR" ]] || mkdir -p "$HUBS_DIR"
   [[ -f "$HUBS_REGISTRY" ]] || { echo '{"hubs":[]}' > "$HUBS_REGISTRY"; return; }
 
   local hub_count
-  hub_count=$(/opt/homebrew/bin/jq '.hubs | length' "$HUBS_REGISTRY" 2>/dev/null) || { echo "Error reading registry"; return 1; }
+  hub_count=$(jq '.hubs | length' "$HUBS_REGISTRY" 2>/dev/null) || { echo "Error reading registry"; return 1; }
 
   if [[ "$hub_count" == "0" || -z "$hub_count" ]]; then
     echo "No hubs"
@@ -100,28 +174,14 @@ hubs() {
   fi
 
   local data
-  data=$(/opt/homebrew/bin/jq -r '.hubs[] | select(.type != "gsd") | "\(.name)|\(.progress // "")|\(.last_accessed // 0)|\(.next_action // "")|\(.note // "")|\(.path // "")|\(.status // "active")"' "$HUBS_REGISTRY" 2>/dev/null)
+  data=$(jq -r '.hubs[] | select(.type != "gsd") | "\(.name)|\(.progress // "")|\(.last_accessed // 0)|\(.next_action // "")|\(.note // "")|\(.path // "")|\(.status // "active")"' "$HUBS_REGISTRY" 2>/dev/null)
 
-  local now index active_count
+  local now index
   now=$(date +%s)
   index=0
-  active_count=0
 
   local name progress last_accessed next_action note hub_path hub_status
 
-  # First pass: count active hubs and maybe cd if target specified
-  if [[ -n "$target_num" && "$target_num" =~ ^[0-9]+$ ]]; then
-    while IFS='|' read -r name progress last_accessed next_action note hub_path hub_status; do
-      [[ -z "$name" ]] && continue
-      [[ "$hub_status" == "archived" ]] && continue
-      active_count=$((active_count + 1))
-      if [[ "$active_count" == "$target_num" && -n "$hub_path" && -d "$hub_path" ]]; then
-        cd "$hub_path" && return
-      fi
-    done <<< "$data"
-  fi
-
-  # List all hubs
   while IFS='|' read -r name progress last_accessed next_action note hub_path hub_status; do
     [[ -z "$name" ]] && continue
     [[ "$hub_status" == "archived" ]] && continue

@@ -32,10 +32,30 @@ _claude_run() {
   return $ret
 }
 
-claude() { _claude_run --permission-mode plan "$@"; }
-clauden() { _claude_run "$@"; }
-claudev() { _claude_run --permission-mode plan --append-system-prompt "Always respond using the mcp__voicemode__converse tool to speak your responses aloud." "$@"; }
-claudevn() { _claude_run --append-system-prompt "Always respond using the mcp__voicemode__converse tool to speak your responses aloud." "$@"; }
+_claude_maybe_gsd() {
+  local -a flags=("$@")
+  [[ -f .planning/STATE.md ]] && flags+=("go")
+  _claude_run "${flags[@]}"
+}
+
+claude() {
+  [[ $# -eq 0 ]] && { _claude_maybe_gsd --permission-mode plan; return; }
+  _claude_run --permission-mode plan "$@"
+}
+clauden() {
+  [[ $# -eq 0 ]] && { _claude_maybe_gsd; return; }
+  _claude_run "$@"
+}
+claudev() {
+  local voice='Always respond using the mcp__voicemode__converse tool to speak your responses aloud.'
+  [[ $# -eq 0 ]] && { _claude_maybe_gsd --permission-mode plan --append-system-prompt "$voice"; return; }
+  _claude_run --permission-mode plan --append-system-prompt "$voice" "$@"
+}
+claudevn() {
+  local voice='Always respond using the mcp__voicemode__converse tool to speak your responses aloud.'
+  [[ $# -eq 0 ]] && { _claude_maybe_gsd --append-system-prompt "$voice"; return; }
+  _claude_run --append-system-prompt "$voice" "$@"
+}
 
 claudewright() {
   claude mcp add playwright npx @playwright/mcp@latest
