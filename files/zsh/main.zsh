@@ -97,7 +97,7 @@ m () { # Execute nearest Makefile up directory tree
   fi
 }
 
-viz () { # edit zsh function # ➜ viz addtomake
+viz () { # edit zsh function # ➜ viz addmake
   [[ ! $1 ]] && vi ~/.zsh/_trialling.zsh && return
   local result=$(grep -n "^$1[[:space:]]*()[[:space:]]*{" ~/.zsh/*.zsh)
   local func=$(echo "$result" | awk -F':' '{print $1}')
@@ -346,31 +346,6 @@ checkport () {
   lsof -i :$1
 }
 
-addmake () {
-  if [[ ! -f Makefile ]];
-    then
-    cp ~/.templates/Makefile .
-  fi
-  if [[ ! $1 ]];
-    then
-    make
-    return
-  fi
-  local target=$1 || read "target?Enter target: "
-  if [[ -e $target ]]
-    then
-    echo "Error: A file or directory named '$target' already exists." && return 1
-  fi
-  if grep -q "^$target:" Makefile
-    then
-    echo "Error: Target '$target' already exists in the Makefile." && return 1
-  fi
-  [[ -n $2 ]] && local recipe=$2 || read "recipe?Enter recipe: "
-  echo "$target:\n\t$recipe" >> Makefile
-  echo "\nSuccess: Target '$target' added to Makefile\n"
-  make
-}
-
 mi () { # List all Makefile targets or get info in target # ➜ mi start
   if [[ ! -f Makefile ]]; then
     echo "Error: No Makefile found in the current directory. Add with ➜ addmake" && return 1
@@ -382,7 +357,7 @@ mi () { # List all Makefile targets or get info in target # ➜ mi start
     found && /^[^\t]/ {exit}
     found {print}
     ' Makefile)
-    [[ -n "$output" ]] && echo "$output" || echo "Target not found. Add with ➜ addtomake $command"
+    [[ -n "$output" ]] && echo "$output" || echo "Target not found. Add with ➜ addmake"
   else
     echo "Available commands:"
     echo "-------------------"
@@ -492,17 +467,27 @@ sshs () { # List or show SSH hosts # ➜ sshs | sshs pi | sshs -e
   fi
 }
 
-makefile () { # List or copy makefile templates # ➜ makefile git
+addmake () { # Add makefile modules and targets # ➜ addmake git deploy
   local _dir=~/.templates/makefiles
+  local _had_makefile=$([[ -f Makefile ]] && echo 1 || echo 0)
   [[ ! -f Makefile ]] && cp ~/.templates/Makefile . && echo "Copied Makefile"
   mkdir -p makefiles
   [[ ! -f makefiles/internal.mk ]] && cp ~/.templates/makefiles/internal.mk makefiles && echo "Copied internal.mk to makefiles/"
   [[ ! -f makefiles/info.mk ]] && cp ~/.templates/makefiles/info.mk makefiles && echo "Copied info.mk to makefiles/"
-  [[ -z $1 ]] && echo "Available makefiles:" && ls "$_dir" | sed 's/\.mk$//' && return
-  [[ ! -f "$_dir/$1.mk" ]] && echo "Not found: $1.mk" && return 1
-  mkdir -p makefiles
-  cp "$_dir/$1.mk" makefiles/
-  echo "Copied $1.mk to makefiles/"
+  [[ -z $1 ]] && (( _had_makefile )) && echo "Available makefiles:" && ls "$_dir" | sed 's/\.mk$//' && return
+  [[ -z $1 ]] && return
+  [[ -n $2 ]] && grep -rq "^$2:" Makefile makefiles/ 2>/dev/null && echo "Error: Target '$2' already exists" && return 1
+  if [[ -f "$_dir/$1.mk" ]]; then
+    cp "$_dir/$1.mk" makefiles/
+    echo "Copied $1.mk to makefiles/"
+  else
+    touch "makefiles/$1.mk"
+    echo "Created $1.mk in makefiles/"
+  fi
+  [[ -z $2 ]] && return
+  local _file="makefiles/$1.mk"
+  echo "\n$2:" >> "$_file"
+  vim +"$" +"normal o	" +startinsert! "$_file"
 }
 
 catn () { # cat with line numbers, optionally starting at line N # ➜ catn file.ts 42
