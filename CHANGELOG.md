@@ -1,3 +1,12 @@
+# [2.79.0](https://github.com/cerico/macfair/compare/v2.78.1...v2.79.0) (2026-02-04)
+
+
+### Features
+
+* add infographic layouts and improve shell functions ([2f49864](https://github.com/cerico/macfair/commit/2f49864923fbd04fb127b1eeb0d5d827cf098938))
+
+
+
 ## [2.78.1](https://github.com/cerico/macfair/compare/v2.78.0...v2.78.1) (2026-01-30)
 
 
