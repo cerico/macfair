@@ -44,5 +44,20 @@ diskclean () {
   rm -rf ~/Library/Caches/zen 2>/dev/null
   rm -rf ~/Library/Caches/org.user.kagiBrowser 2>/dev/null
 
+  echo "Cleaning Playwright browsers..."
+  rm -rf ~/Library/Caches/ms-playwright ~/Library/Caches/ms-playwright-go 2>/dev/null
+
+  echo "Cleaning Claude Desktop VM..."
+  rm -rf ~/Library/Application\ Support/Claude/vm_bundles 2>/dev/null
+  rm -rf ~/Library/Application\ Support/Claude/Cache ~/Library/Application\ Support/Claude/Code\ Cache 2>/dev/null
+
+  echo "Cleaning Claude Code caches..."
+  if [[ -d ~/.claude/shell-snapshots ]]; then
+    local snapshots=(~/.claude/shell-snapshots/*(N.Om))
+    for f in "${snapshots[@]:5}"; do rm -- "$f"; done 2>/dev/null
+  fi
+  rm -rf ~/.claude/debug 2>/dev/null
+  rm -rf ~/.claude/projects 2>/dev/null
+
   echo "After: $(diskfree)"
 }
