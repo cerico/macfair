@@ -1,3 +1,12 @@
+# [2.80.0](https://github.com/cerico/macfair/compare/v2.79.0...v2.80.0) (2026-02-06)
+
+
+### Features
+
+* improve terminal titles, add linearctl and mv wrapper ([53e06b6](https://github.com/cerico/macfair/commit/53e06b601b6dcba338341e5950e0be9b59a5943c))
+
+
+
 # [2.79.0](https://github.com/cerico/macfair/compare/v2.78.1...v2.79.0) (2026-02-04)
 
 
