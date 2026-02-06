@@ -2,7 +2,11 @@
 // update-tab-titles.ts
 // UserPromptSubmit hook: Update terminal tab title with task context
 
+import { statSync, readFileSync, writeFileSync } from 'node:fs'
+
 const ASSISTANT_NAME = process.env.CLAUDE_NAME || 'Claude'
+const TAB_CACHE = '/tmp/iterm-tab-count'
+const CACHE_TTL_MS = 30_000
 
 interface UserPromptPayload {
   session_id: string
@@ -11,13 +15,32 @@ interface UserPromptPayload {
   [key: string]: any
 }
 
-function setTabTitle(title: string): void {
-  // OSC escape sequences for terminal tab and window titles
-  const tabEscape = `\x1b]1;${title}\x07`
-  const windowEscape = `\x1b]2;${title}\x07`
+function isSingleTab(): boolean {
+  try {
+    const stat = statSync(TAB_CACHE)
+    if (Date.now() - stat.mtimeMs < CACHE_TTL_MS) {
+      return readFileSync(TAB_CACHE, 'utf-8').trim() === '1'
+    }
+  } catch {}
 
-  process.stderr.write(tabEscape)
-  process.stderr.write(windowEscape)
+  try {
+    const result = Bun.spawnSync({
+      cmd: ['osascript', '-e', 'tell application "iTerm2" to count tabs of current window'],
+      timeout: 500,
+    })
+    const single = parseInt(result.stdout.toString().trim(), 10) <= 1
+    writeFileSync(TAB_CACHE, single ? '1' : '0')
+    return single
+  } catch {
+    return false
+  }
+}
+
+function setTitle(title: string): void {
+  process.stderr.write(`\x1b]1;${title}\x07`)
+  if (isSingleTab()) {
+    process.stderr.write(`\x1b]2;${title}\x07`)
+  }
 }
 
 function extractTaskKeywords(prompt: string): string {
@@ -67,7 +90,7 @@ async function main() {
 
     // Generate quick title from keywords
     const keywords = extractTaskKeywords(prompt)
-    setTabTitle(`${ASSISTANT_NAME}: ${keywords}`)
+    setTitle(`${ASSISTANT_NAME}: ${keywords}`)
 
   } catch (error) {
     // Never crash

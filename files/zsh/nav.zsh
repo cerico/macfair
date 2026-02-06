@@ -25,19 +25,6 @@ mcd() {
   cd "$1"
 }
 
-# Override cd to set window title
-cd() {
-  builtin cd "$@" && {
-    print -Pn "\e]2;$(basename "$PWD")\a"
-  }
-}
-
-# Set initial window title when shell starts
-if [[ -z "$_window_title_set" ]]; then
-  print -Pn "\e]2;$(basename "$PWD")\a"
-  _window_title_set=1
-fi
-
 # Marks system
 
 jump() {

@@ -187,24 +187,35 @@ start () {
   browser-sync start --server $type "*.*" --port $port --ui-port $ui_port
 }
 
-awks () {
-  echo awk -F\' \' \'{print \$2}\'
+awks () { # awk field shortcut # ➜ awks , 3
+  if [[ $# -eq 0 ]]; then
+    echo "Usage: command | awks [delimiter] <field>"
+    echo "       command | awks <field>  (space delimiter)"
+    return
+  fi
+  if [[ $# -eq 1 ]]; then
+    [[ "$1" =~ ^[0-9]+$ ]] && awk '{print $'"$1"'}' || awk -F"$1" '{print $2}'
+    return
+  fi
+  awk -F"$1" '{print $'"$2"'}'
 }
 
-tab_title() {
-  print -Pn "\e]1;${1}\a"  # Set only tab title, preserve window title
-}
-
-# Custom preexec using zsh hooks - sets tab title to command name
-my_preexec() {
-  local cmd="${1%% *}"
-  cmd="${cmd##*/}"
-  tab_title "$cmd"
-}
-
-# Add the hook
 autoload -Uz add-zsh-hook
-add-zsh-hook preexec my_preexec
+
+_last_tab_title=""
+
+_set_titles() {
+  print -n -- "\e]2;${PWD##*/}\a"
+  [[ -n "$_last_tab_title" ]] && print -n -- "\e]1;${_last_tab_title}\a"
+}
+_set_tab_title() {
+  _last_tab_title="$1"
+  print -n -- "\e]1;${1}\a"
+}
+
+_set_titles
+add-zsh-hook precmd _set_titles
+add-zsh-hook preexec _set_tab_title
 
 sw () {
     if [[ -n $1 ]]
