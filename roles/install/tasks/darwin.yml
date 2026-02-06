@@ -120,6 +120,7 @@
     - "browser-sync"
     - "surge"
     - "agent-browser"
+    - "linearctl"
 
 - name: pip installs
   pip:
