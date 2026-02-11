@@ -19,8 +19,17 @@
     path: ~/.zshrc
     line: export PATH="{{ python_location.stdout }}/bin:$PATH"
 
+- name: remove old provider.json
+  file:
+    path: "~{{ macbook_user.stdout }}/provider.json"
+    state: absent
+  become: true
+  become_user: root
+
 - name: collect server info
   shell: "curl -H 'User-Agent: keycdn-tools:https://google.com' 'https://tools.keycdn.com/geo.json?host={{ ansible_default_ipv4.address }}' > ~{{ macbook_user.stdout }}/provider.json"
+  become: true
+  become_user: "{{ macbook_user.stdout }}"
 
 - name: copy motd
   copy:
@@ -62,19 +71,8 @@
     src: help.js
     dest: ~{{ macbook_user.stdout }}/.zsh/help.js
 
-- name: register rbenv exists
-  stat:
-    path: ~{{ macbook_user.stdout }}/.rbenv/bin/rbenv
-  register: rbenv
-
-- name: Conditionally Copy zsh rails
-  copy:
-    src: zsh/rails.zsh
-    dest: ~{{ macbook_user.stdout }}/.zsh/rails.zsh
-  when: rbenv.stat.exists
-
-- name: Conditionally Add rails to zshrc.
+- name: Remove stale rails source line from zshrc
   lineinfile:
     path: ~/.zshrc
     line: source $HOME/.zsh/rails
-  when: rbenv.stat.exists
+    state: absent
