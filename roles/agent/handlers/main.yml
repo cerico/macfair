@@ -1,0 +1,11 @@
+---
+- name: Reload nginx
+  ansible.builtin.service:
+    name: nginx
+    state: reloaded
+  become: true
+
+- name: Restart claude-agent
+  shell: podman-compose down && podman-compose up -d
+  args:
+    chdir: "{{ agent_deploy_dir }}"

@@ -1,0 +1,25 @@
+---
+- name: Setup cyrus-ai
+  when: hostvars[inventory_hostname].optional is defined and "cyrus" in hostvars[inventory_hostname].optional
+  block:
+    - name: Check for pm2
+      command: which pm2
+      register: pm2_check
+      failed_when: false
+      changed_when: false
+
+    - name: Install pm2 globally
+      command: npm install -g pm2
+      become: true
+      when: pm2_check.rc != 0
+
+    - name: Check for cyrus-ai
+      command: which cyrus-ai
+      register: cyrus_check
+      failed_when: false
+      changed_when: false
+
+    - name: Install cyrus-ai globally
+      command: npm install -g cyrus-ai
+      become: true
+      when: cyrus_check.rc != 0

@@ -49,6 +49,12 @@ deploy_key:
 	gh secret set DEPLOY_KEY < ~/.ssh/kawajevo/deploy_rsa
 add_package:
 	$(ANSIBLE_PLAYBOOK) addpackage.yml -i hosts
+vault:
+	ansible-vault edit group_vars/all/vault.yml
+claudepod:
+	podman build -t claudepod -f files/claude/Containerfile .
+upgrade:
+	$(ANSIBLE_PLAYBOOK) upgrade.yml -i hosts
 %:
 	@$(MAKE) commands
 include makefiles/*.mk

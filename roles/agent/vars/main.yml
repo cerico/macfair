@@ -1,0 +1,5 @@
+---
+agent_deploy_dir: "/home/{{ ansible_user }}/claude-agent"
+agent_assignee: "kawajevo"
+agent_domain: "kawajevo.io37.ch"
+agent_certbot_email: "kawajevo@io37.ch"

@@ -15,6 +15,7 @@ interface LocationState {
 interface HubEntry {
   name: string
   path: string
+  type?: string
   progress?: string
   status?: string
   last_accessed: number
