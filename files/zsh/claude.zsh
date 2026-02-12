@@ -176,7 +176,8 @@ drift() {
     local deployed_dir="${rest%%|*}" strip_ext="${rest#*|}"
     [[ -d "$deployed_dir" ]] || continue
 
-    local -a managed_items deployed_items
+    local -a managed_items deployed_items untracked
+    managed_items=() deployed_items=() untracked=()
     if [[ -d "$managed_dir" ]]; then
       [[ "$strip_ext" == "true" ]] \
         && managed_items=(${(f)"$(ls "$managed_dir" 2>/dev/null | sed 's/\.[^.]*$//')"}) \
@@ -186,7 +187,6 @@ drift() {
       && deployed_items=(${(f)"$(ls "$deployed_dir" 2>/dev/null | sed 's/\.[^.]*$//')"}) \
       || deployed_items=(${(f)"$(ls "$deployed_dir" 2>/dev/null)"})
 
-    local -a untracked
     for item in "${deployed_items[@]}"; do
       [[ -z "$item" ]] && continue
       (( ${managed_items[(Ie)$item]} )) && continue

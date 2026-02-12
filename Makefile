@@ -50,7 +50,7 @@ deploy_key:
 add_package:
 	$(ANSIBLE_PLAYBOOK) addpackage.yml -i hosts
 vault:
-	ansible-vault edit group_vars/all/vault.yml
+	$(dir $(ANSIBLE_PLAYBOOK))ansible-vault edit group_vars/all/vault.yml
 claudepod:
 	podman build -t claudepod -f files/claude/Containerfile .
 upgrade:
