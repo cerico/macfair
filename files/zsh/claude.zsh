@@ -145,6 +145,56 @@ addclaude() { # Copy starter CLAUDE.md template to current directory # ➜ addcl
   cp ~/.templates/CLAUDE.md . && echo "Copied CLAUDE.md template — fill in project details"
 }
 
+memories() { # Browse Claude memory files across projects # ➜ memories search prisma
+  local claude_dir="$HOME/.claude/projects"
+  local c_blue=$'\e[34m' c_dim=$'\e[2m' c_clear=$'\e[0m'
+
+  _memories_list() {
+    local idx=0
+    for f in "$claude_dir"/*/memory/*.md(N); do
+      idx=$((idx + 1))
+      local project="${f:h:h:t}"
+      project="${project/#-Users-brew-/}"
+      project="${project//-//}"
+      local filename="${f:t}"
+      printf "%s${c_dim}%3d.${c_clear} ${c_blue}%-30s${c_clear} %s\n" "" "$idx" "$project" "$filename"
+    done
+    [[ $idx -eq 0 ]] && echo "No memory files found"
+  }
+
+  _memories_file_at() {
+    local target=$1 idx=0
+    for f in "$claude_dir"/*/memory/*.md(N); do
+      idx=$((idx + 1))
+      [[ $idx -eq $target ]] && echo "$f" && return
+    done
+  }
+
+  case "$1" in
+    search)
+      [[ -z "$2" ]] && echo "Usage: memories search <term>" && return 1
+      grep --color=always -rni "$2" "$claude_dir"/*/memory/*.md 2>/dev/null | while IFS= read -r line; do
+        local file="${line%%:*}"
+        local rest="${line#*:}"
+        local project="${file:h:h:t}"
+        project="${project/#-Users-brew-/}"
+        project="${project//-//}"
+        local filename="${file:t}"
+        printf "${c_blue}%-30s${c_clear} ${c_dim}%s:${c_clear}%s\n" "$project" "$filename" "$rest"
+      done
+      ;;
+    ""|list)
+      _memories_list
+      ;;
+    *)
+      [[ "$1" =~ ^[0-9]+$ ]] || { echo "Usage: memories [list|search <term>|<N>]"; return 1; }
+      local file=$(_memories_file_at "$1")
+      [[ -z "$file" ]] && echo "No file at index $1" && return 1
+      command -v glow &>/dev/null && glow "$file" || cat "$file"
+      ;;
+  esac
+}
+
 skills() { printf '%s\n' ~/.claude/skills/*(N:t); }
 commands() { printf '%s\n' ~/.claude/commands/*(N:t:r); }
 hooks() { printf '%s\n' ~/.claude/hooks/*(N:t:r); }
