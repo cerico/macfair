@@ -58,6 +58,12 @@ Never edit `~/.claude/` directly. Edit macfair, then tell user to run `make clau
 - `makefiles/claude.mk` is metadata only — it declares `VERIFY_TARGETS` (target names safe for Claude to run). Never put recipes in `claude.mk`; actual targets live in the main Makefile or other `.mk` modules
 - After making changes, check for `makefiles/claude.mk`. If it exists, read `VERIFY_TARGETS` and run the relevant targets to verify your work
 
+# GitHub Workflows
+
+- New projects should have a release workflow. Copy it with: `workflows release` (shell function that copies from `~/.templates/github-actions/`)
+- Additional workflow templates exist in `~/.templates/github-actions/` for specific stacks (vitest, playwright, dokku, rsync) — list with `workflows`, copy with `workflows <name>`
+- Workflows are starting points — adapt to the project once the stack is known
+
 # JavaScript/TypeScript
 
 - No semicolons
