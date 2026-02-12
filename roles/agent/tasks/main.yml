@@ -44,6 +44,9 @@
       become: true
       changed_when: false
 
+    - name: Flush handlers before certbot
+      meta: flush_handlers
+
     - name: Obtain SSL certificate for kawajevo
       shell: "/snap/bin/certbot --nginx -n --agree-tos --email {{ agent_certbot_email }} -d {{ agent_domain }}"
       become: true

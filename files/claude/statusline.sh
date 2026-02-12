@@ -23,7 +23,7 @@ DIRTY=$(git status --porcelain 2>/dev/null || true)
 
 # Branch extras: commit count and last-commit age (feature branches only)
 if [[ -n "$BRANCH" ]]; then
-    DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's|refs/remotes/origin/||')
+    DEFAULT_BRANCH=$({ git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null || true; } | sed 's|refs/remotes/origin/||')
     [[ -z "$DEFAULT_BRANCH" ]] && DEFAULT_BRANCH="main"
 
     if [[ "$BRANCH" != "$DEFAULT_BRANCH" ]]; then

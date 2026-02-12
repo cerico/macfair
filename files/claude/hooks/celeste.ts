@@ -3,7 +3,7 @@
 // Name the file after your assistant (e.g., celeste.ts, claude.ts)
 
 import { basename, join } from 'path'
-import { existsSync, readFileSync, writeFileSync } from 'fs'
+import { existsSync, readFileSync, renameSync, writeFileSync } from 'fs'
 import { execSync } from 'child_process'
 import { homedir } from 'os'
 
@@ -192,6 +192,7 @@ function getHandoff(): { content: string; summary: string } | null {
     const summaryMatch = content.match(/## Summary\n+(.+)/m)
     const summary = summaryMatch ? summaryMatch[1].trim() : 'context available'
 
+    renameSync(handoffFile, handoffFile.replace('.md', '.consumed.md'))
     return { content, summary }
   } catch {
     return null

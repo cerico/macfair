@@ -39,6 +39,7 @@
       - python3-pip
       - snapd
       - figlet
+      - ufw
     state: present
   become: true
   become_user: root

@@ -3,6 +3,11 @@
   hosts: debian
   become: true
   tasks:
+    - name: Install update-manager-core
+      apt:
+        name: update-manager-core
+        state: present
+
     - name: Check if upgrade is available
       command: do-release-upgrade -c
       register: upgrade_check
@@ -31,11 +36,6 @@
       apt:
         update_cache: true
         upgrade: dist
-
-    - name: Install update-manager-core
-      apt:
-        name: update-manager-core
-        state: present
 
     - name: Check if reboot required after apt upgrade
       stat:
