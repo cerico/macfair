@@ -27,6 +27,7 @@
     upgrade: yes
   become: true
   become_user: root
+  ignore_errors: true
 
 - name: install apt packages
   apt:
@@ -38,9 +39,48 @@
       - python3-pip
       - snapd
       - figlet
+      - ufw
     state: present
   become: true
   become_user: root
+
+- name: Set UFW default deny incoming
+  community.general.ufw:
+    direction: incoming
+    policy: deny
+  become: true
+
+- name: Set UFW default allow outgoing
+  community.general.ufw:
+    direction: outgoing
+    policy: allow
+  become: true
+
+- name: Allow SSH through UFW
+  community.general.ufw:
+    rule: allow
+    port: '22'
+    proto: tcp
+  become: true
+
+- name: Allow HTTP through UFW
+  community.general.ufw:
+    rule: allow
+    port: '80'
+    proto: tcp
+  become: true
+
+- name: Allow HTTPS through UFW
+  community.general.ufw:
+    rule: allow
+    port: '443'
+    proto: tcp
+  become: true
+
+- name: Enable UFW
+  community.general.ufw:
+    state: enabled
+  become: true
 
 - name: install vscode
   apt:
@@ -51,15 +91,31 @@
   become_user: root
   ignore_errors: true
 
+- name: Remove apt-installed nodejs to avoid conflict with snap
+  apt:
+    name:
+      - nodejs
+      - npm
+    state: absent
+  become: true
+  become_user: root
+
 - name: snap core
   command: snap install core
   become: true
   become_user: root
 
-- name: Install nodejs vis snap
-  command: snap install node --classic --channel=18
+- name: Install nodejs via snap
+  command: snap install node --classic --channel=22
   become: true
   become_user: root
+  ignore_errors: true
+
+- name: Refresh nodejs snap to channel 22
+  command: snap refresh node --classic --channel=22
+  become: true
+  become_user: root
+  ignore_errors: true
 
 - name: Install certbot snap with option --classic
   command: snap install certbot --classic
@@ -101,7 +157,7 @@
     group: root
     mode: "0644"
 
-- name: Replace a localhost entry searching for a literal string to avoid escaping
+- name: Replace a localhost entry in cloud-init template
   become: true
   become_user: root
   ansible.builtin.lineinfile:
@@ -111,6 +167,7 @@
     owner: root
     group: root
     mode: "0644"
+  ignore_errors: true
 
 - name: Set a hostname
   become: true

@@ -6,6 +6,7 @@ group_vars/all/vars.yml
 !group_vars/all/example.yml
 hosts
 TODO.md
+TODO*.md
 sites/*yml
 !sites/vars.yml
 sites/makefiles/*

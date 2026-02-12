@@ -3,7 +3,7 @@
 // Name the file after your assistant (e.g., celeste.ts, claude.ts)
 
 import { basename, join } from 'path'
-import { existsSync, readFileSync, writeFileSync } from 'fs'
+import { existsSync, readFileSync, renameSync, writeFileSync } from 'fs'
 import { execSync } from 'child_process'
 import { homedir } from 'os'
 
@@ -15,6 +15,7 @@ interface LocationState {
 interface HubEntry {
   name: string
   path: string
+  type?: string
   progress?: string
   status?: string
   last_accessed: number
@@ -110,8 +111,16 @@ function getHubForCurrentDir(): HubEntry | null {
     return null
   }
 
-  // Update last_accessed and write back
+  // Update last_accessed and sync GSD progress to registry
   hub.last_accessed = Math.floor(Date.now() / 1000)
+  if (hub.type === 'gsd') {
+    try {
+      const stateFile = join(cwd, '.planning', 'STATE.md')
+      const state = readFileSync(stateFile, 'utf-8')
+      const match = state.match(/^Progress:\s*(.+)/m)
+      if (match) hub.progress = match[1].trim()
+    } catch {}
+  }
   try {
     writeFileSync(registryFile, JSON.stringify(registry, null, 2))
   } catch {
@@ -169,6 +178,27 @@ function getLocalDateTime(tz: string): { date: string; time: string; day: string
   }
 }
 
+function getHandoff(): { content: string; summary: string } | null {
+  const handoffFile = join(process.cwd(), 'tmp', 'handoff.md')
+
+  if (!existsSync(handoffFile)) {
+    return null
+  }
+
+  try {
+    const content = readFileSync(handoffFile, 'utf-8').trim()
+    if (!content) return null
+
+    const summaryMatch = content.match(/## Summary\n+(.+)/m)
+    const summary = summaryMatch ? summaryMatch[1].trim() : 'context available'
+
+    renameSync(handoffFile, handoffFile.replace('.md', '.consumed.md'))
+    return { content, summary }
+  } catch {
+    return null
+  }
+}
+
 async function main() {
   try {
     const stdinData = await Bun.stdin.text()
@@ -204,6 +234,11 @@ async function main() {
       }
     } catch { /* not a git repo or no remote */ }
 
+    // Check for previous session handoff
+    const handoff = getHandoff()
+    const handoffBlock = handoff ? `\n\nPREVIOUS_SESSION:\n${handoff.content}` : ''
+    const handoffGreeting = handoff ? ` Previous session: ${handoff.summary}` : ''
+
     const output = `<system-reminder>
 Session Context (Auto-loaded)
 
@@ -214,10 +249,10 @@ LOCATION: ${location}
 LOCATION_CONFIRMED: ${confirmed}
 TIMEZONE: ${tz}${hubLine}
 
-This context is now active for this session.${gsdBlock}${branchWarning}
+This context is now active for this session.${gsdBlock}${branchWarning}${handoffBlock}
 </system-reminder>
 
-${name} ready. ${day}, ${time} in ${location}.${hub ? ` [${hub.name}${hub.progress ? `: ${hub.progress}` : ''}]` : ''}`
+${name} ready. ${day}, ${time} in ${location}.${hub ? ` [${hub.name}${hub.progress ? `: ${hub.progress}` : ''}]` : ''}${handoffGreeting}`
 
     console.log(output)
 

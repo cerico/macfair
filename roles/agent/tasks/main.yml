@@ -1,0 +1,54 @@
+---
+- name: Setup agent infrastructure
+  when: hostvars[inventory_hostname].optional is defined and "agent" in hostvars[inventory_hostname].optional
+  block:
+    - name: Install podman and podman-compose
+      apt:
+        name:
+          - podman
+          - podman-compose
+        state: present
+      become: true
+
+    - name: Enable lingering for deploy user
+      command: "loginctl enable-linger {{ ansible_user }}"
+      become: true
+      changed_when: false
+
+    - name: Create kawajevo agent directory
+      file:
+        path: "{{ agent_deploy_dir }}"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0750'
+
+    - name: Template .env file
+      template:
+        src: env.j2
+        dest: "{{ agent_deploy_dir }}/.env"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0600'
+      notify: Restart claude-agent
+
+    - name: Copy kawajevo nginx config
+      template:
+        src: kawajevo.nginx.conf.j2
+        dest: /etc/nginx/conf.d/kawajevo.io37.ch.conf
+      become: true
+      notify: Reload nginx
+
+    - name: Ensure nginx config is valid
+      command: nginx -t
+      become: true
+      changed_when: false
+
+    - name: Flush handlers before certbot
+      meta: flush_handlers
+
+    - name: Obtain SSL certificate for kawajevo
+      shell: "/snap/bin/certbot --nginx -n --agree-tos --email {{ agent_certbot_email }} -d {{ agent_domain }}"
+      become: true
+      register: certbot_result
+      changed_when: "'Certificate not yet due for renewal' not in certbot_result.stdout"

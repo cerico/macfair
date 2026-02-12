@@ -37,34 +37,33 @@ $(DIFF_OUTPUT=$(git diff --stat 2>/dev/null | head -20); echo "${DIFF_OUTPUT:-No
 
 $(if [[ -f TODO.md ]]; then grep "^- \[ \]" TODO.md | head -10 || echo "No unchecked items"; else echo "No TODO.md"; fi)
 
-## Session Notes
-
-[Add 2-3 sentence summary here describing:
-- What we were working on
-- Key decisions made
-- What to do next]
-
 EOF
 
-# Output warning to Claude
-cat << 'WARNING'
+# Output instructions to Claude
+cat << 'INSTRUCTIONS'
 ⚠️  SESSION CHECKPOINT - CONTEXT LIMIT APPROACHING
 
-This conversation is about to compact (summarize old messages).
-Best practice: EXIT and start a fresh session to avoid context degradation.
+Before exiting, you MUST:
 
-WARNING
+1. Write tmp/handoff.md with this structure:
 
-echo "I've created: $SUMMARY_FILE"
-echo ""
-echo "Please add a brief summary to that file describing:"
-echo "  - What we were working on"
-echo "  - Key decisions made"
-echo "  - What to do next"
-echo ""
-echo "Then EXIT this session (Cmd+Q or 'exit') and start fresh."
-echo "Review tmp/summary-*.md files anytime to recall context."
-echo ""
+   # Handoff
+   **Date**: [today's date]
+   **Branch**: [current git branch]
+   ## Summary
+   [1-2 sentences: what we worked on]
+   ## Decisions
+   - [key decisions made this session]
+   ## Next
+   - [what to do next session]
+   ## Blockers
+   - [any blockers, or "none"]
+
+2. If in a hub directory, run: /hub next <next-action>
+3. Tell the user: "Handoff saved. Exit and start a fresh session."
+
+IMPORTANT: Fill in the handoff from conversation context. Do NOT ask the user to fill it in.
+INSTRUCTIONS
 
 # Trigger diary entry for long-term memory
 if [[ -f ~/.claude/ruben/hooks/pre-compact-diary.sh ]]; then

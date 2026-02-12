@@ -485,6 +485,7 @@ addmake () { # Add makefile modules and targets # ➜ addmake git deploy
   mkdir -p makefiles
   [[ ! -f makefiles/internal.mk ]] && cp ~/.templates/makefiles/internal.mk makefiles && echo "Copied internal.mk to makefiles/"
   [[ ! -f makefiles/info.mk ]] && cp ~/.templates/makefiles/info.mk makefiles && echo "Copied info.mk to makefiles/"
+  [[ ! -f makefiles/claude.mk ]] && cp ~/.templates/makefiles/claude.mk makefiles && echo "Copied claude.mk to makefiles/"
   [[ -z $1 ]] && (( _had_makefile )) && echo "Available makefiles:" && ls "$_dir" | sed 's/\.mk$//' && return
   [[ -z $1 ]] && return
   if [[ -n $2 ]]; then

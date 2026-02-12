@@ -33,22 +33,11 @@
     path: ~/.zshrc
     line: export PATH="/.pyvenv-ansible/bin:$PATH"
 
-- name: register rbenv exists
-  stat:
-    path: ~{{ macbook_user.stdout }}/.rbenv/bin/rbenv
-  register: rbenv
-
-- name: Conditionally Copy zsh rails
-  copy:
-    src: zsh/rails.zsh
-    dest: ~{{ macbook_user.stdout }}/.zsh/rails.zsh
-  when: rbenv.stat.exists
-
-- name: Conditionally Add rails to zshrc.
+- name: Remove stale rails source line from zshrc
   lineinfile:
     path: ~/.zshrc
     line: source $HOME/.zsh/rails.zsh
-  when: rbenv.stat.exists
+    state: absent
 
 - name: import dnsmasq.yml
   import_tasks: dnsmasq.yml

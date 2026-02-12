@@ -20,6 +20,35 @@ USER=$(whoami)
 DIR=$(pwd | sed "s|^${HOME}|~|")
 BRANCH=$(git branch --show-current 2>/dev/null || true)
 DIRTY=$(git status --porcelain 2>/dev/null || true)
+
+# Branch extras: commit count and last-commit age (feature branches only)
+if [[ -n "$BRANCH" ]]; then
+    DEFAULT_BRANCH=$({ git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null || true; } | sed 's|refs/remotes/origin/||')
+    [[ -z "$DEFAULT_BRANCH" ]] && DEFAULT_BRANCH="main"
+
+    if [[ "$BRANCH" != "$DEFAULT_BRANCH" ]]; then
+        COMMITS_AHEAD=$(git rev-list --count "${DEFAULT_BRANCH}..HEAD" 2>/dev/null || echo 0)
+        [[ "$COMMITS_AHEAD" -gt 0 || -n "$DIRTY" ]] && SHOW_BRANCH_EXTRAS=true
+
+        if [[ "${SHOW_BRANCH_EXTRAS:-}" == "true" ]]; then
+            LAST_COMMIT_TS=$(git log -1 --format=%ct 2>/dev/null || true)
+            if [[ -n "$LAST_COMMIT_TS" ]]; then
+                NOW=$(date +%s)
+                AGE_SECS=$((NOW - LAST_COMMIT_TS))
+                if [[ $AGE_SECS -lt 60 ]]; then
+                    AGE_DISPLAY="now"
+                elif [[ $AGE_SECS -lt 3600 ]]; then
+                    AGE_DISPLAY="$((AGE_SECS / 60))m ago"
+                elif [[ $AGE_SECS -lt 86400 ]]; then
+                    AGE_DISPLAY="$((AGE_SECS / 3600))h ago"
+                else
+                    AGE_DISPLAY="$((AGE_SECS / 86400))d ago"
+                fi
+            fi
+        fi
+    fi
+fi
+
 DISK_FREE=$(df -h . 2>/dev/null | awk 'NR==2 {print $4}')
 
 # Claude process info
@@ -125,10 +154,15 @@ OUTPUT="$OUTPUT | ${GREEN}${DIR}${RESET}"
 # Add git branch with status indicator
 if [[ -n "${BRANCH:-}" ]]; then
     if [[ -n "${DIRTY:-}" ]]; then
-        OUTPUT="$OUTPUT | ${RED}${BRANCH} ✗${RESET}"
+        BRANCH_DISPLAY="${RED}${BRANCH} ✗${RESET}"
     else
-        OUTPUT="$OUTPUT | ${GREEN}${BRANCH} ✓${RESET}"
+        BRANCH_DISPLAY="${GREEN}${BRANCH} ✓${RESET}"
     fi
+    if [[ "${SHOW_BRANCH_EXTRAS:-}" == "true" ]]; then
+        BRANCH_DISPLAY="$BRANCH_DISPLAY ${DIM}${COMMITS_AHEAD}↑${RESET}"
+        [[ -n "${AGE_DISPLAY:-}" ]] && BRANCH_DISPLAY="$BRANCH_DISPLAY ${DIM}${AGE_DISPLAY}${RESET}"
+    fi
+    OUTPUT="$OUTPUT | $BRANCH_DISPLAY"
 fi
 
 # Add disk free

@@ -20,6 +20,8 @@
     - { role: terminal, tags: [debian] }
     - { role: functions, tags: [debian] }
     - { role: nginx, tags: [debian, nginx] }
+    - { role: tunnel, tags: [debian, tunnel] }
+    - { role: agent, tags: [debian, agent] }
 
 - name: Setup macbook
   hosts: macbook

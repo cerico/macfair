@@ -487,6 +487,20 @@ ginit () {
   g commit -m "feat: initialized repo"
 }
 
+ghlist () { # List GitHub orgs and personal account # ➜ ghlist
+  gh api user --jq '.login'
+  gh api user/orgs --jq '.[].login'
+}
+
+ghcreate () { # Create private repo on GitHub org # ➜ ghcreate [org] [name]
+  local org="${1:-long-grass}"
+  local name="${2:-$(basename "$PWD")}"
+  [[ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" != "main" ]] && echo "Not on main" && return 1
+  [[ -z "$(git log --oneline -1 2>/dev/null)" ]] && echo "No commits" && return 1
+  [[ -n "$(git status --porcelain 2>/dev/null)" ]] && echo "Untracked or uncommitted files" && return 1
+  gh repo create "$org/$name" --private --source=. --remote=origin --push
+}
+
 highest() { # Find highest numbered branch with prefix # ➜ highest rk
   if [ -z "$1" ]; then
     echo "Usage: highest <prefix>"

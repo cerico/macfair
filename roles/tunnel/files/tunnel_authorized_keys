@@ -1,0 +1,1 @@
+restrict,port-forwarding,command="/bin/false" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJCJc8AAXvbGGYJyQeWchqkstCdkawcAkDbb1zZ7d52y tunnel@studiomanager

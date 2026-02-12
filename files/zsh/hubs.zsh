@@ -84,27 +84,11 @@ _hub_create() {
     return 0
   fi
 
+  local tpl_dir="$HOME/.templates/hub"
   if [[ ! -f "CLAUDE.md" ]]; then
-    cat > CLAUDE.md << 'EOF'
-# Hub: Fresh
-
-This is a new hub. On first session, Claude should:
-
-1. **Discover** - Look at directory structure, files, context
-2. **Identify type** - Learning path? Project? Research? Creative?
-3. **Ask questions** - What's the goal? Current state? Target outcome?
-4. **Scaffold** - Update registry and this CLAUDE.md with hub-specific instructions
-
-## Discovery Prompts
-
-- What exists here already?
-- What does the user want to achieve?
-- What's the timeframe?
-- How should progress be tracked?
-
-After discovery, replace this file with hub-specific instructions.
-EOF
-    echo "Created CLAUDE.md stub"
+    [[ -f "$tpl_dir/CLAUDE.md" ]] || { echo "Hub templates not found at $tpl_dir. Run: make claude"; return 1; }
+    cp "$tpl_dir/CLAUDE.md" CLAUDE.md
+    echo "Created CLAUDE.md from template"
   fi
 
   local now tmp_file
@@ -221,3 +205,30 @@ hubs() {
     printf "%d. %-13s %s%-12s%s %-24s%s %s%-24s%s %s\n" "$index" "$time_ago" "$c_blue" "$name" "$c_clear" "$info" "$warn" "$c_yellow" "$display_path" "$c_clear" "$progress"
   done <<< "$data"
 }
+
+_hub_complete() {
+  local -a subcommands
+  subcommands=(
+    'list:List all hubs'
+    'ls:List all hubs'
+    'create:Register current directory as a hub'
+    'rm:Remove hub from registry'
+    'remove:Remove hub from registry'
+  )
+
+  if (( CURRENT == 2 )); then
+    _describe 'subcommand' subcommands
+    local -a hubs
+    hubs=(${(f)"$(jq -r '.hubs[] | select(.type != "gsd") | select(.status != "archived") | .name' ~/.claude/hubs/registry.json 2>/dev/null)"})
+    [[ ${#hubs} -gt 0 ]] && _describe 'hub' hubs
+  elif (( CURRENT == 3 )); then
+    case "$words[2]" in
+      rm|remove)
+        local -a hubs
+        hubs=(${(f)"$(jq -r '.hubs[] | select(.type != "gsd") | select(.status != "archived") | .name' ~/.claude/hubs/registry.json 2>/dev/null)"})
+        [[ ${#hubs} -gt 0 ]] && _describe 'hub' hubs
+        ;;
+    esac
+  fi
+}
+compdef _hub_complete hub 2>/dev/null
