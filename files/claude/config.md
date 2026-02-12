@@ -55,6 +55,7 @@ Never edit `~/.claude/` directly. Edit macfair, then tell user to run `make clau
 - When running a command that could be reused, add it to the Makefile
 - Prefer modular structure: main `Makefile` includes `makefiles/*.mk` files
 - Use common sense for placement: project-wide in main Makefile, domain-specific in `.mk` modules
+- `makefiles/claude.mk` is metadata only — it declares `VERIFY_TARGETS` (target names safe for Claude to run). Never put recipes in `claude.mk`; actual targets live in the main Makefile or other `.mk` modules
 - After making changes, check for `makefiles/claude.mk`. If it exists, read `VERIFY_TARGETS` and run the relevant targets to verify your work
 
 # JavaScript/TypeScript
