@@ -34,6 +34,7 @@ Never edit `~/.claude/` directly. Edit macfair, then tell user to run `make clau
 - Multiple commits per branch allowed - squash at merge time if desired
 - For commits, use `/commit` workflow
 - After commit, run `/review` before pushing
+- When running as Nightshift agent, end commit messages with `Agent: Nightshift` trailer — not Co-Authored-By, not Nightshift-Task, just `Agent: Nightshift`
 
 # Shell/Bash
 
