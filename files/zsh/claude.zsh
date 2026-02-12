@@ -59,6 +59,7 @@ claudevn() {
 claudex() {
   command -v podman &>/dev/null || { echo "claudex requires Podman"; return 1; }
   podman run --rm -it \
+    --userns=keep-id \
     -v "$(pwd):/work" \
     -v "$HOME/.claude:/home/claude/.claude:ro" \
     -w /work \
