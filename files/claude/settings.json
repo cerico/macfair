@@ -5,13 +5,8 @@
     "command": "~/.claude/statusline.sh",
     "padding": 0
   },
-  "enabledPlugins": {
-    "voicemode@mbailey": true
-  },
   "permissions": {
     "allow": [
-      "mcp__voicemode__*",
-      "mcp__plugin_voicemode_voicemode__*",
       "mcp__playwright__browser_navigate",
       "mcp__playwright__browser_navigate_back",
       "mcp__playwright__browser_click",
