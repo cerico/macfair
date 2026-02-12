@@ -48,11 +48,16 @@
       when: reboot_required.stat.exists
 
     - name: Run do-release-upgrade non-interactively
-      command: do-release-upgrade -f DistUpgradeViewNonInteractive
-      register: upgrade_result
-      timeout: 1800
+      shell: nohup do-release-upgrade -f DistUpgradeViewNonInteractive </dev/null >/var/log/do-release-upgrade.log 2>&1 &
+      async: 0
+      poll: 0
 
-    - name: Reboot
+    - name: Wait for host to come back after upgrade
+      wait_for_connection:
+        delay: 60
+        timeout: 1800
+
+    - name: Reboot after upgrade
       reboot:
         reboot_timeout: 300
 
