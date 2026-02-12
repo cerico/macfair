@@ -1,0 +1,11 @@
+---
+- name: Reload nginx
+  ansible.builtin.service:
+    name: nginx
+    state: reloaded
+  become: true
+
+- name: Restart claude-agent # Runs as deploy user with rootless Podman (see: loginctl enable-linger in setup)
+  shell: podman-compose down || true; podman-compose up -d
+  args:
+    chdir: "{{ agent_deploy_dir }}"

@@ -31,7 +31,7 @@ Never edit `~/.claude/` directly. Edit macfair, then tell user to run `make clau
 - Commits must use semantic versioning prefixes (fix, feat, docs, etc.)
 - Branch naming: run git log to check existing pattern
 - When amending commits: always use `--reset-author` to update date to now (easier rebasing)
-- One commit per branch - squash before pushing
+- Multiple commits per branch allowed - squash at merge time if desired
 - For commits, use `/commit` workflow
 - After commit, run `/review` before pushing
 
@@ -55,6 +55,14 @@ Never edit `~/.claude/` directly. Edit macfair, then tell user to run `make clau
 - When running a command that could be reused, add it to the Makefile
 - Prefer modular structure: main `Makefile` includes `makefiles/*.mk` files
 - Use common sense for placement: project-wide in main Makefile, domain-specific in `.mk` modules
+- `makefiles/claude.mk` is metadata only — it declares `VERIFY_TARGETS` (target names safe for Claude to run). Never put recipes in `claude.mk`; actual targets live in the main Makefile or other `.mk` modules
+- After making changes, check for `makefiles/claude.mk`. If it exists, read `VERIFY_TARGETS` and run any listed targets to verify your work. The list may be empty in new projects — only run targets that exist
+
+# GitHub Workflows
+
+- New projects should have a release workflow. Copy it with: `workflows release` (shell function that copies from `~/.templates/github-actions/`)
+- Additional workflow templates exist in `~/.templates/github-actions/` for specific stacks (vitest, playwright, dokku, rsync) — list with `workflows`, copy with `workflows <name>`
+- Workflows are starting points — adapt to the project once the stack is known
 
 # JavaScript/TypeScript
 
@@ -153,3 +161,13 @@ When using Playwright MCP for browser automation and testing:
   - `/review 3` - Deep analysis (loads all check modules)
   - `/review 4` - Reference only (shows what's not covered)
 - Always provide a grade A-F and score out of 100
+
+# Recovery & Steering
+
+- Don't silently downgrade implementations — if the task says config-driven, don't hardcode; if it says error handling, don't skip it "for now"
+- When the task says "use X", use X — don't substitute Y even if simpler
+- If you realise you're building something different from what was asked, stop and say so before continuing
+- When stuck or looping on the same error 3+ times, say so explicitly — don't keep retrying the same approach
+- When unsure about a requirement, ask — don't assume the easier interpretation
+- Don't add "TODO" or "for now" placeholders unless the user explicitly says to defer something
+- After completing a multi-step task, verify the result matches the original request, not a drift of it

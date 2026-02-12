@@ -1,0 +1,25 @@
+---
+- name: Create tunnel user
+  user:
+    name: tunnel
+    shell: /bin/bash
+    create_home: yes
+  become: true
+
+- name: Create tunnel .ssh directory
+  file:
+    path: /home/tunnel/.ssh
+    state: directory
+    owner: tunnel
+    group: tunnel
+    mode: '0700'
+  become: true
+
+- name: Deploy tunnel authorized_keys
+  copy:
+    src: tunnel_authorized_keys
+    dest: /home/tunnel/.ssh/authorized_keys
+    owner: tunnel
+    group: tunnel
+    mode: '0600'
+  become: true

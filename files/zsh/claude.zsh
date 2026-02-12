@@ -1,7 +1,7 @@
 # Claude Code helpers
 
 # Remove any old aliases to allow function definitions
-unalias claude clauden claudev claudevn claudep claudevp 2>/dev/null
+unalias claude clauden claudev claudevn claudep claudevp claudex claudepod 2>/dev/null
 
 CLAUDE_LOCKFILE=".claude-session.lock"
 
@@ -26,7 +26,7 @@ _claude_unlock() {
 
 _claude_run() {
   _claude_lock || return 1
-  command claude "$@"
+  CLAUDE_WRAPPER_PID=$$ command claude "$@"
   local ret=$?
   _claude_unlock
   return $ret
@@ -55,6 +55,15 @@ claudevn() {
   local voice='Always respond using the mcp__voicemode__converse tool to speak your responses aloud.'
   [[ $# -eq 0 ]] && { _claude_maybe_gsd --append-system-prompt "$voice"; return; }
   _claude_run --append-system-prompt "$voice" "$@"
+}
+claudex() {
+  command -v podman &>/dev/null || { echo "claudex requires Podman"; return 1; }
+  podman run --rm -it \
+    -v "$(pwd):/work" \
+    -v "$HOME/.claude:/home/claude/.claude:ro" \
+    -w /work \
+    claudepod \
+    claude --dangerously-skip-permissions "$@"
 }
 
 claudewright() {
@@ -131,7 +140,124 @@ claudekill() {
   [[ "$REPLY" == "y" ]] && echo "$orphans" | xargs kill -9 && echo "Killed"
 }
 
+addclaude() { # Copy starter CLAUDE.md template to current directory # ➜ addclaude
+  [[ -f CLAUDE.md ]] && echo "CLAUDE.md already exists" && return 1
+  cp ~/.templates/CLAUDE.md . && echo "Copied CLAUDE.md template — fill in project details"
+}
+
 skills() { printf '%s\n' ~/.claude/skills/*(N:t); }
 commands() { printf '%s\n' ~/.claude/commands/*(N:t:r); }
 hooks() { printf '%s\n' ~/.claude/hooks/*(N:t:r); }
 agents() { printf '%s\n' ~/.claude/agents/*(N:t:r); }
+
+drift() {
+  local macfair="$HOME/macfair/files/claude"
+  local deployed="$HOME/.claude"
+  local c_red=$'\e[31m'
+  local c_clear=$'\e[0m'
+  local known_pattern="^(gsd|voicemode|context-usage)"
+
+  local cmd="$1"
+  case "$cmd" in
+    rm|mv|cat) _drift_action "$@"; return ;;
+    "") ;;
+    *) echo "Usage: drift [rm|mv|cat <type> <name>]"; return 1 ;;
+  esac
+
+  local found=false
+  local type dirs
+  for type dirs in \
+    skills  "$macfair/skills|$deployed/skills|false" \
+    commands "$macfair/commands|$deployed/commands|true" \
+    hooks   "$macfair/hooks|$deployed/hooks|true" \
+    agents  "$macfair/agents|$deployed/agents|true"; do
+
+    local managed_dir="${dirs%%|*}" rest="${dirs#*|}"
+    local deployed_dir="${rest%%|*}" strip_ext="${rest#*|}"
+    [[ -d "$deployed_dir" ]] || continue
+
+    local -a managed_items deployed_items untracked
+    managed_items=() deployed_items=() untracked=()
+    if [[ -d "$managed_dir" ]]; then
+      [[ "$strip_ext" == "true" ]] \
+        && managed_items=(${(f)"$(ls "$managed_dir" 2>/dev/null | sed 's/\.[^.]*$//')"}) \
+        || managed_items=(${(f)"$(ls "$managed_dir" 2>/dev/null)"})
+    fi
+    [[ "$strip_ext" == "true" ]] \
+      && deployed_items=(${(f)"$(ls "$deployed_dir" 2>/dev/null | sed 's/\.[^.]*$//')"}) \
+      || deployed_items=(${(f)"$(ls "$deployed_dir" 2>/dev/null)"})
+
+    for item in "${deployed_items[@]}"; do
+      [[ -z "$item" ]] && continue
+      (( ${managed_items[(Ie)$item]} )) && continue
+      [[ "$item" =~ $known_pattern ]] && continue
+      untracked+=("$item")
+    done
+
+    if [[ ${#untracked[@]} -gt 0 ]]; then
+      found=true
+      echo "${c_red}${type}:${c_clear}"
+      printf '  %s\n' "${untracked[@]}"
+      echo ""
+    fi
+  done
+
+  $found || echo "No drift"
+}
+
+_drift_action() {
+  local cmd="$1" type="$2" name="$3"
+  local macfair="$HOME/macfair/files/claude"
+  local deployed="$HOME/.claude"
+
+  [[ -z "$type" || -z "$name" ]] && { echo "Usage: drift $cmd <type> <name>"; return 1; }
+  [[ "$type" =~ ^(skills|commands|hooks|agents)$ ]] || { echo "Type must be: skills, commands, hooks, agents"; return 1; }
+
+  local src
+  if [[ "$type" == "skills" ]]; then
+    src="$deployed/$type/$name"
+  else
+    src=$(ls "$deployed/$type/$name".* 2>/dev/null | head -1)
+    [[ -z "$src" ]] && src="$deployed/$type/$name"
+  fi
+  [[ -e "$src" ]] || { echo "Not found: $src"; return 1; }
+
+  case "$cmd" in
+    cat)
+      local file="$src"
+      [[ -d "$src" ]] && file="$src/SKILL.md"
+      [[ -f "$file" ]] || { echo "No readable file at $file"; return 1; }
+      command -v glow &>/dev/null && glow "$file" || cat "$file"
+      ;;
+    rm)
+      echo "Remove: $src"
+      read -q "REPLY?Confirm? [y/N] " && echo "" && rm -r "$src" && echo "Removed" || echo ""
+      ;;
+    mv)
+      local dest="$macfair/$type/$(basename "$src")"
+      [[ -e "$dest" ]] && { echo "Already exists in macfair: $dest"; return 1; }
+      echo "Move: $src -> $dest"
+      read -q "REPLY?Confirm? [y/N] " && echo "" && mv "$src" "$dest" && echo "Moved to macfair" || echo ""
+      ;;
+  esac
+}
+
+_drift_complete() {
+  local -a subcommands types
+  subcommands=('cat:View contents' 'rm:Remove item' 'mv:Move to macfair')
+  types=(skills commands hooks agents)
+
+  if (( CURRENT == 2 )); then
+    _describe 'action' subcommands
+  elif (( CURRENT == 3 )); then
+    _describe 'type' types
+  elif (( CURRENT == 4 )); then
+    local type="$words[3]"
+    local dir="$HOME/.claude/$type"
+    [[ -d "$dir" ]] || return
+    local -a items
+    items=(${(f)"$(ls "$dir" 2>/dev/null)"})
+    [[ ${#items} -gt 0 ]] && _describe 'item' items
+  fi
+}
+compdef _drift_complete drift 2>/dev/null
