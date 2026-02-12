@@ -1,3 +1,12 @@
+## [2.80.1](https://github.com/cerico/macfair/compare/v2.80.0...v2.80.1) (2026-02-12)
+
+
+### Bug Fixes
+
+* guard release step for squash-merge compatibility ([#487](https://github.com/cerico/macfair/issues/487)) ([1049bcc](https://github.com/cerico/macfair/commit/1049bcc7a5b15e200d4ef0f6c2d9683d96443752))
+
+
+
 # [2.80.0](https://github.com/cerico/macfair/compare/v2.79.0...v2.80.0) (2026-02-06)
 
 
