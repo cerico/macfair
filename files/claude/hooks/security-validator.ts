@@ -150,6 +150,11 @@ function validateCommand(command: string): { allowed: boolean; message?: string;
     return { allowed: true }
   }
 
+  // Allowlist: Kokoro TTS localhost API
+  if (/^curl\s+-s\s+-X\s+POST\s+http:\/\/127\.0\.0\.1:8880\/v1\/audio\/speech\b/.test(command)) {
+    return { allowed: true }
+  }
+
   // Check each tier
   for (const [tierName, tier] of Object.entries(ATTACK_PATTERNS)) {
     for (const pattern of tier.patterns) {
