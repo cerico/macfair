@@ -1,3 +1,12 @@
+# [2.81.0](https://github.com/cerico/macfair/compare/v2.80.1...v2.81.0) (2026-02-13)
+
+
+### Features
+
+* replace voicemode plugin with local Kokoro TTS speak skill ([#491](https://github.com/cerico/macfair/issues/491)) ([d78803d](https://github.com/cerico/macfair/commit/d78803da0a4996c7ef0d68a9ba89d1db48e78510))
+
+
+
 ## [2.80.1](https://github.com/cerico/macfair/compare/v2.80.0...v2.80.1) (2026-02-12)
 
 
