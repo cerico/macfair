@@ -5,13 +5,8 @@
     "command": "~/.claude/statusline.sh",
     "padding": 0
   },
-  "enabledPlugins": {
-    "voicemode@mbailey": true
-  },
   "permissions": {
     "allow": [
-      "mcp__voicemode__*",
-      "mcp__plugin_voicemode_voicemode__*",
       "mcp__playwright__browser_navigate",
       "mcp__playwright__browser_navigate_back",
       "mcp__playwright__browser_click",
@@ -46,7 +41,9 @@
       "Bash(pnpm add *)",
       "Bash(pnpm exec prisma *)",
       "Bash(git *)",
-      "Bash(nightshift:*)"
+      "Bash(nightshift:*)",
+      "Bash(curl -s -X POST http://127.0.0.1:8880/v1/audio/speech *)",
+      "Bash(afplay /tmp/claude_speak*)"
     ],
     "deny": [
       "Bash(git push *)",

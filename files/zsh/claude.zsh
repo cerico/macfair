@@ -47,12 +47,12 @@ clauden() {
   _claude_run "$@"
 }
 claudev() {
-  local voice='Always respond using the mcp__voicemode__converse tool to speak your responses aloud.'
+  local voice='Always speak responses aloud using the /speak skill. Every response should be voiced via Kokoro TTS.'
   [[ $# -eq 0 ]] && { _claude_maybe_gsd --permission-mode plan --append-system-prompt "$voice"; return; }
   _claude_run --permission-mode plan --append-system-prompt "$voice" "$@"
 }
 claudevn() {
-  local voice='Always respond using the mcp__voicemode__converse tool to speak your responses aloud.'
+  local voice='Always speak responses aloud using the /speak skill. Every response should be voiced via Kokoro TTS.'
   [[ $# -eq 0 ]] && { _claude_maybe_gsd --append-system-prompt "$voice"; return; }
   _claude_run --append-system-prompt "$voice" "$@"
 }
