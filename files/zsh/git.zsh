@@ -201,18 +201,19 @@ repo() {
     echo "Created $repo"
   fi
 
-  # Enable dependabot alerts
+  # Enable dependabot alerts and secret scanning push protection
   gh api -X PUT "/repos/$repo/vulnerability-alerts" --silent
+  gh api -X PUT "/repos/$repo/secret-scanning/push-protection" --silent 2>/dev/null
 
-  # Allow squash and rebase, disable merge commits, auto-delete branches
+  # Allow rebase and squash, disable merge commits, auto-delete branches
   gh api -X PATCH "/repos/$repo" \
     -f allow_merge_commit=false \
-    -f allow_squash_merge=false \
+    -f allow_squash_merge=true \
     -f allow_rebase_merge=true \
     -f delete_branch_on_merge=true \
     --silent
 
-  echo "Dependabot enabled"
+  echo "Repo settings applied"
 }
 
 _getpr () {
