@@ -1,0 +1,49 @@
+---
+- name: Create conf.d directory
+  file:
+    path: "~{{ macbook_user.stdout }}/.ssh/conf.d"
+    state: directory
+    mode: "0700"
+
+- name: Find existing conf.d files
+  find:
+    paths: "~{{ macbook_user.stdout }}/.ssh/conf.d"
+    patterns: "*.conf"
+  register: existing_conf_files
+
+- name: Build list of managed conf.d filenames
+  set_fact:
+    managed_conf_files: "{{ lookup('fileglob', 'ssh/conf.d/*.conf', wantlist=True) | map('basename') | list }}"
+
+- name: Remove stale conf.d files
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ existing_conf_files.files }}"
+  when: item.path | basename not in managed_conf_files
+
+- name: Copy conf.d files
+  copy:
+    src: "{{ item }}"
+    dest: "~{{ macbook_user.stdout }}/.ssh/conf.d/"
+    mode: "0600"
+  with_fileglob:
+    - ssh/conf.d/*.conf
+
+- name: Copy SSH config
+  copy:
+    src: ssh/config
+    dest: "~{{ macbook_user.stdout }}/.ssh/config"
+    mode: "0600"
+    backup: yes
+
+- name: configure ssh for mac
+  when: ansible_os_family == "Darwin"
+  block:
+    - name: print role name
+      set_fact:
+        parent_role_name: "{{ role_name }}"
+
+    - name: add version
+      include_role:
+        name: version

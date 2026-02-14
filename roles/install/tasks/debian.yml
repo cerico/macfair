@@ -37,6 +37,7 @@
       - jq
       - nginx
       - python3-pip
+      - python3-setuptools
       - snapd
       - figlet
       - ufw
@@ -117,30 +118,53 @@
   become_user: root
   ignore_errors: true
 
-- name: Install certbot snap with option --classic
+- name: Install certbot via apt (Debian)
+  apt:
+    name:
+      - certbot
+      - python3-certbot-nginx
+    state: present
+  become: true
+  become_user: root
+  when: ansible_distribution == "Debian"
+
+- name: Install certbot snap with option --classic (Ubuntu)
   command: snap install certbot --classic
   become: true
   become_user: root
+  when: ansible_distribution == "Ubuntu"
 
-- name: create certbot cron file if it doesnt exist
+- name: create certbot cron file if it doesnt exist (Ubuntu)
   copy:
     content: ""
     dest: /etc/cron.d/cert
     force: no
   become: true
   become_user: root
+  when: ansible_distribution == "Ubuntu"
 
-- name: Add certbot renewals to cron
+- name: Add certbot renewals to cron (Ubuntu)
   lineinfile:
     path: /etc/cron.d/cert
     line: 5 4 * * 2 root /snap/bin/certbot renew
     insertbefore: BOF
   become: true
   become_user: root
+  when: ansible_distribution == "Ubuntu"
+
+- name: Enable certbot.timer (Debian)
+  ansible.builtin.systemd:
+    name: certbot.timer
+    enabled: true
+    state: started
+  become: true
+  become_user: root
+  when: ansible_distribution == "Debian"
 
 - name: pip installs
   pip:
     name: "{{ item }}"
+    extra_args: --break-system-packages
   with_items:
     - "jmespath"
     - "passlib"

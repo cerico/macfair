@@ -1,0 +1,6 @@
+ansible_user: "deploy"
+ansible_ssh_private_key_file: "~/.ssh/stolac/deploy_ed25519"
+to_sudo:
+  - deploy
+iterm_theme: "daegu"
+zsh_theme: "cerico-w-user"

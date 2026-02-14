@@ -26,6 +26,7 @@
 - name: Setup macbook
   hosts: macbook
   roles:
+    - { role: ssh, tags: [ssh, setup, info] }
     - { role: vscode, tags: [vscode, setup, info] }
     - { role: desktop, tags: [desktop, setup, info] }
     - { role: keepalive, tags: [keepalive, functions, setup, info] }

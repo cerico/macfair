@@ -36,6 +36,11 @@ jobs:
           source ~/.pyvenv-ansible/bin/activate
           ansible-galaxy collection install -r requirements.yml
 
+      - name: Replace tracked files with CI-safe versions
+        run: |
+          printf '[macbook]\n\n[debian]\n\n[sites]\n' > hosts
+          printf 'users:\nroot:\n' > host_vars/localhost.yml
+
       - name: makes this target
         run: |
           source ~/.pyvenv-ansible/bin/activate
