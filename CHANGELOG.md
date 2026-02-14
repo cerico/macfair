@@ -1,3 +1,12 @@
+# [2.82.0](https://github.com/cerico/macfair/compare/v2.81.0...v2.82.0) (2026-02-14)
+
+
+### Features
+
+* modularize SSH config, provision stolac, and harden root login ([#495](https://github.com/cerico/macfair/issues/495)) ([2c26b6a](https://github.com/cerico/macfair/commit/2c26b6a5d169a81bf9fc7f555fd141888483e900))
+
+
+
 # [2.81.0](https://github.com/cerico/macfair/compare/v2.80.1...v2.81.0) (2026-02-13)
 
 
