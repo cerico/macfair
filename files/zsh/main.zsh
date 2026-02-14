@@ -469,12 +469,13 @@ findg () { # find with grep filter # ➜ findg package.json
 }
 
 sshs () { # List or show SSH hosts # ➜ sshs | sshs pi | sshs -e
+  local _dir="$HOME/.ssh/conf.d"
   if [[ "$1" == "-e" ]]; then
-    ${EDITOR:-vi} ~/.ssh/config
+    ${EDITOR:-vi} "$_dir"
   elif [[ -z "$1" ]]; then
-    grep '^Host ' ~/.ssh/config | awk '{print $2}' | grep -v '\*'
+    grep '^Host ' "$_dir"/*.conf | awk '{print $2}' | grep -v '\*'
   else
-    awk -v h="$1" '/^Host /{p=($2==h)} p' ~/.ssh/config
+    awk -v h="$1" '/^Host /{p=($2==h)} p' "$_dir"/*.conf
   fi
 }
 

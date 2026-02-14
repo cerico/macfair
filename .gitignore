@@ -1,10 +1,7 @@
 roles/.DS_Store
-host_vars/*
 group_vars/*
 group_vars/all/vars.yml
-!host_vars/example.yml
 !group_vars/all/example.yml
-hosts
 TODO.md
 TODO*.md
 sites/*yml

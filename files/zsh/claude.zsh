@@ -1,7 +1,7 @@
 # Claude Code helpers
 
 # Remove any old aliases to allow function definitions
-unalias claude clauden claudev claudevn claudep claudevp claudex claudepod 2>/dev/null
+unalias claude clauden claudev claudevn claudep claudevp claudex claudepod discuss 2>/dev/null
 
 CLAUDE_LOCKFILE=".claude-session.lock"
 
@@ -65,6 +65,12 @@ claudex() {
     -w /work \
     claudepod \
     claude --dangerously-skip-permissions "$@"
+}
+
+discuss() {
+  local voice='Always speak every response aloud using the /speak skill (Kokoro TTS on port 8880, then afplay). Skip code blocks in the spoken version - focus on reasoning, strategy, and discussion. The user can see the full text on screen, so the spoken part should be conversational.'
+  [[ $# -eq 0 ]] && { _claude_maybe_gsd --permission-mode plan --append-system-prompt "$voice"; return; }
+  _claude_run --permission-mode plan --append-system-prompt "$voice" "$@"
 }
 
 claudewright() {

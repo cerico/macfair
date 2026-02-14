@@ -22,7 +22,7 @@ commands:
 ansible:
 	python3 -m venv ~/.pyvenv-ansible
 	source ~/.pyvenv-ansible/bin/activate && python3 -m pip install --upgrade pip
-	source ~/.pyvenv-ansible/bin/activate && python3 -m pip install ansible
+	source ~/.pyvenv-ansible/bin/activate && python3 -m pip install ansible passlib
 	$(ANSIBLE_GALAXY) collection install -r requirements.yml
 thiscomputer:
 	$(ANSIBLE_PLAYBOOK) thiscomputer.yml --ask-become-pass -e "hostname=`hostname`"
