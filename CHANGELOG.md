@@ -1,3 +1,12 @@
+# [2.83.0](https://github.com/cerico/macfair/compare/v2.82.0...v2.83.0) (2026-02-14)
+
+
+### Features
+
+* add secret scanning push protection and enable squash merge ([#496](https://github.com/cerico/macfair/issues/496)) ([1b92276](https://github.com/cerico/macfair/commit/1b92276eebc6b82580bede405152530112034c16))
+
+
+
 # [2.82.0](https://github.com/cerico/macfair/compare/v2.81.0...v2.82.0) (2026-02-14)
 
 
