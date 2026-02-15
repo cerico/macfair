@@ -57,7 +57,7 @@ diskclean () {
     for f in "${snapshots[@]:5}"; do rm -- "$f"; done 2>/dev/null
   fi
   rm -rf ~/.claude/debug 2>/dev/null
-  rm -rf ~/.claude/projects 2>/dev/null
+  rm -rf ~/.claude/file-history 2>/dev/null
 
   echo "After: $(diskfree)"
 }

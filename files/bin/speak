@@ -1,0 +1,24 @@
+#!/bin/zsh
+# Speak text or file contents using Kokoro TTS
+
+_speak() {
+  jq -n --arg text "$1" \
+    '{model:"kokoro", input:$text, voice:"af_sky", response_format:"mp3"}' | \
+    curl -s -X POST http://127.0.0.1:8880/v1/audio/speech \
+      -H "Content-Type: application/json" \
+      -d @- \
+      -o /tmp/speak_out.mp3 && afplay /tmp/speak_out.mp3
+}
+
+[[ $# -eq 0 ]] && _speak "Nothing to speak." && exit 1
+
+# If argument is a file, read its contents
+if [[ -f "$1" ]]; then
+  if [[ "$1" == *.json ]] && jq -e '.input' "$1" &>/dev/null; then
+    _speak "$(jq -r '.input' "$1")"
+  else
+    _speak "$(cat "$1")"
+  fi
+else
+  _speak "$*"
+fi

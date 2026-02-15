@@ -1,30 +1,37 @@
 ---
+- name: Copy speak script
+  ansible.builtin.copy:
+    src: bin/speak
+    dest: /usr/local/bin/speak
+    mode: '0755'
+  become: true
+
 - name: Copy darwin-specific zsh files
-  copy:
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: "~{{ macbook_user.stdout }}/.zsh/"
   with_fileglob:
     - zsh/darwin/*.zsh
 
 - name: Copy MCP functions
-  copy:
+  ansible.builtin.copy:
     src: zsh/mcp.zsh
     dest: "~{{ macbook_user.stdout }}/.zsh/mcp.zsh"
 
 - name: create empty tokens file only if one doesnt already exist
-  copy:
+  ansible.builtin.copy:
     content: ""
     dest: ~{{ macbook_user.stdout }}/.zsh/tokens.zsh
     force: no
 
 - name: create trial file for new functions if one doesn't already exist
-  copy:
+  ansible.builtin.copy:
     content: "tinker(){\n  echo try out new functions here, not in main file\n}"
     dest: ~{{ macbook_user.stdout }}/.zsh/_trialling.zsh
     force: no
 
 - name: copy js help file
-  copy:
+  ansible.builtin.copy:
     src: help.js
     dest: ~{{ macbook_user.stdout }}/.zsh/help.js
 
@@ -44,7 +51,7 @@
   when: inventory_hostname != 'github-runner.localhost'
 
 - name: Copy dns functions
-  copy:
+  ansible.builtin.copy:
     src: zsh/dns.zsh
     dest: ~{{ macbook_user.stdout }}/.zsh/dns.zsh
 
