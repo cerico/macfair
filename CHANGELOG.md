@@ -1,3 +1,12 @@
+# [2.85.0](https://github.com/cerico/macfair/compare/v2.84.0...v2.85.0) (2026-02-15)
+
+
+### Features
+
+* use path_join filter for all Ansible paths ([#499](https://github.com/cerico/macfair/issues/499)) ([1a3f9e5](https://github.com/cerico/macfair/commit/1a3f9e55cef2e35e3a1c495a9a27d432726b0b6f))
+
+
+
 # [2.84.0](https://github.com/cerico/macfair/compare/v2.83.0...v2.84.0) (2026-02-15)
 
 
