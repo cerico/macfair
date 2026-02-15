@@ -1,14 +1,14 @@
 ---
 - name: Create keepalive directory
   file:
-    path: "{{ ansible_env.HOME }}/work/crons/keepalive"
+    path: "{{ [ansible_env.HOME, 'work', 'crons', 'keepalive'] | path_join }}"
     state: directory
     mode: "0755"
 
 - name: Copy necessary files to keepalive directory
   copy:
     src: "{{ item.src }}"
-    dest: "{{ ansible_env.HOME }}/work/crons/keepalive/{{ item.dest }}"
+    dest: "{{ [ansible_env.HOME, 'work', 'crons', 'keepalive', item.dest] | path_join }}"
   with_items:
     - { src: "keepalive/index.mjs", dest: "index.mjs" }
     - { src: "keepalive/pages.mjs", dest: "pages.mjs" }
@@ -19,20 +19,20 @@
 - name: Initialize Node.js project
   command: npm init -y
   args:
-    chdir: "{{ ansible_env.HOME }}/work/crons/keepalive"
+    chdir: "{{ [ansible_env.HOME, 'work', 'crons', 'keepalive'] | path_join }}"
   register: npm_init
   changed_when: "'package.json' in npm_init.stdout"
 
 - name: Install Puppeteer
   command: npm install puppeteer
   args:
-    chdir: "{{ ansible_env.HOME }}/work/crons/keepalive"
+    chdir: "{{ [ansible_env.HOME, 'work', 'crons', 'keepalive'] | path_join }}"
   register: npm_install
   changed_when: "'node_modules' in npm_install.stdout"
 
 - name: Ensure index.mjs has execute permissions
   file:
-    path: "{{ ansible_env.HOME }}/work/crons/keepalive/index.mjs"
+    path: "{{ [ansible_env.HOME, 'work', 'crons', 'keepalive', 'index.mjs'] | path_join }}"
     mode: "0755"
 
 - name: Get ndoe location

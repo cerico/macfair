@@ -2,18 +2,18 @@
 - name: Cloning oh-my-zsh
   git:
     repo: https://github.com/ohmyzsh/ohmyzsh
-    dest: ~{{ macbook_user.stdout }}/.oh-my-zsh
+    dest: "{{ ['~' + macbook_user.stdout, '.oh-my-zsh'] | path_join }}"
     update: no
 
 - name: Copy zsh theme
   copy:
     src: cerico.zsh-theme
-    dest: ~{{ macbook_user.stdout }}/.oh-my-zsh/themes/cerico.zsh-theme
+    dest: "{{ ['~' + macbook_user.stdout, '.oh-my-zsh', 'themes', 'cerico.zsh-theme'] | path_join }}"
 
 - name: Copy zsh theme ii
   copy:
     src: cerico-w-user.zsh-theme
-    dest: ~{{ macbook_user.stdout }}/.oh-my-zsh/themes/cerico-w-user.zsh-theme
+    dest: "{{ ['~' + macbook_user.stdout, '.oh-my-zsh', 'themes', 'cerico-w-user.zsh-theme'] | path_join }}"
 
 - name: change user shell to zsh
   become: true
@@ -24,7 +24,7 @@
 
 - name: register iterm location
   stat:
-    path: ~{{ macbook_user.stdout }}/Library/Application Support/iTerm2
+    path: "{{ ['~' + macbook_user.stdout, 'Library', 'Application Support', 'iTerm2'] | path_join }}"
   register: iterm_path
 
 - name: Create iterm preferences by opening
@@ -34,17 +34,17 @@
 - name: copy iterm profiles
   template:
     src: iterm.json.j2
-    dest: ~{{ macbook_user.stdout }}/Library/Application Support/iTerm2/DynamicProfiles/iterm.json
+    dest: "{{ ['~' + macbook_user.stdout, 'Library', 'Application Support', 'iTerm2', 'DynamicProfiles', 'iterm.json'] | path_join }}"
   when: iterm_path.stat.exists
 
 - name: Create pnpm-audit directory
   file:
-    path: "{{ ansible_env.HOME }}/work/crons/pnpm-audit"
+    path: "{{ [ansible_env.HOME, 'work', 'crons', 'pnpm-audit'] | path_join }}"
     state: directory
     mode: "0755"
 
 - name: Copy pnpm-audit script
   copy:
     src: pnpm-audit/daily-pnpm-audit.sh
-    dest: "{{ ansible_env.HOME }}/work/crons/pnpm-audit/daily-pnpm-audit.sh"
+    dest: "{{ [ansible_env.HOME, 'work', 'crons', 'pnpm-audit', 'daily-pnpm-audit.sh'] | path_join }}"
     mode: "0755"

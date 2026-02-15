@@ -1,53 +1,53 @@
 - name: Copy git functions
   copy:
     src: zsh/git.zsh
-    dest: ~{{ macbook_user.stdout }}/.zsh/git.zsh
+    dest: "{{ ['~' + macbook_user.stdout, '.zsh', 'git.zsh'] | path_join }}"
 
 - name: Copy gitconfig
   template:
     src: gitconfig.j2
-    dest: ~{{ macbook_user.stdout }}/.gitconfig
+    dest: "{{ ['~' + macbook_user.stdout, '.gitconfig'] | path_join }}"
 
 - name: Create git directory
   file:
-    path: "~{{ macbook_user.stdout }}/.config/git"
+    path: "{{ ['~' + macbook_user.stdout, '.config', 'git'] | path_join }}"
     state: directory
 
 - name: Create git hooks directory
   file:
-    path: "~{{ macbook_user.stdout }}/.config/git/hooks"
+    path: "{{ ['~' + macbook_user.stdout, '.config', 'git', 'hooks'] | path_join }}"
     state: directory
 
 - name: Copy global pre-commit hook
   copy:
     src: git/pre-commit
-    dest: ~{{ macbook_user.stdout }}/.config/git/hooks/pre-commit
+    dest: "{{ ['~' + macbook_user.stdout, '.config', 'git', 'hooks', 'pre-commit'] | path_join }}"
     mode: a+x
 
 - name: Copy global post-receive hook
   copy:
     src: git/post-receive
-    dest: ~{{ macbook_user.stdout }}/.config/git/hooks/post-receive
+    dest: "{{ ['~' + macbook_user.stdout, '.config', 'git', 'hooks', 'post-receive'] | path_join }}"
     mode: a+x
 
 - name: Copy global post-checkout hook
   copy:
     src: git/post-checkout
-    dest: ~{{ macbook_user.stdout }}/.config/git/hooks/post-checkout
+    dest: "{{ ['~' + macbook_user.stdout, '.config', 'git', 'hooks', 'post-checkout'] | path_join }}"
     mode: a+x
 
 - name: Copy global commit-msg hook
   copy:
     src: git/commit-msg
-    dest: ~{{ macbook_user.stdout }}/.config/git/hooks/commit-msg
+    dest: "{{ ['~' + macbook_user.stdout, '.config', 'git', 'hooks', 'commit-msg'] | path_join }}"
     mode: a+x
 
 - name: Create blank template commit file
   copy:
     src: git/commit-msg-template
-    dest: ~{{ macbook_user.stdout }}/.config/git/commit-msg-template
+    dest: "{{ ['~' + macbook_user.stdout, '.config', 'git', 'commit-msg-template'] | path_join }}"
 
 - name: Create global gitignore
   copy:
     src: git/ignore
-    dest: ~{{ macbook_user.stdout }}/.config/git/ignore
+    dest: "{{ ['~' + macbook_user.stdout, '.config', 'git', 'ignore'] | path_join }}"

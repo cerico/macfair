@@ -38,38 +38,38 @@
 - name: copy vscode profile darwin
   copy:
     src: vscode.json
-    dest: ~{{ macbook_user.stdout }}/Library/Application Support/Code/User/settings.json
+    dest: "{{ ['~' + macbook_user.stdout, 'Library', 'Application Support', 'Code', 'User', 'settings.json'] | path_join }}"
   when: ansible_os_family == "Darwin"
 
 - name: copy vscode profile debian
   copy:
     src: vscode.json
-    dest: ~{{ macbook_user.stdout }}/.config/Code/User/settings.json
+    dest: "{{ ['~' + macbook_user.stdout, '.config', 'Code', 'User', 'settings.json'] | path_join }}"
   when: ansible_os_family == "Debian"
 
 - name: Create snippets directory
   file:
-    path: ~{{ macbook_user.stdout }}/Library/Application Support/Code/User/snippets
+    path: "{{ ['~' + macbook_user.stdout, 'Library', 'Application Support', 'Code', 'User', 'snippets'] | path_join }}"
     state: directory
   when: ansible_os_family == "Darwin"
 
 - name: Copy snippets
   copy:
     src: "{{ item }}"
-    dest: ~{{ macbook_user.stdout }}/Library/Application Support/Code/User/snippets
+    dest: "{{ ['~' + macbook_user.stdout, 'Library', 'Application Support', 'Code', 'User', 'snippets'] | path_join }}"
   with_fileglob:
     - snippets/*
   when: ansible_os_family == "Darwin"
 
 - name: Create themes directory
   file:
-    path: ~{{ macbook_user.stdout }}/.vscode/themes
+    path: "{{ ['~' + macbook_user.stdout, '.vscode', 'themes'] | path_join }}"
     state: directory
 
 - name: Copy themes
   copy:
     src: "{{ item }}"
-    dest: ~{{ macbook_user.stdout }}/.vscode/themes
+    dest: "{{ ['~' + macbook_user.stdout, '.vscode', 'themes'] | path_join }}"
   with_fileglob:
     - themes/*
 

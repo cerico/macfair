@@ -1,13 +1,13 @@
 ---
 - name: Create wallpapers directory.
   file:
-    path: "~{{ macbook_user.stdout }}/wallpapers"
+    path: "{{ ['~' + macbook_user.stdout, 'wallpapers'] | path_join }}"
     state: directory
 
 - name: Synchronize wallpapers directory
   synchronize:
     src: wallpapers/
-    dest: "~{{ macbook_user.stdout }}/wallpapers/"
+    dest: "{{ ['~' + macbook_user.stdout, 'wallpapers'] | path_join }}/"
     delete: yes
     recursive: yes
   when: ansible_connection == "local"
@@ -15,21 +15,21 @@
 - name: Copy wallpapers (for remote hosts)
   copy:
     src: "{{ item }}"
-    dest: ~/wallpapers
+    dest: "{{ ['~' + macbook_user.stdout, 'wallpapers'] | path_join }}"
   with_fileglob:
     - wallpapers/*
   when: ansible_connection != "local"
 
 - name: Get list of wallpapers
   find:
-    paths: "/Users/{{ macbook_user.stdout }}/wallpapers"
+    paths: "{{ ['~' + macbook_user.stdout, 'wallpapers'] | path_join }}"
     patterns: "*.png"
   register: wallpaper_files
 
 - name: Set first wallpaper as default
   shell: |
-    wallpaper_file=$(ls /Users/{{ macbook_user.stdout }}/wallpapers/*.png | sort | head -1 | xargs basename)
-    osascript -e 'tell application "System Events" to tell every desktop to set picture to POSIX file "/Users/{{ macbook_user.stdout }}/wallpapers/'$wallpaper_file'"'
+    wallpaper_file=$(ls {{ ['~' + macbook_user.stdout, 'wallpapers'] | path_join }}/*.png | sort | head -1 | xargs basename)
+    osascript -e 'tell application "System Events" to tell every desktop to set picture to POSIX file "{{ ['~' + macbook_user.stdout, 'wallpapers'] | path_join }}/'$wallpaper_file'"'
   when: wallpaper_files.files | length > 0
 
 - name: Set wallpapers for all spaces using wallpapers function

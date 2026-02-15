@@ -55,6 +55,11 @@ claudepod:
 	podman build -t claudepod -f files/claude/Containerfile .
 upgrade:
 	$(ANSIBLE_PLAYBOOK) upgrade.yml -i hosts
+verify:
+	@echo "Syntax-checking playbooks..."
+	@for pb in thiscomputer.yml setup.yml newcomputer.yml newsite.yml addpackage.yml upgrade.yml remote_login.yml keys/keys.yml keys/root.yml; do \
+		$(ANSIBLE_PLAYBOOK) --syntax-check $$pb -i hosts -e "hostname=check" && echo "  ✓ $$pb" || exit 1; \
+	done
 %:
 	@$(MAKE) commands
 include makefiles/*.mk

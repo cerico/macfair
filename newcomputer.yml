@@ -17,28 +17,28 @@
   tasks:
     - name: Create vars folder for new target
       file:
-        path: "{{ playbook_dir }}/host_vars/{{ target }}"
+        path: "{{ [playbook_dir, 'host_vars', target] | path_join }}"
         state: directory
 
     - name: Create main vars yml for target
       template:
         src: vars/target.yml.j2
-        dest: "{{ playbook_dir }}/host_vars/{{ target }}/vars.yml"
+        dest: "{{ [playbook_dir, 'host_vars', target, 'vars.yml'] | path_join }}"
 
     - name: Add target to inventory file.
       ansible.builtin.lineinfile:
-        path: "{{ playbook_dir }}/hosts"
+        path: "{{ [playbook_dir, 'hosts'] | path_join }}"
         line: "{{ target }}"
         insertafter: "\\[{{ group }}\\]"
 
     - name: Add ansible user to ssh list.
       ansible.builtin.lineinfile:
-        path: "{{ playbook_dir }}/host_vars/localhost.yml"
+        path: "{{ [playbook_dir, 'host_vars', 'localhost.yml'] | path_join }}"
         line: "  - { username: {{ user }}@{{ target }}, userkey: ~/.ssh/id_rsa.pub }"
         insertafter: "users"
 
     - name: Add root user to ssh list.
       ansible.builtin.lineinfile:
-        path: "{{ playbook_dir }}/host_vars/localhost.yml"
+        path: "{{ [playbook_dir, 'host_vars', 'localhost.yml'] | path_join }}"
         line: "  - { username: root@{{ target }}, userkey: ~/.ssh/id_rsa.pub }"
         insertafter: "root"

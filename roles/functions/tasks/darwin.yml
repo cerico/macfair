@@ -9,31 +9,31 @@
 - name: Copy darwin-specific zsh files
   ansible.builtin.copy:
     src: "{{ item }}"
-    dest: "~{{ macbook_user.stdout }}/.zsh/"
+    dest: "{{ ['~' + macbook_user.stdout, '.zsh'] | path_join }}/"
   with_fileglob:
     - zsh/darwin/*.zsh
 
 - name: Copy MCP functions
   ansible.builtin.copy:
     src: zsh/mcp.zsh
-    dest: "~{{ macbook_user.stdout }}/.zsh/mcp.zsh"
+    dest: "{{ ['~' + macbook_user.stdout, '.zsh', 'mcp.zsh'] | path_join }}"
 
 - name: create empty tokens file only if one doesnt already exist
   ansible.builtin.copy:
     content: ""
-    dest: ~{{ macbook_user.stdout }}/.zsh/tokens.zsh
+    dest: "{{ ['~' + macbook_user.stdout, '.zsh', 'tokens.zsh'] | path_join }}"
     force: no
 
 - name: create trial file for new functions if one doesn't already exist
   ansible.builtin.copy:
     content: "tinker(){\n  echo try out new functions here, not in main file\n}"
-    dest: ~{{ macbook_user.stdout }}/.zsh/_trialling.zsh
+    dest: "{{ ['~' + macbook_user.stdout, '.zsh', '_trialling.zsh'] | path_join }}"
     force: no
 
 - name: copy js help file
   ansible.builtin.copy:
     src: help.js
-    dest: ~{{ macbook_user.stdout }}/.zsh/help.js
+    dest: "{{ ['~' + macbook_user.stdout, '.zsh', 'help.js'] | path_join }}"
 
 - name: Add ansible to path.
   lineinfile:
@@ -53,7 +53,7 @@
 - name: Copy dns functions
   ansible.builtin.copy:
     src: zsh/dns.zsh
-    dest: ~{{ macbook_user.stdout }}/.zsh/dns.zsh
+    dest: "{{ ['~' + macbook_user.stdout, '.zsh', 'dns.zsh'] | path_join }}"
 
 - name: Makes zsh the cron shell
   ansible.builtin.cron:

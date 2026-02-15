@@ -9,18 +9,18 @@
 - name: Cloning oh-my-zsh
   git:
     repo: https://github.com/ohmyzsh/ohmyzsh
-    dest: ~{{ macbook_user.stdout }}/.oh-my-zsh
+    dest: "{{ ['~' + macbook_user.stdout, '.oh-my-zsh'] | path_join }}"
     update: no
 
 - name: Copy zsh theme
   copy:
     src: cerico.zsh-theme
-    dest: ~{{ macbook_user.stdout }}/.oh-my-zsh/themes/cerico.zsh-theme
+    dest: "{{ ['~' + macbook_user.stdout, '.oh-my-zsh', 'themes', 'cerico.zsh-theme'] | path_join }}"
 
 - name: Copy zsh theme ii
   copy:
     src: cerico-w-user.zsh-theme
-    dest: ~{{ macbook_user.stdout }}/.oh-my-zsh/themes/cerico-w-user.zsh-theme
+    dest: "{{ ['~' + macbook_user.stdout, '.oh-my-zsh', 'themes', 'cerico-w-user.zsh-theme'] | path_join }}"
 
 - name: change user shell to zsh
   become: true

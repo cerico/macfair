@@ -26,7 +26,7 @@
     - name: Template .env file
       template:
         src: env.j2
-        dest: "{{ agent_deploy_dir }}/.env"
+        dest: "{{ [agent_deploy_dir, '.env'] | path_join }}"
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"
         mode: '0600'

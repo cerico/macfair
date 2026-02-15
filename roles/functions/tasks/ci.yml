@@ -1,4 +1,4 @@
 - name: Copy ci functions
   copy:
     src: zsh/ci.zsh
-    dest: ~{{ macbook_user.stdout }}/.zsh/ci.zsh
+    dest: "{{ ['~' + macbook_user.stdout, '.zsh', 'ci.zsh'] | path_join }}"

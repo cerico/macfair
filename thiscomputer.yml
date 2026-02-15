@@ -16,28 +16,28 @@
     - name: Create main vars yml for localhost
       template:
         src: vars/localhost.yml.j2
-        dest: "{{ playbook_dir }}/host_vars/localhost.yml"
+        dest: "{{ [playbook_dir, 'host_vars', 'localhost.yml'] | path_join }}"
         force: false
 
     - name: Create vars folder for this hostname
       file:
-        path: "{{ playbook_dir }}/host_vars/{{ target }}.localhost"
+        path: "{{ [playbook_dir, 'host_vars', target + '.localhost'] | path_join }}"
         state: directory
 
     - name: Create main vars yml for target
       template:
         src: vars/this.yml.j2
-        dest: "{{ playbook_dir }}/host_vars/{{ target }}.localhost/vars.yml"
+        dest: "{{ [playbook_dir, 'host_vars', target + '.localhost', 'vars.yml'] | path_join }}"
 
     - name: Create main vars yml for target
       template:
         src: vars/hosts.j2
-        dest: "{{ playbook_dir }}/hosts"
+        dest: "{{ [playbook_dir, 'hosts'] | path_join }}"
         force: false
 
     - name: Add target to inventory file when debian.
       lineinfile:
-        path: "{{ playbook_dir }}/hosts"
+        path: "{{ [playbook_dir, 'hosts'] | path_join }}"
         line: "{{ target }}.localhost"
         regexp: '.localhost'
         insertafter: "debian"
@@ -45,7 +45,7 @@
 
     - name: Add target to inventory file when darwin.
       lineinfile:
-        path: "{{ playbook_dir }}/hosts"
+        path: "{{ [playbook_dir, 'hosts'] | path_join }}"
         line: "{{ target }}.localhost"
         regexp: '.localhost'
         insertafter: "macbook"

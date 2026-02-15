@@ -1,14 +1,14 @@
 ---
 - name: Create diskspace directory
   file:
-    path: "{{ ansible_env.HOME }}/work/crons/diskspace"
+    path: "{{ [ansible_env.HOME, 'work', 'crons', 'diskspace'] | path_join }}"
     state: directory
     mode: "0755"
 
 - name: Copy diskspace scripts
   copy:
     src: "{{ item.src }}"
-    dest: "{{ ansible_env.HOME }}/work/crons/diskspace/{{ item.dest }}"
+    dest: "{{ [ansible_env.HOME, 'work', 'crons', 'diskspace', item.dest] | path_join }}"
     mode: "0755"
   with_items:
     - { src: "diskspace/guardian.sh", dest: "guardian.sh" }

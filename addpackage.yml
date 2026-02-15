@@ -32,11 +32,11 @@
 
     - name: Add target to inventory file when debian.
       ansible.builtin.lineinfile:
-        path: "host_vars/{{ menu_selection.user_input }}/vars.yml"
+        path: "{{ ['host_vars', menu_selection.user_input, 'vars.yml'] | path_join }}"
         line: "optional:"
 
     - name: Add new package to host vars.
-      ansible.builtin.lineinfile.lineinfile:
-        path: "host_vars/{{ menu_selection.user_input }}/vars.yml"
+      ansible.builtin.lineinfile:
+        path: "{{ ['host_vars', menu_selection.user_input, 'vars.yml'] | path_join }}"
         line: " - {{ package }}"
         insertafter: "optional:"
