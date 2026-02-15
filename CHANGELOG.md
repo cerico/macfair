@@ -1,3 +1,12 @@
+# [2.84.0](https://github.com/cerico/macfair/compare/v2.83.0...v2.84.0) (2026-02-15)
+
+
+### Features
+
+* add speak script, switch to official plugins, and add Karabiner shortcut ([#497](https://github.com/cerico/macfair/issues/497)) ([c67d658](https://github.com/cerico/macfair/commit/c67d658e023d7c1139716f0a69b017179a6c9c25))
+
+
+
 # [2.83.0](https://github.com/cerico/macfair/compare/v2.82.0...v2.83.0) (2026-02-14)
 
 
