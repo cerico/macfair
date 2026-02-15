@@ -1,13 +1,23 @@
 #!/bin/zsh
 # Speak text or file contents using Kokoro TTS
 
+# Per-session output file to prevent clobbering across terminals
+speak_out="/tmp/speak_out_$(tty 2>/dev/null | tr '/' '_').mp3"
+
 _speak() {
+  [[ -d /tmp/speak.lock ]] && (( $(date +%s) - $(stat -f%m /tmp/speak.lock) > 120 )) && rmdir /tmp/speak.lock 2>/dev/null
+  while ! mkdir /tmp/speak.lock 2>/dev/null; do sleep 0.2; done
+  trap 'rmdir /tmp/speak.lock 2>/dev/null; trap - INT TERM' INT TERM
+
   jq -n --arg text "$1" \
     '{model:"kokoro", input:$text, voice:"af_sky", response_format:"mp3"}' | \
     curl -s -X POST http://127.0.0.1:8880/v1/audio/speech \
       -H "Content-Type: application/json" \
       -d @- \
-      -o /tmp/speak_out.mp3 && afplay /tmp/speak_out.mp3
+      -o "$speak_out" && afplay "$speak_out"
+
+  rmdir /tmp/speak.lock 2>/dev/null
+  trap - INT TERM
 }
 
 [[ $# -eq 0 ]] && _speak "Nothing to speak." && exit 1

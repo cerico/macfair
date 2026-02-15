@@ -132,6 +132,7 @@
     - "jmespath"
     - "passlib"
     - "yq"
+    - "trafilatura"
 
 - name: Check if Claude Code is installed
   stat:

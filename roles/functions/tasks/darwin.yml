@@ -6,6 +6,13 @@
     mode: '0755'
   become: true
 
+- name: Copy readurl script
+  ansible.builtin.copy:
+    src: bin/readurl
+    dest: /usr/local/bin/readurl
+    mode: '0755'
+  become: true
+
 - name: Copy darwin-specific zsh files
   ansible.builtin.copy:
     src: "{{ item }}"
