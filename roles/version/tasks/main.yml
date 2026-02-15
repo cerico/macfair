@@ -1,24 +1,24 @@
 ---
 - name: Create macfair if directory only if doesnt exist
   file:
-    path: "~{{ macbook_user.stdout }}/.macfair"
+    path: "{{ ['~' + macbook_user.stdout, '.macfair'] | path_join }}"
     state: directory
     force: no
 
 - name: create empty version file only if doesnt already exist
   copy:
     content: ""
-    dest: ~{{ macbook_user.stdout }}/.macfair/version
+    dest: "{{ ['~' + macbook_user.stdout, '.macfair', 'version'] | path_join }}"
     force: no
 
 - name: store macfair location
   copy:
     content: "{{ playbook_dir }}"
-    dest: ~{{ macbook_user.stdout }}/.macfair/location
+    dest: "{{ ['~' + macbook_user.stdout, '.macfair', 'location'] | path_join }}"
 
 - name: add version to file
   lineinfile:
-    path: "~{{ macbook_user.stdout }}/.macfair/version"
+    path: "{{ ['~' + macbook_user.stdout, '.macfair', 'version'] | path_join }}"
     line: "{{ parent_role_name }}: {{ hostvars['localhost']['macfair_version'].stdout[1:-1] }}"
     regexp: '{{ parent_role_name }}'
     insertbefore: BOF

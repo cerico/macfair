@@ -73,7 +73,7 @@
 
 - name: Create directory for installed caskapps
   file:
-    path: "~{{ brew_user.stdout }}/Applications"
+    path: "{{ ['~' + brew_user.stdout, 'Applications'] | path_join }}"
     state: directory
     mode: 0775
 
@@ -105,7 +105,7 @@
 - name: Copy zshenv
   copy:
     src: zshenv
-    dest: ~{{ macbook_user.stdout }}/.zshenv
+    dest: "{{ ['~' + macbook_user.stdout, '.zshenv'] | path_join }}"
 
 - name: source zshenv so we get /usr/local/bin for npm
   shell: source ~/.zshenv
@@ -135,7 +135,7 @@
 
 - name: Check if Claude Code is installed
   stat:
-    path: "~{{ macbook_user.stdout }}/.local/bin/claude"
+    path: "{{ ['~' + macbook_user.stdout, '.local', 'bin', 'claude'] | path_join }}"
   register: claude_installed
 
 - name: Install Claude Code

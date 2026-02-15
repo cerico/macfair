@@ -1,7 +1,7 @@
 ---
 - name: Create ruben experimental namespace
   file:
-    path: "~{{ macbook_user.stdout }}/.claude/ruben/{{ item }}"
+    path: "{{ ['~' + macbook_user.stdout, '.claude', 'ruben', item] | path_join }}"
     state: directory
     mode: 0755
   loop:
@@ -14,20 +14,20 @@
 - name: Install diary command to main commands directory
   copy:
     src: commands/diary.md
-    dest: "~{{ macbook_user.stdout }}/.claude/commands/"
+    dest: "{{ ['~' + macbook_user.stdout, '.claude', 'commands'] | path_join }}/"
     mode: 0644
   tags: ruben
 
 - name: Install ruben hooks
   copy:
     src: hooks/pre-compact-diary.sh
-    dest: "~{{ macbook_user.stdout }}/.claude/ruben/hooks/"
+    dest: "{{ ['~' + macbook_user.stdout, '.claude', 'ruben', 'hooks'] | path_join }}/"
     mode: 0755
   tags: ruben
 
 - name: Install reflect command to main commands directory
   copy:
     src: commands/reflect.md
-    dest: "~{{ macbook_user.stdout }}/.claude/commands/reflect.md"
+    dest: "{{ ['~' + macbook_user.stdout, '.claude', 'commands', 'reflect.md'] | path_join }}"
     mode: 0644
   tags: ruben

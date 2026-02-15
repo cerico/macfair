@@ -1,17 +1,17 @@
 - name: Copy zshrc
   template:
     src: zshrc.j2
-    dest: ~{{ macbook_user.stdout }}/.zshrc
+    dest: "{{ ['~' + macbook_user.stdout, '.zshrc'] | path_join }}"
 
 - name: Create zsh directory
   file:
-    path: "~{{ macbook_user.stdout }}/.zsh"
+    path: "{{ ['~' + macbook_user.stdout, '.zsh'] | path_join }}"
     state: directory
 
 - name: Copy all zsh function files
   copy:
     src: "{{ item }}"
-    dest: "~{{ macbook_user.stdout }}/.zsh/"
+    dest: "{{ ['~' + macbook_user.stdout, '.zsh'] | path_join }}/"
   with_fileglob:
     - zsh/*.zsh
 
@@ -29,29 +29,29 @@
 - name: Copy templates directory
   copy:
     src: templates/
-    dest: ~{{ macbook_user.stdout }}/.templates/
+    dest: "{{ ['~' + macbook_user.stdout, '.templates'] | path_join }}/"
 
 - name: Copy zsh gitignore
   copy:
     src: zsh/.gitignore
-    dest: ~{{ macbook_user.stdout }}/.zsh/.gitignore
+    dest: "{{ ['~' + macbook_user.stdout, '.zsh', '.gitignore'] | path_join }}"
 
 - name: Copy zshrc for informational purposes
   copy:
-    src: ~{{ macbook_user.stdout }}/.zshrc
-    dest: ~{{ macbook_user.stdout }}/.zsh/.zshrc
+    src: "{{ ['~' + macbook_user.stdout, '.zshrc'] | path_join }}"
+    dest: "{{ ['~' + macbook_user.stdout, '.zsh', '.zshrc'] | path_join }}"
   when: ansible_connection == "local"
 
 - name: Copy macfair file (this machine)
   template:
     src: zsh/macfair.zsh.j2
-    dest: ~{{ macbook_user.stdout }}/.zsh/macfair.zsh
+    dest: "{{ ['~' + macbook_user.stdout, '.zsh', 'macfair.zsh'] | path_join }}"
   when: hostvars['localhost']['hostname'].stdout == ansible_hostname
 
 - name: Copy macfair file (other machines)
   copy:
     src: zsh/macfair.zsh
-    dest: ~{{ macbook_user.stdout }}/.zsh/macfair.zsh
+    dest: "{{ ['~' + macbook_user.stdout, '.zsh', 'macfair.zsh'] | path_join }}"
   when: hostvars['localhost']['hostname'].stdout != ansible_hostname
 
 - name: import ci.yml

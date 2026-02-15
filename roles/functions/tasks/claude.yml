@@ -1,76 +1,76 @@
 ---
 - name: Create claude directory
   file:
-    path: "~{{ macbook_user.stdout }}/.claude"
+    path: "{{ ['~' + macbook_user.stdout, '.claude'] | path_join }}"
     state: directory
 
 - name: Create MEMORY/State directory for location persistence
   file:
-    path: "~{{ macbook_user.stdout }}/.claude/MEMORY/State"
+    path: "{{ ['~' + macbook_user.stdout, '.claude', 'MEMORY', 'State'] | path_join }}"
     state: directory
 
 - name: Create hubs directory for learning hub tracking
   file:
-    path: "~{{ macbook_user.stdout }}/.claude/hubs"
+    path: "{{ ['~' + macbook_user.stdout, '.claude', 'hubs'] | path_join }}"
     state: directory
 
 - name: Initialize hubs registry if not exists
   copy:
     content: '{"hubs":[]}'
-    dest: "~{{ macbook_user.stdout }}/.claude/hubs/registry.json"
+    dest: "{{ ['~' + macbook_user.stdout, '.claude', 'hubs', 'registry.json'] | path_join }}"
     force: no
 
 - name: Copy CLAUDE.md
   copy:
     src: claude/config.md
-    dest: ~{{ macbook_user.stdout }}/.claude/CLAUDE.md
+    dest: "{{ ['~' + macbook_user.stdout, '.claude', 'CLAUDE.md'] | path_join }}"
 
 - name: Copy ralph.md
   copy:
     src: claude/ralph.md
-    dest: ~{{ macbook_user.stdout }}/.claude/ralph.md
+    dest: "{{ ['~' + macbook_user.stdout, '.claude', 'ralph.md'] | path_join }}"
 
 - name: Copy Claude settings
   copy:
     src: claude/settings.json
-    dest: ~{{ macbook_user.stdout }}/.claude/settings.json
+    dest: "{{ ['~' + macbook_user.stdout, '.claude', 'settings.json'] | path_join }}"
 
 - name: Copy statusline script
   copy:
     src: claude/statusline.sh
-    dest: ~{{ macbook_user.stdout }}/.claude/statusline.sh
+    dest: "{{ ['~' + macbook_user.stdout, '.claude', 'statusline.sh'] | path_join }}"
     mode: '0755'
 
 - name: Copy Claude skills
   copy:
     src: claude/skills/
-    dest: ~{{ macbook_user.stdout }}/.claude/skills/
+    dest: "{{ ['~' + macbook_user.stdout, '.claude', 'skills'] | path_join }}/"
 
 - name: Copy Claude hooks
   copy:
     src: claude/hooks/
-    dest: ~{{ macbook_user.stdout }}/.claude/hooks/
+    dest: "{{ ['~' + macbook_user.stdout, '.claude', 'hooks'] | path_join }}/"
     mode: '0755'
 
 - name: Copy Claude commands
   copy:
     src: claude/commands/
-    dest: ~{{ macbook_user.stdout }}/.claude/commands/
+    dest: "{{ ['~' + macbook_user.stdout, '.claude', 'commands'] | path_join }}/"
 
 - name: Copy Claude agents
   copy:
     src: claude/agents/
-    dest: ~{{ macbook_user.stdout }}/.claude/agents/
+    dest: "{{ ['~' + macbook_user.stdout, '.claude', 'agents'] | path_join }}/"
 
 - name: Create gemini directory
   file:
-    path: "~{{ macbook_user.stdout }}/.gemini"
+    path: "{{ ['~' + macbook_user.stdout, '.gemini'] | path_join }}"
     state: directory
 
 - name: Copy GEMINI.md
   copy:
     src: claude/config.md
-    dest: ~{{ macbook_user.stdout }}/.gemini/GEMINI.md
+    dest: "{{ ['~' + macbook_user.stdout, '.gemini', 'GEMINI.md'] | path_join }}"
 
 - name: Install typescript-language-server for LSP plugin
   community.general.npm:
@@ -100,13 +100,13 @@
 
 - name: Create Karabiner config directory
   file:
-    path: "{{ ansible_env.HOME }}/.config/karabiner"
+    path: "{{ [ansible_env.HOME, '.config', 'karabiner'] | path_join }}"
     state: directory
 
 - name: Copy Karabiner config
   copy:
     src: karabiner/karabiner.json
-    dest: "{{ ansible_env.HOME }}/.config/karabiner/karabiner.json"
+    dest: "{{ [ansible_env.HOME, '.config', 'karabiner', 'karabiner.json'] | path_join }}"
     force: yes
 
 - name: Install/update GSD (always runs for latest)

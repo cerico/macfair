@@ -36,6 +36,11 @@ jobs:
           source ~/.pyvenv-ansible/bin/activate
           ansible-galaxy collection install -r requirements.yml
 
+      - name: Syntax-check all playbooks
+        run: |
+          source ~/.pyvenv-ansible/bin/activate
+          make verify
+
       - name: Replace tracked files with CI-safe versions
         run: |
           printf '[macbook]\n\n[debian]\n\n[sites]\n' > hosts
