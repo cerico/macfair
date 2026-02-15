@@ -41,9 +41,14 @@
       "Bash(pnpm add *)",
       "Bash(pnpm exec prisma *)",
       "Bash(git *)",
+      "Bash(gh issue *)",
+      "Bash(gh pr view *)",
+      "Bash(gh pr list *)",
+      "Bash(gh pr checks *)",
+      "Bash(gh api --method GET *)",
+      "Bash(semgrep *)",
       "Bash(nightshift:*)",
-      "Bash(curl -s -X POST http://127.0.0.1:8880/v1/audio/speech *)",
-      "Bash(afplay /tmp/claude_speak*)"
+      "Bash(/usr/local/bin/speak *)"
     ],
     "deny": [
       "Bash(git push *)",

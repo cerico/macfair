@@ -61,6 +61,28 @@
                 ]
               }
             ]
+          },
+          {
+            "description": "⌘; to /speak + SuperWhisper",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "semicolon",
+                  "modifiers": { "mandatory": ["command"] }
+                },
+                "to": [
+                  { "key_code": "slash" },
+                  { "key_code": "s" },
+                  { "key_code": "p" },
+                  { "key_code": "e" },
+                  { "key_code": "a" },
+                  { "key_code": "k" },
+                  { "key_code": "spacebar" },
+                  { "key_code": "period", "modifiers": ["command"] }
+                ]
+              }
+            ]
           }
         ]
       }

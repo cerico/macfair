@@ -72,132 +72,31 @@
     src: claude/config.md
     dest: ~{{ macbook_user.stdout }}/.gemini/GEMINI.md
 
-- name: Get list of installed MCP servers
-  ansible.builtin.shell: claude mcp list 2>/dev/null || echo ""
-  environment:
-    PATH: "/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
-  register: mcp_list
-  changed_when: false
-
-- name: Add Prisma MCP server
-  ansible.builtin.shell: claude mcp add -s user prisma -- npx prisma mcp
-  environment:
-    PATH: "/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
-  when: "'prisma' not in mcp_list.stdout"
-  ignore_errors: true
-
-- name: Add Semgrep MCP server
-  ansible.builtin.shell: claude mcp add -s user semgrep -- semgrep mcp
-  environment:
-    PATH: "/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
-  when: "'semgrep' not in mcp_list.stdout"
-  ignore_errors: true
-
-- name: Add Playwright MCP server
-  ansible.builtin.shell: claude mcp add -s user playwright -- npx @playwright/mcp@latest
-  environment:
-    PATH: "/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
-  when: "'playwright' not in mcp_list.stdout"
-  ignore_errors: true
-
-- name: Add voicemode marketplace
-  ansible.builtin.shell: claude plugin marketplace add https://github.com/mbailey/claude-plugins
-  environment:
-    PATH: "/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
-  args:
-    creates: "{{ ansible_env.HOME }}/.claude/plugins/marketplaces/mbailey"
-  ignore_errors: true
-
-- name: Install voicemode plugin
-  ansible.builtin.shell: claude plugin install voicemode@mbailey
-  environment:
-    PATH: "/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
-  args:
-    creates: "{{ ansible_env.HOME }}/.claude/plugins/cache/mbailey/voicemode"
-  ignore_errors: true
-
-- name: Install Kokoro TTS via voicemode
-  ansible.builtin.shell: claude /voicemode:install kokoro
-  environment:
-    PATH: "/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
-  args:
-    creates: "{{ ansible_env.HOME }}/.voicemode/services/kokoro"
-  ignore_errors: true
-
-- name: Add claude-stt marketplace
-  ansible.builtin.shell: claude plugin marketplace add jarrodwatts/claude-stt
-  environment:
-    PATH: "/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
-  args:
-    creates: "{{ ansible_env.HOME }}/.claude/plugins/marketplaces/jarrodwatts-claude-stt"
-  ignore_errors: true
-
-- name: Install claude-stt plugin
-  ansible.builtin.shell: claude plugin install claude-stt
-  environment:
-    PATH: "/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
-  args:
-    creates: "{{ ansible_env.HOME }}/.claude/plugins/cache/jarrodwatts-claude-stt/claude-stt"
-  ignore_errors: true
-
-- name: Find all claude-stt plugin version directories
-  ansible.builtin.find:
-    paths: "{{ ansible_env.HOME }}/.claude/plugins/cache/jarrodwatts-claude-stt/claude-stt/"
-    file_type: directory
-  register: claude_stt_versions
-  ignore_errors: true
-
-- name: Run claude-stt setup for each version
-  ansible.builtin.shell: |
-    cd {{ item.path }}
-    uv run --directory . python -m claude_stt.setup --skip-hotkey-test --no-start
+- name: Install typescript-language-server for LSP plugin
+  community.general.npm:
+    name: "{{ item }}"
+    global: true
+    state: present
   environment:
     PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
-    CLAUDE_PLUGIN_ROOT: "{{ item.path }}"
-  args:
-    creates: "{{ item.path }}/.venv"
-  loop: "{{ claude_stt_versions.files | default([]) }}"
-  when: claude_stt_versions.files is defined
+  loop:
+    - typescript-language-server
+    - typescript
+
+- name: Install Claude Code plugins from official marketplace
+  ansible.builtin.shell: "claude plugin install {{ item }}@claude-plugins-official"
+  environment:
+    PATH: "/opt/homebrew/bin:/usr/local/bin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
+  register: plugin_install
+  changed_when: "'already installed' not in plugin_install.stdout"
   ignore_errors: true
-
-- name: Patch claude-stt hooks to use uv (all versions)
-  ansible.builtin.copy:
-    dest: "{{ item.path }}/hooks/hooks.json"
-    content: |
-      {
-        "hooks": {
-          "SessionStart": [
-            {
-              "hooks": [
-                {
-                  "type": "command",
-                  "command": "cd ${CLAUDE_PLUGIN_ROOT} && uv run python -m claude_stt.daemon start --background 2>/dev/null",
-                  "timeout": 5000
-                }
-              ]
-            }
-          ]
-        }
-      }
-  loop: "{{ claude_stt_versions.files | default([]) }}"
-  when: claude_stt_versions.files is defined
-
-- name: claude-stt permissions reminder
-  ansible.builtin.debug:
-    msg: |
-      ╔══════════════════════════════════════════════════════════════════╗
-      ║  claude-stt requires macOS permissions (one-time setup):         ║
-      ║                                                                  ║
-      ║  System Settings → Privacy & Security → Accessibility            ║
-      ║    → Enable your terminal (iTerm/Terminal)                       ║
-      ║                                                                  ║
-      ║  System Settings → Privacy & Security → Input Monitoring         ║
-      ║    → Enable your terminal (iTerm/Terminal)                       ║
-      ║                                                                  ║
-      ║  After granting permissions, restart Claude Code.                ║
-      ║  Press § to start/stop voice recording.                          ║
-      ╚══════════════════════════════════════════════════════════════════╝
-  when: claude_stt_versions.files is defined and claude_stt_versions.files | length > 0
+  loop:
+    - playwright
+    - typescript-lsp
+    - claude-md-management
+    - claude-code-setup
+    - hookify
+    - security-guidance
 
 - name: Create Karabiner config directory
   file:
