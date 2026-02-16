@@ -1,3 +1,12 @@
+# [2.87.0](https://github.com/cerico/macfair/compare/v2.86.0...v2.87.0) (2026-02-16)
+
+
+### Features
+
+* add tmux integration, vps workflow, and neovim setup ([#504](https://github.com/cerico/macfair/issues/504)) ([8fe01d5](https://github.com/cerico/macfair/commit/8fe01d5531f3f8c9a9aa17d7bb9782b720206020))
+
+
+
 # [2.86.0](https://github.com/cerico/macfair/compare/v2.85.0...v2.86.0) (2026-02-16)
 
 
