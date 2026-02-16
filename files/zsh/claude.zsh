@@ -5,6 +5,23 @@ unalias claude clauden claudev claudevn claudep claudevp claudex claudepod discu
 
 CLAUDE_LOCKFILE=".claude-session.lock"
 
+_claude_tmux() {
+  local session="${${PWD##*/}//[.:]/_}"
+  if tmux has-session -t "$session" 2>/dev/null; then
+    tmux attach -t "$session"
+    return
+  fi
+  tmux new-session -d -s "$session" -c "$PWD"
+  tmux split-window -h -t "$session" -p 30
+  tmux split-window -v -t "$session"
+  tmux send-keys -t "$session:1.2" "clear" Enter
+  tmux send-keys -t "$session:1.3" "clear" Enter
+  tmux select-pane -t "$session:1.1"
+  local cmd=$(printf '%q ' "$@")
+  tmux send-keys -t "$session:1.1" "$cmd; tmux kill-session -t $session" Enter
+  tmux attach -t "$session"
+}
+
 _claude_lock() {
   if [[ -f "$CLAUDE_LOCKFILE" ]]; then
     local lock_pid=$(cat "$CLAUDE_LOCKFILE" 2>/dev/null)
@@ -39,6 +56,13 @@ _claude_maybe_gsd() {
 }
 
 claude() {
+  if [[ -z "$TMUX" ]]; then
+    local -a args=(command claude --permission-mode plan)
+    [[ $# -eq 0 ]] && [[ -f .planning/STATE.md ]] && args+=(go)
+    [[ $# -gt 0 ]] && args+=("$@")
+    _claude_tmux "${args[@]}"
+    return
+  fi
   [[ $# -eq 0 ]] && { _claude_maybe_gsd --permission-mode plan; return; }
   _claude_run --permission-mode plan "$@"
 }
@@ -47,12 +71,12 @@ clauden() {
   _claude_run "$@"
 }
 claudev() {
-  local voice='Always speak responses aloud using the /speak skill. Every response should be voiced via Kokoro TTS.'
+  local voice='Always speak responses aloud using the /speak skill. Every response should be voiced via Kokoro TTS. Before any tool call that needs permission, speak what you are about to do so the user knows to check the screen.'
   [[ $# -eq 0 ]] && { _claude_maybe_gsd --permission-mode plan --append-system-prompt "$voice"; return; }
   _claude_run --permission-mode plan --append-system-prompt "$voice" "$@"
 }
 claudevn() {
-  local voice='Always speak responses aloud using the /speak skill. Every response should be voiced via Kokoro TTS.'
+  local voice='Always speak responses aloud using the /speak skill. Every response should be voiced via Kokoro TTS. Before any tool call that needs permission, speak what you are about to do so the user knows to check the screen.'
   [[ $# -eq 0 ]] && { _claude_maybe_gsd --append-system-prompt "$voice"; return; }
   _claude_run --append-system-prompt "$voice" "$@"
 }
@@ -68,9 +92,42 @@ claudex() {
 }
 
 discuss() {
-  local voice='Always speak every response aloud using the /speak skill (Kokoro TTS on port 8880, then afplay). Skip code blocks in the spoken version - focus on reasoning, strategy, and discussion. The user can see the full text on screen, so the spoken part should be conversational.'
+  local voice='Always speak every response aloud using the /speak skill (Kokoro TTS on port 8880, then afplay). Skip code blocks in the spoken version - focus on reasoning, strategy, and discussion. The user can see the full text on screen, so the spoken part should be conversational. Before any tool call that needs permission, speak what you are about to do so the user knows to check the screen.'
+  if [[ -z "$TMUX" ]]; then
+    local -a args=(command claude --permission-mode plan --append-system-prompt "$voice")
+    [[ $# -eq 0 ]] && [[ -f .planning/STATE.md ]] && args+=(go)
+    [[ $# -gt 0 ]] && args+=("$@")
+    _claude_tmux "${args[@]}"
+    return
+  fi
   [[ $# -eq 0 ]] && { _claude_maybe_gsd --permission-mode plan --append-system-prompt "$voice"; return; }
   _claude_run --permission-mode plan --append-system-prompt "$voice" "$@"
+}
+
+vps() {
+  [[ -z "$1" ]] && { echo "Usage: vps <host>"; return 1; }
+  local host="$1" session="vps_${1//[.:]/_}"
+  shift
+  if [[ -n "$TMUX" ]]; then
+    ssh "$host"
+    return
+  fi
+  if tmux has-session -t "$session" 2>/dev/null; then
+    tmux attach -t "$session"
+    return
+  fi
+  local macfair="$HOME/macfair"
+  tmux new-session -d -s "$session" -c "$macfair"
+  tmux split-window -h -t "$session" -p 30 -c "$macfair"
+  tmux split-window -v -t "$session" -c "$macfair"
+  tmux send-keys -t "$session:1.2" "clear && ssh $(printf '%q' "$host")" Enter
+  tmux send-keys -t "$session:1.3" "clear" Enter
+  tmux select-pane -t "$session:1.1"
+  local -a args=(command claude --permission-mode plan)
+  [[ $# -gt 0 ]] && args+=("$@")
+  local cmd=$(printf '%q ' "${args[@]}")
+  tmux send-keys -t "$session:1.1" "$cmd; tmux kill-session -t $session" Enter
+  tmux attach -t "$session"
 }
 
 claudewright() {

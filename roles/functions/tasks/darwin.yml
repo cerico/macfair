@@ -13,6 +13,28 @@
     mode: '0755'
   become: true
 
+- name: Copy tmux config
+  ansible.builtin.copy:
+    src: tmux.conf
+    dest: "{{ ['~' + macbook_user.stdout, '.tmux.conf'] | path_join }}"
+
+- name: Create neovim config directory
+  ansible.builtin.file:
+    path: "{{ ['~' + macbook_user.stdout, '.config', 'nvim'] | path_join }}"
+    state: directory
+
+- name: Copy neovim config
+  ansible.builtin.copy:
+    src: nvim/init.lua
+    dest: "{{ ['~' + macbook_user.stdout, '.config', 'nvim', 'init.lua'] | path_join }}"
+
+- name: Install gruvbox colorscheme for neovim
+  ansible.builtin.git:
+    repo: https://github.com/morhetz/gruvbox.git
+    dest: "{{ ['~' + macbook_user.stdout, '.local', 'share', 'nvim', 'site', 'pack', 'colors', 'start', 'gruvbox'] | path_join }}"
+    version: master
+    depth: 1
+
 - name: Copy darwin-specific zsh files
   ansible.builtin.copy:
     src: "{{ item }}"

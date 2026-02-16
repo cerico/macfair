@@ -30,6 +30,7 @@ IMPORTANT:
 - For long responses (500+ words), split into multiple speak calls
 - The permission pattern `Bash(/usr/local/bin/speak *)` auto-approves these calls
 - Works in both normal mode and plan mode (no Write tool needed)
+- When speaking and your next action needs permission, speak what you are about to do before the tool call so the user knows to check the screen
 
 ## Voice Options
 

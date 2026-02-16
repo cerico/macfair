@@ -37,6 +37,7 @@
         "nmap",
         "htop",
         "tmux",
+        "neovim",
         "postgresql",
         "redis",
         "lima",
