@@ -1,3 +1,12 @@
+# [2.86.0](https://github.com/cerico/macfair/compare/v2.85.0...v2.86.0) (2026-02-16)
+
+
+### Features
+
+* add readurl script, agent identity config, and session improvements ([#502](https://github.com/cerico/macfair/issues/502)) ([9a42ac4](https://github.com/cerico/macfair/commit/9a42ac449603420b07093f234b8cfd2a32799ed6))
+
+
+
 # [2.85.0](https://github.com/cerico/macfair/compare/v2.84.0...v2.85.0) (2026-02-15)
 
 
