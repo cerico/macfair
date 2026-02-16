@@ -1,3 +1,35 @@
+gitundo () { # Undo last git operation (safe: fails if uncommitted changes conflict)
+  [[ ! -d .git ]] && echo "Not a git repo" && return 1
+  local current=$(git rev-parse --short HEAD)
+  local target=$(git rev-parse --short HEAD@{1} 2>/dev/null)
+  [[ -z "$target" ]] && echo "Nothing to undo" && return 1
+  local last_action=$(git reflog -1 --format='%gs')
+  echo "Undo: $last_action"
+  echo "$current → $target"
+  git reset --keep HEAD@{1}
+}
+
+gitops () { # Show recent git operations # ➜ gitops 20
+  [[ ! -d .git ]] && echo "Not a git repo" && return 1
+  local count=${1:-10}
+  git reflog -n "$count" --format='%C(yellow)%h %C(green)%gd %C(reset)%gs %C(dim)%ar%C(reset)'
+}
+
+gitrestore () { # Restore to a reflog entry (safe) # ➜ gitrestore 3
+  [[ ! -d .git ]] && echo "Not a git repo" && return 1
+  [[ -z "$1" ]] && gitops && return
+  local target="HEAD@{$1}"
+  local hash=$(git rev-parse --short "$target" 2>/dev/null)
+  [[ -z "$hash" ]] && echo "Invalid reflog entry: $1" && return 1
+  local action=$(git reflog -1 --format='%gs' "$target")
+  echo "Restore to: $action ($hash)"
+  echo "This will move HEAD back $1 operations."
+  echo -n "Continue? [y/N] "
+  read -r confirm
+  [[ "$confirm" != [yY] ]] && echo "Cancelled" && return 0
+  git reset --keep "$target"
+}
+
 GIT_FETCH_THROTTLE_SECONDS=${GIT_FETCH_THROTTLE_SECONDS:-300}
 
 _git_sync() {

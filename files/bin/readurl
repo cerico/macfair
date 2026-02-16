@@ -1,0 +1,38 @@
+#!/bin/zsh
+# Read a website aloud using trafilatura + Kokoro TTS
+# Usage: readurl <url>
+
+set -euo pipefail
+
+[[ $# -eq 0 ]] && echo "Usage: readurl <url>" >&2 && exit 1
+
+url="$1"
+tmpfile=$(mktemp /tmp/read-url.XXXXXX)
+trap 'rm -f "$tmpfile"' EXIT
+
+curl -sL -A "Mozilla/5.0" "$url" | trafilatura > "$tmpfile" 2>/dev/null
+
+[[ ! -s "$tmpfile" ]] && echo "Could not extract text from $url" >&2 && exit 1
+
+# Split into chunks at paragraph boundaries (~400 words each)
+# Kokoro handles ~500 tokens per request
+chunk=""
+word_count=0
+
+while IFS= read -r line; do
+  line_words=(${(z)line})
+  line_word_count=${#line_words}
+
+  if (( word_count + line_word_count > 400 )) && [[ -n "$chunk" ]]; then
+    /usr/local/bin/speak "$chunk"
+    chunk=""
+    word_count=0
+  fi
+
+  [[ -n "$chunk" ]] && chunk="$chunk
+$line" || chunk="$line"
+  (( word_count += line_word_count )) || true
+done < "$tmpfile"
+
+# Speak remaining text
+[[ -n "$chunk" ]] && /usr/local/bin/speak "$chunk"

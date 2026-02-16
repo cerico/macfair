@@ -1,0 +1,4 @@
+services:
+  claude-agent:
+    volumes:
+      - {{ [agent_deploy_dir, '.ssh'] | path_join }}:/home/agent/.ssh

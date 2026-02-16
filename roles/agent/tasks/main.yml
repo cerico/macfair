@@ -15,13 +15,83 @@
       become: true
       changed_when: false
 
-    - name: Create kawajevo agent directory
+    - name: Create agent directory
       file:
         path: "{{ agent_deploy_dir }}"
         state: directory
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"
         mode: '0750'
+
+    - name: Configure git identity for agent
+      community.general.git_config:
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
+        scope: global
+      loop:
+        - { name: user.name, value: "{{ agent_git_name }}" }
+        - { name: user.email, value: "{{ agent_git_email }}" }
+
+    - name: Create .ssh directory for agent
+      file:
+        path: "{{ ['/home', ansible_user, '.ssh'] | path_join }}"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0700'
+
+    - name: Deploy agent SSH key for GitHub
+      copy:
+        content: "{{ vault_agent_ssh_key }}"
+        dest: "{{ ['/home', ansible_user, '.ssh', 'id_ed25519'] | path_join }}"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0600'
+      when: vault_agent_ssh_key is defined
+
+    - name: Add GitHub to known_hosts
+      known_hosts:
+        name: github.com
+        key: "{{ lookup('pipe', 'ssh-keyscan -t ed25519 github.com 2>/dev/null') }}"
+        path: "{{ ['/home', ansible_user, '.ssh', 'known_hosts'] | path_join }}"
+        state: present
+
+    - name: Create container SSH directory
+      file:
+        path: "{{ [agent_deploy_dir, '.ssh'] | path_join }}"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0755'
+
+    - name: Copy SSH key for container # 0644 intentional: rootless podman UID remapping prevents container reading 0600 files
+      copy:
+        content: "{{ vault_agent_ssh_key }}"
+        dest: "{{ [agent_deploy_dir, '.ssh', 'id_ed25519'] | path_join }}"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0644'
+      when: vault_agent_ssh_key is defined
+      notify: Restart claude-agent
+
+    - name: Copy known_hosts for container
+      copy:
+        src: "{{ ['/home', ansible_user, '.ssh', 'known_hosts'] | path_join }}"
+        dest: "{{ [agent_deploy_dir, '.ssh', 'known_hosts'] | path_join }}"
+        remote_src: true
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0644'
+      notify: Restart claude-agent
+
+    - name: Template compose override for SSH mount
+      template:
+        src: compose.override.yml.j2
+        dest: "{{ [agent_deploy_dir, 'compose.override.yml'] | path_join }}"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0640'
+      notify: Restart claude-agent
 
     - name: Template .env file
       template:
@@ -32,10 +102,10 @@
         mode: '0600'
       notify: Restart claude-agent
 
-    - name: Copy kawajevo nginx config
+    - name: Copy agent nginx config
       template:
-        src: kawajevo.nginx.conf.j2
-        dest: /etc/nginx/conf.d/kawajevo.io37.ch.conf
+        src: agent.nginx.conf.j2
+        dest: "{{ ['/etc/nginx/conf.d', agent_domain + '.conf'] | path_join }}"
       become: true
       notify: Reload nginx
 
@@ -47,7 +117,7 @@
     - name: Flush handlers before certbot
       meta: flush_handlers
 
-    - name: Obtain SSL certificate for kawajevo
+    - name: Obtain SSL certificate for agent
       shell: "/snap/bin/certbot --nginx -n --agree-tos --email {{ agent_certbot_email }} -d {{ agent_domain }}"
       become: true
       register: certbot_result
