@@ -75,12 +75,31 @@ repos () { # List all repos # ➜ repos public
   [[ -n $1 ]] && gh repo list --visibility $1 || gh repo list
 }
 
-issue () { # Create or view gh issue # ➜ issue "update nginx security policy"
-  [[ ! $1 ]] && gh issue list && return
-  [[ ! $1 = *[[:alpha:]]* ]] && gh issue view $1 && return
-  [[ $2 = [[:alpha:]]* ]] && body=$2 || body=$1
-  issue=`gh issue create -t $1 -b $body`
-  for i in "$@" ; do if [[ "$i" == "-"* ]] && gh issue view "${issue##*/}" --web; done;
+issue() { # Create or edit gh issue # ➜ issue | issue "fix nginx" | issue 505
+  [[ -z "$1" ]] && { gh issue create -e || return 1; return; }
+
+  [[ ! "$1" =~ ^[0-9]+$ ]] && {
+    gh issue create -t "$1" ${2:+-b "$2"} || return 1
+    return
+  }
+
+  local num="$1"
+  local tmpfile=$(mktemp /tmp/ghissue.XXXXXX.md)
+  gh issue view "$num" --json title,body -q '"# " + .title + "\n\n" + (.body // "")' > "$tmpfile" || {
+    echo "Failed to fetch issue #${num}"
+    rm -f "$tmpfile"
+    return 1
+  }
+  ${EDITOR:-vim} "$tmpfile" || { rm -f "$tmpfile"; return 1; }
+  local title=$(head -1 "$tmpfile" | sed 's/^# //')
+  local body=$(tail -n +3 "$tmpfile")
+  gh issue edit "$num" --title "$title" --body "$body" || {
+    echo "Failed to update issue #${num}"
+    rm -f "$tmpfile"
+    return 1
+  }
+  rm -f "$tmpfile"
+  echo "Updated #${num}"
 }
 
 secrets () {
