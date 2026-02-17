@@ -1,3 +1,12 @@
+# [2.88.0](https://github.com/cerico/macfair/compare/v2.87.0...v2.88.0) (2026-02-17)
+
+
+### Features
+
+* add conversations browser, improve tmux and issue helpers ([#509](https://github.com/cerico/macfair/issues/509)) ([baeaeba](https://github.com/cerico/macfair/commit/baeaeba86f8ba7e7d1eacc9b9f9e9b343b34dee4))
+
+
+
 # [2.87.0](https://github.com/cerico/macfair/compare/v2.86.0...v2.87.0) (2026-02-16)
 
 
