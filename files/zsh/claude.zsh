@@ -8,10 +8,11 @@ CLAUDE_LOCKFILE=".claude-session.lock"
 _claude_tmux() {
   local session="${${PWD##*/}//[.:]/_}"
   if tmux has-session -t "$session" 2>/dev/null; then
-    tmux attach -t "$session"
-    return
+    local panes=$(( $(tmux list-panes -t "$session" 2>/dev/null | wc -l) ))
+    [[ "$panes" -gt 1 ]] && { tmux attach -t "$session"; return; }
+  else
+    tmux new-session -d -s "$session" -c "$PWD"
   fi
-  tmux new-session -d -s "$session" -c "$PWD"
   tmux split-window -h -t "$session" -p 30
   tmux split-window -v -t "$session"
   tmux send-keys -t "$session:1.2" "clear" Enter
@@ -105,7 +106,7 @@ discuss() {
 }
 
 vps() {
-  [[ -z "$1" ]] && { echo "Usage: vps <host>"; return 1; }
+  [[ -z "$1" ]] && { sshs; return; }
   local host="$1" session="vps_${1//[.:]/_}"
   shift
   if [[ -n "$TMUX" ]]; then
@@ -119,7 +120,7 @@ vps() {
   local macfair="$HOME/macfair"
   tmux new-session -d -s "$session" -c "$macfair"
   tmux split-window -h -t "$session" -p 30 -c "$macfair"
-  tmux split-window -v -t "$session" -c "$macfair"
+  tmux split-window -v -t "$session" -p 30 -c "$macfair"
   tmux send-keys -t "$session:1.2" "clear && ssh $(printf '%q' "$host")" Enter
   tmux send-keys -t "$session:1.3" "clear" Enter
   tmux select-pane -t "$session:1.1"
@@ -152,6 +153,22 @@ claudes() {
     fi
     local tty="${ttys[$idx]}"
     [[ "$tty" == "??" ]] && { echo "Session $idx is orphaned. Use 'claudekill' to clean up."; return 1; }
+    # Resolve tmux pty to the client's iTerm tty
+    local tmux_session=$(tmux list-panes -a -F '#{pane_tty} #{session_name}' 2>/dev/null | grep "/dev/$tty " | awk '{print $2}' | head -1)
+    if [[ -n "$tmux_session" ]]; then
+      local client_tty=$(tmux list-clients -t "$tmux_session" -F '#{client_tty}' 2>/dev/null | head -1)
+      if [[ -n "$client_tty" ]]; then
+        tty="${client_tty##*/}"
+      else
+        echo "Session $idx ($tmux_session) is detached. Attaching..."
+        if [[ -n "$TMUX" ]]; then
+          tmux switch-client -t "$tmux_session"
+        else
+          tmux attach -t "$tmux_session"
+        fi
+        return
+      fi
+    fi
     osascript <<EOF
 tell application "iTerm2"
   repeat with w in windows
@@ -184,6 +201,63 @@ EOF
     [[ ${#cwd} -gt 20 ]] && cwd="…${cwd: -19}"
     echo "${i}\t${pid}\t${tty}\t${cpu}\t${mem}%\t${proc_state}\t${started}\t${cwd}"
   done | column -t -s $'\t'
+}
+
+# Browse and search Claude conversations across projects
+conversations() {
+  local claude_dir="$HOME/.claude/projects"
+  local c_blue=$'\e[34m' c_dim=$'\e[2m' c_yellow=$'\e[33m' c_clear=$'\e[0m'
+  local -a conv_files=()
+
+  _conv_sorted() {
+    local -a matches=("$claude_dir"/*/*.jsonl(N))
+    [[ ${#matches[@]} -eq 0 ]] && { conv_files=(); return; }
+    conv_files=($(ls -t -- "${matches[@]}" | head -25))
+  }
+
+  _conv_display() {
+    [[ ${#conv_files[@]} -eq 0 ]] && { echo "No conversations found"; return; }
+    local idx=0
+    for f in "${conv_files[@]}"; do
+      ((idx++))
+      local project="${f:h:t}"
+      project="${project/#-Users-brew-/}"
+      project="${project//-//}"
+      [[ ${#project} -gt 25 ]] && project="…${project: -24}"
+      local date=$(stat -f '%Sm' -t '%b %d %H:%M' "$f" 2>/dev/null)
+      local slug=$(python3 -c "
+import json,sys
+with open(sys.argv[1]) as fh:
+    for line in fh:
+        d=json.loads(line)
+        s=d.get('slug','')
+        if s: print(s); break
+" "$f" 2>/dev/null)
+      if [[ -z "$slug" ]]; then
+        local sid="${f:t:r}"
+        slug="${sid:0:12}…"
+      fi
+      printf "${c_dim}%3d.${c_clear} ${c_yellow}%-14s${c_clear} ${c_blue}%-25s${c_clear} %s\n" "$idx" "$date" "$project" "$slug"
+    done
+  }
+
+  if [[ -z "$1" ]]; then
+    _conv_sorted
+    _conv_display
+  elif [[ "$1" =~ ^[0-9]+$ ]]; then
+    _conv_sorted
+    local target=$1
+    [[ $target -lt 1 || $target -gt ${#conv_files[@]} ]] && { echo "No conversation at index $target (${#conv_files[@]} available)"; return 1; }
+    local file="${conv_files[$target]}"
+    local session_id="${file:t:r}"
+    echo "Resuming: $session_id"
+    _claude_run --resume "$session_id"
+  else
+    local matches=$(grep -rFl "$1" "$claude_dir"/*/*.jsonl 2>/dev/null)
+    [[ -z "$matches" ]] && { echo "No conversations matching '$1'"; return 0; }
+    conv_files=($(echo "$matches" | xargs ls -t 2>/dev/null | head -25))
+    _conv_display
+  fi
 }
 
 # Kill orphaned Claude processes (no TTY)
