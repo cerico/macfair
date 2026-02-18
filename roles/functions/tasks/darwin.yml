@@ -84,6 +84,39 @@
     src: zsh/dns.zsh
     dest: "{{ ['~' + macbook_user.stdout, '.zsh', 'dns.zsh'] | path_join }}"
 
+- name: Create videos directory
+  ansible.builtin.file:
+    path: "{{ ['~' + macbook_user.stdout, 'videos'] | path_join }}"
+    state: directory
+
+- name: Create videos transcripts directory
+  ansible.builtin.file:
+    path: "{{ ['~' + macbook_user.stdout, 'videos', 'transcripts'] | path_join }}"
+    state: directory
+
+- name: Create videos memory directory
+  ansible.builtin.file:
+    path: "{{ ['~' + macbook_user.stdout, 'videos', 'memory'] | path_join }}"
+    state: directory
+
+- name: Seed videos CLAUDE.md if not exists
+  ansible.builtin.copy:
+    src: videos/MEMORY.md
+    dest: "{{ ['~' + macbook_user.stdout, 'videos', 'CLAUDE.md'] | path_join }}"
+    force: no
+
+- name: Seed videos scores.md if not exists
+  ansible.builtin.copy:
+    src: videos/scores.md
+    dest: "{{ ['~' + macbook_user.stdout, 'videos', 'scores.md'] | path_join }}"
+    force: no
+
+- name: Seed videos memory if not exists
+  ansible.builtin.copy:
+    src: videos/MEMORY.md
+    dest: "{{ ['~' + macbook_user.stdout, 'videos', 'memory', 'MEMORY.md'] | path_join }}"
+    force: no
+
 - name: Makes zsh the cron shell
   ansible.builtin.cron:
     name: SHELL

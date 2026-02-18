@@ -5,11 +5,44 @@ unalias claude clauden claudev claudevn claudep claudevp claudex claudepod discu
 
 CLAUDE_LOCKFILE=".claude-session.lock"
 
+_iterm_focus_tty() {
+  local tty="$1"
+  [[ -z "$tty" ]] && return 1
+  local result
+  result=$(osascript <<EOF
+tell application "iTerm2"
+  repeat with w in windows
+    repeat with t in tabs of w
+      repeat with s in sessions of t
+        if tty of s ends with "$tty" then
+          select t
+          tell w to select
+          activate
+          return "FOUND"
+        end if
+      end repeat
+    end repeat
+  end repeat
+end tell
+return "NOT_FOUND"
+EOF
+)
+  [[ "$result" == "FOUND" ]]
+}
+
 _claude_tmux() {
   local session="${${PWD##*/}//[.:]/_}"
   if tmux has-session -t "$session" 2>/dev/null; then
     local panes=$(( $(tmux list-panes -t "$session" 2>/dev/null | wc -l) ))
-    [[ "$panes" -gt 1 ]] && { tmux attach -t "$session"; return; }
+    if [[ "$panes" -gt 1 ]]; then
+      local client_tty=$(tmux list-clients -t "$session" -F '#{client_tty}' 2>/dev/null | head -1)
+      if [[ -n "$client_tty" ]]; then
+        _iterm_focus_tty "${client_tty##*/}"
+        return
+      fi
+      tmux attach -t "$session"
+      return
+    fi
   else
     tmux new-session -d -s "$session" -c "$PWD"
   fi
@@ -114,6 +147,10 @@ vps() {
     return
   fi
   if tmux has-session -t "$session" 2>/dev/null; then
+    local client_tty=$(tmux list-clients -t "$session" -F '#{client_tty}' 2>/dev/null | head -1)
+    if [[ -n "$client_tty" ]] && _iterm_focus_tty "${client_tty##*/}"; then
+      return
+    fi
     tmux attach -t "$session"
     return
   fi
@@ -169,22 +206,7 @@ claudes() {
         return
       fi
     fi
-    osascript <<EOF
-tell application "iTerm2"
-  repeat with w in windows
-    repeat with t in tabs of w
-      repeat with s in sessions of t
-        if tty of s ends with "$tty" then
-          select t
-          tell w to select
-          activate
-          return
-        end if
-      end repeat
-    end repeat
-  end repeat
-end tell
-EOF
+    _iterm_focus_tty "$tty" || echo "Could not find iTerm tab for tty $tty"
     return
   fi
 

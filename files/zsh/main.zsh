@@ -48,11 +48,15 @@ trim () {
 }
 
 aud () {
-  yt-dlp --cookies-from-browser safari -xiwc -o "%(title)s.%(ext)s" "$1"
+  mkdir -p "$HOME/videos/transcripts"
+  yt-dlp --cookies-from-browser safari -xiwc --write-auto-sub --sub-lang en -o "$HOME/videos/%(title)s.%(ext)s" "$1"
+  find "$HOME/videos" -maxdepth 1 -name "*.vtt" -exec mv {} "$HOME/videos/transcripts/" \;
 }
 
 vid () {
-  yt-dlp --cookies-from-browser safari -o "%(title)s.%(ext)s" "$1"
+  mkdir -p "$HOME/videos/transcripts"
+  yt-dlp --cookies-from-browser safari --write-auto-sub --sub-lang en -o "$HOME/videos/%(title)s.%(ext)s" "$1"
+  find "$HOME/videos" -maxdepth 1 -name "*.vtt" -exec mv {} "$HOME/videos/transcripts/" \;
 }
 
 help() {

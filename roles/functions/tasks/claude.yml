@@ -41,6 +41,12 @@
     dest: "{{ ['~' + macbook_user.stdout, '.claude', 'statusline.sh'] | path_join }}"
     mode: '0755'
 
+- name: Seed permissions.md if not exists
+  copy:
+    src: claude/permissions.md
+    dest: "{{ ['~' + macbook_user.stdout, '.claude', 'permissions.md'] | path_join }}"
+    force: no
+
 - name: Copy Claude skills
   copy:
     src: claude/skills/

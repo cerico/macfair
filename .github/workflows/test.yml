@@ -11,6 +11,42 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Syntax-check ZSH files
+        run: |
+          failed=0
+          for f in files/zsh/*.zsh files/bin/*; do
+            [[ -f "$f" ]] || continue
+            if ! zsh -n "$f" 2>&1; then
+              echo "FAIL: $f"
+              failed=1
+            fi
+          done
+          exit $failed
+        shell: zsh {0}
+
+      - name: Syntax-check shell scripts
+        run: |
+          failed=0
+          while IFS= read -r -d '' f; do
+            if ! bash -n "$f" 2>&1; then
+              echo "FAIL: $f"
+              failed=1
+            fi
+          done < <(find files -name '*.sh' -type f -print0)
+          exit $failed
+
+      - name: Validate JSON files
+        run: |
+          failed=0
+          while IFS= read -r -d '' f; do
+            if ! python3 -m json.tool "$f" > /dev/null 2>&1; then
+              echo "FAIL: $f"
+              python3 -m json.tool "$f" 2>&1 || true
+              failed=1
+            fi
+          done < <(find files -name '*.json' -type f -print0)
+          exit $failed
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:

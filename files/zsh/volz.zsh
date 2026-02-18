@@ -1,13 +1,13 @@
 typeset -A scaffolds
 scaffolds=(
-  [rails]=_rails
-  [html]=_html
-  [astro]=_astreact
-  [solid]=_solid
-  [angular]=_angular
-  [vite]=_vite
-  [tldr]=_list_scaffolds
-	)
+  rails _rails
+  html _html
+  astro _astreact
+  solid _solid
+  angular _angular
+  vite _vite
+  tldr _list_scaffolds
+)
 
 volz () { # scaffold application # ➜ volz rails busmap
   local option="${1:-tldr}"
