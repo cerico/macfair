@@ -104,6 +104,7 @@
     - "steipete/tap/repobar"
     - "tableplus"
     - "postico"
+    - "hamed-elfayome/claude-usage/claude-usage-tracker"
 
 - name: Copy zshenv
   copy:
@@ -148,4 +149,3 @@
 
 - name: link node
   shell: /opt/homebrew/bin/brew link --overwrite node@{{ node_version }}
-

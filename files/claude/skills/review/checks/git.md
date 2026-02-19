@@ -112,11 +112,7 @@ git diff main...HEAD | grep -E "(password|secret|api.?key|token|credential)" -i
 These should never appear in committed code:
 
 ```
-<<<<<<< HEAD
 current changes
-=======
-incoming changes
->>>>>>> feature-branch
 ```
 
 If found in diff, the conflict was not properly resolved.

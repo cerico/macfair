@@ -15,50 +15,11 @@
     - debug:
         var: hostvars['localhost']['users']
 
-    - name: create sshd rules file if doesnt exist
+    - name: Ensure password auth is enabled for initial key bootstrap
       copy:
-        content: "PasswordAuthentication yes"
-        dest: /etc/ssh/sshd_config.d/10-disable-password-login.conf
+        content: "PasswordAuthentication yes\n"
+        dest: /etc/ssh/sshd_config.d/00-bootstrap-password-auth.conf
         force: no
-      become: true
-      become_user: root
-
-    - name: add lines to sshd rules file
-      lineinfile:
-        dest: /etc/ssh/sshd_config.d/10-disable-password-login.conf
-        line: "Match User {{ item.username  | split('@') | first }}\n   PasswordAuthentication no"
-      with_items:
-        - "{{ hostvars['localhost']['users'] }}"
-      when: 'inventory_hostname in item.username'
-      become: true
-      become_user: root
-      register: password_config
-
-    - name: Verify deploy can sudo
-      ansible.builtin.command: sudo -n whoami
-      register: sudo_check
-      ignore_errors: true
-      become: false
-
-    - name: Disable root SSH login
-      copy:
-        content: "PermitRootLogin no\n"
-        dest: /etc/ssh/sshd_config.d/20-disable-root-login.conf
         mode: '0644'
-      when: sudo_check.stdout == "root"
       become: true
       become_user: root
-      register: root_login_config
-
-    - name: Warn if deploy cannot sudo
-      debug:
-        msg: "WARNING: deploy cannot sudo on {{ inventory_hostname }}. Root login NOT disabled. Run make setup first."
-      when: sudo_check.rc != 0
-
-    - name: Restart ssh
-      ansible.builtin.service:
-        name: ssh
-        state: restarted
-      become: true
-      become_user: root
-      when: password_config is changed or (root_login_config is defined and root_login_config is changed)

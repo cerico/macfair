@@ -1,0 +1,10 @@
+module.exports = {
+  apps: [{
+    name: 'cyrus',
+    script: 'cyrus',
+    interpreter: 'none',
+    cwd: '{{ cyrus_home }}',
+    restart_delay: 5000,
+    max_restarts: 10
+  }]
+}

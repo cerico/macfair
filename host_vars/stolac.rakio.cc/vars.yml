@@ -4,3 +4,5 @@ to_sudo:
   - deploy
 iterm_theme: "daegu"
 zsh_theme: "cerico-w-user"
+optional:
+  - cyrus

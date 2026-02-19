@@ -1,6 +1,7 @@
 roles/.DS_Store
 group_vars/*
-group_vars/all/vars.yml
+!group_vars/all/
+group_vars/all/*
 !group_vars/all/example.yml
 TODO.md
 TODO*.md

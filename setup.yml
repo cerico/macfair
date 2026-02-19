@@ -22,6 +22,7 @@
     - { role: nginx, tags: [debian, nginx] }
     - { role: tunnel, tags: [debian, tunnel] }
     - { role: agent, tags: [debian, agent] }
+    - { role: cyrus, tags: [debian, cyrus] }
 
 - name: Setup macbook
   hosts: macbook
