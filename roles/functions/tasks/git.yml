@@ -42,6 +42,12 @@
     dest: "{{ ['~' + macbook_user.stdout, '.config', 'git', 'hooks', 'commit-msg'] | path_join }}"
     mode: a+x
 
+- name: Copy global pre-push hook
+  copy:
+    src: git/pre-push
+    dest: "{{ ['~' + macbook_user.stdout, '.config', 'git', 'hooks', 'pre-push'] | path_join }}"
+    mode: a+x
+
 - name: Create blank template commit file
   copy:
     src: git/commit-msg-template

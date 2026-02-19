@@ -63,7 +63,24 @@
             ]
           },
           {
-            "description": "⌘; to /speak + SuperWhisper",
+            "description": "⌘. to whisper wrapper (intercept SuperWhisper hotkey)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "period",
+                  "modifiers": { "mandatory": ["command"] }
+                },
+                "to": [
+                  {
+                    "shell_command": "/usr/local/bin/whisper_wrapper"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "⌘; to /speak + start recording",
             "manipulators": [
               {
                 "type": "basic",
@@ -79,7 +96,72 @@
                   { "key_code": "a" },
                   { "key_code": "k" },
                   { "key_code": "spacebar" },
-                  { "key_code": "period", "modifiers": ["command"] }
+                  { "shell_command": "/usr/local/bin/whisper_wrapper" }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "F18: Toggle whisper recording (macro pad key 1)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "f18",
+                  "modifiers": { "optional": ["any"] }
+                },
+                "to": [
+                  {
+                    "shell_command": "/usr/local/bin/whisper_wrapper"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "F17: Enter/submit (macro pad key 2)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "f17",
+                  "modifiers": { "optional": ["any"] }
+                },
+                "to": [
+                  { "key_code": "return_or_enter" }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "F16: Ctrl+C interrupt (macro pad key 3)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "f16",
+                  "modifiers": { "optional": ["any"] }
+                },
+                "to": [
+                  {
+                    "key_code": "c",
+                    "modifiers": ["control"]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "F15: Escape (macro pad key 4)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "f15",
+                  "modifiers": { "optional": ["any"] }
+                },
+                "to": [
+                  { "key_code": "escape" }
                 ]
               }
             ]

@@ -2,3 +2,9 @@ services:
   claude-agent:
     volumes:
       - {{ [agent_deploy_dir, '.ssh'] | path_join }}:/home/agent/.ssh
+    ports:
+      - "127.0.0.1:3000:3000"
+    mem_limit: 2g
+    cpus: 2
+    security_opt:
+      - no-new-privileges:true

@@ -13,6 +13,30 @@
     mode: '0755'
   become: true
 
+- name: Copy whisper wrapper script
+  ansible.builtin.copy:
+    src: bin/whisper_wrapper
+    dest: /usr/local/bin/whisper_wrapper
+    mode: '0755'
+  become: true
+
+- name: Create whisper cues directory
+  ansible.builtin.file:
+    path: "{{ ['~' + macbook_user.stdout, '.local', 'share', 'whisper_cues'] | path_join }}"
+    state: directory
+  when: inventory_hostname != 'github-runner.localhost'
+
+- name: Generate whisper audio cues
+  ansible.builtin.shell: >
+    say -o "$HOME/.local/share/whisper_cues/{{ item }}.aiff" "{{ item }}"
+  args:
+    creates: "{{ ['~' + macbook_user.stdout, '.local', 'share', 'whisper_cues', item + '.aiff'] | path_join }}"
+  loop:
+    - listening
+    - transcribing
+    - done
+  when: inventory_hostname != 'github-runner.localhost'
+
 - name: Copy tmux config
   ansible.builtin.copy:
     src: tmux.conf

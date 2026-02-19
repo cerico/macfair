@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+#
+# Whisper wrapper: audio cues around OpenSuperWhisper recording toggle
+# Designed for screenless (hiking) use with a Bluetooth macro pad
+#
+
+STATE_FILE="/tmp/whisper_recording_state"
+MONITOR_PID_FILE="/tmp/whisper_monitor.pid"
+CUE_DIR="$HOME/.local/share/whisper_cues"
+SW_DB="$HOME/Library/Application Support/ru.starmel.OpenSuperWhisper/recordings.sqlite"
+
+play_cue() {
+  afplay "$CUE_DIR/$1.aiff" &
+}
+
+play_cue_sync() {
+  afplay "$CUE_DIR/$1.aiff" &
+  local pid=$!
+  ( sleep 3 && kill "$pid" 2>/dev/null ) &
+  wait "$pid" 2>/dev/null
+}
+
+trigger_superwhisper() {
+  osascript -e 'tell application "System Events" to key code 47 using command down' &
+}
+
+kill_monitor() {
+  [[ -f "$MONITOR_PID_FILE" ]] && {
+    kill "$(cat "$MONITOR_PID_FILE")" 2>/dev/null
+    rm -f "$MONITOR_PID_FILE"
+  }
+}
+
+get_row_count() {
+  sqlite3 "$SW_DB" "SELECT count(*) FROM recordings" 2>/dev/null || echo "0"
+}
+
+monitor_transcription() {
+  local count_before="$1"
+  local max_wait=200
+  local elapsed=0
+
+  while (( elapsed < max_wait )); do
+    sleep 0.3
+    elapsed=$(( elapsed + 1 ))
+    local count_now
+    count_now=$(get_row_count)
+    [[ "$count_now" -gt "$count_before" ]] && {
+      play_cue "done"
+      break
+    }
+  done
+
+  rm -f "$MONITOR_PID_FILE"
+}
+
+start_recording() {
+  kill_monitor
+  echo "recording" > "$STATE_FILE"
+  play_cue_sync "listening"
+  trigger_superwhisper
+}
+
+stop_recording() {
+  local count_before
+  count_before=$(get_row_count)
+
+  rm -f "$STATE_FILE"
+  play_cue "transcribing"
+  trigger_superwhisper
+
+  kill_monitor
+  monitor_transcription "$count_before" &
+  echo $! > "$MONITOR_PID_FILE"
+}
+
+if [[ -f "$STATE_FILE" ]]; then
+  stop_recording
+else
+  start_recording
+fi
