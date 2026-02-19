@@ -1,3 +1,12 @@
+# [2.90.0](https://github.com/cerico/macfair/compare/v2.89.0...v2.90.0) (2026-02-19)
+
+
+### Features
+
+* harden SSH security, add cyrus deployment, and systemd agent management ([#511](https://github.com/cerico/macfair/issues/511)) ([934e1bf](https://github.com/cerico/macfair/commit/934e1bf4178feb19e21bbcd16726d445eb1b9410))
+
+
+
 # [2.89.0](https://github.com/cerico/macfair/compare/v2.88.0...v2.89.0) (2026-02-19)
 
 
