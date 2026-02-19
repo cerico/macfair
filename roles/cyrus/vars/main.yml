@@ -1,1 +1,2 @@
 ---
+cyrus_home: "{{ ['/home', ansible_user] | path_join }}"

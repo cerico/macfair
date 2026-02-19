@@ -53,6 +53,11 @@ aud () {
   find "$HOME/videos" -maxdepth 1 -name "*.vtt" -exec mv {} "$HOME/videos/transcripts/" \;
 }
 
+tune () {
+  mkdir -p "$HOME/mp3"
+  yt-dlp --cookies-from-browser safari -xiwc --audio-format mp3 -o "$HOME/mp3/%(title)s.%(ext)s" "$1"
+}
+
 vid () {
   mkdir -p "$HOME/videos/transcripts"
   yt-dlp --cookies-from-browser safari --write-auto-sub --sub-lang en -o "$HOME/videos/%(title)s.%(ext)s" "$1"

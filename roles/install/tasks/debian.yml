@@ -41,6 +41,7 @@
       - snapd
       - figlet
       - ufw
+      - fail2ban
     state: present
   become: true
   become_user: root
@@ -81,6 +82,67 @@
 - name: Enable UFW
   community.general.ufw:
     state: enabled
+  become: true
+
+- name: Check if SSH authorized_keys exist for deploy user
+  stat:
+    path: "{{ ['/home', ansible_user, '.ssh', 'authorized_keys'] | path_join }}"
+  register: ssh_keys_deployed
+
+- name: Fail if SSH keys not deployed
+  fail:
+    msg: "SSH keys not found for {{ ansible_user }} on {{ inventory_hostname }}. Run make keys first."
+  when: not (ssh_keys_deployed.stat.exists and ssh_keys_deployed.stat.size > 0)
+
+- name: Harden SSH configuration
+  copy:
+    content: |
+      PasswordAuthentication no
+      PermitRootLogin no
+      MaxAuthTries 3
+      LoginGraceTime 30
+      AllowAgentForwarding no
+      MaxSessions 2
+    dest: /etc/ssh/sshd_config.d/10-ssh-hardening.conf
+    mode: '0644'
+  become: true
+  notify: Restart sshd
+
+- name: Validate SSH configuration before restart
+  command: sshd -t
+  become: true
+  changed_when: false
+
+- name: Remove bootstrap and legacy sshd configs
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/ssh/sshd_config.d/00-bootstrap-password-auth.conf
+    - /etc/ssh/sshd_config.d/10-disable-password-login.conf
+    - /etc/ssh/sshd_config.d/20-disable-root-login.conf
+  become: true
+  notify: Restart sshd
+
+- name: Deploy fail2ban SSH jail config
+  copy:
+    content: |
+      [sshd]
+      enabled = true
+      port = ssh
+      maxretry = 5
+      bantime = 3600
+      findtime = 600
+    dest: /etc/fail2ban/jail.d/sshd.conf
+    mode: '0644'
+  become: true
+  notify: Restart fail2ban
+
+- name: Enable and start fail2ban
+  ansible.builtin.systemd:
+    name: fail2ban
+    enabled: true
+    state: started
   become: true
 
 - name: install vscode

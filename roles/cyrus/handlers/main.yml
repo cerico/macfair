@@ -1,0 +1,7 @@
+---
+- name: Restart cyrus-ai
+  shell: pm2 restart ecosystem.config.js
+  args:
+    chdir: "{{ cyrus_home }}"
+  environment:
+    PATH: "/snap/bin:{{ ansible_env.PATH }}"

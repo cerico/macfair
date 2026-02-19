@@ -5,7 +5,66 @@ on:
       - main
 
 jobs:
-  test:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: |
+          python3 -m venv ~/.pyvenv-ansible
+          source ~/.pyvenv-ansible/bin/activate
+          pip install ansible
+
+      - name: Create dummy vault password and secrets for CI
+        run: |
+          echo "dummy" > ~/.vault_pass
+          cat > group_vars/all/vault.yml << 'EOF'
+          vault_github_token: dummy
+          vault_linear_api_key: dummy
+          vault_linear_webhook_secret: dummy
+          vault_cyrus_auth_token: dummy
+          EOF
+
+      - name: Install ansible requirements
+        run: |
+          source ~/.pyvenv-ansible/bin/activate
+          ansible-galaxy collection install -r requirements.yml
+
+      - name: Syntax-check all playbooks
+        run: |
+          source ~/.pyvenv-ansible/bin/activate
+          make verify
+
+      - name: Replace tracked files with CI-safe versions
+        run: |
+          printf '[macbook]\n\n[debian]\n\n[sites]\n' > hosts
+          printf 'users:\nroot:\n' > host_vars/localhost.yml
+
+      - name: runs the newcomputer target with vars to bypass prompt
+        run: |
+          source ~/.pyvenv-ansible/bin/activate
+          ansible-playbook newcomputer.yml -i hosts -e "target=dox.io37.ch" -e "user=deploy" -e "group=debian"
+
+      - name: use http version of sites repo just for gh action so as not to bother w keys
+        run: |
+          echo 'nginx_repo: "https://github.com/cerico/nginx-files.git"' >> host_vars/localhost.yml
+
+      - name: Run the newsite target with vars to bypass prompt
+        run: |
+          source ~/.pyvenv-ansible/bin/activate
+          ansible-playbook newsite.yml -i hosts -e "app_name=yes.mate"
+
+      - name: Is new entry in sites/Makefile
+        run: cd ../sites && make
+
+  integration:
     runs-on: macos-latest
 
     steps:
@@ -65,17 +124,13 @@ jobs:
           vault_github_token: dummy
           vault_linear_api_key: dummy
           vault_linear_webhook_secret: dummy
+          vault_cyrus_auth_token: dummy
           EOF
 
       - name: Install ansible requirements
         run: |
           source ~/.pyvenv-ansible/bin/activate
           ansible-galaxy collection install -r requirements.yml
-
-      - name: Syntax-check all playbooks
-        run: |
-          source ~/.pyvenv-ansible/bin/activate
-          make verify
 
       - name: Replace tracked files with CI-safe versions
         run: |
@@ -104,23 +159,6 @@ jobs:
 
       - name: cat zshrc
         run: cat ~/.macfair/version
-
-      - name: runs the newcomputer target with vars to bypass prompt
-        run: |
-          source ~/.pyvenv-ansible/bin/activate
-          ansible-playbook newcomputer.yml -i hosts -e "target=dox.io37.ch" -e "user=deploy" -e "group=debian"
-
-      - name: use http version of sites repo just for gh action so as not to bother w keys
-        run: |
-          echo 'nginx_repo: "https://github.com/cerico/nginx-files.git"' >> host_vars/localhost.yml
-
-      - name: Run the newsite target with vars to bypass prompt
-        run: |
-          source ~/.pyvenv-ansible/bin/activate
-          ansible-playbook newsite.yml -i hosts -e "app_name=yes.mate"
-
-      - name: Is new entry in sites/Makefile
-        run: cd ../sites && make
 
       - name: source zshrc & run main functions
         run: source ~/.zshrc && run_all_functions

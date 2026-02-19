@@ -1,6 +1,8 @@
 ---
 - name: Setup cyrus-ai
   when: hostvars[inventory_hostname].optional is defined and "cyrus" in hostvars[inventory_hostname].optional
+  environment:
+    PATH: "/snap/bin:{{ ansible_env.PATH }}"
   block:
     - name: Check for pm2
       command: which pm2
@@ -13,8 +15,8 @@
       become: true
       when: pm2_check.rc != 0
 
-    - name: Check for cyrus-ai
-      command: which cyrus-ai
+    - name: Check for cyrus
+      command: which cyrus
       register: cyrus_check
       failed_when: false
       changed_when: false
@@ -23,3 +25,41 @@
       command: npm install -g cyrus-ai
       become: true
       when: cyrus_check.rc != 0
+
+    - name: Authenticate cyrus # requires vault_cyrus_auth_token in vault.yml
+      command: cyrus auth {{ vault_cyrus_auth_token }}
+      no_log: true
+      when: vault_cyrus_auth_token is defined and vault_cyrus_auth_token | length > 0
+      args:
+        creates: "{{ [cyrus_home, '.cyrus', 'auth.json'] | path_join }}"
+
+    - name: Template ecosystem config
+      template:
+        src: ecosystem.config.js.j2
+        dest: "{{ [cyrus_home, 'ecosystem.config.js'] | path_join }}"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0600'
+      notify: Restart cyrus-ai
+
+    - name: Check if cyrus running in pm2
+      command: pm2 describe cyrus
+      register: cyrus_pm2_check
+      failed_when: false
+      changed_when: false
+
+    - name: Start cyrus with pm2
+      shell: pm2 start ecosystem.config.js
+      args:
+        chdir: "{{ cyrus_home }}"
+      when: cyrus_pm2_check.rc != 0
+
+    - name: Save pm2 process list
+      command: pm2 save
+      changed_when: false
+
+    - name: Setup pm2 boot persistence
+      shell: "pm2 startup systemd -u {{ ansible_user }} --hp {{ cyrus_home }}"
+      become: true
+      register: pm2_startup
+      changed_when: "'already' not in pm2_startup.stderr"

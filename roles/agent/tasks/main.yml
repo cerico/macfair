@@ -56,6 +56,11 @@
         path: "{{ ['/home', ansible_user, '.ssh', 'known_hosts'] | path_join }}"
         state: present
 
+    - name: Reset container SSH ownership for idempotent runs
+      command: podman unshare chown -R 0:0 "{{ [agent_deploy_dir, '.ssh'] | path_join }}"
+      failed_when: false
+      changed_when: false
+
     - name: Create container SSH directory
       file:
         path: "{{ [agent_deploy_dir, '.ssh'] | path_join }}"
@@ -101,6 +106,33 @@
         group: "{{ ansible_user }}"
         mode: '0600'
       notify: Restart claude-agent
+
+    - name: Create systemd user directory
+      file:
+        path: "{{ ['/home', ansible_user, '.config', 'systemd', 'user'] | path_join }}"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0755'
+
+    - name: Template claude-agent systemd service
+      template:
+        src: claude-agent.service.j2
+        dest: "{{ ['/home', ansible_user, '.config', 'systemd', 'user', 'claude-agent.service'] | path_join }}"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0644'
+      notify: Restart claude-agent
+
+    - name: Enable and start claude-agent systemd service
+      ansible.builtin.systemd:
+        name: claude-agent
+        enabled: true
+        state: started
+        scope: user
+        daemon_reload: true
+      environment:
+        XDG_RUNTIME_DIR: "/run/user/{{ ansible_user_uid }}"
 
     - name: Copy agent nginx config
       template:
