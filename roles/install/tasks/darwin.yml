@@ -102,6 +102,8 @@
     - "karabiner-elements"
     - "opensuperwhisper"
     - "steipete/tap/repobar"
+    - "tableplus"
+    - "postico"
 
 - name: Copy zshenv
   copy:

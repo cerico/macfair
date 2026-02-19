@@ -48,3 +48,42 @@
     src: pnpm-audit/daily-pnpm-audit.sh
     dest: "{{ [ansible_env.HOME, 'work', 'crons', 'pnpm-audit', 'daily-pnpm-audit.sh'] | path_join }}"
     mode: "0755"
+
+- name: Create permissions-alert directory
+  file:
+    path: "{{ [ansible_env.HOME, 'work', 'crons', 'permissions-alert'] | path_join }}"
+    state: directory
+    mode: "0755"
+
+- name: Copy permissions-alert script
+  copy:
+    src: permissions-alert/check_permissions.sh
+    dest: "{{ [ansible_env.HOME, 'work', 'crons', 'permissions-alert', 'check_permissions.sh'] | path_join }}"
+    mode: "0755"
+
+- name: Setup permissions-alert cron (Tue/Fri at 09:00)
+  ansible.builtin.cron:
+    name: permissions alert
+    minute: "0"
+    hour: "9"
+    weekday: "2,5"
+    job: ". $HOME/.zshrc && {{ ansible_env.HOME }}/work/crons/permissions-alert/check_permissions.sh"
+
+- name: Create version-alert directory
+  file:
+    path: "{{ [ansible_env.HOME, 'work', 'crons', 'version-alert'] | path_join }}"
+    state: directory
+    mode: "0755"
+
+- name: Copy version-alert script
+  copy:
+    src: version-alert/check_versions.sh
+    dest: "{{ [ansible_env.HOME, 'work', 'crons', 'version-alert', 'check_versions.sh'] | path_join }}"
+    mode: "0755"
+
+- name: Setup version-alert cron (daily at 10:00)
+  ansible.builtin.cron:
+    name: version alert
+    minute: "0"
+    hour: "10"
+    job: ". $HOME/.zshrc && {{ ansible_env.HOME }}/work/crons/version-alert/check_versions.sh"

@@ -165,9 +165,23 @@ if [[ -n "${BRANCH:-}" ]]; then
     OUTPUT="$OUTPUT | $BRANCH_DISPLAY"
 fi
 
-# Add disk free
+# Add disk free (color by available space)
 if [[ -n "${DISK_FREE:-}" ]]; then
-    OUTPUT="$OUTPUT | ${DIM}${DISK_FREE}${RESET}"
+    DISK_COLOR="$GREEN"
+    DISK_VAL="${DISK_FREE//[^0-9.]/}"
+    if [[ "$DISK_FREE" == *Gi* || "$DISK_FREE" == *G* ]]; then
+        DISK_INT=${DISK_VAL%.*}
+        if [[ "$DISK_INT" -lt 2 ]]; then
+            DISK_COLOR="$RED"
+        elif [[ "$DISK_INT" -lt 5 ]]; then
+            DISK_COLOR="$ORANGE"
+        elif [[ "$DISK_INT" -lt 10 ]]; then
+            DISK_COLOR="$YELLOW"
+        fi
+    elif [[ "$DISK_FREE" == *Mi* || "$DISK_FREE" == *M* ]]; then
+        DISK_COLOR="$RED"
+    fi
+    OUTPUT="$OUTPUT | ${DISK_COLOR}${DISK_FREE}${RESET}"
 fi
 
 # Add memory pressure (green >=50%, yellow 30-50%, red <30%)
