@@ -1,3 +1,12 @@
+# [2.89.0](https://github.com/cerico/macfair/compare/v2.88.0...v2.89.0) (2026-02-19)
+
+
+### Features
+
+* add permissions management, monitoring alerts, and session improvements ([#510](https://github.com/cerico/macfair/issues/510)) ([22f2546](https://github.com/cerico/macfair/commit/22f2546bd19ff99c44a954f8e0fbcda1c893ec8d))
+
+
+
 # [2.88.0](https://github.com/cerico/macfair/compare/v2.87.0...v2.88.0) (2026-02-17)
 
 
