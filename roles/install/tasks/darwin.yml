@@ -105,6 +105,7 @@
     - "tableplus"
     - "postico"
     - "hamed-elfayome/claude-usage/claude-usage-tracker"
+    - "stats"
 
 - name: Copy zshenv
   copy:
