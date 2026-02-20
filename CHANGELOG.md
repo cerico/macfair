@@ -1,3 +1,12 @@
+# [2.91.0](https://github.com/cerico/macfair/compare/v2.90.0...v2.91.0) (2026-02-20)
+
+
+### Features
+
+* add whisper wrapper with audio cues and macro pad bindings ([#512](https://github.com/cerico/macfair/issues/512)) ([ed4662b](https://github.com/cerico/macfair/commit/ed4662b3f3ee74f2f9baf2609793f9975acf153b))
+
+
+
 # [2.90.0](https://github.com/cerico/macfair/compare/v2.89.0...v2.90.0) (2026-02-19)
 
 
