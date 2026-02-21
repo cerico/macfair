@@ -28,7 +28,7 @@
 
 - name: Generate whisper audio cues
   ansible.builtin.shell: >
-    say -o "$HOME/.local/share/whisper_cues/{{ item }}.aiff" "{{ item }}"
+    say -v Tessa -o "$HOME/.local/share/whisper_cues/{{ item }}.aiff" "{{ item }}"
   args:
     creates: "{{ ['~' + macbook_user.stdout, '.local', 'share', 'whisper_cues', item + '.aiff'] | path_join }}"
   loop:

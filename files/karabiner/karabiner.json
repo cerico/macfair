@@ -80,6 +80,23 @@
             ]
           },
           {
+            "description": "⌘' to whisper wrapper + auto-submit",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "quote",
+                  "modifiers": { "mandatory": ["command"] }
+                },
+                "to": [
+                  {
+                    "shell_command": "/usr/local/bin/whisper_wrapper --submit"
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "description": "⌘; to /speak + start recording",
             "manipulators": [
               {
