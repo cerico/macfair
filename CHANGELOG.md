@@ -1,3 +1,12 @@
+# [2.92.0](https://github.com/cerico/macfair/compare/v2.91.0...v2.92.0) (2026-02-21)
+
+
+### Features
+
+* improve whisper wrapper and add database GUI launcher functions ([#513](https://github.com/cerico/macfair/issues/513)) ([d0182fe](https://github.com/cerico/macfair/commit/d0182fe41ef834c94c522e7ce2d9fbe69c58eaba))
+
+
+
 # [2.91.0](https://github.com/cerico/macfair/compare/v2.90.0...v2.91.0) (2026-02-20)
 
 
