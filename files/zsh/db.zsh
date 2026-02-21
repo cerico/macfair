@@ -119,3 +119,15 @@ dbdrop () { # Drop a database # ➜ dbdrop myapp
 dbsizes () { # Show all database sizes # ➜ dbsizes
   psql -d postgres -c "SELECT datname, pg_size_pretty(pg_database_size(datname)) as size FROM pg_database WHERE datistemplate = false ORDER BY pg_database_size(datname) DESC"
 }
+
+postico () { # Open Postico with DATABASE_URL from .env or just launch it # ➜ postico
+  local url=""
+  [[ -f .env ]] && url=$(grep '^DATABASE_URL=' .env | head -1 | cut -d= -f2- | tr -d '"'"'")
+  if [[ -n "$url" ]]; then open "$url"; else open -a Postico; fi
+}
+
+tableplus () { # Open TablePlus with DATABASE_URL from .env or just launch it # ➜ tableplus
+  local url=""
+  [[ -f .env ]] && url=$(grep '^DATABASE_URL=' .env | head -1 | cut -d= -f2- | tr -d '"'"'")
+  if [[ -n "$url" ]]; then open "$url"; else open -a TablePlus; fi
+}

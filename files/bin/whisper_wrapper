@@ -3,11 +3,21 @@
 # Whisper wrapper: audio cues around OpenSuperWhisper recording toggle
 # Designed for screenless (hiking) use with a Bluetooth macro pad
 #
+# Usage: whisper_wrapper [--submit]
+#   --submit: press Return after transcription completes
+
+SUBMIT=false
+[[ "$1" == "--submit" ]] && SUBMIT=true
 
 STATE_FILE="/tmp/whisper_recording_state"
 MONITOR_PID_FILE="/tmp/whisper_monitor.pid"
 CUE_DIR="$HOME/.local/share/whisper_cues"
 SW_DB="$HOME/Library/Application Support/ru.starmel.OpenSuperWhisper/recordings.sqlite"
+
+pgrep -f "OpenSuperWhisper" >/dev/null 2>&1 || {
+  afplay /System/Library/Sounds/Basso.aiff &
+  exit 1
+}
 
 play_cue() {
   afplay "$CUE_DIR/$1.aiff" &
@@ -35,8 +45,13 @@ get_row_count() {
   sqlite3 "$SW_DB" "SELECT count(*) FROM recordings" 2>/dev/null || echo "0"
 }
 
+send_return() {
+  osascript -e 'tell application "System Events" to key code 36'
+}
+
 monitor_transcription() {
   local count_before="$1"
+  local submit="$2"
   local max_wait=200
   local elapsed=0
 
@@ -47,6 +62,7 @@ monitor_transcription() {
     count_now=$(get_row_count)
     [[ "$count_now" -gt "$count_before" ]] && {
       play_cue "done"
+      [[ "$submit" == "true" ]] && { sleep 0.5; send_return; }
       break
     }
   done
@@ -70,7 +86,7 @@ stop_recording() {
   trigger_superwhisper
 
   kill_monitor
-  monitor_transcription "$count_before" &
+  monitor_transcription "$count_before" "$SUBMIT" &
   echo $! > "$MONITOR_PID_FILE"
 }
 

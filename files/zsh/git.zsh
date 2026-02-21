@@ -183,6 +183,10 @@ _allprs () {
   done
 }
 
+runs () { # List workflow runs # ➜ runs
+  [[ $1 ]] && gh run view $1 || gh run list
+}
+
 branches () {
   echo $(git branch | wc -l) branches
   git branch

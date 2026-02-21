@@ -1,8 +1,12 @@
+# Disabled: npx venlo@latest hangs intermittently, needs investigation in venlo repo
+# name: Staging Docs
+# on:
+#   push:
+#     branches-ignore:
+#       - main
 name: Staging Docs
 on:
-  push:
-    branches-ignore:
-      - main
+  workflow_dispatch:
 
 jobs:
   staging-docs:
@@ -29,6 +33,7 @@ jobs:
         run: cat ~/.gitconfig
 
       - name: installs the doc site
+        timeout-minutes: 5
         run: npm_config_yes=true npx venlo@latest --appName venlo --language astro --design readme --colorScheme detective
 
       - name: copies the Docs
