@@ -9,8 +9,6 @@ on:
 jobs:
   changelog:
     runs-on: ubuntu-latest
-    env:
-      DEPLOY_URL: macfair.io37.ch
 
     steps:
       - uses: actions/checkout@v4
@@ -35,37 +33,52 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: make a gitconfig
-        run: |
-          echo -e "[user]
-            name = github-runner
-            email = githubrunner@google.fi
-          " > ~/.gitconfig
+  # Disabled: npx venlo@latest hangs intermittently, needs investigation in venlo repo
+  # docs:
+  #   runs-on: ubuntu-latest
+  #   needs: changelog
+  #   env:
+  #     DEPLOY_URL: macfair.io37.ch
+  #
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #
+  #     - name: make a gitconfig
+  #       run: |
+  #         echo -e "[user]
+  #           name = github-runner
+  #           email = githubrunner@google.fi
+  #         " > ~/.gitconfig
+  #
+  #     - name: installs the doc site
+  #       timeout-minutes: 5
+  #       run: npm_config_yes=true npx venlo@latest --appName venlo --language astro --design readme --colorScheme detective
+  #
+  #     - name: copies the Docs
+  #       run: cp -r docs/*md venlo/src/content/docs
+  #
+  #     - name: copies top level mds
+  #       run: for f in *.md; do cp "$f" "venlo/src/content/top/$(echo "$f" | tr '[:upper:]' '[:lower:]' )"; done
+  #
+  #     - name: copies top readme to index
+  #       run: cp README.md venlo/src/content/top/index.md
+  #
+  #     - name: Build
+  #       run: cd venlo && make build
+  #
+  #     - name: Rsync
+  #       uses: burnett01/rsync-deployments@4.1
+  #       with:
+  #         switches: -a
+  #         path: venlo/dist/
+  #         remote_path: "/var/www/html/$DEPLOY_URL"
+  #         remote_host: $DEPLOY_URL
+  #         remote_user: deploy
+  #         remote_key: ${{ secrets.DEPLOY_KEY }}
 
-      - name: is gitconfig there
-        run: cat ~/.gitconfig
-
-      - name: installs the doc site
-        run: npm_config_yes=true npx venlo@latest --appName venlo --language astro --design readme --colorScheme detective
-
-      - name: copies the Docs
-        run: cp -r docs/*md venlo/src/content/docs
-
-      - name: copies top level mds
-        run: for f in *.md; do cp "$f" "venlo/src/content/top/$(echo "$f" | tr '[:upper:]' '[:lower:]' )"; done
-
-      - name: copies top readme to index
-        run: cp README.md venlo/src/content/top/index.md
-
-      - name: Build
-        run: cd venlo && make build
-
-      - name: Rsync
-        uses: burnett01/rsync-deployments@4.1
-        with:
-          switches: -a
-          path: venlo/dist/
-          remote_path: "/var/www/html/$DEPLOY_URL"
-          remote_host: $DEPLOY_URL
-          remote_user: deploy
-          remote_key: ${{ secrets.DEPLOY_KEY }}
+  docs:
+    runs-on: ubuntu-latest
+    needs: changelog
+    steps:
+      - name: Docs deploy skipped
+        run: echo "Docs deploy is disabled — npx venlo@latest hangs intermittently. Needs investigation in venlo repo."
