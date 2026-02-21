@@ -1,3 +1,12 @@
+## [2.92.1](https://github.com/cerico/macfair/compare/v2.92.0...v2.92.1) (2026-02-21)
+
+
+### Bug Fixes
+
+* disable docs deploy in version workflow due to venlo hanging ([#514](https://github.com/cerico/macfair/issues/514)) ([256c463](https://github.com/cerico/macfair/commit/256c46397fd811da1b6ddc47f6f0509a4beb6b40))
+
+
+
 # [2.92.0](https://github.com/cerico/macfair/compare/v2.91.0...v2.92.0) (2026-02-21)
 
 
