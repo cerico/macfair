@@ -494,14 +494,6 @@ gtop () {
   cd $(git rev-parse --show-toplevel)
 }
 
-mv () { # git mv in repos, regular mv otherwise # ➜ mv old.txt new.txt
-  if [[ "$1" != -* ]] && git rev-parse --is-inside-work-tree &>/dev/null \
-    && { git ls-files --error-unmatch "$1" &>/dev/null || { [[ -d "$1" ]] && git ls-files -- "$1/" | read -r; }; }; then
-    git mv "$@" 2>/dev/null || command mv "$@"
-  else
-    command mv "$@"
-  fi
-}
 
 ginit () {
   git init

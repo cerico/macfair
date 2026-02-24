@@ -263,22 +263,31 @@ with open(sys.argv[1]) as fh:
     done
   }
 
-  if [[ -z "$1" ]]; then
-    _conv_sorted
-    _conv_display
-  elif [[ "$1" =~ ^[0-9]+$ ]]; then
-    _conv_sorted
+  _conv_search() {
+    local matches=$(grep -rFl "$1" "$claude_dir"/*/*.jsonl 2>/dev/null)
+    [[ -z "$matches" ]] && { echo "No conversations matching '$1'"; return 1; }
+    conv_files=($(echo "$matches" | xargs ls -t 2>/dev/null | head -25))
+  }
+
+  _conv_resume() {
     local target=$1
     [[ $target -lt 1 || $target -gt ${#conv_files[@]} ]] && { echo "No conversation at index $target (${#conv_files[@]} available)"; return 1; }
     local file="${conv_files[$target]}"
     local session_id="${file:t:r}"
     echo "Resuming: $session_id"
     _claude_run --resume "$session_id"
-  else
-    local matches=$(grep -rFl "$1" "$claude_dir"/*/*.jsonl 2>/dev/null)
-    [[ -z "$matches" ]] && { echo "No conversations matching '$1'"; return 0; }
-    conv_files=($(echo "$matches" | xargs ls -t 2>/dev/null | head -25))
+  }
+
+  if [[ -z "$1" ]]; then
+    _conv_sorted
     _conv_display
+  elif [[ "$1" =~ ^[0-9]+$ ]]; then
+    _conv_sorted
+    _conv_resume "$1"
+  elif [[ -n "$2" && "$2" =~ ^[0-9]+$ ]]; then
+    _conv_search "$1" && _conv_resume "$2"
+  else
+    _conv_search "$1" && _conv_display
   fi
 }
 

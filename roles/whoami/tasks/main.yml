@@ -39,6 +39,11 @@
 - debug: var=brew_user.stdout
   when: ansible_os_family == "Darwin"
 
+- name: derive brew prefix
+  set_fact:
+    brew_prefix: "{{ brew_location.stdout | dirname | dirname }}"
+  when: ansible_os_family == "Darwin"
+
 - name: print role name
   set_fact:
     parent_role_name: "{{ role_name }}"

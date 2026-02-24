@@ -2,6 +2,11 @@
 branch="$(git branch --show-current)"
 
 if [ "$branch" = "main" ]; then
+  allowlist="$HOME/.config/git/push-main-allowlist"
+  if [ -f "$allowlist" ]; then
+    remote_url="$(git remote get-url origin 2>/dev/null)"
+    grep -qFx "$remote_url" "$allowlist" && exit 0
+  fi
   echo "Push to main branch is blocked."
   exit 1
 fi

@@ -20,15 +20,24 @@ _speak() {
   trap - INT TERM
 }
 
-[[ $# -eq 0 ]] && _speak "Nothing to speak." && exit 1
+_dispatch() {
+  if [[ -n "$SSH_CONNECTION" ]]; then
+    local client_ip="${SSH_CONNECTION%% *}"
+    ssh -o ConnectTimeout=3 "$client_ip" -- "/usr/local/bin/speak $(printf '%q' "$1")" && return
+    _speak "$1"
+  else
+    _speak "$1"
+  fi
+}
 
-# If argument is a file, read its contents
+[[ $# -eq 0 ]] && _dispatch "Nothing to speak." && exit 1
+
 if [[ -f "$1" ]]; then
   if [[ "$1" == *.json ]] && jq -e '.input' "$1" &>/dev/null; then
-    _speak "$(jq -r '.input' "$1")"
+    _dispatch "$(jq -r '.input' "$1")"
   else
-    _speak "$(cat "$1")"
+    _dispatch "$(cat "$1")"
   fi
 else
-  _speak "$*"
+  _dispatch "$*"
 fi
