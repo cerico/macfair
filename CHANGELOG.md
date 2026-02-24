@@ -1,3 +1,12 @@
+# [2.93.0](https://github.com/cerico/macfair/compare/v2.92.1...v2.93.0) (2026-02-24)
+
+
+### Features
+
+* shell navigation enhancements and Ansible portability ([#515](https://github.com/cerico/macfair/issues/515)) ([08d2c58](https://github.com/cerico/macfair/commit/08d2c58bb9579c1ebf88c661791c87aeb173daa2))
+
+
+
 ## [2.92.1](https://github.com/cerico/macfair/compare/v2.92.0...v2.92.1) (2026-02-21)
 
 
