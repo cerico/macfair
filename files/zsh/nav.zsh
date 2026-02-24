@@ -60,6 +60,49 @@ _completemarks() {
 compctl -K _completemarks jump
 compctl -K _completemarks unmark
 
+# Move wrapper: update marks when directories move
+
+mv() {
+  local _args=()
+  for arg in "$@"; do
+    [[ "$arg" != -* ]] && _args+=("$arg")
+  done
+
+  # Resolve source paths before the move (while they still exist)
+  local -a _srcs_abs=()
+  if (( ${#_args} >= 2 )) && [[ -d "$MARKPATH" ]]; then
+    for src in "${_args[@]:0:$((${#_args} - 1))}"; do
+      [[ "$src" != /* ]] && src="$PWD/$src"
+      _srcs_abs+=("${src:A}")
+    done
+  fi
+
+  # Use git mv for tracked files, plain mv otherwise
+  if [[ "${_args[1]}" != -* ]] && git rev-parse --is-inside-work-tree &>/dev/null \
+    && { git ls-files --error-unmatch "${_args[1]}" &>/dev/null || { [[ -d "${_args[1]}" ]] && git ls-files -- "${_args[1]}/" | read -r; }; }; then
+    git mv "$@" 2>/dev/null || command mv "$@" || return $?
+  else
+    command mv "$@" || return $?
+  fi
+
+  (( ${#_srcs_abs} == 0 )) && return
+  local _dst="${_args[-1]}"
+  [[ "$_dst" != /* ]] && _dst="$PWD/$_dst"
+
+  for mark in "$MARKPATH"/*(N); do
+    [[ ! -L "$mark" ]] && continue
+    local target=$(readlink "$mark")
+    for _src in "${_srcs_abs[@]}"; do
+      [[ "$target" != "$_src" && "$target" != "$_src"/* ]] && continue
+      local new_target
+      [[ -d "$_dst" ]] && new_target="${_dst}/${_src:t}${target#$_src}" || new_target="${_dst}${target#$_src}"
+      ln -sf "$new_target" "$mark"
+      echo "mark '${mark:t}' → ${new_target/#$HOME/\~}"
+      break
+    done
+  done
+}
+
 # Terminal profile per directory
 
 cpr() { # Set terminal profile for directory # ➜ cpr coffee
@@ -87,12 +130,12 @@ chpwd() {
 # Directory history
 
 _track_directory() {
-  [[ ! -d ".git" ]] && return
   local current="$PWD"
+  [[ "$current" == "$HOME" ]] && return
   local temp=$(mktemp) || return
   echo "$current" > "$temp"
   [[ -f "$DIR_HISTORY_FILE" ]] && grep -v "^${current}$" "$DIR_HISTORY_FILE" >> "$temp"
-  head -100 "$temp" > "${DIR_HISTORY_FILE}.new" && mv "${DIR_HISTORY_FILE}.new" "$DIR_HISTORY_FILE"
+  head -100 "$temp" > "${DIR_HISTORY_FILE}.new" && command mv "${DIR_HISTORY_FILE}.new" "$DIR_HISTORY_FILE"
   rm -f "$temp"
 }
 
@@ -102,13 +145,17 @@ _format_repo_line() {
 
   display="${repo/#$HOME/~}"
 
-  # Non-git directories: just show path
+  # Prefix: ◆ for Makefile projects, space otherwise
+  local prefix=" "
+  [[ -f "$repo/Makefile" ]] && prefix=$'\e[36m'"◆"$'\e[0m'
+
+  # Non-git directories
   if [[ ! -d "$repo/.git" ]]; then
-    local visible_len=${#display}
+    local visible_len=$((${#display} + 2))  # prefix + space
     local padding=$((pad_width - visible_len))
     (( padding < 1 )) && padding=1
     local pad=$(printf '%*s' "$padding" '')
-    printf "%s%s%7s %7s\n" "$display" "$pad" "" ""
+    printf "%s %s%s%7s %7s\n" "$prefix" "$display" "$pad" "" ""
     return
   fi
 
@@ -153,7 +200,7 @@ _format_repo_line() {
   [[ "$files" == "0" ]] && files_display=""
 
   # Style: blue parens, red branch
-  local visible_len=$((${#display} + ${#branch_display} + 5))  # " () X"
+  local visible_len=$((${#display} + ${#branch_display} + 7))  # "P path (branch) X"
   local padding=$((pad_width - visible_len))
   (( padding < 1 )) && padding=1
   local pad=$(printf '%*s' "$padding" '')
@@ -162,8 +209,8 @@ _format_repo_line() {
   local commits_display="$commits"
   [[ "$commits" == "0" ]] && commits_display=""
 
-  printf "%s "$'\e[34m'"("$'\e[31m'"%s"$'\e[34m'")"$'\e[0m'" %s%s%7s %7s\n" \
-    "$display" "$branch_display" "$icon" "$pad" "$commits_display" "$files_display"
+  printf "%s %s "$'\e[34m'"("$'\e[31m'"%s"$'\e[34m'")"$'\e[0m'" %s%s%7s %7s\n" \
+    "$prefix" "$display" "$branch_display" "$icon" "$pad" "$commits_display" "$files_display"
 }
 
 dh() { # Directory history # ➜ dh
@@ -182,7 +229,7 @@ dh() { # Directory history # ➜ dh
     count="$2"
   fi
 
-  printf "%60s %7s %7s\n" "" "commits" "changed"
+  printf "%62s %7s %7s\n" "" "commits" "changed"
   local i=0
   head -n "$count" "$DIR_HISTORY_FILE" | while read -r repo; do
     ((i++))
