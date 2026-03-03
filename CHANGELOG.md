@@ -1,3 +1,12 @@
+# [2.94.0](https://github.com/cerico/macfair/compare/v2.93.0...v2.94.0) (2026-03-03)
+
+
+### Features
+
+* migrate from tmux/iTerm to WezTerm with SpaceNumber menu bar app ([#517](https://github.com/cerico/macfair/issues/517)) ([866002d](https://github.com/cerico/macfair/commit/866002d0cdb9b3c60fa6518546d16aaeec74623f))
+
+
+
 # [2.93.0](https://github.com/cerico/macfair/compare/v2.92.1...v2.93.0) (2026-02-24)
 
 
