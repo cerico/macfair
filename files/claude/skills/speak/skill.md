@@ -25,6 +25,7 @@ Speak text aloud using the local Kokoro TTS service on port 8880.
 That's it. The speak script handles JSON encoding via jq, calls Kokoro, and plays the audio.
 
 IMPORTANT:
+- NEVER run speak in the background (no run_in_background). Background task completions trigger phantom commands due to a Claude Code bug. Always run in foreground.
 - Use double quotes around the text argument
 - Escape any double quotes inside the text with backslash
 - For long responses (500+ words), split into multiple speak calls

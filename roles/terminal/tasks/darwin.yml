@@ -37,6 +37,48 @@
     dest: "{{ ['~' + macbook_user.stdout, 'Library', 'Application Support', 'iTerm2', 'DynamicProfiles', 'iterm.json'] | path_join }}"
   when: iterm_path.stat.exists
 
+- name: Create local bin directory
+  ansible.builtin.file:
+    path: "{{ ['~' + macbook_user.stdout, '.local', 'bin'] | path_join }}"
+    state: directory
+    mode: "0755"
+
+- name: Compile SpaceNumber menu bar app
+  ansible.builtin.shell: >
+    swiftc -framework Cocoa
+    {{ playbook_dir }}/files/spacenumber/SpaceNumber.swift
+    -o /Users/{{ macbook_user.stdout }}/.local/bin/SpaceNumber
+  args:
+    creates: "/Users/{{ macbook_user.stdout }}/.local/bin/SpaceNumber"
+
+- name: Install SpaceNumber LaunchAgent
+  ansible.builtin.copy:
+    dest: "{{ ['~' + macbook_user.stdout, 'Library', 'LaunchAgents', 'com.macfair.spacenumber.plist'] | path_join }}"
+    mode: "0644"
+    content: |
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+      <plist version="1.0">
+      <dict>
+        <key>Label</key>
+        <string>com.macfair.spacenumber</string>
+        <key>ProgramArguments</key>
+        <array>
+          <string>/Users/{{ macbook_user.stdout }}/.local/bin/SpaceNumber</string>
+        </array>
+        <key>RunAtLoad</key>
+        <true/>
+        <key>KeepAlive</key>
+        <true/>
+      </dict>
+      </plist>
+
+- name: Load SpaceNumber LaunchAgent
+  ansible.builtin.shell: >
+    launchctl bootout gui/$(id -u) /Users/{{ macbook_user.stdout }}/Library/LaunchAgents/com.macfair.spacenumber.plist 2>/dev/null;
+    launchctl bootstrap gui/$(id -u) /Users/{{ macbook_user.stdout }}/Library/LaunchAgents/com.macfair.spacenumber.plist
+  changed_when: false
+
 - name: Create pnpm-audit directory
   file:
     path: "{{ [ansible_env.HOME, 'work', 'crons', 'pnpm-audit'] | path_join }}"

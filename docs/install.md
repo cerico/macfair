@@ -36,7 +36,6 @@
 * watch
 * nmap
 * htop
-* tmux
 * postgresql
 * redis
 * hpedrorodrigues/tools/dockutil

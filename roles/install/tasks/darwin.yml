@@ -38,7 +38,6 @@
       - "watch"
       - "nmap"
       - "htop"
-      - "tmux"
       - "neovim"
       - "postgresql"
       - "redis"
@@ -117,6 +116,7 @@
     - "postico"
     - "hamed-elfayome/claude-usage/claude-usage-tracker"
     - "stats"
+    - "wezterm"
 
 - name: Copy zshenv
   copy:

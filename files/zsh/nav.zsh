@@ -103,27 +103,57 @@ mv() {
   done
 }
 
-# Terminal profile per directory
+# Terminal color themes (WezTerm OSC sequences)
 
-cpr() { # Set terminal profile for directory # ➜ cpr coffee
+typeset -gA _wez_themes
+_wez_themes=(
+  coffee   "#23262e #ffca28 #ee5d43 #23262e #f0266f #8fd46d #ffe66d #0321d7 #ee5d43 #03d6b8 #c74ded #292e38 #f92672 #8fd46d #ffe66d #03d6b8 #ee5d43 #03d6b8 #c74ded"
+  daegu    "#1d1f28 #fdfdfd #c574dd #282a36 #f37f97 #5adecd #f2a272 #8897f4 #c574dd #79e6f3 #fdfdfd #414458 #ff4971 #18e3c8 #ff8037 #556fff #b043d1 #3fdcee #bebec1"
+  liege    "#334789 #ffffff #fad000 #000000 #d90429 #3ad900 #ffe700 #6943ff #ff2c70 #00c5c7 #c7c7c7 #686868 #f92a1c #43d426 #f1d000 #6871ff #ff77ff #79e8fb #ffffff"
+  sea      "#09141b #deb88d #fca02f #17384c #d15123 #027c9b #fca02f #1e4950 #68d4f1 #50a3b5 #deb88d #434b53 #d48678 #628d98 #fdd39f #1bbcdd #bbe3ee #87acb4 #fee4ce"
+  kawa     "#b70d4b #ffffff #fad000 #000000 #d90429 #3ad900 #ffe700 #6943ff #ff2c70 #00c5c7 #c7c7c7 #686868 #f92a1c #43d426 #f1d000 #6871ff #ff77ff #79e8fb #ffffff"
+  asda     "#2f2d76 #ffffff #fad000 #000000 #ff757d #3dd605 #ffe700 #6943ff #f02d6c #00c5c7 #c7c7c7 #686868 #ff757d #75ff8a #f1d000 #6871ff #ff77ff #75ffe9 #ffffff"
+  forest   "#161e16 #d6e7d6 #7cbd7c #223122 #d45f5f #7cbd7c #caca6e #6e95b1 #b195b1 #6eb195 #d6e7d6 #293b29 #fe7272 #95e383 #f2f284 #6e95b1 #b195b1 #6eb195 #ffffff"
+  sunset   "#291217 #ffdead #ff9966 #492028 #ff6666 #f4d03f #ffc107 #b080a7 #ff94b1 #f2be69 #ffdead #572630 #ff7a7a #fffa4b #ffe808 #d39ac8 #ffb1d4 #f2be69 #ffffd0"
+  midnight "#0a0a14 #c0d1e9 #6699ff #141428 #dc322f #27ae60 #f3c227 #2877f0 #9370db #3498db #c0d1e9 #181830 #ff3c38 #2ed173 #ffe92e #308fff #b086ff #3498db #e7fbff"
+  cherry   "#1e0f14 #ffe0f0 #f080a8 #3c1e28 #db6193 #add69e #f5deb3 #ad81a8 #db7093 #8fbcbb #ffe0f0 #482430 #ff86b0 #d0ffbe #ffffd7 #d09bca #ff86b0 #8fbcbb #ffffff"
+)
+
+_wez_apply_theme() {
+  local name="$1"
+  local colors=(${=_wez_themes[$name]})
+  [[ ${#colors} -ne 19 ]] && return 1
+
+  local bg="${colors[1]}" fg="${colors[2]}" cursor="${colors[3]}"
+
+  printf '\033]11;%s\a' "$bg"
+  printf '\033]10;%s\a' "$fg"
+  printf '\033]12;%s\a' "$cursor"
+
+  local i
+  for i in {0..15}; do
+    printf '\033]4;%d;%s\a' "$i" "${colors[$((i + 4))]}"
+  done
+
+  export __WEZTERM_THEME="$name"
+}
+
+cpr() { # Set terminal color theme # ➜ cpr coffee
   if [[ -z "$1" ]]; then
-    local current="$ITERM_PROFILE"
-    grep '"Name"' ~/Library/Application\ Support/iTerm2/DynamicProfiles/*.json(N) 2>/dev/null | \
-      sed 's/.*"Name" *: *"\([^"]*\)".*/\1/' | \
-      while read -r name; do
-        [[ "$name" == "$current" ]] && echo -e "\e[32m${name}\e[0m" || echo "$name"
-      done
+    local name
+    for name in ${(ko)_wez_themes}; do
+      [[ "$name" == "$__WEZTERM_THEME" ]] && echo -e "\e[32m${name}\e[0m" || echo "$name"
+    done
     return
   fi
-  echo -e "\033]50;SetProfile=$1\a"
-  echo $1 > "$PWD/.terminal-profile"
+  _wez_apply_theme "$1" && echo "$1" > "$PWD/.terminal-profile"
 }
 
 # Directory change hook
 
 chpwd() {
   _git_sync
-  [[ -f .terminal-profile ]] && cpr "$(cat .terminal-profile)"
+  [[ -f .terminal-profile ]] && _wez_apply_theme "$(cat .terminal-profile)"
   _track_directory
 }
 
@@ -237,3 +267,6 @@ dh() { # Directory history # ➜ dh
     _format_repo_line "$repo" 57
   done
 }
+
+# Apply theme on shell startup
+[[ -f .terminal-profile ]] && _wez_apply_theme "$(cat .terminal-profile)" || _wez_apply_theme coffee
