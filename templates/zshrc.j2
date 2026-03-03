@@ -8,13 +8,6 @@ ZSH_THEME={{ zsh_theme if zsh_theme is defined else 'cerico-w-user' }}
 ZSH_DISABLE_COMPFIX=true
 plugins=(git)
 
-# Setting up terminal profile
-if [[ -f .terminal-profile ]]; then
-  echo -e "\033]50;SetProfile=$(cat .terminal-profile)\a"
-else
-  echo -e "\033]50;SetProfile=coffee\a"
-fi
-
 # Sourcing oh-my-zsh configurations
 source $ZSH/oh-my-zsh.sh
 

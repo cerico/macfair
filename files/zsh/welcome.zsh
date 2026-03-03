@@ -1,5 +1,5 @@
 # Terminal Dashboard
-# Displays on new iTerm windows, also available via `dashboard` command
+# Displays on new WezTerm windows, also available via `dashboard` command
 # Sourced last (alphabetically after volz.zsh) so hubs.zsh and nav.zsh are loaded
 
 _dashboard_header() {
@@ -172,14 +172,14 @@ _tab_releases() {
 }
 
 tabin() {
-  [[ -f .terminal-profile ]] && type cpr &>/dev/null && cpr "$(cat .terminal-profile)"
+  [[ -f .terminal-profile ]] && type _wez_apply_theme &>/dev/null && _wez_apply_theme "$(cat .terminal-profile)"
   _tab_uncommitted
   _tab_commits
   _tab_todos
 }
 
-# Auto-run on new iTerm sessions (skip if sourced from git hook)
-if [[ -z "$GIT_HOOK" && -n "$ITERM_SESSION_ID" ]]; then
+# Auto-run on new WezTerm sessions (skip if sourced from git hook)
+if [[ -z "$GIT_HOOK" && -n "$WEZTERM_PANE" ]]; then
   if _is_new_window; then
     return  # remove to auto-run dashboard
     dashboard

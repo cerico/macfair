@@ -41,7 +41,7 @@
         line: "{{ target }}.localhost"
         regexp: '.localhost'
         insertafter: "debian"
-      when: ansible_os_family == "Debian"
+      when: ansible_facts['os_family'] == "Debian"
 
     - name: Add target to inventory file when darwin.
       lineinfile:
@@ -49,7 +49,7 @@
         line: "{{ target }}.localhost"
         regexp: '.localhost'
         insertafter: "macbook"
-      when: ansible_os_family == "Darwin"
+      when: ansible_facts['os_family'] == "Darwin"
 
     - name: setup passwordless sudo
       include_role:

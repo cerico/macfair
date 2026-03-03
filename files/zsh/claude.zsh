@@ -5,55 +5,92 @@ unalias claude clauden claudev claudevn claudep claudevp claudex claudepod discu
 
 CLAUDE_LOCKFILE=".claude-session.lock"
 
-_iterm_focus_tty() {
-  local tty="$1"
-  [[ -z "$tty" ]] && return 1
-  local result
-  result=$(osascript <<EOF
-tell application "iTerm2"
-  repeat with w in windows
-    repeat with t in tabs of w
-      repeat with s in sessions of t
-        if tty of s ends with "$tty" then
-          select t
-          tell w to select
-          activate
-          return "FOUND"
-        end if
-      end repeat
-    end repeat
-  end repeat
-end tell
-return "NOT_FOUND"
-EOF
-)
-  [[ "$result" == "FOUND" ]]
+_wez_focus_pane() {
+  local target_pane="$1"
+  [[ -z "$target_pane" ]] && return 1
+  local pane_json
+  pane_json=$(wezterm cli list --format json 2>/dev/null)
+  local tab_id
+  tab_id=$(echo "$pane_json" | jq -r --arg pid "$target_pane" '[.[] | select(.pane_id == ($pid | tonumber))][0].tab_id // empty')
+  [[ -z "$tab_id" ]] && return 1
+  local shell_pane
+  shell_pane=$(echo "$pane_json" | jq -r --arg tab "$tab_id" --arg pid "$target_pane" '[.[] | select(.tab_id == ($tab | tonumber) and .pane_id != ($pid | tonumber))][0].pane_id // empty')
+  wezterm cli activate-pane --pane-id "$target_pane" 2>/dev/null
+  local rc=$?
+  [[ -n "$shell_pane" ]] && printf '%s\n' "printf '\\e]1337;SetUserVar=focus=MQ==\\a'" | wezterm cli send-text --pane-id "$shell_pane" --no-paste
+  return $rc
 }
 
-_claude_tmux() {
+_wez_focus_tty() {
+  local tty="$1"
+  [[ -z "$tty" ]] && return 1
+  local pane_id
+  pane_id=$(wezterm cli list --format json 2>/dev/null | jq -r --arg tty "$tty" '[.[] | select(.tty_name | endswith($tty))] | .[0].pane_id // empty' 2>/dev/null)
+  [[ -z "$pane_id" ]] && return 1
+  _wez_focus_pane "$pane_id"
+}
+
+_wez_spawn_window() {
+  if wezterm cli list &>/dev/null; then
+    wezterm cli spawn --new-window --cwd "$1"
+    return
+  fi
+  open -a WezTerm
+  local retries=0
+  while ! wezterm cli list &>/dev/null && (( retries < 20 )); do
+    sleep 0.3
+    ((retries++))
+  done
+  wezterm cli list &>/dev/null || return 1
+  local first_pane
+  first_pane=$(wezterm cli list --format json 2>/dev/null | jq -r '.[0].pane_id')
+  [[ -n "$first_pane" && "$first_pane" != "null" ]] && echo "$first_pane"
+}
+
+_wez_layout() {
+  local main_pane="$1"
+  shift
+
+  local right_pane
+  right_pane=$(wezterm cli split-pane --right --percent 30 --pane-id "$main_pane" --cwd "$PWD")
+  [[ -z "$right_pane" ]] && { echo "Split failed"; return 1; }
+
+  local bottom_right
+  bottom_right=$(wezterm cli split-pane --bottom --percent 50 --pane-id "$right_pane" --cwd "$PWD")
+
+  printf 'clear\n' | wezterm cli send-text --pane-id "$right_pane" --no-paste
+  [[ -n "$bottom_right" ]] && printf 'clear\n' | wezterm cli send-text --pane-id "$bottom_right" --no-paste
+
+  wezterm cli activate-pane --pane-id "$main_pane"
+  local cmd=$(printf '%q ' "$@")
+  printf '%s\n' "$cmd" | wezterm cli send-text --pane-id "$main_pane" --no-paste
+}
+
+_claude_wez() {
   local session="${${PWD##*/}//[.:]/_}"
-  if tmux has-session -t "$session" 2>/dev/null; then
-    local panes=$(( $(tmux list-panes -t "$session" 2>/dev/null | wc -l) ))
-    if [[ "$panes" -gt 1 ]]; then
-      local client_tty=$(tmux list-clients -t "$session" -F '#{client_tty}' 2>/dev/null | head -1)
-      if [[ -n "$client_tty" ]]; then
-        _iterm_focus_tty "${client_tty##*/}"
-        return
-      fi
-      tmux attach -t "$session"
+  local state_file="/tmp/wez_claude_${session}"
+
+  if [[ -f "$state_file" ]]; then
+    local saved_pane
+    saved_pane=$(cat "$state_file")
+    local pane_exists
+    pane_exists=$(wezterm cli list --format json 2>/dev/null | jq -r --arg pid "$saved_pane" '[.[] | select(.pane_id == ($pid | tonumber))][0].pane_id // empty')
+    if [[ -n "$pane_exists" ]]; then
+      _wez_focus_pane "$saved_pane"
       return
     fi
-  else
-    tmux new-session -d -s "$session" -c "$PWD"
+    rm -f "$state_file"
   fi
-  tmux split-window -h -t "$session" -p 30
-  tmux split-window -v -t "$session"
-  tmux send-keys -t "$session:1.2" "clear" Enter
-  tmux send-keys -t "$session:1.3" "clear" Enter
-  tmux select-pane -t "$session:1.1"
-  local cmd=$(printf '%q ' "$@")
-  tmux send-keys -t "$session:1.1" "$cmd; tmux kill-session -t $session" Enter
-  tmux attach -t "$session"
+
+  local main_pane
+  if [[ -n "$WEZTERM_PANE" ]]; then
+    main_pane="$WEZTERM_PANE"
+  else
+    main_pane=$(_wez_spawn_window "$PWD")
+    [[ -z "$main_pane" ]] && { echo "Could not create WezTerm window"; return 1; }
+  fi
+
+  _wez_layout "$main_pane" "$@" && echo "$main_pane" > "$state_file"
 }
 
 _claude_lock() {
@@ -85,20 +122,13 @@ _claude_run() {
 
 _claude_maybe_gsd() {
   local -a flags=("$@")
-  [[ -f .planning/STATE.md ]] && flags+=("go")
   _claude_run "${flags[@]}"
 }
 
 claude() {
-  if [[ -z "$TMUX" ]]; then
-    local -a args=(command claude --permission-mode plan)
-    [[ $# -eq 0 ]] && [[ -f .planning/STATE.md ]] && args+=(go)
-    [[ $# -gt 0 ]] && args+=("$@")
-    _claude_tmux "${args[@]}"
-    return
-  fi
-  [[ $# -eq 0 ]] && { _claude_maybe_gsd --permission-mode plan; return; }
-  _claude_run --permission-mode plan "$@"
+  local -a args=(command claude --permission-mode plan)
+  [[ $# -gt 0 ]] && args+=("$@")
+  _claude_wez "${args[@]}"
 }
 clauden() {
   [[ $# -eq 0 ]] && { _claude_maybe_gsd; return; }
@@ -127,45 +157,52 @@ claudex() {
 
 discuss() {
   local voice='Always speak every response aloud using the /speak skill (Kokoro TTS on port 8880, then afplay). Skip code blocks in the spoken version - focus on reasoning, strategy, and discussion. The user can see the full text on screen, so the spoken part should be conversational. Before any tool call that needs permission, speak what you are about to do so the user knows to check the screen.'
-  if [[ -z "$TMUX" ]]; then
-    local -a args=(command claude --permission-mode plan --append-system-prompt "$voice")
-    [[ $# -eq 0 ]] && [[ -f .planning/STATE.md ]] && args+=(go)
-    [[ $# -gt 0 ]] && args+=("$@")
-    _claude_tmux "${args[@]}"
-    return
-  fi
-  [[ $# -eq 0 ]] && { _claude_maybe_gsd --permission-mode plan --append-system-prompt "$voice"; return; }
-  _claude_run --permission-mode plan --append-system-prompt "$voice" "$@"
+  local -a args=(command claude --permission-mode plan --append-system-prompt "$voice")
+  [[ $# -gt 0 ]] && args+=("$@")
+  _claude_wez "${args[@]}"
 }
 
 vps() {
   [[ -z "$1" ]] && { sshs; return; }
   local host="$1" session="vps_${1//[.:]/_}"
   shift
-  if [[ -n "$TMUX" ]]; then
-    ssh "$host"
-    return
-  fi
-  if tmux has-session -t "$session" 2>/dev/null; then
-    local client_tty=$(tmux list-clients -t "$session" -F '#{client_tty}' 2>/dev/null | head -1)
-    if [[ -n "$client_tty" ]] && _iterm_focus_tty "${client_tty##*/}"; then
+  local state_file="/tmp/wez_${session}"
+  if [[ -f "$state_file" ]]; then
+    local saved_pane
+    saved_pane=$(cat "$state_file")
+    if wezterm cli list --format json 2>/dev/null | jq -e --arg pid "$saved_pane" '[.[] | select(.pane_id == ($pid | tonumber))] | length > 0' &>/dev/null; then
+      wezterm cli activate-pane --pane-id "$saved_pane" 2>/dev/null
+      osascript -e 'tell application "WezTerm" to activate'
       return
     fi
-    tmux attach -t "$session"
-    return
+    rm -f "$state_file"
   fi
+
   local macfair="$HOME/macfair"
-  tmux new-session -d -s "$session" -c "$macfair"
-  tmux split-window -h -t "$session" -p 30 -c "$macfair"
-  tmux split-window -v -t "$session" -p 30 -c "$macfair"
-  tmux send-keys -t "$session:1.2" "clear && ssh $(printf '%q' "$host")" Enter
-  tmux send-keys -t "$session:1.3" "clear" Enter
-  tmux select-pane -t "$session:1.1"
+  local main_pane
+  if [[ -n "$WEZTERM_PANE" ]]; then
+    main_pane="$WEZTERM_PANE"
+  else
+    main_pane=$(_wez_spawn_window "$macfair")
+    [[ -z "$main_pane" ]] && { echo "Could not create WezTerm window"; return 1; }
+  fi
+
+  local right_pane
+  right_pane=$(wezterm cli split-pane --right --percent 30 --pane-id "$main_pane" --cwd "$macfair")
+  [[ -z "$right_pane" ]] && { echo "Split failed"; return 1; }
+
+  local bottom_right
+  bottom_right=$(wezterm cli split-pane --bottom --percent 30 --pane-id "$right_pane" --cwd "$macfair")
+
+  printf 'clear && ssh %s\n' "$(printf '%q' "$host")" | wezterm cli send-text --pane-id "$right_pane" --no-paste
+  [[ -n "$bottom_right" ]] && printf 'clear\n' | wezterm cli send-text --pane-id "$bottom_right" --no-paste
+
+  echo "$main_pane" > "$state_file"
+  wezterm cli activate-pane --pane-id "$main_pane"
   local -a args=(command claude --permission-mode plan)
   [[ $# -gt 0 ]] && args+=("$@")
   local cmd=$(printf '%q ' "${args[@]}")
-  tmux send-keys -t "$session:1.1" "$cmd; tmux kill-session -t $session" Enter
-  tmux attach -t "$session"
+  printf '%s; rm -f %s\n' "$cmd" "$(printf '%q' "$state_file")" | wezterm cli send-text --pane-id "$main_pane" --no-paste
 }
 
 claudewright() {
@@ -190,23 +227,7 @@ claudes() {
     fi
     local tty="${ttys[$idx]}"
     [[ "$tty" == "??" ]] && { echo "Session $idx is orphaned. Use 'claudekill' to clean up."; return 1; }
-    # Resolve tmux pty to the client's iTerm tty
-    local tmux_session=$(tmux list-panes -a -F '#{pane_tty} #{session_name}' 2>/dev/null | grep "/dev/$tty " | awk '{print $2}' | head -1)
-    if [[ -n "$tmux_session" ]]; then
-      local client_tty=$(tmux list-clients -t "$tmux_session" -F '#{client_tty}' 2>/dev/null | head -1)
-      if [[ -n "$client_tty" ]]; then
-        tty="${client_tty##*/}"
-      else
-        echo "Session $idx ($tmux_session) is detached. Attaching..."
-        if [[ -n "$TMUX" ]]; then
-          tmux switch-client -t "$tmux_session"
-        else
-          tmux attach -t "$tmux_session"
-        fi
-        return
-      fi
-    fi
-    _iterm_focus_tty "$tty" || echo "Could not find iTerm tab for tty $tty"
+    _wez_focus_tty "$tty" || echo "Could not find WezTerm pane for tty $tty"
     return
   fi
 

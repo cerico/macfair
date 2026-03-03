@@ -3,7 +3,7 @@
   shell: code --list-extensions
   register: vscode_installed
   changed_when: false
-  when: ansible_os_family == "Darwin"
+  when: ansible_facts['os_family'] == "Darwin"
 
 - name: install VSCode packages
   shell: "code --install-extension {{ item }}"
@@ -32,26 +32,26 @@
     - "ChakrounAnas.turbo-console-log"
     - "wholroyd.jinja"
   when:
-    - ansible_os_family == "Darwin"
+    - ansible_facts['os_family'] == "Darwin"
     - item not in vscode_installed.stdout_lines
 
 - name: copy vscode profile darwin
   copy:
     src: vscode.json
     dest: "{{ ['~' + macbook_user.stdout, 'Library', 'Application Support', 'Code', 'User', 'settings.json'] | path_join }}"
-  when: ansible_os_family == "Darwin"
+  when: ansible_facts['os_family'] == "Darwin"
 
 - name: copy vscode profile debian
   copy:
     src: vscode.json
     dest: "{{ ['~' + macbook_user.stdout, '.config', 'Code', 'User', 'settings.json'] | path_join }}"
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Create snippets directory
   file:
     path: "{{ ['~' + macbook_user.stdout, 'Library', 'Application Support', 'Code', 'User', 'snippets'] | path_join }}"
     state: directory
-  when: ansible_os_family == "Darwin"
+  when: ansible_facts['os_family'] == "Darwin"
 
 - name: Copy snippets
   copy:
@@ -59,7 +59,7 @@
     dest: "{{ ['~' + macbook_user.stdout, 'Library', 'Application Support', 'Code', 'User', 'snippets'] | path_join }}"
   with_fileglob:
     - snippets/*
-  when: ansible_os_family == "Darwin"
+  when: ansible_facts['os_family'] == "Darwin"
 
 - name: Create themes directory
   file:

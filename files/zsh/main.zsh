@@ -212,20 +212,12 @@ awks () { # awk field shortcut # ➜ awks , 3
 
 autoload -Uz add-zsh-hook
 
-_last_tab_title=""
-
 _set_titles() {
-  print -n -- "\e]2;${PWD##*/}\a"
-  [[ -n "$_last_tab_title" ]] && print -n -- "\e]1;${_last_tab_title}\a"
-}
-_set_tab_title() {
-  _last_tab_title="$1"
-  print -n -- "\e]1;${1}\a"
+  print -n -- "\e]0;${PWD##*/}\a"
 }
 
 _set_titles
 add-zsh-hook precmd _set_titles
-add-zsh-hook preexec _set_tab_title
 
 sw () {
     if [[ -n $1 ]]

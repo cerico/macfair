@@ -15,7 +15,7 @@
   with_items:
     - "Nginx HTTP"
     - "Nginx Full"
-  when: (ansible_os_family == "Debian") and ('ufw' in ansible_facts.packages)
+  when: (ansible_facts['os_family'] == "Debian") and ('ufw' in ansible_facts.packages)
   become: true
   become_user: root
 
@@ -26,7 +26,7 @@
     recurse: yes
     owner: "{{ macbook_user.stdout }}"
     group: "{{ macbook_user.stdout }}"
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"
   become: true
   become_user: root
   with_items:

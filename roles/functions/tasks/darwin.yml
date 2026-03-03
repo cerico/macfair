@@ -37,10 +37,10 @@
     - done
   when: inventory_hostname != 'github-runner.localhost'
 
-- name: Copy tmux config
+- name: Copy WezTerm config
   ansible.builtin.copy:
-    src: tmux.conf
-    dest: "{{ ['~' + macbook_user.stdout, '.tmux.conf'] | path_join }}"
+    src: wezterm.lua
+    dest: "{{ ['~' + macbook_user.stdout, '.wezterm.lua'] | path_join }}"
 
 - name: Create neovim config directory
   ansible.builtin.file:

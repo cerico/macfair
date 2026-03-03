@@ -17,11 +17,11 @@
 
 - name: configure terminal for mac
   import_tasks: darwin.yml
-  when: ansible_os_family == "Darwin"
+  when: ansible_facts['os_family'] == "Darwin"
 
 - name: configure terminal for pi
   import_tasks: debian.yml
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: include git
   import_tasks: git.yml
@@ -60,7 +60,7 @@
 
 - name: configure claude
   import_tasks: claude.yml
-  when: ansible_os_family == "Darwin"
+  when: ansible_facts['os_family'] == "Darwin"
   tags: claude
 
 - name: print role name

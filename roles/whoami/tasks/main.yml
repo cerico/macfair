@@ -26,7 +26,7 @@
   become: false
   ansible.builtin.command: which brew
   register: brew_location
-  when: ansible_os_family == "Darwin"
+  when: ansible_facts['os_family'] == "Darwin"
 
 - debug: var=brew_location.stdout
 
@@ -34,15 +34,15 @@
   become: false
   ansible.builtin.command: stat -f "%Su" {{ brew_location.stdout }}
   register: brew_user
-  when: ansible_os_family == "Darwin"
+  when: ansible_facts['os_family'] == "Darwin"
 
 - debug: var=brew_user.stdout
-  when: ansible_os_family == "Darwin"
+  when: ansible_facts['os_family'] == "Darwin"
 
 - name: derive brew prefix
   set_fact:
     brew_prefix: "{{ brew_location.stdout | dirname | dirname }}"
-  when: ansible_os_family == "Darwin"
+  when: ansible_facts['os_family'] == "Darwin"
 
 - name: print role name
   set_fact:
