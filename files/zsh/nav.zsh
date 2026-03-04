@@ -25,6 +25,10 @@ mcd() {
   cd "$1"
 }
 
+tcd() {
+  cd "$HOME/${1:-.}"
+}
+
 # Marks system
 
 jump() {

@@ -200,7 +200,7 @@ commits () { # List recent commits # ➜ commits 5
   local branch="$(git branch --show-current)"
   local default=$(_default_branch)
   if [[ $branch = $default ]]; then
-    [[ $1 ]] && no=$1 || no=$(git rev-list --count $default)
+    [[ $1 ]] && no=$1 || no=20
     git log --pretty=format:"%ar %s" |head -$no | _colorize_commit_type
   else
     unique_to_branch=$(git rev-list --count $default..$branch)
