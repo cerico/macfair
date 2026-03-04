@@ -140,6 +140,8 @@ config.colors = {
   },
 }
 
+config.hyperlink_rules = wezterm.default_hyperlink_rules()
+
 config.mouse_bindings = {
   {
     event = { Up = { streak = 1, button = 'Left' } },
@@ -156,6 +158,29 @@ config.keys = {
   { key = 'k', mods = 'LEADER', action = wezterm.action.ActivatePaneDirection 'Up' },
   { key = 'l', mods = 'LEADER', action = wezterm.action.ActivatePaneDirection 'Right' },
   { key = 'x', mods = 'LEADER', action = wezterm.action.CloseCurrentPane { confirm = false } },
+  { key = 'n', mods = 'SUPER', action = wezterm.action.SpawnCommandInNewWindow { cwd = wezterm.home_dir } },
+  { key = ' ', mods = 'SUPER', action = wezterm.action_callback(function(window, pane)
+    local home = wezterm.home_dir
+    local history_file = home .. '/.dir_history'
+    local f = io.open(history_file, 'r')
+    if not f then return end
+    local choices = {}
+    for line in f:lines() do
+      local label = line:gsub('^' .. home, '~')
+      table.insert(choices, { id = line, label = label })
+    end
+    f:close()
+    window:perform_action(wezterm.action.InputSelector {
+      title = 'Jump to directory',
+      fuzzy = true,
+      choices = choices,
+      action = wezterm.action_callback(function(_, _, id, label)
+        if id then
+          pane:send_text('cd ' .. id .. '\n')
+        end
+      end),
+    }, pane)
+  end) },
 }
 
 wezterm.on('user-var-changed', function(window, _, name, _)
