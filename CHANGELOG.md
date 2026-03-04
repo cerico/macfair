@@ -1,3 +1,12 @@
+# [2.95.0](https://github.com/cerico/macfair/compare/v2.94.0...v2.95.0) (2026-03-04)
+
+
+### Features
+
+* WezTerm enhancements and shell navigation improvements ([#518](https://github.com/cerico/macfair/issues/518)) ([0e89993](https://github.com/cerico/macfair/commit/0e8999306a5a7316dabe6c91502c535668345f9b))
+
+
+
 # [2.94.0](https://github.com/cerico/macfair/compare/v2.93.0...v2.94.0) (2026-03-03)
 
 
