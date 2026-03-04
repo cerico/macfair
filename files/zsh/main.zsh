@@ -384,7 +384,7 @@ window() {
 }
 
 scripts () {
-  [[ -f package.json ]] && jq .scripts package.json || echo "package.json not round. To create run ➜ npm init"
+  [[ -f package.json ]] && jq .scripts package.json || echo "package.json not found. To create run ➜ npm init"
 }
 
 _delete_temp_page () {
