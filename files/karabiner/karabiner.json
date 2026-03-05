@@ -169,6 +169,23 @@
             ]
           },
           {
+            "description": "Ctrl+N: New WezTerm window in current space",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "n",
+                  "modifiers": { "mandatory": ["control"] }
+                },
+                "to": [
+                  {
+                    "shell_command": "/Applications/WezTerm.app/Contents/MacOS/wezterm start &"
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "description": "F15: Escape (macro pad key 4)",
             "manipulators": [
               {
