@@ -219,14 +219,13 @@ _set_titles() {
 _set_titles
 add-zsh-hook precmd _set_titles
 
+SPACE_KEY_CODES=(18 19 20 21 23 22 26 28 25 29 12 13 14 15 17 16)
+
 sw () {
-    if [[ -n $1 ]]
-    then
-        local key_code=$((17 + $1))
-        osascript -e "tell application \"System Events\" to key code $key_code using {control down}"
-    else
-        echo "Usage: sw [1|2|3|...]"
-    fi
+    [[ -z "$1" ]] && { echo "Usage: sw [1-16]"; return 1; }
+    local idx=$1
+    [[ $idx -lt 1 || $idx -gt ${#SPACE_KEY_CODES[@]} ]] && { echo "Space $idx out of range (1-${#SPACE_KEY_CODES[@]})"; return 1; }
+    osascript -e "tell application \"System Events\" to key code ${SPACE_KEY_CODES[$idx]} using {control down}"
 }
 
 vsc () { # list or switch vscode themes # ➜ vsc sunlight

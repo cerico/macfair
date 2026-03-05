@@ -163,7 +163,7 @@ releases () { # List releases for repo # ➜ releases 5
     _releases_across_repos
     return
   fi
-  [[ $1 ]] && no=$1 || no=500
+  [[ $1 ]] && no=$1 || no=20
   git for-each-ref --sort=-creatordate --format '%(refname:short) %(creatordate:relative)' refs/tags | head -n $no | awk '{tag = $1; date = $2 " " $3 " " $4 " " $5 " " $6; printf "\033[0;32m%-7s \033[1;0m%-s\n", tag, date}'
 }
 
