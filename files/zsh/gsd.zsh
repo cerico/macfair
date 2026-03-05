@@ -213,6 +213,10 @@ gsds() {
   $found_any || echo "No GSD projects found (no hubs with .planning/STATE.md)"
 }
 
+resume() {
+  [[ -f ".planning/STATE.md" ]] && claude "/gsd:resume-work" || claude
+}
+
 gsd() {
   local cmd="$1"
   [[ -n "$cmd" ]] && shift
