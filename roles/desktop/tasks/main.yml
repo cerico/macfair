@@ -27,24 +27,11 @@
   register: wallpaper_files
 
 - name: Set first wallpaper as default
-  shell: |
-    wallpaper_file=$(ls {{ ['~' + macbook_user.stdout, 'wallpapers'] | path_join }}/*.png | sort | head -1 | xargs basename)
-    osascript -e 'tell application "System Events" to tell every desktop to set picture to POSIX file "{{ ['~' + macbook_user.stdout, 'wallpapers'] | path_join }}/'$wallpaper_file'"'
+  shell: >
+    osascript -e 'tell application "Finder" to set desktop picture to
+    POSIX file "{{ (wallpaper_files.files | sort(attribute='path') | first).path }}"'
+  changed_when: false
   when: wallpaper_files.files | length > 0
-
-- name: Set wallpapers for all spaces using wallpapers function
-  shell: |
-    source ~/.zshrc
-    wallpapers
-  args:
-    executable: /bin/zsh
-  ignore_errors: true
-  register: wallpapers_result
-
-- name: Show wallpapers result
-  debug:
-    msg: "{{ wallpapers_result.stdout_lines | default(['Wallpapers function not available yet']) }}"
-  when: wallpapers_result is defined
 
 - name: Remove superfluous from dock
   shell: /usr/local/bin/dockutil --remove '{{ item }}' | cat
