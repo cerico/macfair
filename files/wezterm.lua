@@ -3,7 +3,8 @@ local config = wezterm.config_builder()
 
 config.leader = { key = 'a', mods = 'CTRL', timeout_milliseconds = 1000 }
 config.term = 'xterm-256color'
-config.font_size = 14.0
+config.font = wezterm.font('Monaco')
+config.font_size = 16.0
 config.color_schemes = {
   coffee = {
     foreground = '#ffca28',
