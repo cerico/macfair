@@ -163,6 +163,20 @@ When using Playwright MCP for browser automation and testing:
   - `/review 4` - Reference only (shows what's not covered)
 - Always provide a grade A-F and score out of 100
 
+# Second Brain
+
+When the user says things like "remember this", "save this", "brain this", "we should remember this", or "note this down" — write a fleeting note to `~/second-brain/Inbox/`. Use filename format `YYYYMMDD-HHMMSS-slug.md` with frontmatter:
+
+```yaml
+---
+source: <derived from current working directory or git remote name>
+tags: []
+created: YYYY-MM-DDTHH:MM:SS
+---
+```
+
+Keep notes atomic — one insight per note. Include enough context that future-you understands it without the original conversation.
+
 # Recovery & Steering
 
 - Don't silently downgrade implementations — if the task says config-driven, don't hardcode; if it says error handling, don't skip it "for now"
