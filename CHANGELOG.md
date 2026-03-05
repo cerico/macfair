@@ -1,3 +1,12 @@
+# [2.98.0](https://github.com/cerico/macfair/compare/v2.97.0...v2.98.0) (2026-03-05)
+
+
+### Features
+
+* add resume function and update wezterm font ([#522](https://github.com/cerico/macfair/issues/522)) ([1677dd6](https://github.com/cerico/macfair/commit/1677dd6d2e9ab6b38009b70299c7a679e089222a))
+
+
+
 # [2.97.0](https://github.com/cerico/macfair/compare/v2.96.0...v2.97.0) (2026-03-05)
 
 
