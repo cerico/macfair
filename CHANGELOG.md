@@ -1,3 +1,12 @@
+## [2.98.1](https://github.com/cerico/macfair/compare/v2.98.0...v2.98.1) (2026-03-05)
+
+
+### Bug Fixes
+
+* relaunch claude in existing pane when process has exited ([#523](https://github.com/cerico/macfair/issues/523)) ([bcb0e51](https://github.com/cerico/macfair/commit/bcb0e51c5fc07ecaba547200519af0c3d96f3073))
+
+
+
 # [2.98.0](https://github.com/cerico/macfair/compare/v2.97.0...v2.98.0) (2026-03-05)
 
 
