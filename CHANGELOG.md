@@ -1,3 +1,12 @@
+# [2.99.0](https://github.com/cerico/macfair/compare/v2.98.1...v2.99.0) (2026-03-05)
+
+
+### Features
+
+* add Ctrl+N global shortcut to spawn WezTerm in current space ([#524](https://github.com/cerico/macfair/issues/524)) ([f42f2db](https://github.com/cerico/macfair/commit/f42f2db68a14df1571647096aec8bbaa848dd217))
+
+
+
 ## [2.98.1](https://github.com/cerico/macfair/compare/v2.98.0...v2.98.1) (2026-03-05)
 
 
