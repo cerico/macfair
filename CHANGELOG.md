@@ -1,3 +1,12 @@
+# [2.97.0](https://github.com/cerico/macfair/compare/v2.96.0...v2.97.0) (2026-03-05)
+
+
+### Features
+
+* add second brain capture, curate skill, and vault provisioning ([#521](https://github.com/cerico/macfair/issues/521)) ([e5fe19e](https://github.com/cerico/macfair/commit/e5fe19e98d79951ab77f1ade77a5c43e76292f45))
+
+
+
 # [2.96.0](https://github.com/cerico/macfair/compare/v2.95.0...v2.96.0) (2026-03-05)
 
 
