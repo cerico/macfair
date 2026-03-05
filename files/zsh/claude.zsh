@@ -209,6 +209,12 @@ claudewright() {
   claude mcp add playwright npx @playwright/mcp@latest
 }
 
+curate() {
+  local vault="$HOME/second-brain"
+  [[ -d "$vault" ]] || { echo "No vault at $vault"; return 1; }
+  cd "$vault" && command claude -p "/curate"
+}
+
 # List Claude sessions, or jump to one by index (active first, orphans last)
 claudes() {
   local idx="${1:-}"

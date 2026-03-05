@@ -26,10 +26,18 @@
     patterns: "*.png"
   register: wallpaper_files
 
-- name: Set first wallpaper as default
-  shell: >
-    osascript -e 'tell application "Finder" to set desktop picture to
-    POSIX file "{{ (wallpaper_files.files | sort(attribute='path') | first).path }}"'
+- name: Set per-space wallpapers alphabetically
+  vars:
+    sorted_wallpapers: "{{ wallpaper_files.files | sort(attribute='path') | map(attribute='path') | list }}"
+    space_key_codes: [18, 19, 20, 21, 23, 22, 26, 28, 25, 29, 12, 13, 14, 15, 17, 16]
+  shell: |
+    osascript {% for wp in sorted_wallpapers %} \
+      -e 'tell application "System Events" to key code {{ space_key_codes[loop.index0] }} using {control down}' \
+      -e 'delay 2' \
+      -e 'tell application "Finder" to set desktop picture to POSIX file "{{ wp }}"' \
+      -e 'delay 0.5' \
+    {% endfor %} \
+      -e 'tell application "System Events" to key code 18 using {control down}'
   changed_when: false
   when: wallpaper_files.files | length > 0
 

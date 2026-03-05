@@ -68,6 +68,22 @@
     src: claude/agents/
     dest: "{{ ['~' + macbook_user.stdout, '.claude', 'agents'] | path_join }}/"
 
+- name: Create second brain vault directories
+  file:
+    path: "{{ ['~' + macbook_user.stdout, 'second-brain', item] | path_join }}"
+    state: directory
+  loop:
+    - Inbox
+    - Projects
+    - Areas
+    - Resources
+    - Archive
+    - Zettelkasten
+    - Literature
+    - MOCs
+    - Daily
+    - Templates
+
 - name: Create gemini directory
   file:
     path: "{{ ['~' + macbook_user.stdout, '.gemini'] | path_join }}"
