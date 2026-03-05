@@ -1,3 +1,12 @@
+# [2.96.0](https://github.com/cerico/macfair/compare/v2.95.0...v2.96.0) (2026-03-05)
+
+
+### Features
+
+* feat: overhaul wallpapers with numbered per-space assignment ([#520](https://github.com/cerico/macfair/issues/520)) ([8361394](https://github.com/cerico/macfair/commit/836139416c6cef4a383101058543260bec743df7))
+
+
+
 # [2.95.0](https://github.com/cerico/macfair/compare/v2.94.0...v2.95.0) (2026-03-04)
 
 
