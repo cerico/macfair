@@ -73,9 +73,17 @@ _claude_wez() {
   if [[ -f "$state_file" ]]; then
     local saved_pane
     saved_pane=$(cat "$state_file")
-    local pane_exists
-    pane_exists=$(wezterm cli list --format json 2>/dev/null | jq -r --arg pid "$saved_pane" '[.[] | select(.pane_id == ($pid | tonumber))][0].pane_id // empty')
-    if [[ -n "$pane_exists" ]]; then
+    local pane_json
+    pane_json=$(wezterm cli list --format json 2>/dev/null)
+    local pane_tty
+    pane_tty=$(echo "$pane_json" | jq -r --arg pid "$saved_pane" '[.[] | select(.pane_id == ($pid | tonumber))][0].tty_name // empty')
+    if [[ -n "$pane_tty" ]]; then
+      if ps -t "$pane_tty" -o comm= 2>/dev/null | grep -q '^claude$'; then
+        _wez_focus_pane "$saved_pane"
+        return
+      fi
+      local cmd=$(printf '%q ' "$@")
+      printf '%s\n' "$cmd" | wezterm cli send-text --pane-id "$saved_pane" --no-paste
       _wez_focus_pane "$saved_pane"
       return
     fi
