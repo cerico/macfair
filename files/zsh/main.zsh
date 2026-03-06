@@ -48,20 +48,18 @@ trim () {
 }
 
 aud () {
-  mkdir -p "$HOME/videos/transcripts"
-  yt-dlp --cookies-from-browser safari -xiwc --write-auto-sub --sub-lang en -o "$HOME/videos/%(title)s.%(ext)s" "$1"
-  find "$HOME/videos" -maxdepth 1 -name "*.vtt" -exec mv {} "$HOME/videos/transcripts/" \;
+  mkdir -p "$HOME/videos/media" "$HOME/videos/transcripts"
+  yt-dlp --cookies-from-browser firefox -xiwc --write-auto-sub --sub-lang en -o "$HOME/videos/media/%(title)s.%(ext)s" -o "subtitle:$HOME/videos/transcripts/%(title)s.%(ext)s" "$1"
 }
 
 tune () {
   mkdir -p "$HOME/mp3"
-  yt-dlp --cookies-from-browser safari -xiwc --audio-format mp3 -o "$HOME/mp3/%(title)s.%(ext)s" "$1"
+  yt-dlp --cookies-from-browser firefox -xiwc --audio-format mp3 -o "$HOME/mp3/%(title)s.%(ext)s" "$1"
 }
 
 vid () {
-  mkdir -p "$HOME/videos/transcripts"
-  yt-dlp --cookies-from-browser safari --write-auto-sub --sub-lang en -o "$HOME/videos/%(title)s.%(ext)s" "$1"
-  find "$HOME/videos" -maxdepth 1 -name "*.vtt" -exec mv {} "$HOME/videos/transcripts/" \;
+  mkdir -p "$HOME/videos/media" "$HOME/videos/transcripts"
+  yt-dlp --cookies-from-browser firefox --write-auto-sub --sub-lang en -o "$HOME/videos/media/%(title)s.%(ext)s" -o "subtitle:$HOME/videos/transcripts/%(title)s.%(ext)s" "$1"
 }
 
 help() {
