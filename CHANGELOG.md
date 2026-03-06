@@ -1,3 +1,12 @@
+# [2.100.0](https://github.com/cerico/macfair/compare/v2.99.0...v2.100.0) (2026-03-06)
+
+
+### Features
+
+* add skill capture workflow and update yt-dlp config ([#525](https://github.com/cerico/macfair/issues/525)) ([c0c96d0](https://github.com/cerico/macfair/commit/c0c96d02122afe45297c5b8dfe9a8b1f3defd69d))
+
+
+
 # [2.99.0](https://github.com/cerico/macfair/compare/v2.98.1...v2.99.0) (2026-03-05)
 
 
