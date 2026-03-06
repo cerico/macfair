@@ -161,3 +161,10 @@
     hour: "7"
     minute: "0"
     job: ". $HOME/.zshrc; orb reset"
+
+- name: Setup cron for claudit skills audit
+  ansible.builtin.cron:
+    name: claudit cron
+    hour: "3"
+    minute: "0"
+    job: "python3 $HOME/.claude/claudit.py"
