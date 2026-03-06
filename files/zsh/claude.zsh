@@ -399,6 +399,8 @@ memories() { # Browse Claude memory files across projects # ➜ memories search 
   esac
 }
 
+claudit() { python3 ~/.claude/claudit.py && open ~/.claude/reports/claudit.html; }
+
 skills() { printf '%s\n' ~/.claude/skills/*(N:t); }
 commands() { printf '%s\n' ~/.claude/commands/*(N:t:r); }
 hooks() { printf '%s\n' ~/.claude/hooks/*(N:t:r); }
