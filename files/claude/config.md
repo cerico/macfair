@@ -22,6 +22,7 @@ Never edit `~/.claude/` directly. Edit macfair, then tell user to run `make clau
 - Care about errors and accessibility (a11y)
 - Use the actual current date from context - don't hallucinate it being a year ago
 - Express uncertainty honestly rather than guessing confidently
+- When a task touches 3+ independent files or layers, use parallel subagents rather than working sequentially
 
 # Git
 
@@ -175,7 +176,26 @@ created: YYYY-MM-DDTHH:MM:SS
 ---
 ```
 
-Keep notes atomic — one insight per note. Include enough context that future-you understands it without the original conversation.
+Keep notes atomic — one insight per note. Include enough context that future-you understands it without the original conversation. Always capture WHY it matters, not just what happened.
+
+When starting a new project or facing a non-trivial design decision, search `~/second-brain/notes/` for relevant prior knowledge before proceeding.
+
+# Skill Capture
+
+When the user says "skill this", "make this a skill", or "save this as a skill" — write a fleeting note to `~/second-brain/Inbox/` describing the workflow as a skill candidate:
+
+1. Use the same filename format as second brain notes: `YYYYMMDD-HHMMSS-skill-slug.md`
+2. Tag it `tags: [skill-candidate]`
+3. Describe what the skill does, when to trigger it, and the key steps — based on what actually happened in the session
+4. During `/curate`, skill candidates get reviewed and promoted to macfair's `files/claude/skills/`
+
+# Skill Usage Tracking
+
+When invoking a user-invocable skill (via `/skill-name`), append a usage entry to `~/.claude/MEMORY/State/skills-usage.log`:
+```text
+YYYY-MM-DD skill-name
+```
+This log is reviewed during curate sessions to identify active vs dead skills.
 
 # Recovery & Steering
 

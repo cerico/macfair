@@ -74,3 +74,11 @@ Scan the session for loose ends: things we said we'd do later, tests we skipped,
 - Read the project's `TODO.md`
 - Append new items that aren't already listed
 - Format: `- [ ] Description (from session YYYY-MM-DD)`
+
+### 11. Insight capture
+Scan the session for novel insights worth preserving: a pattern that solved a hard problem, a decision with non-obvious reasoning, a gotcha that cost time, or a workflow worth repeating. If any exist:
+- Write each as a fleeting note to `~/second-brain/Inbox/` using standard format (`YYYYMMDD-HHMMSS-slug.md` with frontmatter)
+- Include WHY it matters, not just what happened
+- Tag with `tags: [auto-captured]` to distinguish from manual captures
+- If the insight is a reusable workflow, use `YYYYMMDD-HHMMSS-skill-slug.md` filename and tag `skill-candidate`
+- If nothing genuinely novel happened in this session, skip silently
