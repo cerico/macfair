@@ -1,3 +1,12 @@
+# [2.101.0](https://github.com/cerico/macfair/compare/v2.100.0...v2.101.0) (2026-03-06)
+
+
+### Features
+
+* add claudit skills audit report ([#526](https://github.com/cerico/macfair/issues/526)) ([44113cf](https://github.com/cerico/macfair/commit/44113cf8c3984b4c30ae706bf6d04ed5bf62ad46))
+
+
+
 # [2.100.0](https://github.com/cerico/macfair/compare/v2.99.0...v2.100.0) (2026-03-06)
 
 
