@@ -8,3 +8,12 @@ while read -r _ _ remote_ref _; do
   echo "Push to main on $1 ($remote_url) is blocked."
   exit 1
 done
+
+# Run verify target if available
+if [[ -f Makefile ]] && grep -q '^verify:' Makefile; then
+  echo "Running make verify..."
+  if ! make verify; then
+    echo "make verify failed — push aborted."
+    exit 1
+  fi
+fi

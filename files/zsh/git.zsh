@@ -39,7 +39,7 @@ _git_sync() {
 
   if [[ "$current_branch" = "$default" ]]; then
     echo "🕵️ Checking for new commits 🔎"
-    git pull --tags origin "$default"
+    git pull --tags origin "$default" && delete_old_branches
     return
   fi
 
@@ -75,11 +75,35 @@ repos () { # List all repos # ➜ repos public
   [[ -n $1 ]] && gh repo list --visibility $1 || gh repo list
 }
 
-issue() { # Create or edit gh issue # ➜ issue | issue "fix nginx" | issue 505
-  [[ -z "$1" ]] && { gh issue create -e || return 1; return; }
+_issue_to_branch() {
+  local issue_url="$1"
+  local num=$(echo "$issue_url" | awk -F'/' '{print $NF}')
+  local title=$(gh issue view "$num" --json title -q '.title')
+  local slug=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd 'a-z0-9-' | sed 's/--*/-/g; s/^-//; s/-$//')
+  git checkout -b "gh-${num}-${slug}"
+}
+
+issue() { # Create gh issue and branch, or edit existing # ➜ issue | issue "fix nginx" | issue 505
+  [[ -f .linear ]] && echo "This project uses Linear — use Linear to create branches" && return 1
+  local default=$(_default_branch)
+  local current=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+
+  [[ ! "$1" =~ ^[0-9]+$ && "$current" != "$default" ]] && {
+    echo "Switch to $default before creating an issue"
+    return 1
+  }
+
+  if [[ -z "$1" ]]; then
+    local url
+    url=$(gh issue create -e) || return 1
+    [[ -n "$url" ]] && _issue_to_branch "$url"
+    return
+  fi
 
   [[ ! "$1" =~ ^[0-9]+$ ]] && {
-    gh issue create -t "$1" ${2:+-b "$2"} || return 1
+    local url
+    url=$(gh issue create -t "$1" ${2:+-b "$2"}) || return 1
+    [[ -n "$url" ]] && _issue_to_branch "$url"
     return
   }
 
@@ -293,9 +317,14 @@ viewpr () {
 delete_old_branches () {
   local default=$(_default_branch)
   for branch in $(git branch | tr -d "* " | grep -v "^$default$"); do
-    if [ -z "$(git log $default..$branch)" ]; then
-      echo "Deleting branch $branch"
-      git branch -d $branch
+    # Regular merge: no unique commits
+    if [[ -z "$(git log $default..$branch)" ]]; then
+      echo "Deleting merged branch $branch"
+      git branch -d "$branch"
+    # Squash merge: branch diff against main is empty
+    elif [[ -z "$(git diff $default...$branch)" ]]; then
+      echo "Deleting squash-merged branch $branch"
+      git branch -D "$branch"
     fi
   done
 }
@@ -342,6 +371,7 @@ _unmerged_commits_across_repos () {
   done
   [ -d .git ] && unmerged 5
 }
+
 
 rebase_branches () {
   local default=$(_default_branch)
@@ -426,7 +456,10 @@ _colorize_commit_type () {
 }
 
 _format_pr_body () {
-  git log main.. --pretty=%B | sed 's/^[a-zA-Z0-9_]*: //'
+  local default=$(_default_branch)
+  local commits=$(git log $default.. --pretty=%B | sed 's/^[a-zA-Z0-9_]*: //' | sed '/^$/d')
+  local body="## Why\n\n\n\n## What changed\n\n${commits}\n\n## How to test\n\n"
+  echo "$body"
 }
 
 ghpr () { # Create and validate a PR
@@ -446,12 +479,24 @@ ghpr () { # Create and validate a PR
   fi
 }
 
-card () {
-  [[ ! $1 ]] && return
-  _format_pr_title $1
-  issue=$(gh issue create -t $modified_title -b "")
-  num=$(echo $issue | awk -F'/' 'END{print $NF}')
-  gh issue develop -c -n $1 $num
+gbr () { # Create branch with GH issue or local counter # ➜ gbr fix-nginx-config
+  [[ ! $1 ]] && echo "Usage: gbr <slug>" && return 1
+  [[ -f .linear ]] && echo "This project uses Linear — use Linear to create branches" && return 1
+  local default=$(_default_branch)
+  local current=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+  [[ "$current" != "$default" ]] && echo "Switch to $default before creating a branch" && return 1
+  local slug="$1"
+  local title=$(echo "$slug" | tr '-' ' ')
+  if gh repo view --json nameWithOwner -q .nameWithOwner &>/dev/null; then
+    local issue_url
+    issue_url=$(gh issue create -t "$title" -b "") || return 1
+    local num=$(echo "$issue_url" | awk -F'/' '{print $NF}')
+    git checkout -b "gh-${num}-${slug}"
+  else
+    local max=$(git branch -a --list 'cl-*' | sed -E 's/.*cl-([0-9]+).*/\1/' | sort -rn | head -1)
+    local next=$(( ${max:-0} + 1 ))
+    git checkout -b "cl-${next}-${slug}"
+  fi
 }
 
 _format_pr_title () {

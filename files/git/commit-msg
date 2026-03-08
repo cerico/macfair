@@ -1,6 +1,19 @@
 #!/usr/bin/env zsh
 declare -r msg=$(<$1)
 title=${msg%%$'\n'*}
+
+# Warn on non-standard branch name (non-blocking)
+branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+default_branch=$(git rev-parse --abbrev-ref origin/HEAD 2>/dev/null | sed 's|^origin/||')
+[[ -z "$default_branch" ]] && default_branch="main"
+if [[ -n "$branch" && "$branch" != "$default_branch" && "$branch" != "HEAD" ]]; then
+  if [[ ! "$branch" =~ ^[a-z]+-[0-9]+-[a-z0-9-]+$ ]]; then
+    echo "Warning: branch '$branch' doesn't match naming convention."
+    echo "Expected: prefix-N-slug (e.g. gh-1-fix-bug, mel-23-add-feature)"
+    echo ""
+  fi
+fi
+
 [[ ${#title} -lt 20 ]] && echo 'Please enter a more informative commit message' && exit 1
 [[ ${#title} -gt 80 ]] && echo 'Please keep commit summary below 80 characters' && exit 1
 [[ $msg == wip:[[:space:]]* ]] && exit 0
