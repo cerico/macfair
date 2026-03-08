@@ -98,6 +98,26 @@
         mode: '0640'
       notify: Restart claude-agent
 
+    - name: Create /etc/ticket directory
+      file:
+        path: /etc/ticket
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+      become: true
+
+    - name: Template ticket config.json
+      template:
+        src: ticket_config.json.j2
+        dest: /etc/ticket/config.json
+        owner: root
+        group: root
+        mode: '0644'
+      become: true
+      notify: Restart claude-agent
+
+
     - name: Template .env file
       template:
         src: env.j2
@@ -105,6 +125,7 @@
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"
         mode: '0600'
+      no_log: true
       notify: Restart claude-agent
 
     - name: Create systemd user directory

@@ -5,3 +5,5 @@ agent_domain: "kawajevo.io37.ch"
 agent_certbot_email: "kawajevo@io37.ch"
 agent_git_name: "kawajevo"
 agent_git_email: "kawajevo@io37.ch"
+
+ticket_workspaces: "{{ vault_ticket_workspaces }}"
