@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "workspaces": {
+{% for ws in ticket_workspaces %}
+    "{{ ws.org_id }}": {
+      "apiKey": "$TICKET_WS_{{ ws.env_prefix }}_API_KEY",
+      "webhookSecret": "$TICKET_WS_{{ ws.env_prefix }}_WEBHOOK_SECRET"
+    }{% if not loop.last %},{% endif %}
+
+{% endfor %}
+  }
+}
