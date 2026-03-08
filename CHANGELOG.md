@@ -1,3 +1,12 @@
+# [2.102.0](https://github.com/cerico/macfair/compare/v2.101.0...v2.102.0) (2026-03-08)
+
+
+### Features
+
+* provision multi-workspace container config for ticket agent ([#527](https://github.com/cerico/macfair/issues/527)) ([601c668](https://github.com/cerico/macfair/commit/601c668afa4d9584d954eb4d72aa549c231e6ee2))
+
+
+
 # [2.101.0](https://github.com/cerico/macfair/compare/v2.100.0...v2.101.0) (2026-03-06)
 
 
