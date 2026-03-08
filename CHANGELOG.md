@@ -1,3 +1,12 @@
+## [2.103.1](https://github.com/cerico/macfair/compare/v2.103.0...v2.103.1) (2026-03-08)
+
+
+### Bug Fixes
+
+* unalias gbr before function definition to avoid zsh parse error ([447a084](https://github.com/cerico/macfair/commit/447a08482ca4a61ff9273da47ca78980f0f2750d))
+
+
+
 # [2.103.0](https://github.com/cerico/macfair/compare/v2.102.0...v2.103.0) (2026-03-08)
 
 
