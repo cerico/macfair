@@ -1,3 +1,5 @@
+unalias gbr 2>/dev/null
+
 gitundo () { # Undo last git operation (safe: fails if uncommitted changes conflict)
   [[ ! -d .git ]] && echo "Not a git repo" && return 1
   local current=$(git rev-parse --short HEAD)
