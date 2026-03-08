@@ -1,3 +1,12 @@
+# [2.103.0](https://github.com/cerico/macfair/compare/v2.102.0...v2.103.0) (2026-03-08)
+
+
+### Features
+
+* standardize git workflow with branch guards and hook improvements ([9a8772d](https://github.com/cerico/macfair/commit/9a8772d5f6fd265d5a60dcd5e2b84dbfc2317860))
+
+
+
 # [2.102.0](https://github.com/cerico/macfair/compare/v2.101.0...v2.102.0) (2026-03-08)
 
 
