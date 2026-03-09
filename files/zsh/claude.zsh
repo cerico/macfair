@@ -220,7 +220,7 @@ claudewright() {
 curate() {
   local vault="$HOME/second-brain"
   [[ -d "$vault" ]] || { echo "No vault at $vault"; return 1; }
-  cd "$vault" && command claude -p "/curate"
+  cd "$vault" && command claude "/curate"
 }
 
 # List Claude sessions, or jump to one by index (active first, orphans last)
