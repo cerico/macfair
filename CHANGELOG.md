@@ -1,3 +1,12 @@
+## [2.103.2](https://github.com/cerico/macfair/compare/v2.103.1...v2.103.2) (2026-03-09)
+
+
+### Bug Fixes
+
+* use interactive mode for curate function ([d363866](https://github.com/cerico/macfair/commit/d363866135c5ab2a66460a501c95578a64c3d193))
+
+
+
 ## [2.103.1](https://github.com/cerico/macfair/compare/v2.103.0...v2.103.1) (2026-03-08)
 
 
