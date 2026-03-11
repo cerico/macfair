@@ -20,6 +20,13 @@
     mode: '0755'
   become: true
 
+- name: Copy macropad action script
+  ansible.builtin.copy:
+    src: bin/macropad_action
+    dest: /usr/local/bin/macropad_action
+    mode: '0755'
+  become: true
+
 - name: Create whisper cues directory
   ansible.builtin.file:
     path: "{{ ['~' + macbook_user.stdout, '.local', 'share', 'whisper_cues'] | path_join }}"

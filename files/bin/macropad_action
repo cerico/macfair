@@ -1,0 +1,17 @@
+#!/bin/bash
+case "$1" in
+  typeA)
+    app=$(osascript -e 'tell application "System Events" to get name of first process whose frontmost is true')
+    case "$app" in
+      wezterm|WezTerm)
+        /Applications/WezTerm.app/Contents/MacOS/wezterm cli send-text --no-paste "A"
+        ;;
+      iTerm2)
+        osascript -e 'tell application "iTerm2" to tell current session of current window to write text "A" without newline'
+        ;;
+    esac
+    ;;
+  wezterm) /Applications/WezTerm.app/Contents/MacOS/wezterm start & ;;
+  browser) open -a Safari ;;
+  lock) pmset displaysleepnow ;;
+esac
