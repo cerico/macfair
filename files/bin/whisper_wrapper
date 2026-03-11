@@ -90,6 +90,11 @@ stop_recording() {
   echo $! > "$MONITOR_PID_FILE"
 }
 
+[[ -f "$STATE_FILE" ]] && {
+  local_age=$(( $(date +%s) - $(stat -f %m "$STATE_FILE") ))
+  (( local_age > 300 )) && rm -f "$STATE_FILE"
+}
+
 if [[ -f "$STATE_FILE" ]]; then
   stop_recording
 else
