@@ -1,3 +1,12 @@
+# [2.104.0](https://github.com/cerico/macfair/compare/v2.103.2...v2.104.0) (2026-03-12)
+
+
+### Features
+
+* update KM16 Pro macropad rules for actual keycodes and wireless ([4bf4447](https://github.com/cerico/macfair/commit/4bf444702b6320dee55a71f968525a339a7fe153))
+
+
+
 ## [2.103.2](https://github.com/cerico/macfair/compare/v2.103.1...v2.103.2) (2026-03-09)
 
 
