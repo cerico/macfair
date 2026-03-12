@@ -15,8 +15,19 @@ CUE_DIR="$HOME/.local/share/whisper_cues"
 SW_DB="$HOME/Library/Application Support/ru.starmel.OpenSuperWhisper/recordings.sqlite"
 
 pgrep -f "OpenSuperWhisper" >/dev/null 2>&1 || {
-  afplay /System/Library/Sounds/Basso.aiff &
-  exit 1
+  afplay "$CUE_DIR/starting.aiff" &
+  open -a OpenSuperWhisper
+  max=20; i=0
+  while (( i < max )); do
+    sleep 0.5
+    pgrep -f "OpenSuperWhisper" >/dev/null 2>&1 && break
+    i=$(( i + 1 ))
+  done
+  pgrep -f "OpenSuperWhisper" >/dev/null 2>&1 || {
+    afplay /System/Library/Sounds/Basso.aiff &
+    exit 1
+  }
+  sleep 2
 }
 
 play_cue() {

@@ -42,6 +42,7 @@
     - listening
     - transcribing
     - done
+    - starting
   when: inventory_hostname != 'github-runner.localhost'
 
 - name: Copy WezTerm config
