@@ -1,3 +1,12 @@
+# [2.105.0](https://github.com/cerico/macfair/compare/v2.104.0...v2.105.0) (2026-03-13)
+
+
+### Features
+
+* auto-launch OpenSuperWhisper when whisper_wrapper is triggered ([a941649](https://github.com/cerico/macfair/commit/a9416491b30f7f77ca7ff52eca3ed369823f5a6f))
+
+
+
 # [2.104.0](https://github.com/cerico/macfair/compare/v2.103.2...v2.104.0) (2026-03-12)
 
 
