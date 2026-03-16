@@ -1,3 +1,12 @@
+# [2.106.0](https://github.com/cerico/macfair/compare/v2.105.0...v2.106.0) (2026-03-16)
+
+
+### Features
+
+* add collapse function and update branch naming convention ([61741df](https://github.com/cerico/macfair/commit/61741dfc5b052d0ea37d5d56c07ea7fd56d2e1b2))
+
+
+
 # [2.105.0](https://github.com/cerico/macfair/compare/v2.104.0...v2.105.0) (2026-03-13)
 
 
