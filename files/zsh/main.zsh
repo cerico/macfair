@@ -226,6 +226,10 @@ sw () {
     osascript -e "tell application \"System Events\" to key code ${SPACE_KEY_CODES[$idx]} using {control down}"
 }
 
+collapse () {
+  wezterm cli zoom-pane
+}
+
 vsc () { # list or switch vscode themes # ➜ vsc sunlight
   local theme_file="$1"
   local theme=~/.vscode/themes/$theme_file.json
