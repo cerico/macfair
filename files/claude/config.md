@@ -30,7 +30,7 @@ Never edit `~/.claude/` directly. Edit macfair, then tell user to run `make clau
 - Never use co-authored commits
 - Never commit sensitive information
 - Commits must use semantic versioning prefixes (fix, feat, docs, etc.)
-- Branch naming: run git log to check existing pattern
+- Branch naming: if repo has a remote, create a GH issue first and use `gh-N-slug`. Only use `cl-N-slug` for repos with no remote. Never skip the number. Use `gbr <slug>` to automate this (run via `zsh -ic 'gbr slug'` if in bash context)
 - When amending commits: always use `--reset-author` to update date to now (easier rebasing)
 - Multiple commits per branch allowed - squash at merge time if desired
 - For commits, use `/commit` workflow
