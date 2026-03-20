@@ -1,3 +1,12 @@
+# [2.107.0](https://github.com/cerico/macfair/compare/v2.106.0...v2.107.0) (2026-03-20)
+
+
+### Features
+
+* replace podman with lima for Claude sandboxing ([75396cb](https://github.com/cerico/macfair/commit/75396cb712dd6f010ceb1fd7f85faafcb91bb2ee))
+
+
+
 # [2.106.0](https://github.com/cerico/macfair/compare/v2.105.0...v2.106.0) (2026-03-16)
 
 
