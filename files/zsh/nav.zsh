@@ -121,6 +121,7 @@ _wez_themes=(
   sunset   "#291217 #ffdead #ff9966 #492028 #ff6666 #f4d03f #ffc107 #b080a7 #ff94b1 #f2be69 #ffdead #572630 #ff7a7a #fffa4b #ffe808 #d39ac8 #ffb1d4 #f2be69 #ffffd0"
   midnight "#0a0a14 #c0d1e9 #6699ff #141428 #dc322f #27ae60 #f3c227 #2877f0 #9370db #3498db #c0d1e9 #181830 #ff3c38 #2ed173 #ffe92e #308fff #b086ff #3498db #e7fbff"
   cherry   "#1e0f14 #ffe0f0 #f080a8 #3c1e28 #db6193 #add69e #f5deb3 #ad81a8 #db7093 #8fbcbb #ffe0f0 #482430 #ff86b0 #d0ffbe #ffffd7 #d09bca #ff86b0 #8fbcbb #ffffff"
+  private  "#b70d4b #ffffff #fad000 #000000 #d90429 #3ad900 #ffe700 #6943ff #ff2c70 #00c5c7 #c7c7c7 #686868 #f92a1c #43d426 #f1d000 #6871ff #ff77ff #79e8fb #ffffff"
 )
 
 _wez_apply_theme() {
@@ -151,14 +152,34 @@ cpr() { # Set terminal color theme # ➜ cpr coffee
     return
   fi
   _wez_apply_theme "$1" && echo "$1" > "$PWD/.terminal-profile"
+  if [[ "$1" == "private" ]]; then
+    _wez_private=1
+  elif (( _wez_private )); then
+    _wez_private=0
+  fi
 }
 
 # Directory change hook
 
 chpwd() {
   _git_sync
-  [[ -f .terminal-profile ]] && _wez_apply_theme "$(cat .terminal-profile)"
-  _track_directory
+  local profile
+  if [[ -f .terminal-profile ]]; then
+    profile=$(cat .terminal-profile)
+    if [[ "$profile" == "private" ]]; then
+      _wez_private=1
+    elif (( _wez_private )); then
+      _wez_private=0
+      _wez_apply_theme "$profile"
+    else
+      _wez_apply_theme "$profile"
+    fi
+  fi
+  if (( _wez_private )); then
+    _wez_apply_theme private
+  else
+    _track_directory
+  fi
 }
 
 # Directory history
@@ -250,6 +271,28 @@ _format_repo_line() {
 dh() { # Directory history # ➜ dh
   [[ ! -f "$DIR_HISTORY_FILE" ]] && echo "No directory history yet" && return
 
+  if [[ $1 == "-d" || $1 == "delete" ]]; then
+    shift
+    [[ $# -eq 0 ]] && { echo "Usage: dh -d <number> [number...]" >&2; return 1; }
+    local -A seen=()
+    local lines_to_delete=()
+    for n in "$@"; do
+      [[ ! "$n" =~ ^[1-9][0-9]*$ ]] && { echo "Invalid line number: $n" >&2; return 1; }
+      (( seen[$n] )) && continue
+      seen[$n]=1
+      lines_to_delete+=("$n")
+    done
+    local sorted=($(printf '%s\n' "${lines_to_delete[@]}" | sort -rn))
+    local tmp="${DIR_HISTORY_FILE}.tmp"
+    cp "$DIR_HISTORY_FILE" "$tmp"
+    for n in "${sorted[@]}"; do
+      sed -i '' "${n}d" "$tmp" || { rm -f "$tmp"; echo "Failed to delete line $n" >&2; return 1; }
+    done
+    mv "$tmp" "$DIR_HISTORY_FILE"
+    echo "Removed ${#sorted[@]} entries"
+    return
+  fi
+
   if [[ $1 =~ ^[0-9]+$ ]]; then
     local dir=$(sed -n "${1}p" "$DIR_HISTORY_FILE")
     [[ -z "$dir" ]] && echo "No entry $1" && return
@@ -273,4 +316,11 @@ dh() { # Directory history # ➜ dh
 }
 
 # Apply theme on shell startup
-[[ -f .terminal-profile ]] && _wez_apply_theme "$(cat .terminal-profile)" || _wez_apply_theme coffee
+_wez_private=0
+if [[ -f .terminal-profile ]]; then
+  _startup_profile=$(cat .terminal-profile)
+  [[ "$_startup_profile" == "private" ]] && _wez_private=1
+  _wez_apply_theme "$_startup_profile"
+else
+  _wez_apply_theme coffee
+fi

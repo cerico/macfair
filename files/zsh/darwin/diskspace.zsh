@@ -32,7 +32,6 @@ diskclean () {
 
   echo "Cleaning container caches..."
   rm -rf ~/Library/Caches/lima 2>/dev/null
-  podman system prune -af 2>/dev/null
 
   echo "Cleaning electron app caches..."
   rm -rf ~/Library/Caches/com.todesktop*(N) 2>/dev/null

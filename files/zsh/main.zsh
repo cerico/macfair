@@ -227,7 +227,20 @@ sw () {
 }
 
 collapse () {
-  wezterm cli zoom-pane
+  local wez_list
+  wez_list=$(wezterm cli list --format json 2>/dev/null) || return 1
+  local current_pane="${WEZTERM_PANE:-$(echo "$wez_list" | jq -r '[.[] | select(.is_active == true)][0].pane_id // empty')}"
+  [[ -z "$current_pane" ]] && return 1
+  local tab_id
+  tab_id=$(echo "$wez_list" | jq -r --arg pid "$current_pane" '[.[] | select(.pane_id == ($pid | tonumber))][0].tab_id // empty')
+  [[ -z "$tab_id" ]] && return 1
+  local other_panes
+  other_panes=$(echo "$wez_list" | jq -r --arg tab "$tab_id" --arg pid "$current_pane" '.[] | select(.tab_id == ($tab | tonumber) and .pane_id != ($pid | tonumber)) | .pane_id')
+  for pane in ${(f)other_panes}; do
+    wezterm cli kill-pane --pane-id "$pane" 2>/dev/null
+  done
+  local session="${${PWD##*/}//[.:]/_}"
+  rm -f "/tmp/wez_claude_${session}"
 }
 
 vsc () { # list or switch vscode themes # ➜ vsc sunlight

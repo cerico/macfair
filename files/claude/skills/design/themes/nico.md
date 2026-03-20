@@ -1,9 +1,4 @@
----
-name: design:nico
-description: Dark forest aesthetic with elegant restraint. Desaturated palettes, serif typography, circular motifs. For data visualizations, editorial sites, refined presentations.
----
-
-# Nico Design System
+# Nico
 
 A framework-agnostic design system emphasizing elegant restraint, dark muted backgrounds, and data treated as visual art.
 

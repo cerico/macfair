@@ -1,6 +1,6 @@
 # Style: nico
 
-inherits: design:nico
+inherits: design nico
 
 Dark forest aesthetic with elegant restraint. Maps the nico design system tokens to infographic elements.
 

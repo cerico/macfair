@@ -43,7 +43,6 @@ go clean -cache 2>/dev/null
 
 # Containers
 rm -rf ~/Library/Caches/lima 2>/dev/null
-podman system prune -af 2>/dev/null
 
 # Large cache targets
 rm -rf ~/.cache/puppeteer 2>/dev/null

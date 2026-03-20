@@ -1,7 +1,7 @@
 # Claude Code helpers
 
 # Remove any old aliases to allow function definitions
-unalias claude clauden claudev claudevn claudep claudevp claudex claudepod discuss 2>/dev/null
+unalias claude clauden claudev claudevn claudep claudevp discuss 2>/dev/null
 
 CLAUDE_LOCKFILE=".claude-session.lock"
 
@@ -152,17 +152,6 @@ claudevn() {
   [[ $# -eq 0 ]] && { _claude_maybe_gsd --append-system-prompt "$voice"; return; }
   _claude_run --append-system-prompt "$voice" "$@"
 }
-claudex() {
-  command -v podman &>/dev/null || { echo "claudex requires Podman"; return 1; }
-  podman run --rm -it \
-    --userns=keep-id \
-    -v "$(pwd):/work" \
-    -v "$HOME/.claude:/home/claude/.claude:ro" \
-    -w /work \
-    claudepod \
-    claude --dangerously-skip-permissions "$@"
-}
-
 discuss() {
   local voice='Always speak every response aloud using the /speak skill (Kokoro TTS on port 8880, then afplay). Skip code blocks in the spoken version - focus on reasoning, strategy, and discussion. The user can see the full text on screen, so the spoken part should be conversational. Before any tool call that needs permission, speak what you are about to do so the user knows to check the screen.'
   local -a args=(command claude --permission-mode plan --append-system-prompt "$voice")

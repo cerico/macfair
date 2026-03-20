@@ -25,11 +25,6 @@
     src: claude/config.md
     dest: "{{ ['~' + macbook_user.stdout, '.claude', 'CLAUDE.md'] | path_join }}"
 
-- name: Copy ralph.md
-  copy:
-    src: claude/ralph.md
-    dest: "{{ ['~' + macbook_user.stdout, '.claude', 'ralph.md'] | path_join }}"
-
 - name: Copy Claude settings
   copy:
     src: claude/settings.json
