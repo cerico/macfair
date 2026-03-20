@@ -45,7 +45,6 @@
       - "glow"
       - "n"
       - "repomix"
-      - "podman"
       - "autossh"
       - "act"
       - "dopplerhq/cli/doppler"

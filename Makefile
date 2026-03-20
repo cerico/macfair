@@ -51,8 +51,9 @@ add_package:
 	$(ANSIBLE_PLAYBOOK) addpackage.yml -i hosts
 vault:
 	$(dir $(ANSIBLE_PLAYBOOK))ansible-vault edit group_vars/all/vault.yml
-claudepod:
-	podman build -t claudepod -f files/claude/Containerfile .
+sandbox:
+	@limactl list --json 2>/dev/null | jq -e '.[] | select(.name == "claude-sandbox")' >/dev/null 2>&1 || limactl create --name claude-sandbox files/lima/claude.yaml
+	limactl start claude-sandbox
 upgrade:
 	$(ANSIBLE_PLAYBOOK) upgrade.yml -i hosts
 verify:
