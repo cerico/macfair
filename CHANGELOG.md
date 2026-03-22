@@ -1,3 +1,12 @@
+## [2.109.1](https://github.com/cerico/macfair/compare/v2.109.0...v2.109.1) (2026-03-22)
+
+
+### Bug Fixes
+
+* KM16 key 5 focuses existing WezTerm instead of opening new window ([a4fccb2](https://github.com/cerico/macfair/commit/a4fccb2ca3d3165cb8e3492bce62d50fb157facb))
+
+
+
 # [2.109.0](https://github.com/cerico/macfair/compare/v2.108.0...v2.109.0) (2026-03-22)
 
 
