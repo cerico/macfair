@@ -1,3 +1,12 @@
+# [2.109.0](https://github.com/cerico/macfair/compare/v2.108.0...v2.109.0) (2026-03-22)
+
+
+### Features
+
+* add software layers to KM16 Pro macropad ([9ce8817](https://github.com/cerico/macfair/commit/9ce8817e625589ba1ac2dea67e63494a17fcc54f))
+
+
+
 # [2.108.0](https://github.com/cerico/macfair/compare/v2.107.0...v2.108.0) (2026-03-22)
 
 
