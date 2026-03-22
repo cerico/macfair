@@ -460,8 +460,8 @@ _colorize_commit_type () {
 _format_pr_body () {
   local default=$(_default_branch)
   local commits=$(git log $default.. --pretty=%B | sed 's/^[a-zA-Z0-9_]*: //' | sed '/^$/d')
-  local body="## Why\n\n\n\n## What changed\n\n${commits}\n\n## How to test\n\n"
-  echo "$body"
+  # local body="## Why\n\n\n\n## What changed\n\n${commits}\n\n## How to test\n\n"
+  echo "$commits"
 }
 
 ghpr () { # Create and validate a PR
