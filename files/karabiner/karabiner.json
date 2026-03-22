@@ -136,324 +136,353 @@
             ]
           },
           {
-            "description": "KM16 Pro: 1 — /speak + start whisper",
+            "description": "KM16 L1: 1 — Open Vivaldi → return",
             "manipulators": [
               {
                 "type": "basic",
-                "from": {
-                  "key_code": "1",
-                  "modifiers": { "optional": ["any"] }
-                },
+                "from": { "key_code": "1", "modifiers": { "optional": ["any"] } },
+                "to": [
+                  { "shell_command": "open -a Vivaldi" },
+                  { "set_variable": { "name": "km16_layer", "value": 0 } }
+                ],
+                "conditions": [
+                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
+                  { "type": "variable_if", "name": "km16_layer", "value": 1 }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "KM16 L1: 2 — Open Firefox → return",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": { "key_code": "2", "modifiers": { "optional": ["any"] } },
+                "to": [
+                  { "shell_command": "open -a Firefox" },
+                  { "set_variable": { "name": "km16_layer", "value": 0 } }
+                ],
+                "conditions": [
+                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
+                  { "type": "variable_if", "name": "km16_layer", "value": 1 }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "KM16 L1: 3 — Open Safari → return",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": { "key_code": "3", "modifiers": { "optional": ["any"] } },
+                "to": [
+                  { "shell_command": "open -a Safari" },
+                  { "set_variable": { "name": "km16_layer", "value": 0 } }
+                ],
+                "conditions": [
+                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
+                  { "type": "variable_if", "name": "km16_layer", "value": 1 }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "KM16 L1: 4 — Open Linear → return",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": { "key_code": "4", "modifiers": { "optional": ["any"] } },
+                "to": [
+                  { "shell_command": "open -a Linear" },
+                  { "set_variable": { "name": "km16_layer", "value": 0 } }
+                ],
+                "conditions": [
+                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
+                  { "type": "variable_if", "name": "km16_layer", "value": 1 }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "KM16 L1: 5 — Open Slack → return",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": { "key_code": "5", "modifiers": { "optional": ["any"] } },
+                "to": [
+                  { "shell_command": "open -a Slack" },
+                  { "set_variable": { "name": "km16_layer", "value": 0 } }
+                ],
+                "conditions": [
+                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
+                  { "type": "variable_if", "name": "km16_layer", "value": 1 }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "KM16 L1: 6 — Open Obsidian → return",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": { "key_code": "6", "modifiers": { "optional": ["any"] } },
+                "to": [
+                  { "shell_command": "open -a Obsidian" },
+                  { "set_variable": { "name": "km16_layer", "value": 0 } }
+                ],
+                "conditions": [
+                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
+                  { "type": "variable_if", "name": "km16_layer", "value": 1 }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "KM16 L1: 0 — Ctrl+C interrupt → return",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": { "key_code": "0", "modifiers": { "optional": ["any"] } },
+                "to": [
+                  { "key_code": "c", "modifiers": ["control"] },
+                  { "set_variable": { "name": "km16_layer", "value": 0 } }
+                ],
+                "conditions": [
+                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
+                  { "type": "variable_if", "name": "km16_layer", "value": 1 }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "KM16 L0: 1 — /speak + start whisper",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": { "key_code": "1", "modifiers": { "optional": ["any"] } },
                 "to": [
                   { "shell_command": "osascript -e 'tell application \"System Events\" to keystroke \"/speak \"'; /usr/local/bin/whisper_wrapper" }
                 ],
                 "conditions": [
-                  {
-                    "type": "device_if",
-                    "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }]
-                  }
+                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
+                  { "type": "variable_if", "name": "km16_layer", "value": 0 }
                 ]
               }
             ]
           },
           {
-            "description": "KM16 Pro: 3 — Whisper toggle",
+            "description": "KM16 L0: 2 — Whisper toggle",
             "manipulators": [
               {
                 "type": "basic",
-                "from": {
-                  "key_code": "3",
-                  "modifiers": { "optional": ["any"] }
-                },
+                "from": { "key_code": "2", "modifiers": { "optional": ["any"] } },
                 "to": [
-                  {
-                    "shell_command": "/usr/local/bin/whisper_wrapper"
-                  }
+                  { "shell_command": "/usr/local/bin/whisper_wrapper" }
                 ],
                 "conditions": [
-                  {
-                    "type": "device_if",
-                    "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }]
-                  }
+                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
+                  { "type": "variable_if", "name": "km16_layer", "value": 0 }
                 ]
               }
             ]
           },
           {
-            "description": "KM16 Pro: 2 — Whisper + auto-submit",
+            "description": "KM16 L0: 3 — /commit",
             "manipulators": [
               {
                 "type": "basic",
-                "from": {
-                  "key_code": "2",
-                  "modifiers": { "optional": ["any"] }
-                },
+                "from": { "key_code": "3", "modifiers": { "optional": ["any"] } },
                 "to": [
-                  {
-                    "shell_command": "/usr/local/bin/whisper_wrapper --submit"
-                  }
+                  { "shell_command": "osascript -e 'tell application \"System Events\" to keystroke \"/commit\"' -e 'tell application \"System Events\" to key code 36'" }
                 ],
                 "conditions": [
-                  {
-                    "type": "device_if",
-                    "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }]
-                  }
+                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
+                  { "type": "variable_if", "name": "km16_layer", "value": 0 }
                 ]
               }
             ]
           },
           {
-            "description": "KM16 Pro: 5 — Jump to Desktop 5",
+            "description": "KM16 L0: 4 — Enter Layer 1 (app launcher, 5s timeout, to_if_canceled must be empty)",
             "manipulators": [
               {
                 "type": "basic",
-                "from": {
-                  "key_code": "5",
-                  "modifiers": { "optional": ["any"] }
-                },
+                "from": { "key_code": "4", "modifiers": { "optional": ["any"] } },
                 "to": [
-                  {
-                    "shell_command": "osascript -e 'tell application \"System Events\" to key code 23 using {control down}'"
-                  }
+                  { "set_variable": { "name": "km16_layer", "value": 1 } }
                 ],
+                "to_delayed_action": {
+                  "to_if_invoked": [
+                    { "set_variable": { "name": "km16_layer", "value": 0 } }
+                  ],
+                  "to_if_canceled": []
+                },
+                "parameters": {
+                  "basic.to_delayed_action_delay_milliseconds": 5000
+                },
                 "conditions": [
-                  {
-                    "type": "device_if",
-                    "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }]
-                  }
+                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
+                  { "type": "variable_if", "name": "km16_layer", "value": 0 }
                 ]
               }
             ]
           },
           {
-            "description": "KM16 Pro: 6 — Open Linear",
+            "description": "KM16 L0: 5 — Focus WezTerm",
             "manipulators": [
               {
                 "type": "basic",
-                "from": {
-                  "key_code": "6",
-                  "modifiers": { "optional": ["any"] }
-                },
+                "from": { "key_code": "5", "modifiers": { "optional": ["any"] } },
                 "to": [
-                  {
-                    "shell_command": "open -a Linear"
-                  }
+                  { "shell_command": "open -a WezTerm" }
                 ],
                 "conditions": [
-                  {
-                    "type": "device_if",
-                    "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }]
-                  }
+                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
+                  { "type": "variable_if", "name": "km16_layer", "value": 0 }
                 ]
               }
             ]
           },
           {
-            "description": "KM16 Pro: 4 — Lock screen",
+            "description": "KM16 L0: 6 — Cycle WezTerm pane",
             "manipulators": [
               {
                 "type": "basic",
-                "from": {
-                  "key_code": "4",
-                  "modifiers": { "optional": ["any"] }
-                },
+                "from": { "key_code": "6", "modifiers": { "optional": ["any"] } },
                 "to": [
-                  {
-                    "shell_command": "/usr/local/bin/macropad_action lock"
-                  }
+                  { "shell_command": "/Applications/WezTerm.app/Contents/MacOS/wezterm cli activate-pane-direction Next" }
                 ],
                 "conditions": [
-                  {
-                    "type": "device_if",
-                    "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }]
-                  }
+                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
+                  { "type": "variable_if", "name": "km16_layer", "value": 0 }
                 ]
               }
             ]
           },
           {
-            "description": "KM16 Pro: 7 — Open Slack",
+            "description": "KM16 L0: 7 — Cycle app windows (⌘`)",
             "manipulators": [
               {
                 "type": "basic",
-                "from": {
-                  "key_code": "7",
-                  "modifiers": { "optional": ["any"] }
-                },
+                "from": { "key_code": "7", "modifiers": { "optional": ["any"] } },
                 "to": [
-                  {
-                    "shell_command": "open -a Slack"
-                  }
+                  { "key_code": "grave_accent_and_tilde", "modifiers": ["command"] }
                 ],
                 "conditions": [
-                  {
-                    "type": "device_if",
-                    "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }]
-                  }
+                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
+                  { "type": "variable_if", "name": "km16_layer", "value": 0 }
                 ]
               }
             ]
           },
           {
-            "description": "KM16 Pro: 8 — Ctrl+C interrupt",
+            "description": "KM16 L0: 8 — New WezTerm window",
             "manipulators": [
               {
                 "type": "basic",
-                "from": {
-                  "key_code": "8",
-                  "modifiers": { "optional": ["any"] }
-                },
+                "from": { "key_code": "8", "modifiers": { "optional": ["any"] } },
                 "to": [
-                  {
-                    "key_code": "c",
-                    "modifiers": ["control"]
-                  }
+                  { "shell_command": "/usr/local/bin/macropad_action wezterm" }
                 ],
                 "conditions": [
-                  {
-                    "type": "device_if",
-                    "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }]
-                  }
+                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
+                  { "type": "variable_if", "name": "km16_layer", "value": 0 }
                 ]
               }
             ]
           },
           {
-            "description": "KM16 Pro: 9 — New WezTerm window",
+            "description": "KM16 L0: 9 — Jump to Desktop 9",
             "manipulators": [
               {
                 "type": "basic",
-                "from": {
-                  "key_code": "9",
-                  "modifiers": { "optional": ["any"] }
-                },
+                "from": { "key_code": "9", "modifiers": { "optional": ["any"] } },
                 "to": [
-                  {
-                    "shell_command": "/usr/local/bin/macropad_action wezterm"
-                  }
+                  { "shell_command": "osascript -e 'tell application \"System Events\" to key code 25 using {control down}'" }
                 ],
                 "conditions": [
-                  {
-                    "type": "device_if",
-                    "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }]
-                  }
+                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
+                  { "type": "variable_if", "name": "km16_layer", "value": 0 }
                 ]
               }
             ]
           },
           {
-            "description": "KM16 Pro: 0 — Jump to Desktop 16",
+            "description": "KM16 L0: 0 — /clear",
             "manipulators": [
               {
                 "type": "basic",
-                "from": {
-                  "key_code": "0",
-                  "modifiers": { "optional": ["any"] }
-                },
+                "from": { "key_code": "0", "modifiers": { "optional": ["any"] } },
                 "to": [
-                  {
-                    "shell_command": "osascript -e 'tell application \"System Events\" to key code 16 using {control down}'"
-                  }
+                  { "shell_command": "osascript -e 'tell application \"System Events\" to keystroke \"/clear\"' -e 'tell application \"System Events\" to key code 36'" }
                 ],
                 "conditions": [
-                  {
-                    "type": "device_if",
-                    "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }]
-                  }
+                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
+                  { "type": "variable_if", "name": "km16_layer", "value": 0 }
                 ]
               }
             ]
           },
           {
-            "description": "KM16 Pro: up_arrow — Open/focus browser",
+            "description": "KM16 L0: up_arrow — Jump to Desktop 16",
             "manipulators": [
               {
                 "type": "basic",
-                "from": {
-                  "key_code": "up_arrow",
-                  "modifiers": { "optional": ["any"] }
-                },
+                "from": { "key_code": "up_arrow", "modifiers": { "optional": ["any"] } },
                 "to": [
-                  {
-                    "shell_command": "/usr/local/bin/macropad_action browser"
-                  }
+                  { "shell_command": "osascript -e 'tell application \"System Events\" to key code 16 using {control down}'" }
                 ],
                 "conditions": [
-                  {
-                    "type": "device_if",
-                    "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }]
-                  }
+                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
+                  { "type": "variable_if", "name": "km16_layer", "value": 0 }
                 ]
               }
             ]
           },
           {
-            "description": "KM16 Pro: left_arrow — Previous desktop",
+            "description": "KM16 L0: left_arrow — Previous desktop",
             "manipulators": [
               {
                 "type": "basic",
-                "from": {
-                  "key_code": "left_arrow",
-                  "modifiers": { "optional": ["any"] }
-                },
+                "from": { "key_code": "left_arrow", "modifiers": { "optional": ["any"] } },
                 "to": [
-                  {
-                    "key_code": "left_arrow",
-                    "modifiers": ["control"]
-                  }
+                  { "key_code": "left_arrow", "modifiers": ["control"] }
                 ],
                 "conditions": [
-                  {
-                    "type": "device_if",
-                    "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }]
-                  }
+                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
+                  { "type": "variable_if", "name": "km16_layer", "value": 0 }
                 ]
               }
             ]
           },
           {
-            "description": "KM16 Pro: down_arrow — Jump to Desktop 1",
+            "description": "KM16 L0: down_arrow — Jump to Desktop 1",
             "manipulators": [
               {
                 "type": "basic",
-                "from": {
-                  "key_code": "down_arrow",
-                  "modifiers": { "optional": ["any"] }
-                },
+                "from": { "key_code": "down_arrow", "modifiers": { "optional": ["any"] } },
                 "to": [
-                  {
-                    "shell_command": "osascript -e 'tell application \"System Events\" to key code 18 using {control down}'"
-                  }
+                  { "shell_command": "osascript -e 'tell application \"System Events\" to key code 18 using {control down}'" }
                 ],
                 "conditions": [
-                  {
-                    "type": "device_if",
-                    "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }]
-                  }
+                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
+                  { "type": "variable_if", "name": "km16_layer", "value": 0 }
                 ]
               }
             ]
           },
           {
-            "description": "KM16 Pro: right_arrow — Next desktop",
+            "description": "KM16 L0: right_arrow — Next desktop",
             "manipulators": [
               {
                 "type": "basic",
-                "from": {
-                  "key_code": "right_arrow",
-                  "modifiers": { "optional": ["any"] }
-                },
+                "from": { "key_code": "right_arrow", "modifiers": { "optional": ["any"] } },
                 "to": [
-                  {
-                    "key_code": "right_arrow",
-                    "modifiers": ["control"]
-                  }
+                  { "key_code": "right_arrow", "modifiers": ["control"] }
                 ],
                 "conditions": [
-                  {
-                    "type": "device_if",
-                    "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }]
-                  }
+                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
+                  { "type": "variable_if", "name": "km16_layer", "value": 0 }
                 ]
               }
             ]

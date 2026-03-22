@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: conventional Changelog Action
         id: changelog
@@ -41,7 +41,7 @@ jobs:
   #     DEPLOY_URL: macfair.io37.ch
   #
   #   steps:
-  #     - uses: actions/checkout@v4
+  #     - uses: actions/checkout@v6
   #
   #     - name: make a gitconfig
   #       run: |

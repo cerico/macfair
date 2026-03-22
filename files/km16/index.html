@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KM16 Pro Key Map</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --cream: #f5f3e8;
+      --black: #222;
+      --red: #db5439;
+      --pink: rgba(220, 84, 57, 0.5);
+      --gold: #eebe6d;
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        fontFamily: {
+          serif: ['"Libre Baskerville"', 'Georgia', 'serif'],
+        },
+        extend: {
+          colors: {
+            cream: 'var(--cream)',
+            black: 'var(--black)',
+            red: 'var(--red)',
+            pink: 'var(--pink)',
+            gold: 'var(--gold)',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-cream text-black font-serif min-h-screen">
+  <div class="max-w-4xl mx-auto px-8 py-16">
+    <header class="mb-12">
+      <h1 class="text-2xl font-bold uppercase tracking-wide">KM16 Pro Key Map</h1>
+      <p class="text-sm mt-2 italic text-black/70">Software layers via Karabiner Elements. Key 4 enters Layer 1; actions auto-return to Layer 0. 5s timeout.</p>
+    </header>
+
+    <main>
+      <section class="mb-12">
+        <h2 class="text-lg font-bold uppercase tracking-wide mb-6">Layer 0 <span class="text-xs font-bold bg-gold text-black px-2 py-1 ml-2">Default</span></h2>
+        <div class="grid grid-cols-4 gap-3">
+          <div class="bg-black text-cream border-4 border-black p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs text-cream/50">1</span>
+            <div>
+              <p class="text-sm font-bold">/speak</p>
+              <p class="text-xs text-cream/60">+ whisper</p>
+            </div>
+          </div>
+          <div class="bg-black text-cream border-4 border-black p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs text-cream/50">2</span>
+            <div>
+              <p class="text-sm font-bold">Whisper</p>
+              <p class="text-xs text-cream/60">toggle</p>
+            </div>
+          </div>
+          <div class="bg-black text-cream border-4 border-black p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs text-cream/50">3</span>
+            <div>
+              <p class="text-sm font-bold">/commit</p>
+            </div>
+          </div>
+          <div class="bg-black text-gold border-4 border-gold p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs text-gold/50">4</span>
+            <div>
+              <p class="text-sm font-bold">Layer 1</p>
+              <p class="text-xs text-gold/60">app launcher</p>
+            </div>
+          </div>
+          <div class="bg-black text-cream border-4 border-black p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs text-cream/50">5</span>
+            <div>
+              <p class="text-sm font-bold">WezTerm</p>
+              <p class="text-xs text-cream/60">focus</p>
+            </div>
+          </div>
+          <div class="bg-black text-cream border-4 border-black p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs text-cream/50">6</span>
+            <div>
+              <p class="text-sm font-bold">Cycle</p>
+              <p class="text-xs text-cream/60">pane</p>
+            </div>
+          </div>
+          <div class="bg-black text-cream border-4 border-black p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs text-cream/50">7</span>
+            <div>
+              <p class="text-sm font-bold">Cycle</p>
+              <p class="text-xs text-cream/60">windows</p>
+            </div>
+          </div>
+          <div class="bg-black text-cream border-4 border-black p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs text-cream/50">8</span>
+            <div>
+              <p class="text-sm font-bold">WezTerm</p>
+              <p class="text-xs text-cream/60">new window</p>
+            </div>
+          </div>
+          <div class="bg-black text-cream border-4 border-black p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs text-cream/50">9</span>
+            <div>
+              <p class="text-sm font-bold">Desktop</p>
+              <p class="text-xs text-cream/60">9</p>
+            </div>
+          </div>
+          <div class="bg-black text-cream border-4 border-black p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs text-cream/50">0</span>
+            <div>
+              <p class="text-sm font-bold">/clear</p>
+            </div>
+          </div>
+          <div class="bg-black text-cream border-4 border-black p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs text-cream/50">&uarr;</span>
+            <div>
+              <p class="text-sm font-bold">Desktop</p>
+              <p class="text-xs text-cream/60">16</p>
+            </div>
+          </div>
+          <div class="bg-black text-cream/30 border-4 border-black/30 p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs">Enter</span>
+            <p class="text-xs italic">enter</p>
+          </div>
+          <div class="bg-black text-cream/30 border-4 border-black/30 p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs">Fn</span>
+            <p class="text-xs italic">firmware</p>
+          </div>
+          <div class="bg-black text-cream border-4 border-black p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs text-cream/50">&larr;</span>
+            <div>
+              <p class="text-sm font-bold">Prev</p>
+              <p class="text-xs text-cream/60">desktop</p>
+            </div>
+          </div>
+          <div class="bg-black text-cream border-4 border-black p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs text-cream/50">&darr;</span>
+            <div>
+              <p class="text-sm font-bold">Desktop</p>
+              <p class="text-xs text-cream/60">1</p>
+            </div>
+          </div>
+          <div class="bg-black text-cream border-4 border-black p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs text-cream/50">&rarr;</span>
+            <div>
+              <p class="text-sm font-bold">Next</p>
+              <p class="text-xs text-cream/60">desktop</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="my-8 border-black">
+
+      <section class="mb-12">
+        <h2 class="text-lg font-bold uppercase tracking-wide mb-6">Layer 1 <span class="text-xs font-bold bg-red text-cream px-2 py-1 ml-2">App Launcher</span></h2>
+        <div class="border-l-4 border-red pl-4 mb-6 py-2 pr-4">
+          <p class="text-sm italic">Press key 4 to enter. Each action auto-returns to Layer 0. Times out after 5 seconds.</p>
+        </div>
+        <div class="grid grid-cols-4 gap-3">
+          <div class="bg-pink text-black border-4 border-red p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs text-black/40">1</span>
+            <div>
+              <p class="text-sm font-bold">Vivaldi</p>
+            </div>
+          </div>
+          <div class="bg-pink text-black border-4 border-red p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs text-black/40">2</span>
+            <div>
+              <p class="text-sm font-bold">Firefox</p>
+            </div>
+          </div>
+          <div class="bg-pink text-black border-4 border-red p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs text-black/40">3</span>
+            <div>
+              <p class="text-sm font-bold">Safari</p>
+            </div>
+          </div>
+          <div class="bg-pink text-black border-4 border-red p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs text-black/40">4</span>
+            <div>
+              <p class="text-sm font-bold">Linear</p>
+            </div>
+          </div>
+          <div class="bg-pink text-black border-4 border-red p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs text-black/40">5</span>
+            <div>
+              <p class="text-sm font-bold">Slack</p>
+            </div>
+          </div>
+          <div class="bg-pink text-black border-4 border-red p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs text-black/40">6</span>
+            <div>
+              <p class="text-sm font-bold">Obsidian</p>
+            </div>
+          </div>
+          <div class="bg-cream text-black/30 border-4 border-black/10 p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs">7</span>
+            <p class="text-xs italic">unmapped</p>
+          </div>
+          <div class="bg-cream text-black/30 border-4 border-black/10 p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs">8</span>
+            <p class="text-xs italic">unmapped</p>
+          </div>
+          <div class="bg-cream text-black/30 border-4 border-black/10 p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs">9</span>
+            <p class="text-xs italic">unmapped</p>
+          </div>
+          <div class="bg-pink text-black border-4 border-red p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs text-black/40">0</span>
+            <div>
+              <p class="text-sm font-bold">Ctrl+C</p>
+            </div>
+          </div>
+          <div class="bg-cream text-black/30 border-4 border-black/10 p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs">&uarr;</span>
+            <p class="text-xs italic">unmapped</p>
+          </div>
+          <div class="bg-cream text-black/30 border-4 border-black/10 p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs">Enter</span>
+            <p class="text-xs italic">unmapped</p>
+          </div>
+          <div class="bg-cream text-black/30 border-4 border-black/10 p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs">Fn</span>
+            <p class="text-xs italic">firmware</p>
+          </div>
+          <div class="bg-cream text-black/30 border-4 border-black/10 p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs">&larr;</span>
+            <p class="text-xs italic">unmapped</p>
+          </div>
+          <div class="bg-cream text-black/30 border-4 border-black/10 p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs">&darr;</span>
+            <p class="text-xs italic">unmapped</p>
+          </div>
+          <div class="bg-cream text-black/30 border-4 border-black/10 p-4 aspect-square flex flex-col justify-between">
+            <span class="text-xs">&rarr;</span>
+            <p class="text-xs italic">unmapped</p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="my-8 border-black">
+
+      <section>
+        <h2 class="text-lg font-bold uppercase tracking-wide mb-4">Connection</h2>
+        <dl class="space-y-2 text-sm">
+          <div class="flex gap-4">
+            <dt class="font-semibold min-w-32">Fn + 1</dt>
+            <dd>Bluetooth 1</dd>
+          </div>
+          <div class="flex gap-4">
+            <dt class="font-semibold min-w-32">Fn + 2</dt>
+            <dd>Bluetooth 2 (pairing)</dd>
+          </div>
+          <div class="flex gap-4">
+            <dt class="font-semibold min-w-32">Fn + 3</dt>
+            <dd>Bluetooth 3</dd>
+          </div>
+          <div class="flex gap-4">
+            <dt class="font-semibold min-w-32">Fn + 4</dt>
+            <dd>2.4G dongle</dd>
+          </div>
+          <div class="flex gap-4">
+            <dt class="font-semibold min-w-32">USB cable</dt>
+            <dd>Charge only (data not working)</dd>
+          </div>
+          <div class="flex gap-4">
+            <dt class="font-semibold min-w-32">Big button</dt>
+            <dd>Hardware layer cycle (LED color, no keycode sent)</dd>
+          </div>
+        </dl>
+      </section>
+    </main>
+
+    <footer class="mt-16 pt-8 border-t border-black/20 text-sm text-black/60">
+      Generated 22 March 2026
+    </footer>
+  </div>
+</body>
+</html>

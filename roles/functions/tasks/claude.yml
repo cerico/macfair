@@ -136,6 +136,11 @@
     dest: "{{ [ansible_env.HOME, '.config', 'karabiner', 'karabiner.json'] | path_join }}"
     force: yes
 
+- name: Generate KM16 infographic
+  ansible.builtin.command:
+    cmd: python3 files/km16/generate.py
+    chdir: "{{ playbook_dir }}"
+
 - name: Install/update GSD (always runs for latest)
   ansible.builtin.command: npx get-shit-done-cc@latest --global
   environment:
