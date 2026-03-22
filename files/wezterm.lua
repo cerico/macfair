@@ -3,8 +3,29 @@ local config = wezterm.config_builder()
 
 config.leader = { key = 'a', mods = 'CTRL', timeout_milliseconds = 1000 }
 config.term = 'xterm-256color'
-config.font = wezterm.font('Monaco')
-config.font_size = 16.0
+config.font = wezterm.font_with_fallback {
+  'JetBrains Mono',
+  'Monaco',
+}
+config.font_size = 15.0
+config.line_height = 1.2
+config.font_rules = {
+  {
+    intensity = 'Bold',
+    italic = false,
+    font = wezterm.font('JetBrains Mono', { weight = 'Bold' }),
+  },
+  {
+    intensity = 'Normal',
+    italic = true,
+    font = wezterm.font('JetBrains Mono', { style = 'Italic' }),
+  },
+  {
+    intensity = 'Half',
+    italic = false,
+    font = wezterm.font('JetBrains Mono', { weight = 'Light' }),
+  },
+}
 config.color_schemes = {
   coffee = {
     foreground = '#ffca28',
@@ -76,6 +97,26 @@ config.color_schemes = {
     ansi = { '#223122', '#d45f5f', '#7cbd7c', '#caca6e', '#6e95b1', '#b195b1', '#6eb195', '#d6e7d6' },
     brights = { '#293b29', '#fe7272', '#95e383', '#f2f284', '#6e95b1', '#b195b1', '#6eb195', '#ffffff' },
   },
+  gruvbox = {
+    foreground = '#d5c4a1',
+    background = '#282828',
+    cursor_fg = '#282828',
+    cursor_bg = '#d5c4a1',
+    selection_fg = '#282828',
+    selection_bg = '#504945',
+    ansi = { '#282828', '#fb4934', '#b8bb26', '#fabd2f', '#83a598', '#d3869b', '#8ec07c', '#d5c4a1' },
+    brights = { '#665c54', '#fb4934', '#b8bb26', '#fabd2f', '#83a598', '#d3869b', '#8ec07c', '#fbf1c7' },
+  },
+  peacock = {
+    foreground = '#bbc2cf',
+    background = '#1c1f24',
+    cursor_fg = '#1c1f24',
+    cursor_bg = '#bbc2cf',
+    selection_fg = '#1c1f24',
+    selection_bg = '#3f444a',
+    ansi = { '#1c1f24', '#ff6c6b', '#98be65', '#ecbe7b', '#51afef', '#c678dd', '#46d9ff', '#bbc2cf' },
+    brights = { '#5b6268', '#da8548', '#4db5bd', '#ecbe7b', '#2257a0', '#a9a1e1', '#00b8d4', '#dfdfdf' },
+  },
   sunset = {
     foreground = '#ffdead',
     background = '#291217',
@@ -96,6 +137,16 @@ config.color_schemes = {
     ansi = { '#141428', '#dc322f', '#27ae60', '#f3c227', '#2877f0', '#9370db', '#3498db', '#c0d1e9' },
     brights = { '#181830', '#ff3c38', '#2ed173', '#ffe92e', '#308fff', '#b086ff', '#3498db', '#e7fbff' },
   },
+  mocha = {
+    foreground = '#cdd6f4',
+    background = '#1e1e2e',
+    cursor_fg = '#1e1e2e',
+    cursor_bg = '#f5e0dc',
+    selection_fg = '#cdd6f4',
+    selection_bg = '#585b70',
+    ansi = { '#45475a', '#f38ba8', '#a6e3a1', '#f9e2af', '#89b4fa', '#f5c2e7', '#94e2d5', '#bac2de' },
+    brights = { '#585b70', '#f38ba8', '#a6e3a1', '#f9e2af', '#89b4fa', '#f5c2e7', '#94e2d5', '#a6adc8' },
+  },
   cherry = {
     foreground = '#ffe0f0',
     background = '#1e0f14',
@@ -108,6 +159,8 @@ config.color_schemes = {
   },
 }
 config.color_scheme = 'coffee'
+config.window_background_opacity = 0.80
+config.macos_window_background_blur = 20
 config.inactive_pane_hsb = { saturation = 0.8, brightness = 0.7 }
 config.window_decorations = 'TITLE | RESIZE'
 config.window_padding = { left = 4, right = 4, top = 4, bottom = 4 }
@@ -183,6 +236,35 @@ config.keys = {
     }, pane)
   end) },
 }
+
+local function get_pane_info(pane)
+  local process = pane.foreground_process_name or ''
+  local proc = process:match('[^/]+$') or 'shell'
+  local cwd = ''
+  local url = pane.current_working_dir
+  if url then
+    local dir = type(url) == 'userdata' and url.file_path or tostring(url)
+    dir = dir:gsub('^file://[^/]*', ''):gsub('/$', '')
+    local home = os.getenv('HOME') or ''
+    if dir == home then
+      cwd = '~'
+    else
+      cwd = dir:match('[^/]+$') or dir
+    end
+  end
+  return proc, cwd
+end
+
+wezterm.on('format-window-title', function(tab)
+  local proc, cwd = get_pane_info(tab.active_pane)
+  return cwd ~= '' and cwd or proc
+end)
+
+wezterm.on('format-tab-title', function(tab)
+  local proc, cwd = get_pane_info(tab.active_pane)
+  local index = tab.tab_index + 1
+  return string.format(' %d %s %s ', index, proc, cwd)
+end)
 
 wezterm.on('user-var-changed', function(window, _, name, _)
   if name == 'focus' then
