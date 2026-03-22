@@ -1,3 +1,12 @@
+# [2.108.0](https://github.com/cerico/macfair/compare/v2.107.0...v2.108.0) (2026-03-22)
+
+
+### Features
+
+* update wezterm fonts, background, schemes ([8676c71](https://github.com/cerico/macfair/commit/8676c715055941c7395c22856c884c7f55dee0af))
+
+
+
 # [2.107.0](https://github.com/cerico/macfair/compare/v2.106.0...v2.107.0) (2026-03-20)
 
 
