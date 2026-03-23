@@ -1,3 +1,12 @@
+# [2.110.0](https://github.com/cerico/macfair/compare/v2.109.1...v2.110.0) (2026-03-23)
+
+
+### Features
+
+* switch to kickstart.nvim and add desktop app bindings ([4ac3e10](https://github.com/cerico/macfair/commit/4ac3e10e6410caf33f31af414ea67e5bff5f40ab))
+
+
+
 ## [2.109.1](https://github.com/cerico/macfair/compare/v2.109.0...v2.109.1) (2026-03-22)
 
 
