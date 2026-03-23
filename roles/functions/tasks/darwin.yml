@@ -1,4 +1,20 @@
 ---
+- name: Create second brain vault directories
+  file:
+    path: "{{ ['~' + macbook_user.stdout, 'second-brain', item] | path_join }}"
+    state: directory
+  loop:
+    - Inbox
+    - Projects
+    - Areas
+    - Resources
+    - Archive
+    - Zettelkasten
+    - Literature
+    - MOCs
+    - Daily
+    - Templates
+
 - name: Copy speak script
   ansible.builtin.copy:
     src: bin/speak
@@ -50,22 +66,12 @@
     src: wezterm.lua
     dest: "{{ ['~' + macbook_user.stdout, '.wezterm.lua'] | path_join }}"
 
-- name: Create neovim config directory
-  ansible.builtin.file:
-    path: "{{ ['~' + macbook_user.stdout, '.config', 'nvim'] | path_join }}"
-    state: directory
-
-- name: Copy neovim config
-  ansible.builtin.copy:
-    src: nvim/init.lua
-    dest: "{{ ['~' + macbook_user.stdout, '.config', 'nvim', 'init.lua'] | path_join }}"
-
-- name: Install gruvbox colorscheme for neovim
+- name: Clone kickstart.nvim
   ansible.builtin.git:
-    repo: https://github.com/morhetz/gruvbox.git
-    dest: "{{ ['~' + macbook_user.stdout, '.local', 'share', 'nvim', 'site', 'pack', 'colors', 'start', 'gruvbox'] | path_join }}"
-    version: master
-    depth: 1
+    repo: https://github.com/nvim-lua/kickstart.nvim.git
+    dest: "{{ ['~' + macbook_user.stdout, '.config', 'nvim'] | path_join }}"
+    clone: true
+    update: false
 
 - name: Copy darwin-specific zsh files
   ansible.builtin.copy:
