@@ -41,6 +41,22 @@
   changed_when: false
   when: wallpaper_files.files | length > 0
 
+- name: Create Karabiner config directory
+  file:
+    path: "{{ [ansible_env.HOME, '.config', 'karabiner'] | path_join }}"
+    state: directory
+
+- name: Copy Karabiner config
+  copy:
+    src: karabiner/karabiner.json
+    dest: "{{ [ansible_env.HOME, '.config', 'karabiner', 'karabiner.json'] | path_join }}"
+    force: yes
+
+- name: Generate KM16 infographic
+  ansible.builtin.command:
+    cmd: python3 files/km16/generate.py
+    chdir: "{{ playbook_dir }}"
+
 - name: Remove superfluous from dock
   shell: /usr/local/bin/dockutil --remove '{{ item }}' | cat
   ignore_errors: true
@@ -61,6 +77,40 @@
     - Reminders
     - App Store
     - System Preferences
+
+- name: Get space UUIDs for app bindings
+  script: files/get_space_uuids.swift
+  args:
+    executable: swift
+  register: space_uuids_raw
+  changed_when: false
+  failed_when: space_uuids_raw.rc != 0
+  when: desktop_app_bindings is defined and desktop_app_bindings | length > 0
+
+- name: Build app-bindings dict
+  set_fact:
+    app_bindings_dict: >-
+      {{ app_bindings_dict | default({}) | combine({
+        item.bundle_id: (space_uuids_raw.stdout | from_json)[item.desktop | string]
+      }) }}
+  loop: "{{ desktop_app_bindings }}"
+  when: desktop_app_bindings is defined and (space_uuids_raw.stdout | from_json)[item.desktop | string] is defined
+
+- name: Write app-bindings plist
+  copy:
+    content: "{{ app_bindings_dict | to_nice_json }}"
+    dest: "{{ ['/tmp', 'app-bindings.json'] | path_join }}"
+    mode: "0644"
+  when: app_bindings_dict is defined and app_bindings_dict | length > 0
+
+- name: Apply app-bindings to defaults
+  script: "files/apply_app_bindings.py {{ ['/tmp', 'app-bindings.json'] | path_join }}"
+  args:
+    executable: python3
+  register: apply_result
+  changed_when: "'changed' in apply_result.stdout"
+  when: app_bindings_dict is defined and app_bindings_dict | length > 0
+  notify: restart dock
 
 - name: print role name
   set_fact:

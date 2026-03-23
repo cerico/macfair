@@ -139,6 +139,8 @@
     - "surge"
     - "agent-browser"
     - "linearctl"
+    - "tree-sitter-cli"
+    - "typescript-language-server"
 
 - name: pip installs
   pip:

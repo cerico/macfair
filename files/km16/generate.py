@@ -4,7 +4,6 @@
 import json
 import re
 import sys
-from datetime import datetime
 from pathlib import Path
 
 KARABINER = Path(__file__).parent.parent / "karabiner" / "karabiner.json"
@@ -185,7 +184,6 @@ def render_grid(layer_data, layer_num, toggle_key):
 
 
 def generate(layers, toggle_key):
-    now = datetime.now().strftime("%-d %B %Y")
     l0_grid = render_grid(layers[0], 0, toggle_key)
     l1_grid = render_grid(layers[1], 1, toggle_key)
 
@@ -288,7 +286,7 @@ def generate(layers, toggle_key):
     </main>
 
     <footer class="mt-16 pt-8 border-t border-black/20 text-sm text-black/60">
-      Generated {now}
+      KM16 Pro Key Reference
     </footer>
   </div>
 </body>
