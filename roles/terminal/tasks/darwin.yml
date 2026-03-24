@@ -1,4 +1,9 @@
 ---
+- name: Copy WezTerm config
+  ansible.builtin.copy:
+    src: wezterm.lua
+    dest: "{{ ['~' + macbook_user.stdout, '.wezterm.lua'] | path_join }}"
+
 - name: Cloning oh-my-zsh
   git:
     repo: https://github.com/ohmyzsh/ohmyzsh

@@ -64,6 +64,11 @@ _wez_layout() {
   wezterm cli activate-pane --pane-id "$main_pane"
   local cmd=$(printf '%q ' "$@")
   printf '%s\n' "$cmd" | wezterm cli send-text --pane-id "$main_pane" --no-paste
+
+  local dash_pane
+  dash_pane=$(wezterm cli spawn --cwd "$PWD")
+  [[ -n "$dash_pane" ]] && printf 'gh dash\n' | wezterm cli send-text --pane-id "$dash_pane" --no-paste
+  wezterm cli activate-pane --pane-id "$main_pane"
 }
 
 _claude_wez() {

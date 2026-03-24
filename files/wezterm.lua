@@ -158,6 +158,7 @@ config.color_schemes = {
     brights = { '#482430', '#ff86b0', '#d0ffbe', '#ffffd7', '#d09bca', '#ff86b0', '#8fbcbb', '#ffffff' },
   },
 }
+local opaque_themes = { asda = true, liege = true }
 config.color_scheme = 'coffee'
 config.window_background_opacity = 0.80
 config.macos_window_background_blur = 20
@@ -166,6 +167,7 @@ config.window_decorations = 'TITLE | RESIZE'
 config.window_padding = { left = 4, right = 4, top = 4, bottom = 4 }
 config.use_fancy_tab_bar = false
 config.hide_tab_bar_if_only_one_tab = true
+config.tab_max_width = 999
 config.colors = {
   split = '#ffffff',
   tab_bar = {
@@ -241,6 +243,7 @@ config.keys = {
 local function get_pane_info(pane)
   local process = pane.foreground_process_name or ''
   local proc = process:match('[^/]+$') or 'shell'
+  if proc:match('^claude') then proc = 'claude' end
   local cwd = ''
   local url = pane.current_working_dir
   if url then
@@ -264,12 +267,22 @@ end)
 wezterm.on('format-tab-title', function(tab)
   local proc, cwd = get_pane_info(tab.active_pane)
   local index = tab.tab_index + 1
-  return string.format(' %d %s %s ', index, proc, cwd)
+  return string.format('        %s        ', proc)
 end)
 
-wezterm.on('user-var-changed', function(window, _, name, _)
+wezterm.on('user-var-changed', function(window, pane, name, value)
   if name == 'focus' then
     window:focus()
+  elseif name == 'theme' then
+    local overrides = window:get_config_overrides() or {}
+    if opaque_themes[value] then
+      overrides.window_background_opacity = 1.0
+      overrides.macos_window_background_blur = 0
+    else
+      overrides.window_background_opacity = 0.80
+      overrides.macos_window_background_blur = 20
+    end
+    window:set_config_overrides(overrides)
   end
 end)
 

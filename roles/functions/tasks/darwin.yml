@@ -61,17 +61,22 @@
     - starting
   when: inventory_hostname != 'github-runner.localhost'
 
-- name: Copy WezTerm config
-  ansible.builtin.copy:
-    src: wezterm.lua
-    dest: "{{ ['~' + macbook_user.stdout, '.wezterm.lua'] | path_join }}"
-
 - name: Clone kickstart.nvim
   ansible.builtin.git:
     repo: https://github.com/nvim-lua/kickstart.nvim.git
     dest: "{{ ['~' + macbook_user.stdout, '.config', 'nvim'] | path_join }}"
     clone: true
     update: false
+
+- name: Create gh-dash config directory
+  ansible.builtin.file:
+    path: "{{ ['~' + macbook_user.stdout, '.config', 'gh-dash'] | path_join }}"
+    state: directory
+
+- name: Copy gh-dash config
+  ansible.builtin.copy:
+    src: gh-dash/config.yml
+    dest: "{{ ['~' + macbook_user.stdout, '.config', 'gh-dash', 'config.yml'] | path_join }}"
 
 - name: Copy darwin-specific zsh files
   ansible.builtin.copy:

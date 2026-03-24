@@ -78,34 +78,41 @@ repos () { # List all repos # ➜ repos public
 }
 
 _issue_to_branch() {
-  local issue_url="$1"
-  local num=$(echo "$issue_url" | awk -F'/' '{print $NF}')
-  local title=$(gh issue view "$num" --json title -q '.title')
+  local input="$1"
+  local num
+  [[ "$input" =~ ^[0-9]+$ ]] && num="$input" || num=$(echo "$input" | awk -F'/' '{print $NF}')
+  local title
+  title=$(gh issue view "$num" --json title -q '.title') || return 1
   local slug=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd 'a-z0-9-' | sed 's/--*/-/g; s/^-//; s/-$//')
   git checkout -b "gh-${num}-${slug}"
 }
 
-issue() { # Create gh issue and branch, or edit existing # ➜ issue | issue "fix nginx" | issue 505
-  [[ -f .linear ]] && echo "This project uses Linear — use Linear to create branches" && return 1
+issue() { # Create gh issue or edit existing # ➜ issue | issue "fix nginx" | issue 505
+  [[ -f .linear ]] && echo "This project uses Linear — use Linear to create issues" && return 1
   local default=$(_default_branch)
   local current=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-
-  [[ ! "$1" =~ ^[0-9]+$ && "$current" != "$default" ]] && {
-    echo "Switch to $default before creating an issue"
-    return 1
-  }
 
   if [[ -z "$1" ]]; then
     local url
     url=$(gh issue create -e) || return 1
-    [[ -n "$url" ]] && _issue_to_branch "$url"
+    [[ -z "$url" ]] && return 1
+    if [[ "$current" == "$default" ]]; then
+      _issue_to_branch "$url"
+    else
+      echo "$url"
+    fi
     return
   fi
 
   [[ ! "$1" =~ ^[0-9]+$ ]] && {
     local url
-    url=$(gh issue create -t "$1" ${2:+-b "$2"}) || return 1
-    [[ -n "$url" ]] && _issue_to_branch "$url"
+    url=$(gh issue create -t "$1" -b "${2:-}") || return 1
+    [[ -z "$url" ]] && return 1
+    if [[ "$current" == "$default" ]]; then
+      _issue_to_branch "$url"
+    else
+      echo "$url"
+    fi
     return
   }
 
@@ -459,9 +466,11 @@ _colorize_commit_type () {
 
 _format_pr_body () {
   local default=$(_default_branch)
+  local branch=$(git branch --show-current)
   local commits=$(git log $default.. --pretty=%B | sed 's/^[a-zA-Z0-9_]*: //' | sed '/^$/d')
-  # local body="## Why\n\n\n\n## What changed\n\n${commits}\n\n## How to test\n\n"
-  echo "$commits"
+  local body="$commits"
+  [[ "$branch" =~ ^gh-([0-9]+) ]] && body="${body}\n\nCloses #${match[1]}"
+  echo "$body"
 }
 
 ghpr () { # Create and validate a PR
@@ -481,23 +490,16 @@ ghpr () { # Create and validate a PR
   fi
 }
 
-gbr () { # Create branch with GH issue or local counter # ➜ gbr fix-nginx-config
-  [[ ! $1 ]] && echo "Usage: gbr <slug>" && return 1
-  [[ -f .linear ]] && echo "This project uses Linear — use Linear to create branches" && return 1
+gbr () { # Create branch from GH issue or literal name # ➜ gbr 42 | gbr user/lin-123-slug
+  [[ ! $1 ]] && echo "Usage: gbr <issue-number> or gbr <branch-name>" && return 1
   local default=$(_default_branch)
   local current=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
   [[ "$current" != "$default" ]] && echo "Switch to $default before creating a branch" && return 1
-  local slug="$1"
-  local title=$(echo "$slug" | tr '-' ' ')
-  if gh repo view --json nameWithOwner -q .nameWithOwner &>/dev/null; then
-    local issue_url
-    issue_url=$(gh issue create -t "$title" -b "") || return 1
-    local num=$(echo "$issue_url" | awk -F'/' '{print $NF}')
-    git checkout -b "gh-${num}-${slug}"
+
+  if [[ "$1" =~ ^[0-9]+$ ]]; then
+    _issue_to_branch "$1"
   else
-    local max=$(git branch -a --list 'cl-*' | sed -E 's/.*cl-([0-9]+).*/\1/' | sort -rn | head -1)
-    local next=$(( ${max:-0} + 1 ))
-    git checkout -b "cl-${next}-${slug}"
+    git checkout -b "$1"
   fi
 }
 
