@@ -360,11 +360,27 @@
             ]
           },
           {
-            "description": "KM16 L0: 7 — Cycle app windows (⌘`)",
+            "description": "KM16 L0: 7 — Cycle WezTerm tab",
             "manipulators": [
               {
                 "type": "basic",
                 "from": { "key_code": "7", "modifiers": { "optional": ["any"] } },
+                "to": [
+                  { "shell_command": "/Applications/WezTerm.app/Contents/MacOS/wezterm cli activate-tab --tab-relative 1" }
+                ],
+                "conditions": [
+                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
+                  { "type": "variable_if", "name": "km16_layer", "value": 0 }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "KM16 L0: 8 — Cycle app windows (⌘`)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": { "key_code": "8", "modifiers": { "optional": ["any"] } },
                 "to": [
                   { "key_code": "grave_accent_and_tilde", "modifiers": ["command"] }
                 ],
@@ -376,29 +392,13 @@
             ]
           },
           {
-            "description": "KM16 L0: 8 — New WezTerm window",
-            "manipulators": [
-              {
-                "type": "basic",
-                "from": { "key_code": "8", "modifiers": { "optional": ["any"] } },
-                "to": [
-                  { "shell_command": "/usr/local/bin/macropad_action wezterm" }
-                ],
-                "conditions": [
-                  { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },
-                  { "type": "variable_if", "name": "km16_layer", "value": 0 }
-                ]
-              }
-            ]
-          },
-          {
-            "description": "KM16 L0: 9 — Jump to Desktop 9",
+            "description": "KM16 L0: 9 — New WezTerm window",
             "manipulators": [
               {
                 "type": "basic",
                 "from": { "key_code": "9", "modifiers": { "optional": ["any"] } },
                 "to": [
-                  { "shell_command": "osascript -e 'tell application \"System Events\" to key code 25 using {control down}'" }
+                  { "shell_command": "/usr/local/bin/macropad_action wezterm" }
                 ],
                 "conditions": [
                   { "type": "device_if", "identifiers": [{ "vendor_id": 10473, "product_id": 12613 }, { "vendor_id": 10473, "product_id": 8192 }, { "vendor_id": 1389, "product_id": 49271 }] },

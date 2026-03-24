@@ -144,6 +144,7 @@ _wez_apply_theme() {
   done
 
   export __WEZTERM_THEME="$name"
+  printf '\033]1337;SetUserVar=%s=%s\a' theme "$(echo -n "$name" | base64)"
 }
 
 cpr() { # Set terminal color theme # ➜ cpr coffee

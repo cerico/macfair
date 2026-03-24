@@ -45,17 +45,20 @@
   file:
     path: "{{ [ansible_env.HOME, '.config', 'karabiner'] | path_join }}"
     state: directory
+  tags: karabiner
 
 - name: Copy Karabiner config
   copy:
     src: karabiner/karabiner.json
     dest: "{{ [ansible_env.HOME, '.config', 'karabiner', 'karabiner.json'] | path_join }}"
     force: yes
+  tags: karabiner
 
 - name: Generate KM16 infographic
   ansible.builtin.command:
     cmd: python3 files/km16/generate.py
     chdir: "{{ playbook_dir }}"
+  tags: karabiner
 
 - name: Remove superfluous from dock
   shell: /usr/local/bin/dockutil --remove '{{ item }}' | cat

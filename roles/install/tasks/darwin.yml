@@ -55,6 +55,7 @@
       - "neonctl"
       - "uv"
       - "semgrep"
+      - "git-delta"
       - "shellcheck"
       - "librsvg"
       - "marcus/tap/nightshift"
@@ -159,6 +160,14 @@
 - name: Install Claude Code
   shell: curl -fsSL https://claude.ai/install.sh | bash
   when: not claude_installed.stat.exists
+
+- name: Install gh extensions
+  shell: gh extension install {{ item }}
+  loop:
+    - "dlvhdr/gh-dash"
+  register: gh_ext_result
+  changed_when: "'already installed' not in gh_ext_result.stderr"
+  failed_when: gh_ext_result.rc != 0 and 'already installed' not in gh_ext_result.stderr
 
 - name: link node
   shell: "{{ brew_location.stdout }} link --overwrite node@{{ node_version }}"
