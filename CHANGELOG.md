@@ -1,3 +1,12 @@
+# [2.111.0](https://github.com/cerico/macfair/compare/v2.110.0...v2.111.0) (2026-03-24)
+
+
+### Features
+
+* add gh-dash and remap KM16 keys 7-9 ([2544749](https://github.com/cerico/macfair/commit/2544749fc36059050def8dce064ffdcdebe282e4))
+
+
+
 # [2.110.0](https://github.com/cerico/macfair/compare/v2.109.1...v2.110.0) (2026-03-23)
 
 
