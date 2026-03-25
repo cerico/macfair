@@ -1,5 +1,9 @@
 unalias gbr 2>/dev/null
 
+changes() { # View diff in diffnav # ➜ changes | changes main
+  git diff ${1:+$1...} | diffnav
+}
+
 gitundo () { # Undo last git operation (safe: fails if uncommitted changes conflict)
   [[ ! -d .git ]] && echo "Not a git repo" && return 1
   local current=$(git rev-parse --short HEAD)
