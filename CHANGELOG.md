@@ -1,3 +1,12 @@
+# [2.113.0](https://github.com/cerico/macfair/compare/v2.112.0...v2.113.0) (2026-03-25)
+
+
+### Features
+
+* add CI watch helpers ([7b0dff1](https://github.com/cerico/macfair/commit/7b0dff13d4bc5620f2927921b243130640691044))
+
+
+
 # [2.112.0](https://github.com/cerico/macfair/compare/v2.111.0...v2.112.0) (2026-03-25)
 
 
