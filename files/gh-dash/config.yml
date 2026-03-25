@@ -79,12 +79,15 @@ defaults:
 keybindings:
     prs:
         - key: o
-          command: nvim -c ":Octo pr edit {{.PrNumber}}"
-          name: Open in Octo
+          command: code --open-url "vscode://github.vscode-pull-request-github/open-pull-request-changes?uri=https://github.com/{{.RepoName}}/pull/{{.PrNumber}}"
+          name: Open in VS Code
+        - key: O
+          command: gh pr view {{.PrNumber}} --repo {{.RepoName}} --web
+          name: Open in browser
     issues:
         - key: o
-          command: nvim -c ":Octo issue edit {{.IssueNumber}}"
-          name: Open in Octo
+          command: gh issue view {{.IssueNumber}} --repo {{.RepoName}} --web
+          name: Open in browser
 repoPaths: {}
 theme:
     ui:
