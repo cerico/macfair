@@ -1,4 +1,16 @@
 unalias gbr 2>/dev/null
+unalias gpf 2>/dev/null
+
+_watch_ci() {
+  sleep 3
+  local run_id
+  run_id=$(gh run list --branch "$(git branch --show-current)" --limit 1 --json databaseId --jq '.[0].databaseId')
+  [[ -n "$run_id" ]] && gh run watch "$run_id"
+}
+
+gpf() { # Force push and watch CI # ➜ gpf
+  git push --force-with-lease --force-if-includes && _watch_ci
+}
 
 changes() { # View diff in diffnav # ➜ changes | changes main
   git diff ${1:+$1...} | diffnav
@@ -491,7 +503,7 @@ ghpr () { # Create and validate a PR
     gh pr edit $pr --body "$(_format_pr_body)"
   else
     gh pr create --title "$modified_title" --body "$(_format_pr_body)"
-  fi
+  fi && _watch_ci
 }
 
 gbr () { # Create branch from GH issue or literal name # ➜ gbr 42 | gbr user/lin-123-slug

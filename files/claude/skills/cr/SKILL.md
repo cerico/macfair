@@ -40,16 +40,23 @@ gh api "repos/${REPO}/pulls/${PR_NUMBER}/reviews" \
   | jq '[.[] | select(.user.login == "coderabbitai[bot]") | {id, state, body}]'
 ```
 
-### 3. Present findings
+### 3. Grade and present findings
 
-Display each comment in a numbered list:
+For each comment, read the actual code and CLAUDE.md conventions, then assign your own grade A-F with a score out of 100. Do NOT parrot CodeRabbit's severity markers — apply independent judgement.
+
+**Grading scale:**
+- **A (90-100)** — Real bug, security issue, or will break at runtime. Fix this.
+- **B (75-89)** — Legitimate improvement, meaningful code quality gain.
+- **C (50-74)** — Valid point but low impact. Fix if convenient.
+- **D (25-49)** — Overly cautious or stylistic preference that doesn't match project conventions.
+- **F (0-24)** — Pedantic, wrong, or conflicts with project patterns. Ignore.
+
+Display each comment in a numbered list with grade and score:
 
 ```
-1. [Minor] files/nvim/init.lua:252 — stylua is a formatter, not an LSP server
-2. [Minor] files/nvim/init.lua:348 — cmp.entry.get_documentation targets wrong plugin
+1. B 78 files/zsh/git.zsh:8 — run_id can be literal "null", guard needed
+2. F 15 files/gh-dash/config.yml:81 — suggests removing Octo config (unrelated cleanup)
 ```
-
-Severity comes from the comment body markers: `⚠️ Potential issue`, `🧹 Nitpick`, `🔴 Major`, `🟡 Minor`.
 
 If no CodeRabbit comments found, say so and stop.
 
