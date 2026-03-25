@@ -61,12 +61,15 @@
     - starting
   when: inventory_hostname != 'github-runner.localhost'
 
-- name: Clone kickstart.nvim
-  ansible.builtin.git:
-    repo: https://github.com/nvim-lua/kickstart.nvim.git
-    dest: "{{ ['~' + macbook_user.stdout, '.config', 'nvim'] | path_join }}"
-    clone: true
-    update: false
+- name: Create nvim config directory
+  ansible.builtin.file:
+    path: "{{ ['~' + macbook_user.stdout, '.config', 'nvim'] | path_join }}"
+    state: directory
+
+- name: Deploy nvim config
+  ansible.builtin.copy:
+    src: nvim/init.lua
+    dest: "{{ ['~' + macbook_user.stdout, '.config', 'nvim', 'init.lua'] | path_join }}"
 
 - name: Create gh-dash config directory
   ansible.builtin.file:

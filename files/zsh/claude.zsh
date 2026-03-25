@@ -68,6 +68,11 @@ _wez_layout() {
   local dash_pane
   dash_pane=$(wezterm cli spawn --cwd "$PWD")
   [[ -n "$dash_pane" ]] && printf 'gh dash\n' | wezterm cli send-text --pane-id "$dash_pane" --no-paste
+
+  local git_pane
+  git_pane=$(wezterm cli spawn --cwd "$PWD")
+  [[ -n "$git_pane" ]] && printf 'clear\n' | wezterm cli send-text --pane-id "$git_pane" --no-paste
+
   wezterm cli activate-pane --pane-id "$main_pane"
 }
 

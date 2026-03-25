@@ -56,6 +56,7 @@
       - "uv"
       - "semgrep"
       - "git-delta"
+      - "diffnav"
       - "shellcheck"
       - "librsvg"
       - "marcus/tap/nightshift"

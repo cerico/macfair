@@ -76,7 +76,15 @@ defaults:
                 width: 20
                 hidden: true
     refetchIntervalMinutes: 30
-keybindings: {}
+keybindings:
+    prs:
+        - key: o
+          command: nvim -c ":Octo pr edit {{.PrNumber}}"
+          name: Open in Octo
+    issues:
+        - key: o
+          command: nvim -c ":Octo issue edit {{.IssueNumber}}"
+          name: Open in Octo
 repoPaths: {}
 theme:
     ui:
@@ -85,7 +93,7 @@ theme:
             showSeparator: true
             compact: false
 pager:
-    diff: delta --side-by-side --paging=always
+    diff: diffnav
 confirmQuit: false
 showAuthorIcons: true
 smartFilteringAtLaunch: true
