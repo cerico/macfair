@@ -1,3 +1,12 @@
+# [2.112.0](https://github.com/cerico/macfair/compare/v2.111.0...v2.112.0) (2026-03-25)
+
+
+### Features
+
+* diffnav, octo.nvim, coderabbit skill ([1f917ff](https://github.com/cerico/macfair/commit/1f917ff659f27385beb57520aed61e24e30b987f))
+
+
+
 # [2.111.0](https://github.com/cerico/macfair/compare/v2.110.0...v2.111.0) (2026-03-24)
 
 
