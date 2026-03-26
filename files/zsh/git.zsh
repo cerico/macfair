@@ -240,6 +240,15 @@ runs () { # List workflow runs # ➜ runs
   [[ $1 ]] && gh run view $1 || gh run list
 }
 
+ci() { # View latest CI run logs for current branch # ➜ ci
+  local branch run_id job_id
+  branch=$(git branch --show-current)
+  run_id=$(gh run list --branch "$branch" --limit 1 --json databaseId --jq '.[0].databaseId')
+  [[ -z "$run_id" ]] && echo "No runs for $branch" && return 1
+  job_id=$(gh run view "$run_id" --json jobs --jq '[.jobs[] | select(.conclusion == "failure")][0].databaseId // .jobs[-1].databaseId')
+  gh run view --job "$job_id" --log-failed 2>/dev/null || gh run view --job "$job_id" --log
+}
+
 branches () {
   echo $(git branch | wc -l) branches
   git branch
