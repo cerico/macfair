@@ -1,3 +1,12 @@
+# [2.114.0](https://github.com/cerico/macfair/compare/v2.113.0...v2.114.0) (2026-03-26)
+
+
+### Features
+
+* raycast, btop, vite, worktree helpers ([8030d06](https://github.com/cerico/macfair/commit/8030d064b6254386adb298663bbadfedd290ca7e))
+
+
+
 # [2.113.0](https://github.com/cerico/macfair/compare/v2.112.0...v2.113.0) (2026-03-25)
 
 
