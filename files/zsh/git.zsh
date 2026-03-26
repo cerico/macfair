@@ -634,3 +634,29 @@ grk() { # Create branch with auto-incrementing number # ➜ grk my-feature
   local branch_name="rk-${next_number}-${1}"
   git br "${branch_name}"
 }
+
+wt() { # Create a git worktree # ➜ wt floating-panes
+  local name="$1"
+  local repo
+  repo=$(basename "$PWD")
+  [[ -z "$name" ]] && { git worktree list; return }
+  local base
+  base=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's|.*/||') || base="main"
+  git show-ref --verify --quiet "refs/heads/$name" && { echo "Branch '$name' already exists"; return 1 }
+  mkdir -p ~/worktrees/"$repo"
+  git worktree add ~/worktrees/"$repo"/"$name" -b "$name" "$base"
+}
+
+wtr() { # Remove a git worktree # ➜ wtr floating-panes
+  local name="$1"
+  local repo
+  repo=$(basename "$PWD")
+  [[ -z "$name" ]] && { echo "Usage: wtr <name>"; return 1 }
+  git worktree remove ~/worktrees/"$repo"/"$name"
+}
+
+wtl() { # List worktrees for current repo # ➜ wtl
+  local repo
+  repo=$(basename "$PWD")
+  ls ~/worktrees/"$repo" 2>/dev/null || echo "No worktrees"
+}
