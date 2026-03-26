@@ -9,18 +9,13 @@ mcp() {
     -a)
       [[ -z "$server" ]] && {
         echo "Usage: mcp -a <server>"
-        echo "Available: mapbox, trello, sentry, stripe, github"
+        echo "Available: mapbox, sentry, stripe, github"
         return 1
       }
       case "$server" in
         mapbox)
           [[ -z "$MAPBOX_ACCESS_TOKEN" ]] && { echo "Error: MAPBOX_ACCESS_TOKEN not set"; return 1; }
           claude mcp add -s project mapbox -e MAPBOX_ACCESS_TOKEN="$MAPBOX_ACCESS_TOKEN" -- npx -y @mapbox/mcp-server
-          ;;
-        trello)
-          [[ -z "$TRELLO_API_KEY" ]] && { echo "Error: TRELLO_API_KEY not set"; return 1; }
-          [[ -z "$TRELLO_TOKEN" ]] && { echo "Error: TRELLO_TOKEN not set"; return 1; }
-          claude mcp add -s project trello -e TRELLO_API_KEY="$TRELLO_API_KEY" -e TRELLO_TOKEN="$TRELLO_TOKEN" -- npx -y @modelcontextprotocol/server-trello
           ;;
         sentry)
           [[ -z "$SENTRY_AUTH_TOKEN" ]] && { echo "Error: SENTRY_AUTH_TOKEN not set"; return 1; }
@@ -36,7 +31,7 @@ mcp() {
           ;;
         *)
           echo "Unknown server: $server"
-          echo "Available: mapbox, trello, sentry, stripe, github"
+          echo "Available: mapbox, sentry, stripe, github"
           return 1
           ;;
       esac

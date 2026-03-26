@@ -2,9 +2,13 @@ unalias gbr 2>/dev/null
 unalias gpf 2>/dev/null
 
 _watch_ci() {
-  sleep 3
-  local run_id
-  run_id=$(gh run list --branch "$(git branch --show-current)" --limit 1 --json databaseId --jq '.[0].databaseId')
+  local branch run_id
+  branch=$(git branch --show-current)
+  for i in 1 2 3; do
+    sleep 3
+    run_id=$(gh run list --branch "$branch" --limit 1 --json databaseId,status --jq '.[] | select(.status != "completed") | .databaseId')
+    [[ -n "$run_id" ]] && break
+  done
   [[ -n "$run_id" ]] && gh run watch "$run_id"
 }
 
@@ -633,4 +637,30 @@ grk() { # Create branch with auto-incrementing number # ➜ grk my-feature
   local next_number=$(($(highest rk) + 1))
   local branch_name="rk-${next_number}-${1}"
   git br "${branch_name}"
+}
+
+wt() { # Create a git worktree # ➜ wt floating-panes
+  local name="$1"
+  local repo
+  repo=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)") || { echo "Not a git repo"; return 1 }
+  [[ -z "$name" ]] && { git worktree list; return }
+  local base
+  base=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's|.*/||') || base="main"
+  git show-ref --verify --quiet "refs/heads/$name" && { echo "Branch '$name' already exists"; return 1 }
+  mkdir -p ~/worktrees/"$repo"
+  git worktree add ~/worktrees/"$repo"/"$name" -b "$name" "$base"
+}
+
+wtr() { # Remove a git worktree # ➜ wtr floating-panes
+  local name="$1"
+  local repo
+  repo=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)") || { echo "Not a git repo"; return 1 }
+  [[ -z "$name" ]] && { echo "Usage: wtr <name>"; return 1 }
+  git worktree remove ~/worktrees/"$repo"/"$name"
+}
+
+wtl() { # List worktrees for current repo # ➜ wtl
+  local repo
+  repo=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)") || { echo "Not a git repo"; return 1 }
+  ls ~/worktrees/"$repo" 2>/dev/null || echo "No worktrees"
 }
