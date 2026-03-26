@@ -184,15 +184,12 @@ ds () {
 }
 
 start () {
-  if [[ -f Makefile ]] && grep -q '^start:' Makefile;
-    then
+  if [[ -f Makefile ]] && grep -q '^start:' Makefile; then
     make start
     return
   fi
   local port=${1:-9000}
-  local ui_port=$((port + 1))
-  [[ -f index.html ]] && type="--files" || type="--directory"
-  browser-sync start --server $type "*.*" --port $port --ui-port $ui_port
+  npx vite --port $port
 }
 
 awks () { # awk field shortcut # ➜ awks , 3
@@ -441,7 +438,8 @@ html () {
 }
 
 _webserver () {
-   browser-sync start --server --startPath "$page" --port 6375 --browser "safari"
+   open "http://localhost:6375/$1" &>/dev/null &
+   npx serve -l 6375
 }
 
 env () {
