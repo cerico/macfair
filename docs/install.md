@@ -41,7 +41,7 @@
 * hpedrorodrigues/tools/dockutil
 * vlc
 * firefox
-* alfred
+* raycast
 * iterm2
 * vagrant
 * vagrant-manager

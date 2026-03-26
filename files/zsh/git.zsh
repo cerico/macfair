@@ -634,3 +634,39 @@ grk() { # Create branch with auto-incrementing number # ➜ grk my-feature
   local branch_name="rk-${next_number}-${1}"
   git br "${branch_name}"
 }
+
+alias worktree=wt
+wt() { # Create a git worktree # ➜ wt floating-panes | wt 42
+  local name="$1"
+  local repo
+  repo=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)") || { echo "Not a git repo"; return 1 }
+  [[ -z "$name" ]] && { git worktree list; return }
+
+  if [[ "$name" =~ ^[0-9]+$ ]]; then
+    local title
+    title=$(gh issue view "$name" --json title -q '.title') || return 1
+    local slug=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd 'a-z0-9-' | sed 's/--*/-/g; s/^-//; s/-$//')
+    name="gh-${name}-${slug}"
+  fi
+
+  local base=$(_default_branch)
+  git show-ref --verify --quiet "refs/heads/$name" && { echo "Branch '$name' already exists"; return 1 }
+  local worktree_path=~/worktrees/"$repo"/"$name"
+  mkdir -p ~/worktrees/"$repo"
+  git worktree add "$worktree_path" -b "$name" "$base"
+  echo "cd $worktree_path"
+}
+
+wtr() { # Remove a git worktree # ➜ wtr floating-panes
+  local name="$1"
+  local repo
+  repo=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)") || { echo "Not a git repo"; return 1 }
+  [[ -z "$name" ]] && { echo "Usage: wtr <name>"; return 1 }
+  git worktree remove ~/worktrees/"$repo"/"$name"
+}
+
+wtl() { # List worktrees for current repo # ➜ wtl
+  local repo
+  repo=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)") || { echo "Not a git repo"; return 1 }
+  ls ~/worktrees/"$repo" 2>/dev/null || echo "No worktrees"
+}
