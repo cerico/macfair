@@ -1,3 +1,12 @@
+# [2.115.0](https://github.com/cerico/macfair/compare/v2.114.0...v2.115.0) (2026-03-27)
+
+
+### Features
+
+* add issue number lookup and _default_branch to wt() ([4361912](https://github.com/cerico/macfair/commit/4361912cf7306a7e2031360283d50b3715bbcd92))
+
+
+
 # [2.114.0](https://github.com/cerico/macfair/compare/v2.113.0...v2.114.0) (2026-03-26)
 
 
