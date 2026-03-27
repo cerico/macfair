@@ -1,3 +1,12 @@
+# [2.117.0](https://github.com/cerico/macfair/compare/v2.116.0...v2.117.0) (2026-03-27)
+
+
+### Features
+
+* promote trialling tools into macfair ([931d6bb](https://github.com/cerico/macfair/commit/931d6bb1ab69249c67166932be64441fc2a13bae))
+
+
+
 # [2.116.0](https://github.com/cerico/macfair/compare/v2.115.0...v2.116.0) (2026-03-27)
 
 
