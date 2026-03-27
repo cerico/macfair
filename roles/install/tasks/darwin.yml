@@ -62,6 +62,11 @@
       - "librsvg"
       - "marcus/tap/nightshift"
       - "marcus/tap/td"
+      - "helix"
+      - "zellij"
+      - "eza"
+      - "difftastic"
+      - "anomalyco/tap/opencode"
       - "marcus/tap/sidecar"
 
 - name: install core packages (best effort, older macOS)
@@ -119,6 +124,7 @@
     - "hamed-elfayome/claude-usage/claude-usage-tracker"
     - "stats"
     - "wezterm"
+    - "zed"
 
 - name: Copy zshenv
   copy:

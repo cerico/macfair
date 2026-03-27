@@ -516,3 +516,22 @@ _drift_complete() {
   fi
 }
 compdef _drift_complete drift 2>/dev/null
+
+zj() {
+  local layout="${TMPDIR:-/tmp}/zj_layout_$$.kdl"
+  cat > "$layout" <<'KDL'
+layout {
+  pane split_direction="vertical" {
+    pane size="70%" command="claude" {
+      args "--permission-mode" "plan"
+    }
+    pane split_direction="horizontal" size="30%" {
+      pane
+      pane
+    }
+  }
+}
+KDL
+  zellij -l "$layout" "$@"
+  rm -f "$layout"
+}
