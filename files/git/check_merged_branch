@@ -1,0 +1,20 @@
+#!/bin/bash
+branch="$(git branch --show-current)"
+[ -z "$branch" ] && exit 0
+
+default_branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's|refs/remotes/origin/||')
+default_branch="${default_branch:-main}"
+[ "$branch" = "$default_branch" ] && exit 0
+git rev-parse --verify "origin/$default_branch" >/dev/null 2>&1 || exit 0
+[ "$(git rev-parse HEAD)" = "$(git rev-parse "origin/$default_branch")" ] && exit 0
+
+merged=false
+# Regular merge: HEAD is ancestor of default branch
+git merge-base --is-ancestor HEAD "origin/$default_branch" 2>/dev/null && merged=true
+# Squash merge: tree content identical to default branch
+[ "$merged" = false ] && git diff --quiet "origin/$default_branch" "$branch" 2>/dev/null && merged=true
+
+if [ "$merged" = true ]; then
+  echo "This branch is already merged into $default_branch. Switch to a new branch first."
+  exit 1
+fi
