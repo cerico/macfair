@@ -1,3 +1,12 @@
+# [2.116.0](https://github.com/cerico/macfair/compare/v2.115.0...v2.116.0) (2026-03-27)
+
+
+### Features
+
+* block commits on branches already merged into main ([5ceed8c](https://github.com/cerico/macfair/commit/5ceed8cf9a2423401b48a243ed2d9aa0a8497c4f))
+
+
+
 # [2.115.0](https://github.com/cerico/macfair/compare/v2.114.0...v2.115.0) (2026-03-27)
 
 
