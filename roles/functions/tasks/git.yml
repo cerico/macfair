@@ -18,6 +18,12 @@
     path: "{{ ['~' + macbook_user.stdout, '.config', 'git', 'hooks'] | path_join }}"
     state: directory
 
+- name: Copy merged branch check script
+  copy:
+    src: git/check_merged_branch
+    dest: "{{ ['~' + macbook_user.stdout, '.config', 'git', 'hooks', 'check_merged_branch'] | path_join }}"
+    mode: a+x
+
 - name: Copy global pre-commit hook
   copy:
     src: git/pre-commit

@@ -9,6 +9,11 @@ while read -r _ _ remote_ref _; do
   exit 1
 done
 
+hooks_dir="$(dirname "$0")"
+if [ -f "$hooks_dir/check_merged_branch" ]; then
+  "$hooks_dir/check_merged_branch" || exit $?
+fi
+
 # Run verify target if available
 if [[ -f Makefile ]] && grep -q '^verify:' Makefile; then
   echo "Running make verify..."

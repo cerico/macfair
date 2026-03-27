@@ -1,6 +1,8 @@
 unalias gbr 2>/dev/null
 unalias gpf 2>/dev/null
 
+_is_git_repo() { git rev-parse --is-inside-work-tree &>/dev/null; }
+
 _watch_ci() {
   local branch run_id
   branch=$(git branch --show-current)
@@ -21,7 +23,7 @@ changes() { # View diff in diffnav # ➜ changes | changes main
 }
 
 gitundo () { # Undo last git operation (safe: fails if uncommitted changes conflict)
-  [[ ! -d .git ]] && echo "Not a git repo" && return 1
+  _is_git_repo || { echo "Not a git repo"; return 1; }
   local current=$(git rev-parse --short HEAD)
   local target=$(git rev-parse --short HEAD@{1} 2>/dev/null)
   [[ -z "$target" ]] && echo "Nothing to undo" && return 1
@@ -32,13 +34,13 @@ gitundo () { # Undo last git operation (safe: fails if uncommitted changes confl
 }
 
 gitops () { # Show recent git operations # ➜ gitops 20
-  [[ ! -d .git ]] && echo "Not a git repo" && return 1
+  _is_git_repo || { echo "Not a git repo"; return 1; }
   local count=${1:-10}
   git reflog -n "$count" --format='%C(yellow)%h %C(green)%gd %C(reset)%gs %C(dim)%ar%C(reset)'
 }
 
 gitrestore () { # Restore to a reflog entry (safe) # ➜ gitrestore 3
-  [[ ! -d .git ]] && echo "Not a git repo" && return 1
+  _is_git_repo || { echo "Not a git repo"; return 1; }
   [[ -z "$1" ]] && gitops && return
   local target="HEAD@{$1}"
   local hash=$(git rev-parse --short "$target" 2>/dev/null)
@@ -55,7 +57,7 @@ gitrestore () { # Restore to a reflog entry (safe) # ➜ gitrestore 3
 GIT_FETCH_THROTTLE_SECONDS=${GIT_FETCH_THROTTLE_SECONDS:-300}
 
 _git_sync() {
-  [[ ! -d .git ]] && return
+  _is_git_repo || return
   local current_branch=$(git rev-parse --abbrev-ref HEAD)
   local default=$(_default_branch)
 
@@ -167,7 +169,7 @@ secrets () {
 }
 
 workflows () { # Copy template workflow to repo # ➜ workflows test
-  [[ ! -d .git ]] && git rev-parse --git-dir > /dev/null 2>&1 && cd $(git rev-parse --show-toplevel)
+  _is_git_repo && [[ ! -d .git ]] && cd $(git rev-parse --show-toplevel)
   local _dir=~/.templates/github-actions
   local app_name=$(basename $(pwd))
 
@@ -200,7 +202,7 @@ issues () { # List gh issues
 
  _releases_across_repos () {
   for i in */; do
-    if [ -d "$i".git ]; then
+    if [ -e "$i".git ]; then
        (
         cd "$i"
         local repo_name=$(basename $(git rev-parse --show-toplevel))
@@ -212,7 +214,7 @@ issues () { # List gh issues
  }
 
 releases () { # List releases for repo # ➜ releases 5
-  if [ ! -d .git ]; then
+  if ! _is_git_repo; then
     _releases_across_repos
     return
   fi
@@ -221,7 +223,7 @@ releases () { # List releases for repo # ➜ releases 5
 }
 
 prs () { # List open prs
-  if [ ! -d .git ]; then
+  if ! _is_git_repo; then
     _allprs
     return
   fi
@@ -230,7 +232,7 @@ prs () { # List open prs
 
 _allprs () {
   for i in */; do
-    if [ -d "$i".git ]; then
+    if [ -e "$i".git ]; then
       (cd "$i" && prs)
     fi
   done
@@ -246,7 +248,7 @@ branches () {
 }
 
 commits () { # List recent commits # ➜ commits 5
-  if [ ! -d .git ]; then
+  if ! _is_git_repo; then
     _commits_across_repos
     return
   fi
@@ -268,7 +270,7 @@ commits () { # List recent commits # ➜ commits 5
 _commits_across_repos () {
   [[ $1 ]] && no=$1 || no=2
   for i in */; do
-    if [ -d "$i".git ]; then
+    if [ -e "$i".git ]; then
      (
         cd "$i"
         repo_name=$(basename $(git rev-parse --show-toplevel))
@@ -366,7 +368,7 @@ _default_branch () {
 }
 
 unmerged () { # List unmerged commits # ➜ unmerged 5
-  if [ ! -d .git ]; then
+  if ! _is_git_repo; then
     _unmerged_commits_across_repos
     return
   fi
@@ -384,7 +386,7 @@ unmerged () { # List unmerged commits # ➜ unmerged 5
 
 _unmerged_commits_across_repos () {
   for i in */; do
-    if [ -d "$i".git ]; then
+    if [ -e "$i".git ]; then
       (
         cd "$i"
         local output=$(unmerged 2)
@@ -398,7 +400,7 @@ _unmerged_commits_across_repos () {
       )
     fi
   done
-  [ -d .git ] && unmerged 5
+  _is_git_repo && unmerged 5
 }
 
 
