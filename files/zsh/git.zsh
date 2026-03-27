@@ -664,6 +664,18 @@ wt() { # Create a git worktree # ➜ wt floating-panes | wt 42
   git worktree add "$worktree_path" -b "$name" "$base" && echo "$worktree_path"
 }
 
+dif() {
+  GIT_EXTERNAL_DIFF=difft git diff "$@"
+}
+
+difl() {
+  GIT_EXTERNAL_DIFF=difft git log -p --ext-diff "$@"
+}
+
+difs() {
+  GIT_EXTERNAL_DIFF=difft git show --ext-diff "$@"
+}
+
 wtr() { # Remove a git worktree # ➜ wtr floating-panes
   local name="$1"
   local repo
