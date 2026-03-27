@@ -97,14 +97,17 @@ repos () { # List all repos # ➜ repos public
   [[ -n $1 ]] && gh repo list --visibility $1 || gh repo list
 }
 
+_slugify() {
+  echo "$1" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd 'a-z0-9-' | sed 's/--*/-/g; s/^-//; s/-$//'
+}
+
 _issue_to_branch() {
   local input="$1"
   local num
   [[ "$input" =~ ^[0-9]+$ ]] && num="$input" || num=$(echo "$input" | awk -F'/' '{print $NF}')
   local title
   title=$(gh issue view "$num" --json title -q '.title') || return 1
-  local slug=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd 'a-z0-9-' | sed 's/--*/-/g; s/^-//; s/-$//')
-  git checkout -b "gh-${num}-${slug}"
+  git checkout -b "gh-${num}-$(_slugify "$title")"
 }
 
 issue() { # Create gh issue or edit existing # ➜ issue | issue "fix nginx" | issue 505
@@ -639,16 +642,24 @@ grk() { # Create branch with auto-incrementing number # ➜ grk my-feature
   git br "${branch_name}"
 }
 
-wt() { # Create a git worktree # ➜ wt floating-panes
+alias worktree=wt
+wt() { # Create a git worktree # ➜ wt floating-panes | wt 42
   local name="$1"
   local repo
   repo=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)") || { echo "Not a git repo"; return 1 }
   [[ -z "$name" ]] && { git worktree list; return }
-  local base
-  base=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's|.*/||') || base="main"
+
+  if [[ "$name" =~ ^[0-9]+$ ]]; then
+    local title
+    title=$(gh issue view "$name" --json title -q '.title') || return 1
+    name="gh-${name}-$(_slugify "$title")"
+  fi
+
+  local base=$(_default_branch)
   git show-ref --verify --quiet "refs/heads/$name" && { echo "Branch '$name' already exists"; return 1 }
+  local worktree_path=~/worktrees/"$repo"/"$name"
   mkdir -p ~/worktrees/"$repo"
-  git worktree add ~/worktrees/"$repo"/"$name" -b "$name" "$base"
+  git worktree add "$worktree_path" -b "$name" "$base" && echo "$worktree_path"
 }
 
 wtr() { # Remove a git worktree # ➜ wtr floating-panes
