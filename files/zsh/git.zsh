@@ -350,23 +350,39 @@ viewpr () {
 
 delete_old_branches () {
   local default=$(_default_branch)
-  for branch in $(git branch | tr -d "* " | grep -v "^$default$"); do
+  local merged=false wt_path
+  for branch in $(git branch | sed 's/^[*+][[:space:]]*//' | grep -v "^$default$"); do
+    merged=false
     # Regular merge: no unique commits
-    if [[ -z "$(git log $default..$branch)" ]]; then
-      echo "Deleting merged branch $branch"
-      git branch -d "$branch"
-    # Squash merge: branch diff against main is empty
-    elif [[ -z "$(git diff $default...$branch)" ]]; then
-      echo "Deleting squash-merged branch $branch"
-      git branch -D "$branch"
+    [[ -z "$(git log "$default..$branch")" ]] && merged=true
+    # Squash/cherry-pick/rebase: no unique patches remain
+    [[ "$merged" = false ]] && [[ -z "$(git cherry "$default" "$branch" | grep '^+')" ]] && merged=true
+
+    [[ "$merged" = false ]] && continue
+
+    # Remove worktree if branch is checked out in one
+    wt_path=$(git worktree list --porcelain 2>/dev/null | awk -v b="refs/heads/$branch" '
+      /^worktree / { p=$0; sub(/^worktree /, "", p) }
+      /^branch /   { if ($2 == b) print p }
+    ')
+    if [[ -n "$wt_path" ]]; then
+      if [[ -n "$(git -C "$wt_path" status --porcelain 2>/dev/null)" ]]; then
+        echo "Skipping $branch: worktree has uncommitted changes"
+        continue
+      fi
+      echo "Removing worktree for merged branch $branch ($wt_path)"
+      git worktree remove "$wt_path" 2>/dev/null || { echo "  Failed to remove worktree for $branch"; continue; }
     fi
+
+    echo "Deleting merged branch $branch"
+    git branch -D "$branch" 2>/dev/null || echo "  Failed to delete $branch"
   done
 }
 
 _default_branch () {
   local branch=$(git rev-parse --abbrev-ref origin/HEAD 2>/dev/null | sed 's@^origin/@@')
   [[ -z "$branch" || "$branch" == "HEAD" ]] && branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
-  [[ -z "$branch" ]] && branch=$(git branch -l main master 2>/dev/null | head -1 | tr -d '* ')
+  [[ -z "$branch" ]] && branch=$(git branch -l main master 2>/dev/null | head -1 | sed 's/^[*+][[:space:]]*//')
   echo ${branch:-main}
 }
 
@@ -377,7 +393,7 @@ unmerged () { # List unmerged commits # ➜ unmerged 5
   fi
   local default=$(_default_branch)
   [[ $1 ]] && no=$1 || no=500 # List most recent unmerged commit in each branch
-  for branch in $(git branch --sort=-authordate | tr -d "* " | grep -v "^$default$"); do
+  for branch in $(git branch --sort=-authordate | sed 's/^[*+][[:space:]]*//' | grep -v "^$default$"); do
     if [ -n "$(git log $default..$branch)" ]; then
       no=$(git rev-list --count $default..$branch)
       date=$(git log -1 $branch --pretty=format:"%ar" --no-walk)
