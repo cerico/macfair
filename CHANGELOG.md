@@ -1,3 +1,12 @@
+# [2.118.0](https://github.com/cerico/macfair/compare/v2.117.0...v2.118.0) (2026-03-28)
+
+
+### Features
+
+* refine worktree commands with cleanup, env linking, and rich listing ([aded5ff](https://github.com/cerico/macfair/commit/aded5ffbeae89ddf4323228b05d4b941afcaba94))
+
+
+
 # [2.117.0](https://github.com/cerico/macfair/compare/v2.116.0...v2.117.0) (2026-03-27)
 
 
