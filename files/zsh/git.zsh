@@ -350,16 +350,27 @@ viewpr () {
 
 delete_old_branches () {
   local default=$(_default_branch)
-  for branch in $(git branch | tr -d "* " | grep -v "^$default$"); do
-    # Regular merge: no unique commits
+  local repo
+  repo=$(basename "$(cd "$(dirname "$(git rev-parse --git-common-dir)")" && pwd)")
+  for branch in $(git branch | tr -d "*+ " | grep -v "^$default$"); do
+    local is_merged=false merge_type=""
     if [[ -z "$(git log $default..$branch)" ]]; then
-      echo "Deleting merged branch $branch"
-      git branch -d "$branch"
-    # Squash merge: branch diff against main is empty
+      is_merged=true merge_type="merged"
     elif [[ -z "$(git diff $default...$branch)" ]]; then
-      echo "Deleting squash-merged branch $branch"
-      git branch -D "$branch"
+      is_merged=true merge_type="squash-merged"
     fi
+    [[ "$is_merged" != true ]] && continue
+
+    local wt_path=~/worktrees/"$repo"/"$branch"
+    if [[ -d "$wt_path" ]]; then
+      echo "Removing worktree for $merge_type branch $branch"
+      if ! git worktree remove "$wt_path" 2>/dev/null && ! git worktree remove --force "$wt_path"; then
+        echo "Warning: Failed to remove worktree at $wt_path — skipping branch $branch"
+        continue
+      fi
+    fi
+    echo "Deleting $merge_type branch $branch"
+    [[ "$merge_type" == "merged" ]] && git branch -d "$branch" || git branch -D "$branch"
   done
 }
 
@@ -648,8 +659,11 @@ alias worktree=wt
 wt() { # Create a git worktree # ➜ wt floating-panes | wt 42
   local name="$1"
   local repo
-  repo=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)") || { echo "Not a git repo"; return 1 }
+  repo=$(basename "$(cd "$(dirname "$(git rev-parse --git-common-dir)")" && pwd)") || { echo "Not a git repo"; return 1 }
   [[ -z "$name" ]] && { git worktree list; return }
+
+  local base=$(_default_branch)
+  local current=$(git branch --show-current 2>/dev/null)
 
   if [[ "$name" =~ ^[0-9]+$ ]]; then
     local title
@@ -657,11 +671,19 @@ wt() { # Create a git worktree # ➜ wt floating-panes | wt 42
     name="gh-${name}-$(_slugify "$title")"
   fi
 
-  local base=$(_default_branch)
   git show-ref --verify --quiet "refs/heads/$name" && { echo "Branch '$name' already exists"; return 1 }
   local worktree_path=~/worktrees/"$repo"/"$name"
   mkdir -p ~/worktrees/"$repo"
-  git worktree add "$worktree_path" -b "$name" "$base" && echo "$worktree_path"
+  git worktree add "$worktree_path" -b "$name" "$base" || return 1
+  local main_root
+  main_root="$(cd "$(dirname "$(git rev-parse --git-common-dir)")" && pwd)"
+  [[ -f "$main_root/.env" ]] && ln -sf "$main_root/.env" "$worktree_path/.env"
+
+  if [[ "$current" == "$base" ]]; then
+    local pane_count=$(wezterm cli list --format json 2>/dev/null | jq "[.[] | select(.tab_id == ((.[] | select(.pane_id == $WEZTERM_PANE)) .tab_id))] | length" 2>/dev/null)
+    [[ "${pane_count:-1}" -eq 1 ]] && { cd "$worktree_path"; return }
+  fi
+  echo "$worktree_path"
 }
 
 dif() {
@@ -676,16 +698,94 @@ difs() {
   GIT_EXTERNAL_DIFF=difft git show --ext-diff "$@"
 }
 
-wtr() { # Remove a git worktree # ➜ wtr floating-panes
+wtr() { # Remove a git worktree and its branch # ➜ wtr floating-panes
   local name="$1"
   local repo
-  repo=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)") || { echo "Not a git repo"; return 1 }
+  repo=$(basename "$(cd "$(dirname "$(git rev-parse --git-common-dir)")" && pwd)") || { echo "Not a git repo"; return 1 }
   [[ -z "$name" ]] && { echo "Usage: wtr <name>"; return 1 }
-  git worktree remove ~/worktrees/"$repo"/"$name"
+  git worktree remove ~/worktrees/"$repo"/"$name" && git branch -d "$name" 2>/dev/null
 }
 
-wtl() { # List worktrees for current repo # ➜ wtl
-  local repo
-  repo=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)") || { echo "Not a git repo"; return 1 }
-  ls ~/worktrees/"$repo" 2>/dev/null || echo "No worktrees"
+_time_ago() {
+  local elapsed=$(( $(date +%s) - $1 ))
+  local days=$(( elapsed / 86400 ))
+  local hours=$(( elapsed / 3600 ))
+  local mins=$(( elapsed / 60 ))
+  if [[ $days -gt 0 ]]; then
+    [[ $days -eq 1 ]] && echo "1 day ago" || echo "${days} days ago"
+  elif [[ $hours -gt 0 ]]; then
+    [[ $hours -eq 1 ]] && echo "1 hour ago" || echo "${hours} hours ago"
+  elif [[ $mins -gt 0 ]]; then
+    [[ $mins -eq 1 ]] && echo "1 min ago" || echo "${mins} mins ago"
+  else
+    echo "just now"
+  fi
+}
+
+alias wtl=worktrees
+worktrees() { # List worktrees sorted by recency # ➜ worktrees | worktrees 2
+  local idx="${1:-}"
+  local worktrees_dir=~/worktrees
+  [[ ! -d "$worktrees_dir" ]] && { echo "No worktrees"; return }
+
+  local scoped_repo=""
+  local cwd="$PWD"
+  if [[ "$cwd" == "$HOME/worktrees/"* ]]; then
+    local rel="${cwd#$HOME/worktrees/}"
+    scoped_repo="${rel%%/*}"
+  fi
+
+  local entries=()
+  if [[ -n "$scoped_repo" ]]; then
+    for wt_dir in "$worktrees_dir/$scoped_repo"/*/; do
+      [[ ! -d "$wt_dir" ]] && continue
+      local mtime
+      mtime=$(stat -f %m "$wt_dir" 2>/dev/null) || continue
+      entries+=("${mtime}|${wt_dir%/}")
+    done
+  else
+    for repo_dir in "$worktrees_dir"/*/; do
+      [[ ! -d "$repo_dir" ]] && continue
+      for wt_dir in "$repo_dir"/*/; do
+        [[ ! -d "$wt_dir" ]] && continue
+        local mtime
+        mtime=$(stat -f %m "$wt_dir" 2>/dev/null) || continue
+        entries+=("${mtime}|${wt_dir%/}")
+      done
+    done
+  fi
+
+  [[ ${#entries[@]} -eq 0 ]] && { echo "No worktrees"; return }
+
+  local sorted=($(printf '%s\n' "${entries[@]}" | sort -t'|' -k1 -rn))
+
+  if [[ -n "$idx" ]]; then
+    [[ ! "$idx" =~ ^[0-9]+$ ]] || [[ "$idx" -lt 1 ]] || [[ "$idx" -gt ${#sorted[@]} ]] && { echo "No worktree at index $idx"; return 1 }
+    local target="${sorted[$idx]#*|}"
+    cd "$target"
+    return
+  fi
+
+  local i=0
+  for entry in "${sorted[@]}"; do
+    local mtime="${entry%%|*}"
+    local wt_path="${entry#*|}"
+    ((i++))
+
+    local repo_name=$(basename "$(dirname "$wt_path")")
+    local wt_name=$(basename "$wt_path")
+    local time_ago=$(_time_ago "$mtime")
+
+    local dirty=""
+    if [[ -d "$wt_path/.git" || -f "$wt_path/.git" ]]; then
+      local changes=$(git -C "$wt_path" status --porcelain 2>/dev/null | wc -l | tr -d ' ')
+      [[ "$changes" -gt 0 ]] && dirty=" ${changes}∆"
+    fi
+
+    if [[ -n "$scoped_repo" ]]; then
+      printf "%2d. %-13s %-40s%s\n" "$i" "$time_ago" "$wt_name" "$dirty"
+    else
+      printf "%2d. %-13s \e[34m%-14s\e[0m %-40s%s\n" "$i" "$time_ago" "$repo_name" "$wt_name" "$dirty"
+    fi
+  done
 }
