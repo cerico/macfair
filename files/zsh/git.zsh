@@ -3,6 +3,17 @@ unalias gpf 2>/dev/null
 
 _is_git_repo() { git rev-parse --is-inside-work-tree &>/dev/null; }
 
+_repo_root() {
+  local common_dir
+  common_dir=$(git rev-parse --git-common-dir 2>/dev/null) || return 1
+  [[ "$common_dir" != /* ]] && common_dir="$PWD/$common_dir"
+  dirname "$common_dir"
+}
+
+_repo_name() {
+  basename "$(_repo_root)"
+}
+
 _watch_ci() {
   local branch run_id
   branch=$(git branch --show-current)
@@ -57,6 +68,8 @@ gitrestore () { # Restore to a reflog entry (safe) # ➜ gitrestore 3
 GIT_FETCH_THROTTLE_SECONDS=${GIT_FETCH_THROTTLE_SECONDS:-300}
 
 _git_sync() {
+  (( _GIT_SYNC_ACTIVE )) && return
+  local _GIT_SYNC_ACTIVE=1
   _is_git_repo || return
   local current_branch=$(git rev-parse --abbrev-ref HEAD)
   local default=$(_default_branch)
@@ -351,7 +364,7 @@ viewpr () {
 delete_old_branches () {
   local default=$(_default_branch)
   local repo
-  repo=$(basename "$(cd "$(dirname "$(git rev-parse --git-common-dir)")" && pwd)")
+  repo=$(_repo_name) || return
   for branch in $(git branch | tr -d "*+ " | grep -v "^$default$"); do
     local is_merged=false merge_type=""
     if [[ -z "$(git log $default..$branch)" ]]; then
@@ -659,7 +672,7 @@ alias worktree=wt
 wt() { # Create a git worktree # ➜ wt floating-panes | wt 42
   local name="$1"
   local repo
-  repo=$(basename "$(cd "$(dirname "$(git rev-parse --git-common-dir)")" && pwd)") || { echo "Not a git repo"; return 1 }
+  repo=$(_repo_name) || { echo "Not a git repo"; return 1 }
   [[ -z "$name" ]] && { git worktree list; return }
 
   local base=$(_default_branch)
@@ -676,7 +689,7 @@ wt() { # Create a git worktree # ➜ wt floating-panes | wt 42
   mkdir -p ~/worktrees/"$repo"
   git worktree add "$worktree_path" -b "$name" "$base" || return 1
   local main_root
-  main_root="$(cd "$(dirname "$(git rev-parse --git-common-dir)")" && pwd)"
+  main_root="$(_repo_root)"
   [[ -f "$main_root/.env" ]] && ln -sf "$main_root/.env" "$worktree_path/.env"
 
   if [[ "$current" == "$base" ]]; then
@@ -701,7 +714,7 @@ difs() {
 wtr() { # Remove a git worktree and its branch # ➜ wtr floating-panes
   local name="$1"
   local repo
-  repo=$(basename "$(cd "$(dirname "$(git rev-parse --git-common-dir)")" && pwd)") || { echo "Not a git repo"; return 1 }
+  repo=$(_repo_name) || { echo "Not a git repo"; return 1 }
   [[ -z "$name" ]] && { echo "Usage: wtr <name>"; return 1 }
   git worktree remove ~/worktrees/"$repo"/"$name" && git branch -d "$name" 2>/dev/null
 }
