@@ -1,3 +1,12 @@
+## [2.118.1](https://github.com/cerico/macfair/compare/v2.118.0...v2.118.1) (2026-03-29)
+
+
+### Bug Fixes
+
+* prevent recursive git pull on cd into repos on default branch ([47a7793](https://github.com/cerico/macfair/commit/47a7793da35333b3ab99e39d8cd13632c37430a1))
+
+
+
 # [2.118.0](https://github.com/cerico/macfair/compare/v2.117.0...v2.118.0) (2026-03-28)
 
 
