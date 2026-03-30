@@ -292,12 +292,12 @@ releases () { # List releases for repo # ➜ releases 5
   git for-each-ref --sort=-creatordate --format '%(refname:short) %(creatordate:relative)' refs/tags | head -n $no | awk '{tag = $1; date = $2 " " $3 " " $4 " " $5 " " $6; printf "\033[0;32m%-7s \033[1;0m%-s\n", tag, date}'
 }
 
-prs () { # List open prs
+prs () { # List open prs, or open PR in VS Code # ➜ prs | prs 590
   if ! _is_git_repo; then
     _allprs
     return
   fi
-  [[ $1 ]] && gh pr view $1 || gh pr list
+  [[ $1 ]] && gh pr view $1 --web || gh pr list
 }
 
 _allprs () {
@@ -424,7 +424,7 @@ delete_old_branches () {
     local is_merged=false merge_type=""
     if [[ -z "$(git log $default..$branch)" ]]; then
       is_merged=true merge_type="merged"
-    elif [[ -z "$(git diff $default...$branch)" ]]; then
+    elif [[ -z "$(git cherry $default $branch | grep '^+')" ]]; then
       is_merged=true merge_type="squash-merged"
     fi
     [[ "$is_merged" != true ]] && continue
