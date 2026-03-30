@@ -60,6 +60,50 @@
     chdir: "{{ playbook_dir }}"
   tags: karabiner
 
+- name: Zen requires manual steps
+  debug:
+    msg:
+      - "1. about:config → toolkit.legacyUserProfileCustomizations.stylesheets = true"
+      - "2. Install Transparent Zen mod from zen-browser.app/mods"
+      - "3. about:config → browser.tabs.allow_transparent_browser = true"
+  tags: zen
+
+- name: Find Zen Browser default profile
+  find:
+    paths: "{{ ['~' + macbook_user.stdout, 'Library', 'Application Support', 'zen', 'Profiles'] | path_join }}"
+    file_type: directory
+    patterns: "*.default*"
+  register: zen_profiles
+  ignore_errors: true
+  tags: zen
+
+- name: Clone Catppuccin Zen Browser theme
+  git:
+    repo: https://github.com/catppuccin/zen-browser.git
+    dest: "{{ ['~' + macbook_user.stdout, '.cache', 'catppuccin-zen-browser'] | path_join }}"
+    version: main
+    depth: 1
+    force: true
+  when: zen_profiles.files is defined and zen_profiles.files | length > 0
+  tags: zen
+
+- name: Create Zen chrome directory
+  file:
+    path: "{{ [zen_profiles.files[0].path, 'chrome'] | path_join }}"
+    state: directory
+  when: zen_profiles.files is defined and zen_profiles.files | length > 0
+  tags: zen
+
+- name: Install Catppuccin Mocha theme for Zen
+  copy:
+    src: "{{ item }}"
+    dest: "{{ [zen_profiles.files[0].path, 'chrome', item | basename] | path_join }}"
+    remote_src: true
+  with_fileglob:
+    - "{{ ['~' + macbook_user.stdout, '.cache', 'catppuccin-zen-browser', 'themes', 'Mocha', 'Lavender', '*'] | path_join }}"
+  when: zen_profiles.files is defined and zen_profiles.files | length > 0
+  tags: zen
+
 - name: Remove superfluous from dock
   shell: /usr/local/bin/dockutil --remove '{{ item }}' | cat
   ignore_errors: true

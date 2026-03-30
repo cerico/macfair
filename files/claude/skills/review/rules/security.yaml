@@ -1,0 +1,61 @@
+rules:
+  - id: jwt-localstorage
+    pattern-either:
+      - pattern: localStorage.setItem("...", $TOKEN)
+      - pattern: localStorage.setItem('...token...', ...)
+      - pattern: localStorage.setItem('...jwt...', ...)
+    message: "JWT/token stored in localStorage — vulnerable to XSS. Use httpOnly cookies."
+    languages: [typescript, javascript]
+    severity: WARNING
+
+  - id: cors-wildcard
+    pattern-either:
+      - pattern: "cors({ origin: '*' })"
+      - pattern: "cors({ origin: true })"
+      - pattern: "'Access-Control-Allow-Origin': '*'"
+    message: "CORS allows all origins — restrict to specific domains"
+    languages: [typescript, javascript]
+    severity: WARNING
+
+  - id: unescaped-regex-input
+    patterns:
+      - pattern: new RegExp($INPUT, ...)
+      - pattern-not-inside: |
+          $INPUT = $ESCAPE(...)
+          ...
+          new RegExp($INPUT, ...)
+    message: "User input in RegExp without escaping — ReDoS risk"
+    languages: [typescript, javascript]
+    severity: WARNING
+
+  - id: timing-unsafe-comparison
+    patterns:
+      - pattern-either:
+          - pattern: $SECRET === $INPUT
+          - pattern: $INPUT === $SECRET
+      - metavariable-regex:
+          metavariable: $SECRET
+          regex: "(?i).*(token|secret|key|password|hash|signature).*"
+    message: "String comparison on secret — use crypto.timingSafeEqual for constant-time comparison"
+    languages: [typescript, javascript]
+    severity: WARNING
+
+  - id: hardcoded-secret
+    patterns:
+      - pattern-either:
+          - pattern: |
+              const $SECRET = "..."
+          - pattern: |
+              const $SECRET = '...'
+      - metavariable-regex:
+          metavariable: $SECRET
+          regex: "(?i).*(secret|password|api[_-]?key|token|private[_-]?key).*"
+    message: "Hardcoded secret — use environment variables"
+    languages: [typescript, javascript]
+    severity: ERROR
+
+  - id: dynamic-code-execution
+    pattern-regex: "\\beval\\s*\\("
+    message: "Dynamic code execution — potential injection vector"
+    languages: [typescript, javascript]
+    severity: ERROR

@@ -1,107 +1,34 @@
-# Testing Coverage Analysis
+# Test Coverage Analysis
 
-Identify gaps in test coverage and suggest improvements.
+Static analysis of test coverage gaps — does not run tests (that's CI's job).
 
-## Patterns to Find
+## Step 1: Map Changed Files to Tests
 
-### Untested Code Paths
-- New functions without corresponding tests
-- Error handling branches not covered
-- Edge cases (null, empty, boundary values) not tested
-- Async error paths not tested
-- Feature flags/conditionals not fully tested
+For each changed source file, find its corresponding test file:
 
-### Missing Test Cases
-- Happy path only, no error cases
-- No boundary value testing
-- No integration tests for critical flows
-- No tests for race conditions
-- Missing regression tests for bugs
-
-### Test Quality Issues
-- Tests that don't assert anything meaningful
-- Tests that mock too much (testing mocks, not code)
-- Flaky tests (timing-dependent, order-dependent)
-- Tests that duplicate each other
-- Missing cleanup in tests
-
-## Examples
-
-```typescript
-// CODE - multiple paths to test
-async function processPayment(amount, userId) {
-  if (amount <= 0) throw new Error('Invalid amount')
-  if (amount > 10000) throw new Error('Exceeds limit')
-
-  const user = await getUser(userId)
-  if (!user) throw new Error('User not found')
-  if (user.blocked) throw new Error('User blocked')
-
-  return await chargeCard(user.cardId, amount)
-}
-
-// BAD - only tests happy path
-test('processes payment', async () => {
-  const result = await processPayment(100, 'user-1')
-  expect(result.success).toBe(true)
-})
-
-// GOOD - tests all paths
-describe('processPayment', () => {
-  test('succeeds with valid amount and user', async () => {...})
-  test('rejects zero amount', async () => {...})
-  test('rejects negative amount', async () => {...})
-  test('rejects amount over limit', async () => {...})
-  test('rejects unknown user', async () => {...})
-  test('rejects blocked user', async () => {...})
-  test('handles card charge failure', async () => {...})
-})
+```bash
+# Get changed source files (exclude test files themselves)
+git diff --name-only main...HEAD | grep -E '\.(ts|tsx|js|jsx)$' | grep -v -E '\.(test|spec)\.'
 ```
 
-```typescript
-// BAD - test mocks everything, tests nothing
-test('saves user', async () => {
-  const mockDb = { save: jest.fn() }
-  await saveUser(mockDb, userData)
-  expect(mockDb.save).toHaveBeenCalled()  // only verifies mock was called
-})
+For each source file, search for a matching test:
+- `src/foo.ts` → `src/foo.test.ts`, `src/__tests__/foo.test.ts`, `tests/foo.test.ts`
+- Flag any changed source file with NO corresponding test file.
 
-// GOOD - test actual behavior
-test('saves user with hashed password', async () => {
-  await saveUser(testDb, { email: 'a@b.com', password: 'secret' })
-  const saved = await testDb.users.findOne({ email: 'a@b.com' })
-  expect(saved.password).not.toBe('secret')  // verifies hashing
-  expect(await bcrypt.compare('secret', saved.password)).toBe(true)
-})
-```
+## Step 2: Analyse Test Quality
 
-```typescript
-// BAD - no assertion
-test('renders component', () => {
-  render(<MyComponent />)
-  // no expect!
-})
+Read each changed source file and its test file. Check for:
 
-// GOOD - meaningful assertion
-test('renders component with user name', () => {
-  render(<MyComponent user={{ name: 'Alice' }} />)
-  expect(screen.getByText('Alice')).toBeInTheDocument()
-})
-```
+1. **Untested branches** — count `if`, `else`, `catch`, `case` in source. Check if the test file exercises each path. Flag branches with no corresponding test assertion.
+2. **Happy-path-only tests** — test file only tests the success case, ignores error/edge paths.
+3. **Assertion quality** — tests that call functions but don't assert on results, or only assert `toHaveBeenCalled` on mocks.
+4. **Missing edge cases** — no tests for null/undefined/empty/zero/negative inputs where the source handles them.
+5. **Flaky patterns** — `setTimeout`/`sleep` in tests instead of fake timers, tests dependent on execution order.
+6. **New code without new tests** — significant new logic added but no test file updated or created.
 
-```typescript
-// BAD - flaky timing test
-test('debounces input', async () => {
-  fireEvent.change(input, { target: { value: 'test' } })
-  await new Promise(r => setTimeout(r, 500))
-  expect(onSearch).toHaveBeenCalledTimes(1)
-})
+## Reporting
 
-// GOOD - use fake timers
-test('debounces input', async () => {
-  jest.useFakeTimers()
-  fireEvent.change(input, { target: { value: 'test' } })
-  jest.advanceTimersByTime(500)
-  expect(onSearch).toHaveBeenCalledTimes(1)
-})
-```
+For each finding, report:
+- File path
+- What's missing: "no test file", "error path untested", "only happy path tested", etc.
+- Priority: HIGH (no tests at all for new logic), MEDIUM (partial coverage), LOW (quality improvement)

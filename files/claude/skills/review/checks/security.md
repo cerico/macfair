@@ -1,86 +1,37 @@
-# Security Audit
+# Security Analysis
 
-Check for common security vulnerabilities.
+Tooling-backed security analysis using Semgrep default rules, custom rules, and manual review.
 
-## Patterns to Find
+## Step 1: Semgrep Default Scan
 
-- Hardcoded API keys, passwords, or secrets
-- SQL injection vulnerabilities (string concatenation in queries)
-- XSS vulnerabilities (dangerouslySetInnerHTML, unescaped user input)
-- Insecure direct object references (user input as database IDs without auth check)
-- Missing input validation and sanitization
-- Exposing sensitive data in client-side code
-- Weak authentication checks
-- CORS misconfigurations (allowing all origins)
-- Using HTTP instead of HTTPS for sensitive operations
-- Missing rate limiting on sensitive endpoints
-- JWT tokens stored in localStorage (XSS vulnerable)
+Run `mcp__semgrep__semgrep_scan` on each changed `.ts`, `.tsx`, `.js`, `.jsx` file.
 
-## For Each Issue Found
+This runs Semgrep's curated security rules covering OWASP top 10: injection, XSS, SSRF, path traversal, hardcoded secrets, insecure crypto, and more.
 
-- Explain the vulnerability and potential impact
-- Show secure alternatives
-- Suggest validation libraries or security middleware
-- Recommend environment variables for secrets
+Report each finding with: rule ID, severity, file:line, and the message.
 
-## Examples
+## Step 2: Semgrep Custom Rules
 
-```typescript
-// BAD - hardcoded secret
-const JWT_SECRET = 'my-secret-key-123'
+Run `mcp__semgrep__semgrep_scan_with_custom_rule` on the same files with supplementary rules from:
 
-// GOOD - environment variable
-const JWT_SECRET = process.env.JWT_SECRET
-```
+`~/.claude/skills/review/rules/security.yaml`
 
-```typescript
-// BAD - SQL injection risk
-const query = `SELECT * FROM users WHERE id = ${userId}`
+These cover patterns the default Semgrep set may miss: JWT in localStorage, CORS wildcards, unescaped regex input, timing-unsafe secret comparisons, prototype pollution via bracket notation, hardcoded secrets, and dynamic code execution.
 
-// GOOD - parameterized query
-const query = 'SELECT * FROM users WHERE id = ?'
-db.query(query, [userId])
-```
+## Step 3: Manual Review
 
-```typescript
-// BAD - XSS vulnerability
-<div dangerouslySetInnerHTML={{__html: userInput}} />
+For patterns that need contextual understanding:
 
-// GOOD - escaped content or sanitize
-<div>{userInput}</div>
-// or use DOMPurify if HTML is required
-<div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(userInput)}} />
-```
+1. **Auth checks** — mutations/deletes without auth middleware. Look for route handlers that modify data without verifying the user owns the resource.
+2. **Data exposure** — API responses returning entire database objects instead of selected fields. Check for password hashes, internal IDs, or PII leaking.
+3. **Rate limiting** — auth endpoints (login, register, password reset) without rate limiting.
+4. **IDOR** — user-supplied IDs used to fetch/modify resources without ownership checks.
+5. **SSRF** — user-supplied URLs passed to fetch/axios/http without allowlist validation.
 
-```typescript
-// BAD - no authorization check
-app.delete('/api/posts/:id', async (req, res) => {
-  await deletePost(req.params.id)
-})
+## Reporting
 
-// GOOD - proper authorization
-app.delete('/api/posts/:id', authenticate, async (req, res) => {
-  const post = await getPost(req.params.id)
-  if (!post) {
-    return res.status(404).json({ error: 'Not found' })
-  }
-  if (post.authorId !== req.user.id) {
-    return res.status(403).json({ error: 'Unauthorized' })
-  }
-  await deletePost(req.params.id)
-})
-```
-
-```typescript
-// BAD - exposing sensitive data
-const user = await getUser(id)
-res.json(user)  // includes password hash
-
-// GOOD - filtering sensitive data
-const user = await getUser(id)
-res.json({
-  id: user.id,
-  name: user.name,
-  email: user.email
-})
-```
+For each finding, report:
+- Source: `semgrep`, `semgrep-custom`, or `manual`
+- Severity: ERROR (must fix before merge) or WARNING (should fix)
+- OWASP category where applicable (e.g., A01:2021 Broken Access Control)
+- Specific remediation with code example

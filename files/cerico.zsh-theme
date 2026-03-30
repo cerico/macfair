@@ -1,5 +1,14 @@
-PROMPT='%{$fg_bold[cyan]%}☁  %{$fg_bold[cyan]%}%m%{$reset_color%}:%(?:%{$fg_bold[green]%}%c %{$fg_bold[green]➜%{$reset_color%}:%{$fg_bold[red]%}%c %{$fg_bold[red]➜)'
-PROMPT+=' %{$fg_bold[green]%}$(git_prompt_info)%{$reset_color%}'
+_update_pdir() {
+  if [[ "$PWD" == "$HOME/worktrees/"* ]]; then
+    local rel="${PWD#$HOME/worktrees/}"
+    _pdir="${rel%%/*}:wt"
+  else
+    _pdir="${PWD##*/}"
+  fi
+}
+add-zsh-hook precmd _update_pdir
+
+PROMPT='%{$fg_bold[cyan]%}☁ %m%{$reset_color%}:%(?:%{$fg_bold[green]%}:%{$fg_bold[red]%})${_pdir} ➜%{$reset_color%} $(git_prompt_info)'
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}(%{$fg[red]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
