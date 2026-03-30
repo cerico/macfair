@@ -1,3 +1,12 @@
+# [2.119.0](https://github.com/cerico/macfair/compare/v2.118.1...v2.119.0) (2026-03-30)
+
+
+### Features
+
+* extend review skill, add triage skill, add wt to prompt ([3116732](https://github.com/cerico/macfair/commit/311673276976639121814e6fe3bb770aff873ec7))
+
+
+
 ## [2.118.1](https://github.com/cerico/macfair/compare/v2.118.0...v2.118.1) (2026-03-29)
 
 
