@@ -68,6 +68,8 @@
       - "difftastic"
       - "anomalyco/tap/opencode"
       - "marcus/tap/sidecar"
+      - "fzf"
+      - "television"
 
 - name: install core packages (best effort, older macOS)
   become: true
@@ -125,6 +127,7 @@
     - "stats"
     - "wezterm"
     - "zed"
+    - "zen"
 
 - name: Copy zshenv
   copy:

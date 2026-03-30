@@ -173,6 +173,60 @@ issue() { # Create gh issue or edit existing # ➜ issue | issue "fix nginx" | i
   echo "Updated #${num}"
 }
 
+gh2linear() { # Create Linear ticket from GitHub issue # ➜ gh2linear 584
+  command -v lc &>/dev/null || { echo "lc (linearctl) not installed"; return 1; }
+  [[ -z "$1" ]] && echo "Usage: gh2linear <issue-number> [--team TEAM]" && return 1
+
+  local num="$1"
+  [[ ! "$num" =~ ^[0-9]+$ ]] && { echo "Issue number must be numeric"; return 1; }
+  shift
+
+  local team=""
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --team)
+        [[ -z "$2" || "$2" == --* ]] && { echo "Usage: gh2linear <issue-number> [--team TEAM]"; return 1; }
+        team="$2"; shift 2 ;;
+      *) echo "Unknown flag: $1"; return 1 ;;
+    esac
+  done
+
+  [[ -z "$team" && -f .linear ]] && team=$(< .linear)
+
+  [[ -z "$team" ]] && {
+    local teams
+    teams=$(lc team list --json 2>/dev/null | jq -r '.[].key' 2>/dev/null) || {
+      echo "Failed to fetch teams. Use --team to specify manually."
+      return 1
+    }
+    [[ -z "$teams" ]] && { echo "No teams found. Use --team to specify manually."; return 1; }
+    echo "Select a team:"
+    local key
+    select key in $teams; do
+      [[ -n "$key" ]] && { team="$key"; break; }
+    done
+    [[ -z "$team" ]] && return 1
+  }
+
+  local json
+  json=$(gh issue view "$num" --json title,body,url) || return 1
+
+  local title=$(echo "$json" | jq -r '.title')
+  local body=$(echo "$json" | jq -r '.body // ""')
+  local url=$(echo "$json" | jq -r '.url')
+
+  local desc="${body}
+
+---
+Source: ${url}"
+
+  local result
+  result=$(lc issue create --team "$team" --title "$title" --description "$desc" --json) || return 1
+
+  local identifier=$(echo "$result" | jq -r '.identifier // .id // "created"')
+  echo "Created $identifier from GH #${num}"
+}
+
 secrets () {
   while IFS= read -r line; do
     key=$(echo "$line" | cut -d '=' -f 1)
@@ -365,6 +419,7 @@ delete_old_branches () {
   local default=$(_default_branch)
   local repo
   repo=$(_repo_name) || return
+  git worktree prune 2>/dev/null
   for branch in $(git branch | tr -d "*+ " | grep -v "^$default$"); do
     local is_merged=false merge_type=""
     if [[ -z "$(git log $default..$branch)" ]]; then

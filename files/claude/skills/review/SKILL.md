@@ -117,6 +117,11 @@ For each check file:
 - `idempotency.md` - Idempotent operations
 - `timezones.md` - Date/timezone handling
 - `memory.md` - Memory leaks
+- `complexity.md` - Cyclomatic/cognitive complexity (Semgrep-backed)
+- `dead_code.md` - Dead code detection (Semgrep-backed)
+- `dependencies.md` - Dependency vulnerabilities (Semgrep SCA + audit)
+- `testing.md` - Test coverage gaps (static analysis)
+- `logic.md` - Business logic correctness (intent vs implementation)
 
 **Shell/Infra (for .sh, .zsh, .yml files)**
 - `shell.md` - Shell script quality
@@ -146,12 +151,9 @@ Run periodically to see if any of these should become standard checks.
 
 ### Additional check files to load
 
-- `ast.md` - Dead code, complexity, duplicates, dependency graphs
-- `advanced-security.md` - Prototype pollution, ReDoS, timing attacks
+- `ast.md` - Duplicates, dependency graphs
 - `framework.md` - Next.js, tRPC, Prisma, RSC patterns
-- `testing.md` - Test coverage gaps and quality
 - `documentation.md` - JSDoc, comments, README sync
-- `dependencies.md` - Vulnerabilities, unused deps, licenses
 - `git.md` - Commit messages, large files, conflict markers
 
 ### Output Format

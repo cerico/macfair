@@ -63,3 +63,16 @@
   copy:
     src: git/ignore
     dest: "{{ ['~' + macbook_user.stdout, '.config', 'git', 'ignore'] | path_join }}"
+
+- name: Copy gh browser script
+  copy:
+    src: bin/gh_browser
+    dest: /usr/local/bin/gh_browser
+    mode: a+x
+  become: true
+  when: ansible_os_family == "Darwin"
+
+- name: Set gh browser to script
+  shell: gh config set browser gh_browser
+  changed_when: false
+  when: ansible_os_family == "Darwin"

@@ -1,0 +1,2 @@
+#!/bin/zsh
+open -a 'Arc' "$1" 2>/dev/null || open "$1"

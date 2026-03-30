@@ -1,123 +1,53 @@
 # Dependency Analysis
 
-Check for dependency issues - vulnerabilities, unused deps, duplicates, licenses.
+Tooling-backed dependency vulnerability and hygiene checks.
 
-## Patterns to Find
+## Step 1: Semgrep Supply Chain Scan
 
-### Security Vulnerabilities
-- Dependencies with known CVEs
-- Outdated packages with security patches available
-- Packages that are unmaintained/abandoned
-- Transitive dependencies with issues
+Run `mcp__semgrep__semgrep_scan_supply_chain` to detect known vulnerabilities in third-party dependencies via lockfile analysis.
 
-### Unused Dependencies
-- Packages in package.json not imported anywhere
-- Dev dependencies that should be regular dependencies (or vice versa)
-- Duplicate packages at different versions
-- Packages imported but never used
+Report each finding with: package name, severity, CVE/advisory ID, and recommended version.
 
-### License Compatibility
-- GPL dependencies in MIT projects (viral license)
-- Missing license declarations
-- Commercial/proprietary dependencies
-- License changes in updates
+## Step 2: Package Audit
 
-### Dependency Hygiene
-- Pinned versions that prevent security updates
-- Floating versions that cause inconsistent builds
-- Missing lockfile
-- Lockfile not committed
-
-## Examples
-
-```json
-// BAD - vulnerable dependency
-{
-  "dependencies": {
-    "lodash": "4.17.20"  // CVE-2021-23337
-  }
-}
-
-// GOOD - patched version
-{
-  "dependencies": {
-    "lodash": "4.17.21"
-  }
-}
-```
-
-```json
-// BAD - unused dependency
-{
-  "dependencies": {
-    "moment": "^2.29.0"  // never imported in codebase
-  }
-}
-```
-
-```json
-// BAD - dev dependency used in production
-{
-  "devDependencies": {
-    "zod": "^3.0.0"  // but imported in src/validators.ts
-  }
-}
-
-// GOOD - correct category
-{
-  "dependencies": {
-    "zod": "^3.0.0"
-  }
-}
-```
-
-```json
-// BAD - incompatible license
-{
-  "license": "MIT",
-  "dependencies": {
-    "gpl-library": "^1.0.0"  // GPL contaminates your MIT code
-  }
-}
-```
-
-```json
-// BAD - overly permissive version
-{
-  "dependencies": {
-    "react": "*"  // could get any version
-  }
-}
-
-// BAD - overly strict version
-{
-  "dependencies": {
-    "react": "18.2.0"  // won't get patch updates
-  }
-}
-
-// GOOD - semver range
-{
-  "dependencies": {
-    "react": "^18.2.0"  // gets patches and minor updates
-  }
-}
-```
-
-## Commands to Run
+Run the appropriate audit command based on the project's package manager:
 
 ```bash
-# Check for vulnerabilities
-npm audit
-# or
-pnpm audit
-
-# Find unused dependencies
-npx depcheck
-
-# Check for outdated packages
-npm outdated
-
-# Check licenses
-npx license-checker --summary
+# Detect package manager and run audit
+if [[ -f pnpm-lock.yaml ]]; then
+  pnpm audit --json | jq '.advisories // .'
+elif [[ -f yarn.lock ]]; then
+  yarn audit --json | jq '.data // .'
+elif [[ -f package-lock.json ]]; then
+  npm audit --json | jq '.vulnerabilities // .'
+fi
 ```
+
+Filter to moderate/high/critical severity. Skip low/info unless the count is alarming.
+
+## Step 3: Diff-Scoped Checks
+
+Only for packages added or changed in the current diff:
+
+1. **New dependencies** — check if the package is maintained (last publish date, open issues, weekly downloads). Flag if unmaintained (no release in 2+ years).
+2. **Version changes** — check if the change is a major bump. Flag if no migration notes are referenced in the PR.
+3. **Category** — verify dev vs production placement. Flag `devDependencies` that are imported in `src/`.
+
+## Step 4: Manual Analysis
+
+Review `package.json` changes in the diff for:
+
+1. **Wildcard versions** — `*` or `>=` ranges that could pull breaking changes
+2. **Pinned versions** — exact versions without `^` or `~` that block security patches
+3. **Duplicate purpose** — adding a package when an existing dep already does the same thing (e.g., adding `axios` when `fetch` is used everywhere)
+4. **Missing lockfile update** — `package.json` changed but lockfile not in the diff
+
+## Reporting
+
+For each finding, report:
+- Source: `semgrep-sca`, `audit`, or `manual`
+- Package name and version
+- Severity: CRITICAL, HIGH, MODERATE, or LOW
+- Specific action: upgrade to version X, replace with Y, move to devDependencies, etc.
+
+Group by severity, highest first.

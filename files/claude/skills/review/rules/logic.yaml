@@ -1,0 +1,62 @@
+rules:
+  - id: assignment-in-conditional
+    patterns:
+      - pattern-either:
+          - pattern: if ($X = $Y) { ... }
+          - pattern: while ($X = $Y) { ... }
+    message: "Assignment in conditional — likely meant === comparison"
+    languages: [typescript, javascript]
+    severity: ERROR
+
+  - id: negated-length-check
+    pattern: "!$ARR.length"
+    message: "Negated length check — true when empty. Verify this is intentional."
+    languages: [typescript, javascript]
+    severity: INFO
+
+  - id: slice-off-by-one
+    patterns:
+      - pattern: $ARR.slice($START, $ARR.length - 1)
+    message: "slice(start, length-1) excludes the last element — was this intentional?"
+    languages: [typescript, javascript]
+    severity: WARNING
+
+  - id: index-of-truthy-check
+    pattern-either:
+      - pattern: if ($ARR.indexOf(...)) { ... }
+      - pattern: if ($STR.indexOf(...)) { ... }
+    message: "indexOf returns -1 for not found, which is truthy. Use !== -1 or .includes()"
+    languages: [typescript, javascript]
+    severity: ERROR
+
+  - id: async-no-await
+    patterns:
+      - pattern-inside: |
+          async function $FN(...) {
+            ...
+          }
+      - pattern: $PROMISE(...)
+      - pattern-not-inside: await $PROMISE(...)
+      - pattern-not-inside: return $PROMISE(...)
+      - metavariable-regex:
+          metavariable: $PROMISE
+          regex: "(?i)(fetch|axios|got|ky|supabase|prisma|trpc|mutation|mutate|query|request|send|post|put|patch|del|delete|remove|create|update|upsert|save|insert|destroy|upload|download|emit|dispatch|publish|subscribe|connect|disconnect|execute|invoke|call|run|process|handle|notify|sync|replicate|migrate|seed|flush|commit|rollback|transaction)"
+    message: "Async function calls promise without await — result is silently discarded"
+    languages: [typescript, javascript]
+    severity: WARNING
+
+  - id: async-arrow-no-await
+    patterns:
+      - pattern-inside: |
+          const $FN = async (...) => {
+            ...
+          }
+      - pattern: $PROMISE(...)
+      - pattern-not-inside: await $PROMISE(...)
+      - pattern-not-inside: return $PROMISE(...)
+      - metavariable-regex:
+          metavariable: $PROMISE
+          regex: "(?i)(fetch|axios|got|ky|supabase|prisma|trpc|mutation|mutate|query|request|send|post|put|patch|del|delete|remove|create|update|upsert|save|insert|destroy|upload|download|emit|dispatch|publish|subscribe|connect|disconnect|execute|invoke|call|run|process|handle|notify|sync|replicate|migrate|seed|flush|commit|rollback|transaction)"
+    message: "Async arrow function calls promise without await — result is silently discarded"
+    languages: [typescript, javascript]
+    severity: WARNING
