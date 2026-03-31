@@ -1,3 +1,12 @@
+## [2.119.2](https://github.com/cerico/macfair/compare/v2.119.1...v2.119.2) (2026-03-31)
+
+
+### Bug Fixes
+
+* mount worktrees directory broadly instead of per-PWD in sandbox ([#592](https://github.com/cerico/macfair/issues/592)) ([ddbb763](https://github.com/cerico/macfair/commit/ddbb7632204fa4bb5ed1690f6032084fb518aaa7))
+
+
+
 ## [2.119.1](https://github.com/cerico/macfair/compare/v2.119.0...v2.119.1) (2026-03-31)
 
 
