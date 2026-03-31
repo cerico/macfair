@@ -1,3 +1,12 @@
+## [2.119.1](https://github.com/cerico/macfair/compare/v2.119.0...v2.119.1) (2026-03-31)
+
+
+### Bug Fixes
+
+* use git cherry for squash-merge detection in delete_old_branches ([#590](https://github.com/cerico/macfair/issues/590)) ([9b2bb3f](https://github.com/cerico/macfair/commit/9b2bb3f14daff3dd8467204e1b4470dc568252cf))
+
+
+
 # [2.119.0](https://github.com/cerico/macfair/compare/v2.118.1...v2.119.0) (2026-03-30)
 
 
