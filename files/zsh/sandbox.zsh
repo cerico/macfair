@@ -10,20 +10,15 @@ _sandbox_exists() {
 }
 
 _sandbox_ensure() {
-  local workdir="$(pwd)"
+  [[ "$PWD" != "$HOME/worktrees/"* ]] && { echo "sandbox requires a worktree — use wt first"; return 1; }
   if ! _sandbox_exists; then
     echo "Creating sandbox VM (first time, takes a few minutes)..."
-    limactl create --name "$SANDBOX_VM" --mount "${workdir}:w" "$SANDBOX_TEMPLATE" || return 1
+    limactl create --name "$SANDBOX_VM" \
+      --mount "$HOME/worktrees:w" \
+      "$SANDBOX_TEMPLATE" || return 1
   fi
   if ! _sandbox_running; then
     echo "Starting sandbox VM..."
-    limactl start "$SANDBOX_VM" || return 1
-  fi
-  if ! limactl shell "$SANDBOX_VM" test -d "$workdir" 2>/dev/null; then
-    echo "Remounting sandbox for $workdir..."
-    limactl stop "$SANDBOX_VM" 2>/dev/null
-    limactl delete "$SANDBOX_VM" 2>/dev/null
-    limactl create --name "$SANDBOX_VM" --mount "${workdir}:w" "$SANDBOX_TEMPLATE" || return 1
     limactl start "$SANDBOX_VM" || return 1
   fi
 }
