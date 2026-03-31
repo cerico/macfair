@@ -138,6 +138,7 @@
   shell: source ~/.zshenv
 
 - name: Install npm packages
+  become: true
   npm:
     name: "{{ item }}"
     global: yes
@@ -154,6 +155,7 @@
     - "typescript-language-server"
 
 - name: pip installs
+  become: true
   pip:
     name: "{{ item }}"
   with_items:
