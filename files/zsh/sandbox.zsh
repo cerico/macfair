@@ -2,19 +2,33 @@ SANDBOX_VM="claude-sandbox"
 SANDBOX_TEMPLATE="$HOME/macfair/files/lima/claude.yaml"
 
 _sandbox_running() {
-  limactl list --json 2>/dev/null | jq -e --arg name "$SANDBOX_VM" '.[] | select(.name == $name and .status == "Running")' &>/dev/null
+  limactl list --json 2>/dev/null | jq -e --arg name "$SANDBOX_VM" 'select(.name == $name and .status == "Running")' &>/dev/null
 }
 
 _sandbox_exists() {
-  limactl list --json 2>/dev/null | jq -e --arg name "$SANDBOX_VM" '.[] | select(.name == $name)' &>/dev/null
+  limactl list --json 2>/dev/null | jq -e --arg name "$SANDBOX_VM" 'select(.name == $name)' &>/dev/null
+}
+
+_sandbox_copy_gitignored() {
+  local main_root
+  main_root=$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null | sed 's|/\.git$||')
+  [[ -z "$main_root" || "$main_root" == "$PWD" ]] && return
+
+  for item in .env .env.local .claude; do
+    [[ -e "$PWD/$item" && ! -L "$PWD/$item" ]] && continue
+    [[ -L "$PWD/$item" ]] && rm -f "$PWD/$item"
+    [[ -e "$main_root/$item" ]] && cp -a "$main_root/$item" "$PWD/$item" && echo "Copied $item from main repo"
+  done
 }
 
 _sandbox_ensure() {
   [[ "$PWD" != "$HOME/worktrees/"* ]] && { echo "sandbox requires a worktree — use wt first"; return 1; }
+  _sandbox_copy_gitignored
   if ! _sandbox_exists; then
     echo "Creating sandbox VM (first time, takes a few minutes)..."
     limactl create --name "$SANDBOX_VM" \
       --mount "$HOME/worktrees:w" \
+      --mount "$HOME/.claude:r" \
       "$SANDBOX_TEMPLATE" || return 1
   fi
   if ! _sandbox_running; then
