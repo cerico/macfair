@@ -297,7 +297,13 @@ prs () { # List open prs, or open PR in VS Code # ➜ prs | prs 590
     _allprs
     return
   fi
-  [[ $1 ]] && gh pr view $1 --web || gh pr list
+  if [[ $1 ]]; then
+    local repo
+    repo=$(gh repo view --json nameWithOwner -q .nameWithOwner) || return 1
+    open "vscode://GitHub.vscode-pull-request-github/open-pull-request-changes?uri=https://github.com/$repo/pull/$1"
+  else
+    gh pr list
+  fi
 }
 
 _allprs () {
@@ -745,7 +751,9 @@ wt() { # Create a git worktree # ➜ wt floating-panes | wt 42
   git worktree add "$worktree_path" -b "$name" "$base" || return 1
   local main_root
   main_root="$(_repo_root)"
-  [[ -f "$main_root/.env" ]] && ln -sf "$main_root/.env" "$worktree_path/.env"
+  for item in .env .env.local .claude; do
+    [[ -e "$main_root/$item" && ! -e "$worktree_path/$item" ]] && ln -sf "$main_root/$item" "$worktree_path/$item"
+  done
 
   if [[ "$current" == "$base" ]]; then
     local pane_count=$(wezterm cli list --format json 2>/dev/null | jq "[.[] | select(.tab_id == ((.[] | select(.pane_id == $WEZTERM_PANE)) .tab_id))] | length" 2>/dev/null)
