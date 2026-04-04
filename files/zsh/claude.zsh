@@ -78,7 +78,7 @@ _wez_layout() {
 
 _claude_wez() {
   local session="${${PWD##*/}//[.:]/_}"
-  local state_file="/tmp/wez_claude_${session}"
+  local state_file="/tmp/wez_claude_${USER}_${session}"
 
   if [[ -f "$state_file" ]]; then
     local saved_pane
@@ -173,7 +173,7 @@ vps() {
   [[ -z "$1" ]] && { sshs; return; }
   local host="$1" session="vps_${1//[.:]/_}"
   shift
-  local state_file="/tmp/wez_${session}"
+  local state_file="/tmp/wez_${USER}_${session}"
   if [[ -f "$state_file" ]]; then
     local saved_pane
     saved_pane=$(cat "$state_file")

@@ -5,9 +5,9 @@
 speak_out="/tmp/speak_out_$(tty 2>/dev/null | tr '/' '_').mp3"
 
 _speak() {
-  [[ -d /tmp/speak.lock ]] && (( $(date +%s) - $(stat -f%m /tmp/speak.lock) > 120 )) && rmdir /tmp/speak.lock 2>/dev/null
-  while ! mkdir /tmp/speak.lock 2>/dev/null; do sleep 0.2; done
-  trap 'rmdir /tmp/speak.lock 2>/dev/null; trap - INT TERM' INT TERM
+  [[ -d /tmp/speak_${USER}.lock ]] && (( $(date +%s) - $(stat -f%m /tmp/speak_${USER}.lock) > 120 )) && rmdir /tmp/speak_${USER}.lock 2>/dev/null
+  while ! mkdir /tmp/speak_${USER}.lock 2>/dev/null; do sleep 0.2; done
+  trap 'rmdir /tmp/speak_${USER}.lock 2>/dev/null; trap - INT TERM' INT TERM
 
   jq -n --arg text "$1" \
     '{model:"kokoro", input:$text, voice:"af_sky", response_format:"mp3"}' | \
@@ -16,7 +16,7 @@ _speak() {
       -d @- \
       -o "$speak_out" && afplay "$speak_out"
 
-  rmdir /tmp/speak.lock 2>/dev/null
+  rmdir /tmp/speak_${USER}.lock 2>/dev/null
   trap - INT TERM
 }
 

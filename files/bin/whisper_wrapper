@@ -9,8 +9,8 @@
 SUBMIT=false
 [[ "$1" == "--submit" ]] && SUBMIT=true
 
-STATE_FILE="/tmp/whisper_recording_state"
-MONITOR_PID_FILE="/tmp/whisper_monitor.pid"
+STATE_FILE="/tmp/whisper_recording_state_${USER}"
+MONITOR_PID_FILE="/tmp/whisper_monitor_${USER}.pid"
 CUE_DIR="$HOME/.local/share/whisper_cues"
 SW_DB="$HOME/Library/Application Support/ru.starmel.OpenSuperWhisper/recordings.sqlite"
 
