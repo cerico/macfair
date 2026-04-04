@@ -237,7 +237,7 @@ collapse () {
     wezterm cli kill-pane --pane-id "$pane" 2>/dev/null
   done
   local session="${${PWD##*/}//[.:]/_}"
-  rm -f "/tmp/wez_claude_${session}"
+  rm -f "/tmp/wez_claude_${USER}_${session}"
 }
 
 vsc () { # list or switch vscode themes # ➜ vsc sunlight

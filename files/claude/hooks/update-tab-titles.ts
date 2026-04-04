@@ -5,7 +5,7 @@
 import { statSync, readFileSync, writeFileSync } from 'node:fs'
 
 const ASSISTANT_NAME = process.env.CLAUDE_NAME || 'Claude'
-const TAB_CACHE = '/tmp/iterm-tab-count'
+const TAB_CACHE = `/tmp/iterm-tab-count-${process.env.USER || 'default'}`
 const CACHE_TTL_MS = 30_000
 
 interface UserPromptPayload {

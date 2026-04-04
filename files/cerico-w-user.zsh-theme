@@ -1,3 +1,8 @@
+_pdir="${PWD##*/}"
+ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}(%{$fg[red]%}"
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}) %{$fg[yellow]%}✗ "
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%}) "
+
 _update_pdir() {
   if [[ "$PWD" == "$HOME/worktrees/"* ]]; then
     local rel="${PWD#$HOME/worktrees/}"
