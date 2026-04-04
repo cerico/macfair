@@ -1,3 +1,12 @@
+## [2.119.3](https://github.com/cerico/macfair/compare/v2.119.2...v2.119.3) (2026-04-04)
+
+
+### Bug Fixes
+
+* scope tmp file paths per user to avoid collisions ([#602](https://github.com/cerico/macfair/issues/602)) ([c56d312](https://github.com/cerico/macfair/commit/c56d3124ba7ebf21714b71b435a52f2d3f1790f8))
+
+
+
 ## [2.119.2](https://github.com/cerico/macfair/compare/v2.119.1...v2.119.2) (2026-03-31)
 
 
