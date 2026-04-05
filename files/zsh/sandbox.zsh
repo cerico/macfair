@@ -9,12 +9,27 @@ _sandbox_exists() {
   limactl list --json 2>/dev/null | jq -e --arg name "$SANDBOX_VM" '.[] | select(.name == $name)' &>/dev/null
 }
 
+_sandbox_copy_gitignored() {
+  local main_root worktree_root
+  main_root=$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null | sed 's|/\.git$||')
+  worktree_root=$(git rev-parse --show-toplevel 2>/dev/null)
+  [[ -z "$main_root" || -z "$worktree_root" || "$main_root" == "$worktree_root" ]] && return
+
+  for item in .env .env.local .claude; do
+    [[ -e "$worktree_root/$item" && ! -L "$worktree_root/$item" ]] && continue
+    [[ -L "$worktree_root/$item" ]] && rm -f "$worktree_root/$item"
+    [[ -e "$main_root/$item" ]] && cp -a "$main_root/$item" "$worktree_root/$item" && echo "Copied $item from main repo"
+  done
+}
+
 _sandbox_ensure() {
   [[ "$PWD" != "$HOME/worktrees/"* ]] && { echo "sandbox requires a worktree — use wt first"; return 1; }
+  _sandbox_copy_gitignored
   if ! _sandbox_exists; then
     echo "Creating sandbox VM (first time, takes a few minutes)..."
     limactl create --name "$SANDBOX_VM" \
       --mount "$HOME/worktrees:w" \
+      --mount "$HOME/.claude:r" \
       "$SANDBOX_TEMPLATE" || return 1
   fi
   if ! _sandbox_running; then
