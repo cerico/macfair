@@ -88,11 +88,3 @@ prepare () {
 	fi
 }
 
-# Avoid creating .DS_Store files on network or USB volumes
-defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
-defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
-# Don’t automatically rearrange Spaces based on most recent use
-defaults write com.apple.dock mru-spaces -bool false
-
-# Automatically hide and show the Dock
-defaults write com.apple.dock autohide -bool true

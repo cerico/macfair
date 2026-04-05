@@ -292,12 +292,33 @@ releases () { # List releases for repo # ➜ releases 5
   git for-each-ref --sort=-creatordate --format '%(refname:short) %(creatordate:relative)' refs/tags | head -n $no | awk '{tag = $1; date = $2 " " $3 " " $4 " " $5 " " $6; printf "\033[0;32m%-7s \033[1;0m%-s\n", tag, date}'
 }
 
-prs () { # List open prs, or open PR in VS Code # ➜ prs | prs 590
+prs () { # List, open in IDE, or open in browser # ➜ prs | prs 590 | prs 590 -w | prs b
   if ! _is_git_repo; then
     _allprs
     return
   fi
-  [[ $1 ]] && gh pr view $1 --web || gh pr list
+  local web=false
+  local id=""
+  for arg in "$@"; do
+    [[ $arg == "-w" ]] && web=true || id=$arg
+  done
+  if [[ $id == "b" ]]; then
+    gh browse -b "$(git branch --show-current)"
+    return
+  fi
+  if [[ -z $id ]]; then
+    gh pr list
+    return
+  fi
+  local pr_url
+  if [[ $id =~ ^[0-9]+$ ]]; then
+    local repo
+    repo=$(gh repo view --json nameWithOwner -q .nameWithOwner) || return 1
+    pr_url="https://github.com/$repo/pull/$id"
+  else
+    pr_url=$(gh pr view "$id" --json url -q .url) || return 1
+  fi
+  [[ $web == true ]] && open "$pr_url" || open "vscode://GitHub.vscode-pull-request-github/open-pull-request-changes?uri=$pr_url"
 }
 
 _allprs () {
@@ -405,15 +426,7 @@ closepr () {
   gh pr close $pr
 }
 
-viewpr () {
-  if [[ $1 ]] && [[ $1 == "b" ]]; then
-    gh browse -b $(git branch --show-current)
-    return
-  fi
-  [[ -n $1 ]] && pr=$1  || _getpr
-  gh pr view $pr --web
-  [[ $? == 1 ]] && gh browse -b $(git branch --show-current)
-}
+viewpr () { [[ -z $1 ]] && { gh pr view --web; return; }; prs "$@" -w; }
 
 delete_old_branches () {
   local default=$(_default_branch)
@@ -745,7 +758,9 @@ wt() { # Create a git worktree # ➜ wt floating-panes | wt 42
   git worktree add "$worktree_path" -b "$name" "$base" || return 1
   local main_root
   main_root="$(_repo_root)"
-  [[ -f "$main_root/.env" ]] && ln -sf "$main_root/.env" "$worktree_path/.env"
+  for item in .env .env.local .claude; do
+    [[ -e "$main_root/$item" && ! -e "$worktree_path/$item" ]] && ln -sf "$main_root/$item" "$worktree_path/$item"
+  done
 
   if [[ "$current" == "$base" ]]; then
     local pane_count=$(wezterm cli list --format json 2>/dev/null | jq "[.[] | select(.tab_id == ((.[] | select(.pane_id == $WEZTERM_PANE)) .tab_id))] | length" 2>/dev/null)

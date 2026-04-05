@@ -104,6 +104,25 @@
   when: zen_profiles.files is defined and zen_profiles.files | length > 0
   tags: zen
 
+- name: Create screenshots directory
+  file:
+    path: "{{ ['~' + macbook_user.stdout, 'Desktop', 'screenshots'] | path_join }}"
+    state: directory
+
+- name: Set macOS defaults
+  community.general.osx_defaults:
+    domain: "{{ item.domain }}"
+    key: "{{ item.key }}"
+    type: "{{ item.type }}"
+    value: "{{ item.value }}"
+  loop:
+    - { domain: com.apple.desktopservices, key: DSDontWriteNetworkStores, type: bool, value: true }
+    - { domain: com.apple.desktopservices, key: DSDontWriteUSBStores, type: bool, value: true }
+    - { domain: com.apple.dock, key: mru-spaces, type: bool, value: false }
+    - { domain: com.apple.dock, key: autohide, type: bool, value: true }
+    - { domain: com.apple.screencapture, key: location, type: string, value: "{{ ['~' + macbook_user.stdout, 'Desktop', 'screenshots'] | path_join }}" }
+  notify: restart dock
+
 - name: Remove superfluous from dock
   shell: /usr/local/bin/dockutil --remove '{{ item }}' | cat
   ignore_errors: true

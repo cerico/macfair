@@ -16,7 +16,8 @@
 
 2. **Amend the commit** with `--reset-author` to update the timestamp:
    - Keep the existing subject line
-   - Add or update the body to describe what changed in this amend
+   - Run `git diff main...HEAD --stat` to see ALL changes in the commit
+   - Write the body to describe the full commit (everything vs main), not just what this amend added
    - Use heredoc for the message
 
 3. **Format:**

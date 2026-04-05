@@ -81,21 +81,25 @@ _claude_wez() {
   local state_file="/tmp/wez_claude_${USER}_${session}"
 
   if [[ -f "$state_file" ]]; then
-    local saved_pane
-    saved_pane=$(cat "$state_file")
-    local pane_json
-    pane_json=$(wezterm cli list --format json 2>/dev/null)
-    local pane_tty
-    pane_tty=$(echo "$pane_json" | jq -r --arg pid "$saved_pane" '[.[] | select(.pane_id == ($pid | tonumber))][0].tty_name // empty')
-    if [[ -n "$pane_tty" ]]; then
-      if ps -t "$pane_tty" -o comm= 2>/dev/null | grep -q '^claude$'; then
+    local saved_pane saved_socket
+    saved_pane=$(sed -n '1p' "$state_file")
+    saved_socket=$(sed -n '2p' "$state_file")
+
+    if [[ -n "$saved_socket" && "$saved_socket" == "$WEZTERM_UNIX_SOCKET" ]]; then
+      local pane_json
+      pane_json=$(wezterm cli list --format json 2>/dev/null)
+      local pane_tty
+      pane_tty=$(echo "$pane_json" | jq -r --arg pid "$saved_pane" '[.[] | select(.pane_id == ($pid | tonumber))][0].tty_name // empty')
+      if [[ -n "$pane_tty" ]]; then
+        if ps -t "$pane_tty" -o comm= 2>/dev/null | grep -q '^claude$'; then
+          _wez_focus_pane "$saved_pane"
+          return
+        fi
+        local cmd=$(printf '%q ' "$@")
+        printf '%s\n' "$cmd" | wezterm cli send-text --pane-id "$saved_pane" --no-paste
         _wez_focus_pane "$saved_pane"
         return
       fi
-      local cmd=$(printf '%q ' "$@")
-      printf '%s\n' "$cmd" | wezterm cli send-text --pane-id "$saved_pane" --no-paste
-      _wez_focus_pane "$saved_pane"
-      return
     fi
     rm -f "$state_file"
   fi
@@ -108,7 +112,7 @@ _claude_wez() {
     [[ -z "$main_pane" ]] && { echo "Could not create WezTerm window"; return 1; }
   fi
 
-  _wez_layout "$main_pane" "$@" && echo "$main_pane" > "$state_file"
+  _wez_layout "$main_pane" "$@" && printf '%s\n%s\n' "$main_pane" "$WEZTERM_UNIX_SOCKET" > "$state_file"
 }
 
 _claude_lock() {
@@ -175,9 +179,11 @@ vps() {
   shift
   local state_file="/tmp/wez_${USER}_${session}"
   if [[ -f "$state_file" ]]; then
-    local saved_pane
-    saved_pane=$(cat "$state_file")
-    if wezterm cli list --format json 2>/dev/null | jq -e --arg pid "$saved_pane" '[.[] | select(.pane_id == ($pid | tonumber))] | length > 0' &>/dev/null; then
+    local saved_pane saved_socket
+    saved_pane=$(sed -n '1p' "$state_file")
+    saved_socket=$(sed -n '2p' "$state_file")
+    if [[ -n "$saved_socket" && "$saved_socket" == "$WEZTERM_UNIX_SOCKET" ]] &&
+       wezterm cli list --format json 2>/dev/null | jq -e --arg pid "$saved_pane" '[.[] | select(.pane_id == ($pid | tonumber))] | length > 0' &>/dev/null; then
       wezterm cli activate-pane --pane-id "$saved_pane" 2>/dev/null
       osascript -e 'tell application "WezTerm" to activate'
       return
@@ -204,7 +210,7 @@ vps() {
   printf 'clear && ssh %s\n' "$(printf '%q' "$host")" | wezterm cli send-text --pane-id "$right_pane" --no-paste
   [[ -n "$bottom_right" ]] && printf 'clear\n' | wezterm cli send-text --pane-id "$bottom_right" --no-paste
 
-  echo "$main_pane" > "$state_file"
+  printf '%s\n%s\n' "$main_pane" "$WEZTERM_UNIX_SOCKET" > "$state_file"
   wezterm cli activate-pane --pane-id "$main_pane"
   local -a args=(command claude --permission-mode plan)
   [[ $# -gt 0 ]] && args+=("$@")
