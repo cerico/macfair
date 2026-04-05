@@ -1,3 +1,12 @@
+## [2.119.4](https://github.com/cerico/macfair/compare/v2.119.3...v2.119.4) (2026-04-05)
+
+
+### Bug Fixes
+
+* mount Claude config and env files in sandbox VM ([#604](https://github.com/cerico/macfair/issues/604)) ([7651422](https://github.com/cerico/macfair/commit/7651422cf0f18154f838f61a480f8f3ff1edc26b))
+
+
+
 ## [2.119.3](https://github.com/cerico/macfair/compare/v2.119.2...v2.119.3) (2026-04-04)
 
 
