@@ -1,4 +1,14 @@
 ---
+- name: Check for per-user vars
+  ansible.builtin.stat:
+    path: "{{ [playbook_dir, 'host_vars', inventory_hostname, macbook_user.stdout + '.yml'] | path_join }}"
+  register: per_user_vars
+
+- name: Load per-user vars
+  ansible.builtin.include_vars:
+    file: "{{ per_user_vars.stat.path }}"
+  when: per_user_vars.stat.exists
+
 - name: Create wallpapers directory.
   file:
     path: "{{ ['~' + macbook_user.stdout, 'wallpapers'] | path_join }}"
@@ -143,6 +153,20 @@
     - Reminders
     - App Store
     - System Preferences
+
+- name: Derive desktop_app_bindings from desktop_mapping (single)
+  set_fact:
+    desktop_app_bindings: "{{ desktop_app_bindings | default([]) + [{'bundle_id': item.value.bundle_id, 'desktop': item.key | int}] }}"
+  loop: "{{ desktop_mapping | dict2items }}"
+  when: desktop_mapping is defined and item.value.bundle_id is defined and item.value.bundle_ids is not defined
+
+- name: Derive desktop_app_bindings from desktop_mapping (multi)
+  set_fact:
+    desktop_app_bindings: "{{ desktop_app_bindings | default([]) + [{'bundle_id': item.1, 'desktop': item.0.key | int}] }}"
+  with_subelements:
+    - "{{ (desktop_mapping | default({}) | dict2items | selectattr('value.bundle_ids', 'defined') | list) }}"
+    - value.bundle_ids
+  when: desktop_mapping is defined
 
 - name: Get space UUIDs for app bindings
   script: files/get_space_uuids.swift

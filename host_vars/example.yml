@@ -1,1 +1,19 @@
 ansible_connection: local
+iterm_theme: "coffee"
+zsh_theme: "cerico-w-user"
+
+# Per-user desktop mappings live in separate files:
+# host_vars/<hostname>.localhost/<username>.yml
+#
+# These are loaded automatically if they match macbook_user.
+#
+# desktop_mapping:
+#   1:
+#     app: Slack
+#     bundle_id: com.tinyspeck.slackmacgap
+#   2:
+#     app: Vivaldi
+#     bundle_id: com.vivaldi.Vivaldi
+#     sites:
+#       - GitHub
+#       - Vercel

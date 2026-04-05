@@ -1,0 +1,11 @@
+desktops:
+{% for num, entry in desktop_mapping | dictsort %}
+  {{ num }}:
+    app: {{ entry.app }}
+{% if entry.sites is defined %}
+    sites:
+{% for site in entry.sites %}
+      - {{ site }}
+{% endfor %}
+{% endif %}
+{% endfor %}
