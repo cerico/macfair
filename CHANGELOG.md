@@ -1,3 +1,12 @@
+## [2.122.1](https://github.com/cerico/macfair/compare/v2.122.0...v2.122.1) (2026-04-06)
+
+
+### Bug Fixes
+
+* replace slashes with hyphens in worktree directory paths ([#613](https://github.com/cerico/macfair/issues/613)) ([ec1dce3](https://github.com/cerico/macfair/commit/ec1dce30f1ad60ebb3a1d3b4f947638751307fd2))
+
+
+
 # [2.122.0](https://github.com/cerico/macfair/compare/v2.121.0...v2.122.0) (2026-04-06)
 
 
