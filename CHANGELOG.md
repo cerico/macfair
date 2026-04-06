@@ -1,3 +1,12 @@
+# [2.122.0](https://github.com/cerico/macfair/compare/v2.121.0...v2.122.0) (2026-04-06)
+
+
+### Features
+
+* switch gh_browser to Vivaldi and add --from flag to wt ([#611](https://github.com/cerico/macfair/issues/611)) ([23e483b](https://github.com/cerico/macfair/commit/23e483b56f08a794b744f6bfcaf48d2ccc1c335e))
+
+
+
 # [2.121.0](https://github.com/cerico/macfair/compare/v2.120.0...v2.121.0) (2026-04-06)
 
 
