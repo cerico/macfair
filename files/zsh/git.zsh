@@ -807,6 +807,7 @@ _time_ago() {
 
 alias wtl=worktrees
 worktrees() { # List worktrees sorted by recency # ➜ worktrees | worktrees 2
+  setopt local_options nullglob
   local idx="${1:-}"
   local worktrees_dir=~/worktrees
   [[ ! -d "$worktrees_dir" ]] && { echo "No worktrees"; return }
