@@ -3,6 +3,8 @@ group_vars/*
 !group_vars/all/
 group_vars/all/*
 !group_vars/all/example.yml
+host_vars/*/
+!host_vars/example.yml
 TODO.md
 TODO*.md
 sites/*yml

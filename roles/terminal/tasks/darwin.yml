@@ -1,4 +1,14 @@
 ---
+- name: Check for per-user vars
+  ansible.builtin.stat:
+    path: "{{ [playbook_dir, 'host_vars', inventory_hostname, macbook_user.stdout + '.yml'] | path_join }}"
+  register: per_user_vars
+
+- name: Load per-user vars
+  ansible.builtin.include_vars:
+    file: "{{ per_user_vars.stat.path }}"
+  when: per_user_vars.stat.exists
+
 - name: Copy WezTerm config
   ansible.builtin.copy:
     src: wezterm.lua
@@ -48,41 +58,98 @@
     state: directory
     mode: "0755"
 
-- name: Compile SpaceNumber menu bar app
+- name: Unload SpaceNumber LaunchAgent
   ansible.builtin.shell: >
-    swiftc -framework Cocoa
-    {{ playbook_dir }}/files/spacenumber/SpaceNumber.swift
-    -o /Users/{{ macbook_user.stdout }}/.local/bin/SpaceNumber
-  args:
-    creates: "/Users/{{ macbook_user.stdout }}/.local/bin/SpaceNumber"
-
-- name: Install SpaceNumber LaunchAgent
-  ansible.builtin.copy:
-    dest: "{{ ['~' + macbook_user.stdout, 'Library', 'LaunchAgents', 'com.macfair.spacenumber.plist'] | path_join }}"
-    mode: "0644"
-    content: |
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0">
-      <dict>
-        <key>Label</key>
-        <string>com.macfair.spacenumber</string>
-        <key>ProgramArguments</key>
-        <array>
-          <string>/Users/{{ macbook_user.stdout }}/.local/bin/SpaceNumber</string>
-        </array>
-        <key>RunAtLoad</key>
-        <true/>
-        <key>KeepAlive</key>
-        <true/>
-      </dict>
-      </plist>
-
-- name: Load SpaceNumber LaunchAgent
-  ansible.builtin.shell: >
-    launchctl bootout gui/$(id -u) /Users/{{ macbook_user.stdout }}/Library/LaunchAgents/com.macfair.spacenumber.plist 2>/dev/null;
-    launchctl bootstrap gui/$(id -u) /Users/{{ macbook_user.stdout }}/Library/LaunchAgents/com.macfair.spacenumber.plist
+    launchctl bootout gui/$(id -u) /Users/{{ macbook_user.stdout }}/Library/LaunchAgents/com.macfair.spacenumber.plist 2>/dev/null
   changed_when: false
+  failed_when: false
+
+- name: Remove SpaceNumber LaunchAgent
+  ansible.builtin.file:
+    path: "{{ ['~' + macbook_user.stdout, 'Library', 'LaunchAgents', 'com.macfair.spacenumber.plist'] | path_join }}"
+    state: absent
+
+- name: Remove SpaceNumber binary
+  ansible.builtin.file:
+    path: "/Users/{{ macbook_user.stdout }}/.local/bin/SpaceNumber"
+    state: absent
+
+- name: Manage DesktopMapping
+  when: desktop_mapping is defined
+  block:
+    - name: Create .config directory
+      ansible.builtin.file:
+        path: "{{ ['~' + macbook_user.stdout, '.config'] | path_join }}"
+        state: directory
+        mode: "0755"
+
+    - name: Deploy desktops.yml
+      ansible.builtin.template:
+        src: desktops.yml.j2
+        dest: "{{ ['~' + macbook_user.stdout, '.config', 'desktops.yml'] | path_join }}"
+
+    - name: Create DesktopMapping app bundle
+      ansible.builtin.file:
+        path: "/Users/{{ macbook_user.stdout }}/.local/bin/DesktopMapping.app/Contents/MacOS"
+        state: directory
+        mode: "0755"
+
+    - name: Compile DesktopMapping menu bar app
+      ansible.builtin.shell: >
+        swiftc -framework Cocoa
+        {{ playbook_dir }}/files/desktopmapping/DesktopMapping.swift
+        -o /Users/{{ macbook_user.stdout }}/.local/bin/DesktopMapping.app/Contents/MacOS/DesktopMapping
+      changed_when: true
+
+    - name: Install DesktopMapping Info.plist
+      ansible.builtin.copy:
+        dest: "/Users/{{ macbook_user.stdout }}/.local/bin/DesktopMapping.app/Contents/Info.plist"
+        mode: "0644"
+        content: |
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>CFBundleIdentifier</key>
+            <string>com.macfair.desktopmapping</string>
+            <key>CFBundleName</key>
+            <string>DesktopMapping</string>
+            <key>CFBundleExecutable</key>
+            <string>DesktopMapping</string>
+            <key>LSUIElement</key>
+            <true/>
+          </dict>
+          </plist>
+
+    - name: Install DesktopMapping LaunchAgent
+      ansible.builtin.copy:
+        dest: "{{ ['~' + macbook_user.stdout, 'Library', 'LaunchAgents', 'com.macfair.desktopmapping.plist'] | path_join }}"
+        mode: "0644"
+        content: |
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>Label</key>
+            <string>com.macfair.desktopmapping</string>
+            <key>ProgramArguments</key>
+            <array>
+              <string>/usr/bin/open</string>
+              <string>-W</string>
+              <string>/Users/{{ macbook_user.stdout }}/.local/bin/DesktopMapping.app</string>
+            </array>
+            <key>RunAtLoad</key>
+            <true/>
+            <key>KeepAlive</key>
+            <true/>
+          </dict>
+          </plist>
+
+    - name: Load DesktopMapping LaunchAgent
+      ansible.builtin.shell: >
+        launchctl bootout gui/$(id -u) /Users/{{ macbook_user.stdout }}/Library/LaunchAgents/com.macfair.desktopmapping.plist 2>/dev/null;
+        launchctl bootstrap gui/$(id -u) /Users/{{ macbook_user.stdout }}/Library/LaunchAgents/com.macfair.desktopmapping.plist
+      changed_when: false
 
 - name: Create pnpm-audit directory
   file:
