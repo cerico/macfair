@@ -121,6 +121,12 @@
           </dict>
           </plist>
 
+    - name: Codesign DesktopMapping bundle
+      ansible.builtin.shell: >
+        codesign -f -s -
+        /Users/{{ macbook_user.stdout }}/.local/bin/DesktopMapping.app
+      changed_when: true
+
     - name: Install DesktopMapping LaunchAgent
       ansible.builtin.copy:
         dest: "{{ ['~' + macbook_user.stdout, 'Library', 'LaunchAgents', 'com.macfair.desktopmapping.plist'] | path_join }}"
