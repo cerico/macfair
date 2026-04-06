@@ -442,7 +442,7 @@ delete_old_branches () {
     fi
     [[ "$is_merged" != true ]] && continue
 
-    local wt_path=~/worktrees/"$repo"/"$branch"
+    local wt_path=~/worktrees/"$repo"/"${branch//\//-}"
     if [[ -d "$wt_path" ]]; then
       echo "Removing worktree for $merge_type branch $branch"
       if ! git worktree remove "$wt_path" 2>/dev/null && ! git worktree remove --force "$wt_path"; then
@@ -763,7 +763,7 @@ wt() { # Create a git worktree # ➜ wt floating-panes | wt 42 | wt --from featu
   fi
 
   git show-ref --verify --quiet "refs/heads/$name" && { echo "Branch '$name' already exists"; return 1 }
-  local worktree_path=~/worktrees/"$repo"/"$name"
+  local worktree_path=~/worktrees/"$repo"/"${name//\//-}"
   mkdir -p ~/worktrees/"$repo"
   git worktree add "$worktree_path" -b "$name" "$base" || return 1
   local main_root
@@ -797,7 +797,7 @@ wtr() { # Remove a git worktree and its branch # ➜ wtr floating-panes
   local repo
   repo=$(_repo_name) || { echo "Not a git repo"; return 1 }
   [[ -z "$name" ]] && { echo "Usage: wtr <name>"; return 1 }
-  git worktree remove ~/worktrees/"$repo"/"$name" && git branch -d "$name" 2>/dev/null
+  git worktree remove ~/worktrees/"$repo"/"${name//\//-}" && git branch -d "$name" 2>/dev/null
 }
 
 _time_ago() {
