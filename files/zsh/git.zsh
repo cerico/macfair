@@ -737,13 +737,23 @@ grk() { # Create branch with auto-incrementing number # ➜ grk my-feature
 }
 
 alias worktree=wt
-wt() { # Create a git worktree # ➜ wt floating-panes | wt 42
+wtf() { wt --from "$@" }
+
+wt() { # Create a git worktree # ➜ wt floating-panes | wt 42 | wt --from feature/chat-v2 789
+  local from_branch=""
+  [[ "$1" == "--from" ]] && { from_branch="$2"; shift 2 }
   local name="$1"
   local repo
   repo=$(_repo_name) || { echo "Not a git repo"; return 1 }
   [[ -z "$name" ]] && { git worktree list; return }
 
-  local base=$(_default_branch)
+  local base
+  if [[ -n "$from_branch" ]]; then
+    git fetch origin "$from_branch" || return 1
+    base="origin/$from_branch"
+  else
+    base=$(_default_branch)
+  fi
   local current=$(git branch --show-current 2>/dev/null)
 
   if [[ "$name" =~ ^[0-9]+$ ]]; then
@@ -762,7 +772,8 @@ wt() { # Create a git worktree # ➜ wt floating-panes | wt 42
     [[ -e "$main_root/$item" && ! -e "$worktree_path/$item" ]] && ln -sf "$main_root/$item" "$worktree_path/$item"
   done
 
-  if [[ "$current" == "$base" ]]; then
+  local compare_branch="${from_branch:-$base}"
+  if [[ "$current" == "$compare_branch" ]]; then
     local pane_count=$(wezterm cli list --format json 2>/dev/null | jq "[.[] | select(.tab_id == ((.[] | select(.pane_id == $WEZTERM_PANE)) .tab_id))] | length" 2>/dev/null)
     [[ "${pane_count:-1}" -eq 1 ]] && { cd "$worktree_path"; return }
   fi
