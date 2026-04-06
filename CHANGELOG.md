@@ -1,3 +1,12 @@
+# [2.121.0](https://github.com/cerico/macfair/compare/v2.120.0...v2.121.0) (2026-04-06)
+
+
+### Features
+
+* codesign DesktopMapping and add /issue skill ([#608](https://github.com/cerico/macfair/issues/608)) ([a400a45](https://github.com/cerico/macfair/commit/a400a45eab5f5f0f4d63f085348699d6b84437bd))
+
+
+
 # [2.120.0](https://github.com/cerico/macfair/compare/v2.119.4...v2.120.0) (2026-04-06)
 
 
