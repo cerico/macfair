@@ -1,3 +1,12 @@
+# [2.120.0](https://github.com/cerico/macfair/compare/v2.119.4...v2.120.0) (2026-04-06)
+
+
+### Features
+
+* add desktop mapping system with menu bar app ([#606](https://github.com/cerico/macfair/issues/606)) ([1f8e927](https://github.com/cerico/macfair/commit/1f8e927a76f097db41114c6020438b5b10b7fe26))
+
+
+
 ## [2.119.4](https://github.com/cerico/macfair/compare/v2.119.3...v2.119.4) (2026-04-05)
 
 
