@@ -3,6 +3,22 @@ unalias gpf 2>/dev/null
 
 _is_git_repo() { git rev-parse --is-inside-work-tree &>/dev/null; }
 
+_short_branch() {
+  local branch=$1
+  [[ "$branch" =~ (^|[/-])([a-zA-Z]{3})-([0-9]+) ]] && { echo "${match[2]:u}-${match[3]}"; return }
+  [[ "$branch" =~ (^|[/-])gh-([0-9]+) ]] && { echo "GH-${match[2]}"; return }
+  echo "$branch"
+}
+
+_short_git_prompt_info() {
+  local branch
+  branch=$(git symbolic-ref --short HEAD 2>/dev/null) || { git_prompt_info; return }
+  local short=$(_short_branch "$branch")
+  local info=$(git_prompt_info)
+  [[ -z "$info" ]] && return
+  echo "${info/$branch/$short}"
+}
+
 _repo_root() {
   local common_dir
   common_dir=$(git rev-parse --git-common-dir 2>/dev/null) || return 1
@@ -446,13 +462,7 @@ delete_old_branches () {
     [[ "$is_merged" != true ]] && continue
 
     local wt_path=~/worktrees/"$repo"/"${branch//\//-}"
-    if [[ -d "$wt_path" ]]; then
-      echo "Removing worktree for $merge_type branch $branch"
-      if ! git worktree remove "$wt_path" 2>/dev/null && ! git worktree remove --force "$wt_path"; then
-        echo "Warning: Failed to remove worktree at $wt_path — skipping branch $branch"
-        continue
-      fi
-    fi
+    [[ -d "$wt_path" ]] && { echo "Skipping $merge_type branch $branch — has active worktree"; continue }
     echo "Deleting $merge_type branch $branch"
     [[ "$merge_type" == "merged" ]] && git branch -d "$branch" || git branch -D "$branch"
   done
