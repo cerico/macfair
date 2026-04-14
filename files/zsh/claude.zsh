@@ -222,6 +222,15 @@ claudewright() {
   claude mcp add playwright npx @playwright/mcp@latest
 }
 
+estimate-all() {
+  command claude "/estimate-all"
+}
+
+estimates() {
+  local file="$HOME/work/estimates/index.html"
+  [[ -f "$file" ]] && open "$file" || echo "No estimates report yet. Run estimate-all first."
+}
+
 curate() {
   local vault="$HOME/second-brain"
   [[ -d "$vault" ]] || { echo "No vault at $vault"; return 1; }
