@@ -14,6 +14,6 @@ _update_pdir() {
 }
 add-zsh-hook precmd _update_pdir
 
-PROMPT='%{$fg_bold[cyan]%}☁ %m%{$reset_color%}:%(?:%{$fg_bold[green]%}:%{$fg_bold[red]%})${_pdir} ➜%{$reset_color%} $(git_prompt_info)'
+PROMPT='%{$fg_bold[cyan]%}☁ %m%{$reset_color%}:%(?:%{$fg_bold[green]%}:%{$fg_bold[red]%})${_pdir} ➜%{$reset_color%} $(_short_git_prompt_info)'
 
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
