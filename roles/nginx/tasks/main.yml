@@ -42,10 +42,8 @@
   copy:
     src: "{{ item }}"
     dest: /usr/share/nginx/html
-  with_items:
-    - nginx/403.html
-    - nginx/404.html
-    - nginx/503.html
+  with_fileglob:
+    - nginx/*
   become: true
   become_user: root
 
