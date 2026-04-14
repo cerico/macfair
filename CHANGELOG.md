@@ -1,3 +1,12 @@
+# [2.124.0](https://github.com/cerico/macfair/compare/v2.123.0...v2.124.0) (2026-04-14)
+
+
+### Features
+
+* shorten Linear/GH branch names in zsh prompt and preserve worktrees ([#618](https://github.com/cerico/macfair/issues/618)) ([640e4eb](https://github.com/cerico/macfair/commit/640e4eb4ab6d299665d103224787fd89b55c2d16))
+
+
+
 # [2.123.0](https://github.com/cerico/macfair/compare/v2.122.1...v2.123.0) (2026-04-14)
 
 
