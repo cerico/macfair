@@ -1,3 +1,12 @@
+# [2.123.0](https://github.com/cerico/macfair/compare/v2.122.1...v2.123.0) (2026-04-14)
+
+
+### Features
+
+* add skills, desktop tooling, and shell helpers ([#617](https://github.com/cerico/macfair/issues/617)) ([6a02b1a](https://github.com/cerico/macfair/commit/6a02b1a94588a6539c3b9d22af7ed73c226cd268))
+
+
+
 ## [2.122.1](https://github.com/cerico/macfair/compare/v2.122.0...v2.122.1) (2026-04-06)
 
 
