@@ -120,6 +120,9 @@ _issue_to_branch() {
   local input="$1"
   local num
   [[ "$input" =~ ^[0-9]+$ ]] && num="$input" || num=$(echo "$input" | awk -F'/' '{print $NF}')
+  local existing
+  existing=$(git branch --list "gh-${num}-*" | head -1 | sed 's/^[* ]*//')
+  [[ -n "$existing" ]] && echo "Branch already exists: $existing" && git checkout "$existing" && return
   local title
   title=$(gh issue view "$num" --json title -q '.title') || return 1
   git checkout -b "gh-${num}-$(_slugify "$title")"
@@ -616,6 +619,15 @@ gbr () { # Create branch from GH issue or literal name # ➜ gbr 42 | gbr user/l
   if [[ "$1" =~ ^[0-9]+$ ]]; then
     _issue_to_branch "$1"
   else
+    local num
+    num=$(echo "$1" | grep -oiE '(gh|min|lin)-[0-9]+' | head -1 | grep -oE '[0-9]+')
+    if [[ -n "$num" ]]; then
+      local prefix
+      prefix=$(echo "$1" | grep -oiE '(gh|min|lin)-[0-9]+' | head -1 | grep -oiE '^[a-z]+' | tr '[:upper:]' '[:lower:]')
+      local existing
+      existing=$(git branch --list "*${prefix}-${num}-*" | head -1 | sed 's/^[* ]*//')
+      [[ -n "$existing" ]] && echo "Branch already exists: $existing" && git checkout "$existing" && return
+    fi
     git checkout -b "$1"
   fi
 }
@@ -766,6 +778,7 @@ wt() { # Create a git worktree # ➜ wt floating-panes | wt 42 | wt --from featu
   local worktree_path=~/worktrees/"$repo"/"${name//\//-}"
   mkdir -p ~/worktrees/"$repo"
   git worktree add "$worktree_path" -b "$name" "$base" || return 1
+  [[ -n "$from_branch" ]] && git -C "$worktree_path" branch --unset-upstream 2>/dev/null
   local main_root
   main_root="$(_repo_root)"
   for item in .env .env.local .claude; do

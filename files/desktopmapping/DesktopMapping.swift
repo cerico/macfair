@@ -11,6 +11,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var statusItem: NSStatusItem!
     var entries: [DesktopEntry] = []
     var accessibilityGranted = false
+    var signalSource: DispatchSourceSignal?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -19,6 +20,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         entries = loadConfig()
         updateTitle()
         buildMenu()
+
+        signal(SIGHUP, SIG_IGN)
+        let source = DispatchSource.makeSignalSource(signal: SIGHUP, queue: .main)
+        source.setEventHandler { [weak self] in
+            self?.entries = self?.loadConfig() ?? []
+            self?.updateTitle()
+            self?.buildMenu()
+        }
+        source.resume()
+        signalSource = source
 
         NSWorkspace.shared.notificationCenter.addObserver(
             self,

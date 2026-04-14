@@ -101,6 +101,13 @@
         -o /Users/{{ macbook_user.stdout }}/.local/bin/DesktopMapping.app/Contents/MacOS/DesktopMapping
       changed_when: true
 
+    - name: Compile CurrentSpace helper
+      ansible.builtin.shell: >
+        swiftc -framework CoreGraphics
+        {{ playbook_dir }}/files/desktopmapping/CurrentSpace.swift
+        -o /Users/{{ macbook_user.stdout }}/.local/bin/currentspace
+      changed_when: true
+
     - name: Install DesktopMapping Info.plist
       ansible.builtin.copy:
         dest: "/Users/{{ macbook_user.stdout }}/.local/bin/DesktopMapping.app/Contents/Info.plist"

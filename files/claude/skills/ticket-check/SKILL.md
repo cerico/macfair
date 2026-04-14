@@ -27,11 +27,17 @@ Parse the ticket ID from common branch patterns:
 - `gh-123-slug` → GitHub issue #123
 - `fix/PROJ-456-slug` → `PROJ-456`
 
+## Step 1.5: Load Project Assessment Guide
+
+Check if `.cursor/ticket-assessment.md` exists in the project root. If it does, read it and apply its requirements alongside the checks below. This file defines project-specific ticket quality standards (e.g. required acceptance criteria format, visual context for UI work, no-duplication rules).
+
+If the file does not exist, skip this step.
+
 ## Step 2: Fetch the Ticket
 
 Try sources in order until one succeeds:
 
-1. **Linear** — Use `mcp__claude_ai_Linear__get_issue` or `mcp__claude_ai_Linear__list_issues` with the ticket ID
+1. **Linear CLI** — `lc issue get <TICKET_ID> --json`
 2. **GitHub** — `gh issue view <number>` if the ID is numeric or matches a GH issue
 3. **Branch name only** — If neither source has the ticket, use the branch name as the sole signal. Flag this as degraded confidence.
 
@@ -41,6 +47,46 @@ Capture:
 - Priority / severity
 - Labels
 - Any linked issues or context
+
+## Step 2.5: Fetch Comments & Attachments
+
+If the ticket source is Linear, fetch comments and any attached files for additional context.
+
+**Skip this step entirely if `which lc` fails or `~/.linearctl/config.json` doesn't exist.**
+
+### Fetch comments
+
+```bash
+lc comment list <TICKET_ID> --json
+```
+
+Record all comment text — these often contain clarifying context, reproduction details, or stakeholder decisions.
+
+### Extract and download file attachments
+
+Scan comment bodies for markdown links to `uploads.linear.app`:
+
+```
+[filename](https://uploads.linear.app/...)
+```
+
+For each URL found (max 5), download using the Linear API key:
+
+```bash
+API_KEY=$(jq -r '.profiles | to_entries[0].value.apiKey' ~/.linearctl/config.json)
+curl -sL -H "Authorization: $API_KEY" "<url>" -o /tmp/<filename>
+```
+
+Only download from `uploads.linear.app` — do not follow arbitrary URLs.
+
+### Read downloaded files
+
+- PDFs/images: use the Read tool
+- Text files: read directly
+
+### Include in context
+
+Add a **Comments & Attachments** section to the captured ticket data. This feeds into the clarity and alignment grading in Steps 3-5. Summarise each attachment's content in 2-3 sentences.
 
 ## Step 3: Grade Ticket Clarity (A-F, /100)
 
@@ -52,7 +98,7 @@ Evaluate the ticket on these dimensions:
 | **Reproduction path** | 20% | Steps to reproduce, affected users/scenarios, frequency |
 | **Acceptance criteria** | 25% | What does "fixed" look like? Are there measurable conditions? |
 | **Scope boundaries** | 15% | Is it clear what's in/out of scope? Could two engineers read this and build the same thing? |
-| **Context & evidence** | 15% | Links to logs, screenshots, error messages, related tickets |
+| **Context & evidence** | 15% | Links to logs, screenshots, error messages, related tickets. Comments and file attachments (from Step 2.5) count as evidence. |
 
 ### Scoring guide
 
@@ -66,10 +112,16 @@ If ticket clarity is C or below, list the specific ambiguities that could lead t
 
 ## Step 4: Understand the Fix
 
+Detect the base branch using the same logic as the review skill:
+
+1. **Open PR** — `gh pr view --json baseRefName -q '.baseRefName' 2>/dev/null`
+2. **Default branch** — `git rev-parse --abbrev-ref origin/HEAD 2>/dev/null | sed 's@^origin/@@'`
+3. **Last resort** — `main`
+
 ```bash
-git diff main...HEAD
-git diff --name-only main...HEAD
-git log --oneline main...HEAD
+git diff $base...HEAD
+git diff --name-only $base...HEAD
+git log --oneline $base...HEAD
 ```
 
 Read changed files. For each change, understand:
@@ -83,7 +135,7 @@ Evaluate whether the code changes fix the problem described in the ticket:
 
 | Dimension | Weight | What to look for |
 |-----------|--------|------------------|
-| **Root cause match** | 35% | Does the fix address the actual root cause described in the ticket, or a symptom/adjacent issue? Trace the user scenario from the ticket through the code to verify. |
+| **Root cause match** | 35% | Does the fix address the actual root cause described in the ticket, or a symptom/adjacent issue? Trace the user scenario from the ticket through the code to verify. Cross-reference attachment content (from Step 2.5) if it describes specific technical requirements. |
 | **Completeness** | 25% | Does the fix cover all scenarios implied by the ticket? Are there code paths where the same bug still exists? (Run a mental sibling audit against the ticket's scope, not just the diff's scope.) |
 | **No over-fix** | 15% | Does the fix stay within the ticket's scope, or does it fix things the ticket didn't ask for? (Over-fixing isn't always bad but should be flagged.) |
 | **Regression safety** | 15% | Could the fix break existing behaviour? Are there tests? |

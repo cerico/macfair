@@ -67,6 +67,7 @@
       - "eza"
       - "difftastic"
       - "anomalyco/tap/opencode"
+      - "ollama"
       - "marcus/tap/sidecar"
       - "fzf"
       - "television"

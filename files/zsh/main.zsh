@@ -223,6 +223,42 @@ sw () {
     osascript -e "tell application \"System Events\" to key code ${SPACE_KEY_CODES[$idx]} using {control down}"
 }
 
+lcopen () { # Open Linear ticket in app # ➜ lcopen 226 | lcopen EGG-226
+  [[ -z "$1" ]] && { echo "Usage: lcopen <number|TEAM-number>"; return 1; }
+  local id=$1
+  [[ "$id" =~ ^[0-9]+$ ]] && id="MIN-$id"
+  open "linear://issue/${id:u}"
+}
+
+dt () { # Set desktop label from branch ticket ID # ➜ dt 5
+  local config=~/.config/desktops.yml
+  [[ ! -f "$config" ]] && { echo "No desktops.yml found"; return 1; }
+  local num label
+  if [[ -z "$1" ]]; then
+    num=$(currentspace 2>/dev/null)
+  elif [[ "$1" =~ ^[0-9]+$ ]]; then
+    num=$1; label=$2
+  else
+    num=$(currentspace 2>/dev/null); label=$1
+  fi
+  [[ -z "$num" ]] && { echo "Usage: dt [space_number] [label]"; return 1; }
+  if [[ -z "$label" ]]; then
+    local branch=$(git branch --show-current 2>/dev/null)
+    [[ -z "$branch" ]] && { echo "Not on a branch and no label given"; return 1; }
+    if [[ "$branch" =~ [/-](min|MIN)-([0-9]+) ]]; then
+      label="MIN-${match[2]}"
+    elif [[ "$branch" =~ ^gh-([0-9]+) ]]; then
+      label="GH-${match[1]}"
+    else
+      label="${branch##*/}"
+      label="${label:0:20}"
+    fi
+  fi
+  sed -i '' "/^  ${num}:/{n;s/app: .*/app: ${label}/;}" "$config"
+  pkill -HUP -f DesktopMapping 2>/dev/null
+  echo "Desktop $num → $label"
+}
+
 collapse () {
   local wez_list
   wez_list=$(wezterm cli list --format json 2>/dev/null) || return 1

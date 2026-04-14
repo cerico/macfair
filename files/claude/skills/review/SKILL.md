@@ -7,7 +7,7 @@ argument: level (1-4, default 2)
 
 # Code Review
 
-Review the current branch's changes against main.
+Review the current branch's changes against the base branch.
 
 ## Usage
 
@@ -18,12 +18,28 @@ Review the current branch's changes against main.
 
 ## Setup
 
+### Detect base branch
+
+The base branch is NOT always main. Determine it in this order:
+
+1. **Open PR** — check if one exists and use its base:
+   ```bash
+   gh pr view --json baseRefName -q '.baseRefName' 2>/dev/null
+   ```
+2. **Default branch** — fall back to the repo default:
+   ```bash
+   git rev-parse --abbrev-ref origin/HEAD 2>/dev/null | sed 's@^origin/@@'
+   ```
+3. **Last resort** — `main`
+
+Store the result as `$base` and use it for all diffs below.
+
 ```bash
 # Get the diff
-git diff main...HEAD
+git diff $base...HEAD
 
 # Get list of changed files
-git diff --name-only main...HEAD
+git diff --name-only $base...HEAD
 ```
 
 ---
@@ -74,10 +90,25 @@ Full review with grade.
 - [ ] No SQL/command injection vectors
 - [ ] Auth checks present where needed
 
+**Ticket Alignment**
+- [ ] Changes address the ticket's stated problem (not an adjacent issue)
+- [ ] Acceptance criteria from ticket are covered by the diff
+- [ ] No significant scope creep beyond ticket intent
+
 **Style**
 - [ ] Follows existing patterns in codebase
 - [ ] No commented-out code
 - [ ] Clear naming
+
+### Issue Attribution
+
+For each issue found, determine whether it was introduced by this branch or is pre-existing:
+
+1. Run `git blame` on the flagged lines
+2. If the commit predates `git merge-base HEAD $base`, it is **pre-existing**
+3. If introduced by a commit on this branch, it is **introduced**
+
+Pre-existing issues still get reported but must not affect the grade. They are informational — the author can choose to fix in-branch, send to tech-debt, or dismiss.
 
 ### Output Format
 
@@ -88,12 +119,16 @@ Full review with grade.
 [2-3 sentences on what this change does and overall impression]
 
 ### Issues
-[List any problems found, grouped by severity]
+[List any problems found, grouped by severity. Only issues introduced by this branch.]
+
+### Pre-existing Issues
+[Problems found in code touched by this branch but not introduced by it. Does not affect grade.]
 
 ### Suggestions
 [Optional improvements, not blockers]
 
 ### Grade: [A-F] ([score]/100)
+[Grade reflects only issues introduced by this branch, not pre-existing ones.]
 ```
 
 ---
@@ -122,6 +157,7 @@ For each check file:
 - `dependencies.md` - Dependency vulnerabilities (Semgrep SCA + audit)
 - `testing.md` - Test coverage gaps (static analysis)
 - `logic.md` - Business logic correctness (intent vs implementation)
+- `ticket_alignment.md` - Ticket drift detection (branch vs implementation)
 
 **Shell/Infra (for .sh, .zsh, .yml files)**
 - `shell.md` - Shell script quality
