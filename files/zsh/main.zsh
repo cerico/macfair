@@ -223,9 +223,19 @@ sw () {
     osascript -e "tell application \"System Events\" to key code ${SPACE_KEY_CODES[$idx]} using {control down}"
 }
 
-lcopen () { # Open Linear ticket in app # ➜ lcopen 226 | lcopen EGG-226
-  [[ -z "$1" ]] && { echo "Usage: lcopen <number|TEAM-number>"; return 1; }
+lcopen () { # Open Linear ticket in app # ➜ lcopen | lcopen 226 | lcopen EGG-226
   local id=$1
+  if [[ -z "$id" ]]; then
+    local branch=$(git branch --show-current 2>/dev/null)
+    [[ -z "$branch" ]] && { echo "Not in a git repo"; return 1; }
+    if [[ "$branch" =~ (^|[-/])(min|MIN)-([0-9]+) ]]; then
+      id="MIN-${match[3]}"
+    elif [[ "$branch" =~ (^|[-/])([A-Za-z]{2,5})-([0-9]+) ]] && [[ "${match[2]:l}" != "gh" && "${match[2]:l}" != "cl" ]]; then
+      id="${match[2]:u}-${match[3]}"
+    else
+      echo "Can't extract ticket from branch: $branch"; return 1
+    fi
+  fi
   [[ "$id" =~ ^[0-9]+$ ]] && id="MIN-$id"
   open "linear://issue/${id:u}"
 }
